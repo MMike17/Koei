@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be0015ed469c69a4391641b4bafc5a48, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  introLine: Test Test Test Test Test Test
+  playerChoices:
+  - playerQuestion: I want to play
+    shogunResponse: But wait I have all this lore I need to dump on you OwO
+  - playerQuestion: So huh....what are the rules ?
+    shogunResponse: There are many and it will take a whole day to teach them all
+      to you, but don't wory, we have all the time we need
+  - playerQuestion: yes
+    shogunResponse: Absolutely
+  endLine:
+    playerQuestion: I just want to play....plz
+    shogunResponse: Okay okay fine....go away !
