@@ -6,6 +6,7 @@ public enum Category
 	MONEY
 }
 
+// subcategories HAVE to start with the categories they come from followed with a "_"
 public enum SubCategory
 {
 	WAR_COURAGE,

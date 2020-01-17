@@ -1,5 +1,6 @@
 using UnityEngine.EventSystems;
 
+// modified StandaloneInputModule so that we can retrieve the hovered game objects
 public class ActuallyUsefulInputModule : StandaloneInputModule
 {
 	public static ActuallyUsefulInputModule Get;
@@ -7,7 +8,9 @@ public class ActuallyUsefulInputModule : StandaloneInputModule
 	public static PointerEventData GetPointerEventData(int pointerID = -1)
 	{
 		if(Get == null)
+		{
 			return null;
+		}
 
 		PointerEventData eventData;
 		Get.GetPointerData(pointerID, out eventData, true);

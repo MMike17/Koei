@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// class representing cards in the game
 [CreateAssetMenu(fileName = "Card", menuName = "Koei/Card")]
 public class Card : ScriptableObject
 {
@@ -21,6 +22,7 @@ public class Card : ScriptableObject
 
 	public void Init()
 	{
+		// corrects subcategory if not done before (it's only safety)
 		subStrength = GameData.CorrectSubCategory(subStrength, strength);
 	}
 }

@@ -3,14 +3,18 @@ using UnityEngine;
 // utilities for dialogues
 public static class DialogueTools
 {
+	// manages the whole highlighting question (warning, huge)
 	public static string HighlightString(string line, Color textColor, Color highlight, int charIndex, int highlightLength)
 	{
+		// returns line if no highlight
 		if(charIndex >= line.Length + highlightLength)
+		{
 			return line;
+		}
 
 		string result = string.Empty, after = string.Empty;
 
-		// computes actaul trail length
+		// computes actual trail length
 		int actualTrailLength = Mathf.Min(charIndex + 1, highlightLength);
 
 		// fills the color slots in
@@ -21,10 +25,10 @@ public static class DialogueTools
 			trailColors[i] = ColorTools.ColorLerp(textColor, highlight, (float) (i + 1) / actualTrailLength);
 		}
 
-		// computes length of before
+		// computes length of before (non highlighted chars)
 		int beforeLength = charIndex - (actualTrailLength - 1);
 
-		// feeds in old chars if length > 0
+		// feeds in old chars if there are any
 		if(beforeLength > 0 && beforeLength < line.Length)
 		{
 			result = line.Substring(0, beforeLength);
@@ -33,12 +37,9 @@ public static class DialogueTools
 		// feeds after if index is less than line length (there are invisible chars)
 		if(charIndex < line.Length)
 		{
+			// determines where we start
 			int start = Mathf.Max(beforeLength + actualTrailLength, 0);
 			after = "<color=#00000000>" + line.Substring(start) + "</color>";
-		}
-		else
-		{
-
 		}
 
 		// colors chars that have to be shown
@@ -53,6 +54,7 @@ public static class DialogueTools
 			}
 		}
 
+		// adds invisible chars (wether there are any or not)
 		result += after;
 
 		return result;

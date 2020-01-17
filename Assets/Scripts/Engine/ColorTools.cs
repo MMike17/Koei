@@ -1,7 +1,9 @@
 using UnityEngine;
 
+// static class containing usefull methods for color manipulations
 public static class ColorTools
 {
+	// lerps color "from" to color "to" of "percentile" percentile
 	public static Color ColorLerp(Color from, Color to, float percentile)
 	{
 		float r = from.r + ((to.r - from.r) * percentile);
@@ -11,4 +13,6 @@ public static class ColorTools
 
 		return new Color(r, g, b, a);
 	}
+
+	// a hsv version might be interesting...
 }
