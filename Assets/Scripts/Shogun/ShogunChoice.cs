@@ -47,9 +47,9 @@ public class ShogunChoice : MonoBehaviour, IInitializable, IDebugable
         choiceButton.onClick.RemoveAllListeners();
         choiceButton.onClick.AddListener(selected.Invoke);
 
-        PointerNotOver();
-
         initializableInterface.InitInternal();
+
+        PointerNotOver();
     }
 
     void IInitializable.InitInternal()
@@ -60,6 +60,7 @@ public class ShogunChoice : MonoBehaviour, IInitializable, IDebugable
     // writes the line on the panel
     public void WriteLine()
     {
+        // returns if not initialized
         if(!initialized)
         {
             Debug.LogError(debugableInterface.debugLabel + "Not initialized");
@@ -92,6 +93,7 @@ public class ShogunChoice : MonoBehaviour, IInitializable, IDebugable
     // called when pointer is not over the panel
     public void PointerNotOver()
     {
+        // returns if not initialized
         if(!initialized)
         {
             Debug.LogError(debugableInterface.debugLabel + "Not initialized");

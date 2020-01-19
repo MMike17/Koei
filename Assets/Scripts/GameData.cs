@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// class representing global game data
 public class GameData : MonoBehaviour, IDebugable
 {
     [Header("Assign in Inspector")]
@@ -11,14 +12,18 @@ public class GameData : MonoBehaviour, IDebugable
     public PlayerData playerData;
 
     public IDebugable debugableInterface => (IDebugable) this;
-    public string debugLabel => "<b>[GameData] : </b>";
 
+    string IDebugable.debugLabel => "<b>[GameData] : </b>";
+
+    // makes sure a sub-category is in the right category
     public static SubCategory CorrectSubCategory(SubCategory sub, Category parent)
     {
         List<string> listOfSubCategories = new List<string>();
 
         foreach (string line in Enum.GetNames(typeof(SubCategory)))
+        {
             listOfSubCategories.Add(line);
+        }
 
         string compare = parent.ToString();
 
@@ -27,7 +32,7 @@ public class GameData : MonoBehaviour, IDebugable
         if(selected == null)
         {
             Debug.LogError("<b>[GameData] : </b>Sub-category " + sub.ToString() + " doesn't have corresponding category");
-            return default(SubCategory);
+            return sub;
         }
 
         int firstIndex = listOfSubCategories.IndexOf(selected);
@@ -37,7 +42,7 @@ public class GameData : MonoBehaviour, IDebugable
         if(selected == null)
         {
             Debug.LogError("<b>[GameData] : </b>Sub-category " + sub.ToString() + " doesn't have corresponding category");
-            return default(SubCategory);
+            return sub;
         }
 
         int lastIndex = listOfSubCategories.IndexOf(selected);
@@ -48,6 +53,8 @@ public class GameData : MonoBehaviour, IDebugable
             return (SubCategory) firstIndex;
         }
         else
+        {
             return sub;
+        }
     }
 }

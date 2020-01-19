@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+// main manager script of the game
+// everything should flow from here but not flow back to here
 public class GameManager : MonoBehaviour, IDebugable
 {
+    // static reference to the class, used for testing or emergency
     public static GameManager Get;
 
     [Header("Settings")]
@@ -24,8 +27,9 @@ public class GameManager : MonoBehaviour, IDebugable
 
     IDebugable debuguableInterface => (IDebugable) this;
 
-    public string debugLabel => "<b>[GameManager] : </b>";
+    string IDebugable.debugLabel => "<b>[GameManager] : </b>";
 
+    // enum for game phases
     public enum GamePhase
     {
         TITLE,
@@ -34,6 +38,7 @@ public class GameManager : MonoBehaviour, IDebugable
         FIGHT
     }
 
+    // enum for game popup
     public enum GamePopup
     {
         EMPTY,
@@ -43,11 +48,16 @@ public class GameManager : MonoBehaviour, IDebugable
 
     void Awake()
     {
+        // makes sure there is only one GameManager instance and init is not done twice
         if(Get == this)
+        {
             return;
+        }
 
         if(Get != null)
+        {
             Destroy(Get.gameObject);
+        }
 
         Init();
     }
@@ -56,31 +66,44 @@ public class GameManager : MonoBehaviour, IDebugable
     {
         Get = this;
 
-        titlePlay.onClick.AddListener(() => JumpTo(GamePhase.SHOGUN));
-        // titleSettings.onClick.AddListener(() => popupManager.Pop(GamePopup.SETTINGS));
-        // titleQuit.onClick.AddListener(() => Application.Quit());
-
+        // initializes all managers
+        // TODO : implement Iinitializable interface to all managers
         panelManager.Init();
         popupManager.Init();
         eventsManager.Init();
-        shogunManager.Init(() => { popupManager.CancelPop(); JumpTo(GamePhase.DECKBUILDING); },
-            () => { popupManager.CancelPop(); }, () => { Pop(GamePopup.QUIT_SHOGUN); });
+        shogunManager.Init(
+            () => { popupManager.CancelPop(); JumpTo(GamePhase.DECKBUILDING); },
+            () => { popupManager.CancelPop(); },
+            () => { Pop(GamePopup.QUIT_SHOGUN); }
+        );
 
         PlugEvents();
+        PlugButtons();
     }
 
+    // adds actions to buttons
+    void PlugButtons()
+    {
+        titlePlay.onClick.AddListener(() => JumpTo(GamePhase.SHOGUN));
+        // titleSettings.onClick.AddListener(() => popupManager.Pop(GamePopup.SETTINGS));
+        // titleQuit.onClick.AddListener(() => Application.Quit());
+    }
+
+    // subscribe events to EventManager here
     void PlugEvents()
     {
         eventsManager.AddPhaseAction(GamePhase.SHOGUN, () => { shogunManager.StartDialogue(testDialogue); });
-
-        // add events to event manager here
     }
 
+    // /!\ Use this instead of PanelManager.JumpTo() /!\
+    // jumps to GamePhase and calls subscribed events
     void JumpTo(GameManager.GamePhase phase)
     {
         panelManager.JumpTo(phase, () => eventsManager.CallPhaseActions(phase));
     }
 
+    // /!\ Use this instead of PopupManager.Pop() /!\
+    // pops GamePopup and calls subscribed events
     void Pop(GameManager.GamePopup popup)
     {
         popupManager.Pop(popup, () => eventsManager.CallPopupActions(popup));

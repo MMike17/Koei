@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 // class managing gameplay of Shogun panel
-public class ShogunManager : MonoBehaviour, IDebugable // may add Iinitializable interface
+public class ShogunManager : MonoBehaviour, IDebugable
 {
     [Header("Settings")]
     public float shogunDialogueSpeed;
@@ -164,11 +164,15 @@ public class ShogunManager : MonoBehaviour, IDebugable // may add Iinitializable
         // initializes choices panels with necessary infos
         for (int i = 0; i < choices.Count; i++)
         {
-            choices[i].gameObject.SetActive(i < howMany);
+            int j = i;
 
-            if(i < howMany)
+            bool active = j < howMany && j != actualChoice;
+
+            choices[j].gameObject.SetActive(active);
+
+            if(active)
             {
-                choices[i].Init(selectedDialogue.playerChoices[actualChoice].playerQuestion, choiceDialogueSpeed, textColor, highlightColor, hideColor, highlightLength, () => SelectChoice(selectedDialogue.playerChoices[actualChoice].nextIndex));
+                choices[j].Init(selectedDialogue.playerChoices[j].playerQuestion, choiceDialogueSpeed, textColor, highlightColor, hideColor, highlightLength, () => SelectChoice(selectedDialogue.playerChoices[j].nextIndex));
             }
         }
     }
