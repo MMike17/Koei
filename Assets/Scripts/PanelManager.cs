@@ -4,157 +4,176 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // manager for game panels
-public class PanelManager : MonoBehaviour, IDebugable
+public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 {
-    [Header("Settings")]
-    public float fadeDuration;
-    public float spinnerSpeed, alphaComparisonThreshold;
+	[Header("Settings")]
+	public float fadeDuration;
+	public float spinnerSpeed, alphaComparisonThreshold;
 
-    [Header("Assign in Inspector")]
-    public List<GamePanel> panels;
-    [Space]
-    public Transform fadeSpinner;
-    public CanvasGroup fadePanel;
+	[Header("Assign in Inspector")]
+	public List<GamePanel> panels;
+	[Space]
+	public Transform fadeSpinner;
+	public CanvasGroup fadePanel;
 
-    [Header("Debug")]
-    public GameManager.GamePhase actualPanel;
-    public GameManager.GamePhase nextPanel;
+	[Header("Debug")]
+	public GameManager.GamePhase actualPanel;
+	public GameManager.GamePhase nextPanel;
 
-    IDebugable debugableInterface => (IDebugable) this;
+	public bool initialized => initializableInterface.initialized;
 
-    string IDebugable.debugLabel => "<b>[PanelsManager] : </b>";
+	IDebugable debugableInterface => (IDebugable) this;
+	IInitializable initializableInterface => (IInitializable) this;
 
-    Action onEndTransition;
-    bool inTransition;
+	string IDebugable.debugLabel => "<b>[PanelsManager] : </b>";
+	bool IInitializable.initializedInternal { get; set; }
 
-    public void Init()
-    {
-        actualPanel = GameManager.GamePhase.TITLE;
+	Action onEndTransition;
+	bool inTransition;
 
-        // deactivates all panels except TITLE panel that is activated
-        panels.ForEach(panel =>
-        {
-            if(panel.phase == GameManager.GamePhase.TITLE)
-            {
-                panel.Activate();
-            }
-            else
-            {
-                panel.Deactivate();
-            }
-        });
+	public void Init()
+	{
+		actualPanel = GameManager.GamePhase.TITLE;
 
-        Debug.Log(debugableInterface.debugLabel + "Initializing done");
-    }
+		// deactivates all panels except TITLE panel that is activated
+		panels.ForEach(panel =>
+		{
+			if(panel.phase == GameManager.GamePhase.TITLE)
+			{
+				panel.Activate();
+			}
+			else
+			{
+				panel.Deactivate();
+			}
+		});
 
-    // jumps to corresponding panel and calls transition event
-    public void JumpTo(GameManager.GamePhase newPanel, Action callback)
-    {
-        if(inTransition)
-        {
-            Debug.LogError(debugableInterface.debugLabel + "Can't transition to " + newPanel.ToString() + " because panels are already transitionning");
-            return;
-        }
+		initializableInterface.InitInternal();
 
-        inTransition = true;
+		Debug.Log(debugableInterface.debugLabel + "Initializing done");
+	}
 
-        // starts fade coroutine
-        StartCoroutine("Fade", false);
-        // calls sencond fade coroutine at the end of the first
-        Invoke("FinishFade", fadeDuration);
+	void IInitializable.InitInternal()
+	{
+		initializableInterface.initializedInternal = true;
+	}
 
-        nextPanel = newPanel;
-        onEndTransition = callback;
-    }
+	// jumps to corresponding panel and calls transition event
+	public void JumpTo(GameManager.GamePhase newPanel, Action callback)
+	{
+		if(!initialized)
+		{
+			Debug.LogError(debugableInterface.debugLabel + "Not initialized");
+			return;
+		}
 
-    void Update()
-    {
-        // spins spinner if vivisble
-        if(fadePanel.alpha > 0)
-            fadeSpinner.Rotate(0, 0, -spinnerSpeed * Time.deltaTime);
-    }
+		if(inTransition)
+		{
+			Debug.LogError(debugableInterface.debugLabel + "Can't transition to " + newPanel.ToString() + " because panels are already transitionning");
+			return;
+		}
 
-    // changes panels and starts second fade
-    void FinishFade()
-    {
-        GamePanel oldPanel = panels.Find((item) => { return item.phase == actualPanel; });
-        GamePanel newPanel = panels.Find((item) => { return item.phase == nextPanel; });
+		inTransition = true;
 
-        if(oldPanel == null)
-        {
-            Debug.LogError(debugableInterface.debugLabel + "There are no currently activated panel");
-            return;
-        }
+		// starts fade coroutine
+		StartCoroutine("Fade", false);
+		// calls sencond fade coroutine at the end of the first
+		Invoke("FinishFade", fadeDuration);
 
-        oldPanel.Deactivate();
+		nextPanel = newPanel;
+		onEndTransition = callback;
+	}
 
-        if(newPanel == null)
-        {
-            Debug.LogError(debugableInterface.debugLabel + "Can't find the requested panel : " + nextPanel.ToString());
-            return;
-        }
+	void Update()
+	{
+		// spins spinner if vivisble
+		if(fadePanel.alpha > 0)
+			fadeSpinner.Rotate(0, 0, -spinnerSpeed * Time.deltaTime);
+	}
 
-        newPanel.Activate();
+	// changes panels and starts second fade
+	void FinishFade()
+	{
+		GamePanel oldPanel = panels.Find((item) => { return item.phase == actualPanel; });
+		GamePanel newPanel = panels.Find((item) => { return item.phase == nextPanel; });
 
-        Debug.Log(debugableInterface.debugLabel + "Switched from " + actualPanel.ToString() + " to " + nextPanel.ToString());
+		if(oldPanel == null)
+		{
+			Debug.LogError(debugableInterface.debugLabel + "There are no currently activated panel");
+			return;
+		}
 
-        actualPanel = nextPanel;
+		oldPanel.Deactivate();
 
-        // starts fade coroutine
-        StartCoroutine("Fade", true);
-        // calls transition event at end of fade
-        Invoke("CallEndTransitionEvent", fadeDuration);
-    }
+		if(newPanel == null)
+		{
+			Debug.LogError(debugableInterface.debugLabel + "Can't find the requested panel : " + nextPanel.ToString());
+			return;
+		}
 
-    // main fade coroutine (fade in and out)
-    IEnumerator Fade(bool fadeGameIn)
-    {
-        bool done = fadeGameIn ? fadePanel.alpha <= alphaComparisonThreshold : fadePanel.alpha >= 1 - alphaComparisonThreshold;
+		newPanel.Activate();
 
-        // fading loop
-        while (!done)
-        {
-            float step = (1 / fadeDuration) * Time.deltaTime;
-            step = fadeGameIn ? -step : step;
+		Debug.Log(debugableInterface.debugLabel + "Switched from " + actualPanel.ToString() + " to " + nextPanel.ToString());
 
-            done = fadeGameIn ? fadePanel.alpha <= 0 + alphaComparisonThreshold : fadePanel.alpha >= 1 - alphaComparisonThreshold;
+		actualPanel = nextPanel;
 
-            fadePanel.gameObject.SetActive(fadePanel.alpha > 0 + alphaComparisonThreshold);
+		// starts fade coroutine
+		StartCoroutine("Fade", true);
+		// calls transition event at end of fade
+		Invoke("CallEndTransitionEvent", fadeDuration);
+	}
 
-            fadePanel.alpha += step;
+	// main fade coroutine (fade in and out)
+	IEnumerator Fade(bool fadeGameIn)
+	{
+		bool done = fadeGameIn ? fadePanel.alpha <= alphaComparisonThreshold : fadePanel.alpha >= 1 - alphaComparisonThreshold;
 
-            if(done)
-            {
-                yield break;
-            }
+		// fading loop
+		while (!done)
+		{
+			float step = (1 / fadeDuration) * Time.deltaTime;
+			step = fadeGameIn ? -step : step;
 
-            yield return null;
-        }
-    }
+			done = fadeGameIn ? fadePanel.alpha <= 0 + alphaComparisonThreshold : fadePanel.alpha >= 1 - alphaComparisonThreshold;
 
-    // calls event at end of transition
-    void CallEndTransitionEvent()
-    {
-        if(onEndTransition != null)
-        {
-            onEndTransition.Invoke();
-        }
-    }
+			fadePanel.gameObject.SetActive(fadePanel.alpha > 0 + alphaComparisonThreshold);
 
-    [Serializable]
-    public class GamePanel
-    {
-        public GameManager.GamePhase phase;
-        public GameObject panel;
+			fadePanel.alpha += step;
 
-        public void Deactivate()
-        {
-            panel.SetActive(false);
-        }
+			if(done)
+			{
+				yield break;
+			}
 
-        public void Activate()
-        {
-            panel.SetActive(true);
-        }
-    }
+			yield return null;
+		}
+	}
+
+	// calls event at end of transition
+	void CallEndTransitionEvent()
+	{
+		inTransition = false;
+
+		if(onEndTransition != null)
+		{
+			onEndTransition.Invoke();
+		}
+	}
+
+	[Serializable]
+	public class GamePanel
+	{
+		public GameManager.GamePhase phase;
+		public GameObject panel;
+
+		public void Deactivate()
+		{
+			panel.SetActive(false);
+		}
+
+		public void Activate()
+		{
+			panel.SetActive(true);
+		}
+	}
 }
