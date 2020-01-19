@@ -8,6 +8,7 @@ public class PopupManager : MonoBehaviour, IDebugable
 {
     [Header("Settings")]
     public float fadeDuration;
+    public float alphaComparisonThreshold;
 
     [Header("Assign in Inspector")]
     public List<Popup> popups;
@@ -24,7 +25,7 @@ public class PopupManager : MonoBehaviour, IDebugable
         actualPopup = GameManager.GamePopup.EMPTY;
 
         // initializes popups
-        popups.ForEach(popup => { popup.Init(fadeDuration); popup.ForceState(false); });
+        popups.ForEach(popup => { popup.Init(fadeDuration, alphaComparisonThreshold); popup.ForceState(false); });
 
         Debug.Log(debugableInterface.debugLabel + "Initializing done");
     }
@@ -57,12 +58,13 @@ public class PopupManager : MonoBehaviour, IDebugable
         public GameManager.GamePopup popup;
         public CanvasGroup panel;
 
-        float fadeDuration;
+        float fadeDuration, alphaComparisonThreshold;
         Action onPopup;
 
-        public void Init(float duration)
+        public void Init(float duration, float threshold)
         {
             fadeDuration = duration;
+            alphaComparisonThreshold = threshold;
         }
 
         // fades popup in and calls event at the end of the transition
@@ -83,37 +85,35 @@ public class PopupManager : MonoBehaviour, IDebugable
         // forces state of the popup (use this for backend)
         public void ForceState(bool state)
         {
-            panel.gameObject.SetActive(state);
+            panel.alpha = 0;
+            panel.blocksRaycasts = false;
+            panel.interactable = false;
         }
 
         // main fade coroutine (fade in and out)
         IEnumerator Fade(bool fadeGameIn)
         {
-            float step = 1 / fadeDuration * Time.deltaTime;
-            step = fadeGameIn ? -step : step;
+            bool done = fadeGameIn ? panel.alpha <= alphaComparisonThreshold : panel.alpha >= 1 - alphaComparisonThreshold;
 
-            panel.alpha += step;
-
-            // TODO : transform this in loop probably
-
-            if(fadeGameIn)
+            while (!done)
             {
-                panel.gameObject.SetActive(panel.alpha > 0);
+                float step = 1 / fadeDuration * Time.deltaTime;
+                step = fadeGameIn ? -step : step;
 
-                if(panel.alpha <= 0)
+                done = fadeGameIn ? panel.alpha <= alphaComparisonThreshold : panel.alpha >= 1 - alphaComparisonThreshold;
+
+                panel.blocksRaycasts = panel.alpha > 0;
+                panel.interactable = panel.alpha >= 1;
+
+                panel.alpha += step;
+
+                if(done)
                 {
                     yield break;
                 }
             }
-            else
-            {
-                panel.gameObject.SetActive(true);
 
-                if(panel.alpha >= 1)
-                {
-                    yield break;
-                }
-            }
+            yield return null;
         }
 
         // calls event when transition is done

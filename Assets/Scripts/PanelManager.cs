@@ -109,21 +109,21 @@ public class PanelManager : MonoBehaviour, IDebugable
     // main fade coroutine (fade in and out)
     IEnumerator Fade(bool fadeGameIn)
     {
-        bool condition = fadeGameIn ? fadePanel.alpha <= 0 + alphaComparisonThreshold : fadePanel.alpha >= 1 - alphaComparisonThreshold;
+        bool done = fadeGameIn ? fadePanel.alpha <= alphaComparisonThreshold : fadePanel.alpha >= 1 - alphaComparisonThreshold;
 
         // fading loop
-        while (!condition)
+        while (!done)
         {
             float step = (1 / fadeDuration) * Time.deltaTime;
             step = fadeGameIn ? -step : step;
 
-            condition = fadeGameIn ? fadePanel.alpha <= 0 + alphaComparisonThreshold : fadePanel.alpha >= 1 - alphaComparisonThreshold;
+            done = fadeGameIn ? fadePanel.alpha <= 0 + alphaComparisonThreshold : fadePanel.alpha >= 1 - alphaComparisonThreshold;
 
             fadePanel.gameObject.SetActive(fadePanel.alpha > 0 + alphaComparisonThreshold);
 
             fadePanel.alpha += step;
 
-            if(condition)
+            if(done)
             {
                 yield break;
             }
