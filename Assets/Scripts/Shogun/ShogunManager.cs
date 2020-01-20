@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 // class managing gameplay of Shogun panel
-public class ShogunManager : MonoBehaviour, IDebugable
+public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 {
 	[Header("Settings")]
 	public float shogunDialogueSpeed;
@@ -21,6 +21,11 @@ public class ShogunManager : MonoBehaviour, IDebugable
 	public Button quitPopupQuitButton, quitPopupResumeButton;
 
 	IDebugable debugableInterface => (IDebugable) this;
+	IInitializable initializableInterface => (IInitializable) this;
+
+	public bool initialized => initializableInterface.initializedInternal;
+
+	bool IInitializable.initializedInternal { get; set; }
 	string IDebugable.debugLabel => "<b>[ShogunManager] : </b>";
 
 	Dialogue selectedDialogue;
@@ -31,6 +36,7 @@ public class ShogunManager : MonoBehaviour, IDebugable
 
 	void Awake()
 	{
+		// prevents choices from appearing during transition
 		HideChoices();
 	}
 
@@ -55,7 +61,14 @@ public class ShogunManager : MonoBehaviour, IDebugable
 				resumeButtonCallback.Invoke();
 		});
 
+		initializableInterface.InitInternal();
+
 		Debug.Log(debugableInterface.debugLabel + "Initializing done");
+	}
+
+	void IInitializable.InitInternal()
+	{
+		initializableInterface.initializedInternal = true;
 	}
 
 	void Update()
@@ -66,7 +79,13 @@ public class ShogunManager : MonoBehaviour, IDebugable
 			return;
 		}
 
-		// enables button to skip the "selected" stage (usefull only for consoles)
+		if(!initialized)
+		{
+			Debug.LogError(debugableInterface.debugLabel + "Not initialized");
+			return;
+		}
+
+		// enables button to skip the "selected" stage (usefull only for gamepad use)
 		if(eventSystem.currentSelectedGameObject != null)
 		{
 			eventSystem.SetSelectedGameObject(null);
@@ -144,26 +163,12 @@ public class ShogunManager : MonoBehaviour, IDebugable
 	// shows choices depending on how many there are
 	void ShowChoices(int howMany)
 	{
-		int howManyActive = 0;
+		// make list of choices to show first 
 
-		// activates desired choices panels
-		choices.ForEach(item =>
-		{
-			if(item.initialized)
-			{
-				howManyActive++;
-			}
-		});
-
-		// if choices panels are already active
-		if(howManyActive >= howMany)
-		{
-			return;
-		}
-
-		// initializes choices panels with necessary infos
+		// initializes (or reinitializes) choices panels with necessary infos
 		for (int i = 0; i < choices.Count; i++)
 		{
+			// stupid for loop bug fixing
 			int j = i;
 
 			bool active = j < howMany && j != actualChoice;
@@ -213,6 +218,12 @@ public class ShogunManager : MonoBehaviour, IDebugable
 	// called by GameManager to start dialogue
 	public void StartDialogue(Dialogue dialogue)
 	{
+		if(!initialized)
+		{
+			Debug.LogError(debugableInterface.debugLabel + "Not initialized");
+			return;
+		}
+
 		shogunDialogue.color = textColor;
 		selectedDialogue = dialogue;
 		ResetShogun(dialogue.introLine);
