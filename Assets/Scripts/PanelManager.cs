@@ -76,7 +76,7 @@ public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 		inTransition = true;
 
 		// starts fade coroutine
-		StartCoroutine("Fade", false);
+		StartCoroutine(Fade(false));
 		// calls sencond fade coroutine at the end of the first
 		Invoke("FinishFade", fadeDuration);
 
@@ -118,7 +118,7 @@ public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 		actualPanel = nextPanel;
 
 		// starts fade coroutine
-		StartCoroutine("Fade", true);
+		StartCoroutine(Fade(true));
 		// calls transition event at end of fade
 		Invoke("CallEndTransitionEvent", fadeDuration);
 	}

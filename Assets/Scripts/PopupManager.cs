@@ -19,7 +19,7 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 	IDebugable debugableInterface => (IDebugable) this;
 	IInitializable initializableInterface => (IInitializable) this;
 
-	public bool initialized => initializableInterface.initialized;
+	public bool initialized => initializableInterface.initializedInternal;
 
 	string IDebugable.debugLabel => "<b>[PopupManager] : </b>";
 	bool IInitializable.initializedInternal { get; set; }
@@ -54,7 +54,7 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 
 		if(newPopup == null)
 		{
-			Debug.LogError(debugableInterface.debugLabel + "Can't find the requested panel : " + popup.ToString());
+			Debug.LogError(debugableInterface.debugLabel + "Can't find the requested popup : " + popup.ToString());
 			return;
 		}
 
@@ -116,7 +116,7 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 				return;
 			}
 
-			runner.StartCoroutine("Fade", false);
+			runner.StartCoroutine(Fade(false));
 			runner.Invoke("CallEndTransitionEvent", fadeDuration);
 
 			onPopup = callback;
@@ -131,7 +131,7 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 				return;
 			}
 
-			runner.StartCoroutine("Fade", true);
+			runner.StartCoroutine(Fade(true));
 		}
 
 		// forces state of the popup (use this for backend)
