@@ -13,14 +13,21 @@ MonoBehaviour:
   m_Name: Test
   m_EditorClassIdentifier: 
   introLine: Test Test Test Test Test Test
-  playerChoices:
-  - playerQuestion: I want to play
-    shogunResponse: But wait I have all this lore I need to dump on you OwO
-  - playerQuestion: So huh....what are the rules ?
-    shogunResponse: There are many and it will take a whole day to teach them all
-      to you, but don't wory, we have all the time we need
-  - playerQuestion: yes
-    shogunResponse: Absolutely
-  endLine:
-    playerQuestion: I just want to play....plz
-    shogunResponse: Okay okay fine....go away !
+  characterDialogues:
+  - character: 0
+    dialogueLines:
+    - Hi I'm the shogun
+    - I like to talk
+  - character: 1
+    dialogueLines:
+    - Blue Blue blue
+    - BLUE
+  - character: 2
+    dialogueLines:
+    - Orange
+    - Orange orange
+    - Orange orange orange
+  - character: 3
+    dialogueLines:
+    - Yes
+  endLine: Well guess I'll die then

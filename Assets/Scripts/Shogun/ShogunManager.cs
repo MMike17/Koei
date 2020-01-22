@@ -9,16 +9,21 @@ using UnityEngine.UI;
 public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 {
 	[Header("Settings")]
-	public float shogunDialogueSpeed;
-	public float choiceDialogueSpeed;
+	public float dialogueSpeed;
+	public float moveSpeed, zoomSpeed;
 	public int highlightLength;
 	public Color textColor, highlightColor, hideColor;
+	[Space]
+	public List<ShogunCharacter> characters;
 
 	[Header("Assing in Inspector")]
 	public List<ShogunChoice> choices;
+	[Space]
 	public EventSystem eventSystem;
-	public TextMeshProUGUI shogunDialogue;
-	public Button quitPopupQuitButton, quitPopupResumeButton;
+	public TextMeshProUGUI dialogueText;
+	public Button quitPopupQuitButton, quitPopupResumeButton, quitShogunButton;
+	public Animator nextDialogueIndicator;
+	public RectTransform table;
 
 	IDebugable debugableInterface => (IDebugable) this;
 	IInitializable initializableInterface => (IInitializable) this;
@@ -29,10 +34,10 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	string IDebugable.debugLabel => "<b>[ShogunManager] : </b>";
 
 	Dialogue selectedDialogue;
+	Dialogue.Character actualCharacter;
 	Action endDialogue;
-	string shogunLine;
-	float shogunDialogueTimer;
-	int shogunIndex, actualChoice;
+	float dialogueTimer, targetZoom, actualZoom;
+	int lineIndex, dialogueIndex;
 
 	void Awake()
 	{
@@ -61,14 +66,16 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 				resumeButtonCallback.Invoke();
 		});
 
-		initializableInterface.InitInternal();
+		quitShogunButton.onClick.RemoveAllListeners();
+		quitShogunButton.onClick.AddListener(() => QuitShogunPhase());
 
-		Debug.Log(debugableInterface.debugLabel + "Initializing done");
+		initializableInterface.InitInternal();
 	}
 
 	void IInitializable.InitInternal()
 	{
 		initializableInterface.initializedInternal = true;
+		Debug.Log(debugableInterface.debugLabel + "Initializing done");
 	}
 
 	void Update()
@@ -91,65 +98,90 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			eventSystem.SetSelectedGameObject(null);
 		}
 
-		bool shogunIsDone = ShogunLine();
+		MoveCamera();
 
-		if(shogunIsDone) // shows choices panels if shogun is done talking
+		bool characterIsDone = CharacterLine();
+
+		// shows choices panels if character is done talking
+		if(characterIsDone && selectedDialogue.IsCharacterDone(actualCharacter, dialogueIndex))
 		{
-			ShowChoices(selectedDialogue.choicesCountToShow);
+			ShowChoices();
 		}
-		else // hides choices panels while shogun is talking
+		else // hides choices panels while character is talking
 		{
 			HideChoices();
 		}
-
-		// if the mouse is over an object and input module exists
-		if(eventSystem.IsPointerOverGameObject() && ActuallyUsefulInputModule.Get != null)
-		{
-			choices.ForEach(choice =>
-			{
-				bool needsHiding = true;
-
-				// loops through all hovered objects
-				ActuallyUsefulInputModule.GetPointerEventData().hovered.ForEach(item =>
-				{
-					ShogunChoice other = item.GetComponent<ShogunChoice>();
-
-					if(other != null && other == choice)
-					{
-						// tells panel to write line if there is one and it's selected
-						item.GetComponent<ShogunChoice>().WriteLine();
-						needsHiding = false;
-					}
-				});
-
-				// hides choice if not selected
-				if(needsHiding)
-				{
-					choice.PointerNotOver();
-				}
-			});
-		}
 	}
 
-	// writes the shogun line with highlight
-	bool ShogunLine()
+	void MoveCamera()
 	{
-		// returns true if the line is displayed fully
-		if(shogunIndex >= shogunLine.Length + highlightLength)
+		ShogunCharacter selectedCharacter = characters.Find(item => { return item.character == actualCharacter; });
+
+		if(selectedCharacter == null)
 		{
-			return true;
+			Debug.LogError(debugableInterface.debugLabel + "Couldn't find settings for character " + actualCharacter.ToString());
+			return;
 		}
 
-		shogunDialogueTimer += Time.deltaTime;
+		// moves background to target
+		table.position = Vector3.MoveTowards(table.position, selectedCharacter.targetPosition * selectedCharacter.zoomLevel, moveSpeed * Time.deltaTime);
 
-		if(shogunDialogueTimer >= 1 / shogunDialogueSpeed)
+		// changes background scale to emulate zoom effects
+		targetZoom = selectedCharacter.zoomLevel - Vector3.Distance(table.position, selectedCharacter.targetPosition * selectedCharacter.zoomLevel) / 10;
+		actualZoom = Mathf.MoveTowards(actualZoom, targetZoom, zoomSpeed * Time.deltaTime);
+		table.localScale = Vector3.one * actualZoom;
+	}
+
+	// writes the character line with highlight
+	bool CharacterLine()
+	{
+		// actual line of dialogue
+		string line = selectedDialogue.GetCharacterLines(actualCharacter) [dialogueIndex];
+
+		// if line is displayed fully
+		if(lineIndex >= line.Length + highlightLength)
 		{
-			shogunDialogueTimer = 0;
-			shogunIndex++;
+			// if all lines of dialogue are displayed
+			if(selectedDialogue.IsCharacterDone(actualCharacter, dialogueIndex))
+			{
+				// hides cursor
+				if(!nextDialogueIndicator.GetCurrentAnimatorStateInfo(0).IsName("Hide"))
+				{
+					nextDialogueIndicator.Play("Hide");
+				}
+
+				return true;
+			}
+			else
+			{
+				// shows cursor
+				if(!nextDialogueIndicator.GetCurrentAnimatorStateInfo(0).IsName("Press"))
+				{
+					nextDialogueIndicator.Play("Press");
+				}
+
+				// goes to next dialogue line
+				if(Input.GetMouseButtonDown(0))
+				{
+					dialogueIndex++;
+					NewLine();
+				}
+
+				return false;
+			}
 		}
 
-		// displays highlighted shogun line
-		shogunDialogue.text = DialogueTools.HighlightString(shogunLine, textColor, highlightColor, shogunIndex, highlightLength);
+		// character display index timer and incrementation
+		dialogueTimer += Time.deltaTime;
+
+		if(dialogueTimer >= 1 / dialogueSpeed)
+		{
+			dialogueTimer = 0;
+			lineIndex++;
+		}
+
+		// displays highlighted character line
+		dialogueText.text = DialogueTools.HighlightString(line, textColor, highlightColor, lineIndex, highlightLength);
 
 		return false;
 	}
@@ -161,58 +193,70 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	}
 
 	// shows choices depending on how many there are
-	void ShowChoices(int howMany)
+	void ShowChoices()
 	{
-		// make list of choices to show first 
+		int howManyPortraits = selectedDialogue.characterDialogues.Count;
+
+		if(howManyPortraits >= choices.Count)
+		{
+			Debug.LogError(debugableInterface.debugLabel + "Too many character portraits to show");
+			return;
+		}
 
 		// initializes (or reinitializes) choices panels with necessary infos
 		for (int i = 0; i < choices.Count; i++)
 		{
-			// stupid for loop bug fixing
 			int j = i;
 
-			bool active = j < howMany && j != actualChoice;
+			bool active = j < howManyPortraits;
 
 			choices[j].gameObject.SetActive(active);
 
 			if(active)
 			{
-				choices[j].Init(selectedDialogue.playerChoices[j].playerQuestion, choiceDialogueSpeed, textColor, highlightColor, hideColor, highlightLength, () => SelectChoice(selectedDialogue.playerChoices[j].nextIndex));
+				choices[j].Init(characters[j].characterPortrait, textColor, highlightColor, hideColor, () => SelectChoice(characters[j].character));
 			}
 		}
 	}
 
 	// called when the player clicks on a choice
-	void SelectChoice(int selected)
+	void SelectChoice(Dialogue.Character character)
 	{
-		if(selected <= -1) // if the player clicked on the "end conversation" choice
-		{
-			if(endDialogue == null)
-			{
-				Debug.LogError(debugableInterface.debugLabel + "end dialogue event should not be null");
-				return;
-			}
-			else
-			{
-				QuitDialogue();
-			}
-		}
-		else
-		{
-			// shows shogun answer and goes to next choice
-			ResetShogun(selectedDialogue.playerChoices[actualChoice].shogunResponse);
+		CharacterDialogue selected = selectedDialogue.characterDialogues.Find(item => { return item.character == character; });
 
-			actualChoice = selected;
+		if(selected == null)
+		{
+			Debug.LogError(debugableInterface.debugLabel + "Can't find character dialogue with character " + character.ToString());
+			return;
 		}
+
+		actualCharacter = character;
+
+		NewDialogue();
 	}
 
-	// resets shogun line and signals for new shogun line
-	void ResetShogun(string line)
+	// resets variables for new character dialogue
+	void NewDialogue()
 	{
-		shogunDialogueTimer = 0;
-		shogunIndex = 0;
+		NewLine();
 
-		shogunLine = line;
+		dialogueIndex = 0;
+
+		actualCharacter = Dialogue.Character.SHOGUN;
+	}
+
+	// resets variables for new character line
+	void NewLine()
+	{
+		dialogueTimer = 0;
+		lineIndex = 0;
+	}
+
+	// resets component for next phase
+	void QuitShogunPhase()
+	{
+		selectedDialogue = null;
+		endDialogue.Invoke();
 	}
 
 	// called by GameManager to start dialogue
@@ -224,15 +268,18 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			return;
 		}
 
-		shogunDialogue.color = textColor;
+		dialogueText.color = textColor;
 		selectedDialogue = dialogue;
-		ResetShogun(dialogue.introLine);
+
+		NewDialogue();
 	}
 
-	// resets component for next phase
-	void QuitDialogue()
+	[Serializable]
+	public class ShogunCharacter
 	{
-		selectedDialogue = null;
-		endDialogue.Invoke();
+		public Dialogue.Character character;
+		public Sprite characterPortrait;
+		public Vector3 targetPosition;
+		public float zoomLevel;
 	}
 }

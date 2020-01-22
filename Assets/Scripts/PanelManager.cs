@@ -20,7 +20,7 @@ public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 	public GameManager.GamePhase actualPanel;
 	public GameManager.GamePhase nextPanel;
 
-	public bool initialized => initializableInterface.initialized;
+	public bool initialized => initializableInterface.initializedInternal;
 
 	IDebugable debugableInterface => (IDebugable) this;
 	IInitializable initializableInterface => (IInitializable) this;
