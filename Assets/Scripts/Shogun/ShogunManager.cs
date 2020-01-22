@@ -36,13 +36,16 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	Dialogue selectedDialogue;
 	Dialogue.Character actualCharacter;
 	Action endDialogue;
-	float dialogueTimer, targetZoom, actualZoom;
+	float dialogueTimer, actualZoom;
 	int lineIndex, dialogueIndex;
+	bool showedFirst;
 
 	void Awake()
 	{
 		// prevents choices from appearing during transition
 		HideChoices();
+
+		dialogueText.text = string.Empty;
 	}
 
 	// receives actions from GameManager
@@ -98,9 +101,20 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			eventSystem.SetSelectedGameObject(null);
 		}
 
-		MoveCamera();
+		bool characterIsDone;
 
-		bool characterIsDone = CharacterLine();
+		if(showedFirst)
+		{
+			MoveCamera();
+
+			characterIsDone = CharacterLine(selectedDialogue.GetCharacterLines(actualCharacter) [dialogueIndex]);
+		}
+		else
+		{
+			ChangeZoom(1);
+
+			characterIsDone = CharacterLine(selectedDialogue.introLine);
+		}
 
 		// shows choices panels if character is done talking
 		if(characterIsDone && selectedDialogue.IsCharacterDone(actualCharacter, dialogueIndex))
@@ -124,20 +138,21 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		}
 
 		// moves background to target
-		table.position = Vector3.MoveTowards(table.position, selectedCharacter.targetPosition * selectedCharacter.zoomLevel, moveSpeed * Time.deltaTime);
+		table.anchoredPosition = Vector2.MoveTowards(table.anchoredPosition, selectedCharacter.targetPosition * selectedCharacter.zoomLevel, moveSpeed * Time.deltaTime);
 
+		ChangeZoom(selectedCharacter.zoomLevel);
+	}
+
+	void ChangeZoom(float targetZoom)
+	{
 		// changes background scale to emulate zoom effects
-		targetZoom = selectedCharacter.zoomLevel - Vector3.Distance(table.position, selectedCharacter.targetPosition * selectedCharacter.zoomLevel) / 10;
 		actualZoom = Mathf.MoveTowards(actualZoom, targetZoom, zoomSpeed * Time.deltaTime);
 		table.localScale = Vector3.one * actualZoom;
 	}
 
 	// writes the character line with highlight
-	bool CharacterLine()
+	bool CharacterLine(string line)
 	{
-		// actual line of dialogue
-		string line = selectedDialogue.GetCharacterLines(actualCharacter) [dialogueIndex];
-
 		// if line is displayed fully
 		if(lineIndex >= line.Length + highlightLength)
 		{
@@ -169,6 +184,12 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 				return false;
 			}
+		}
+
+		// hides cursor
+		if(!nextDialogueIndicator.GetCurrentAnimatorStateInfo(0).IsName("Hide"))
+		{
+			nextDialogueIndicator.Play("Hide");
 		}
 
 		// character display index timer and incrementation
@@ -203,6 +224,21 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			return;
 		}
 
+		int initializedCount = 0;
+		choices.ForEach(item =>
+		{
+			if(item.initialized)
+			{
+				initializedCount++;
+			}
+		});
+
+		if(initializedCount == howManyPortraits)
+		{
+			Debug.Log(debugableInterface.debugLabel + "All necessary choices have been initialized");
+			return;
+		}
+
 		// initializes (or reinitializes) choices panels with necessary infos
 		for (int i = 0; i < choices.Count; i++)
 		{
@@ -224,6 +260,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		CharacterDialogue selected = selectedDialogue.characterDialogues.Find(item => { return item.character == character; });
 
+		showedFirst = true;
+
 		if(selected == null)
 		{
 			Debug.LogError(debugableInterface.debugLabel + "Can't find character dialogue with character " + character.ToString());
@@ -241,8 +279,6 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		NewLine();
 
 		dialogueIndex = 0;
-
-		actualCharacter = Dialogue.Character.SHOGUN;
 	}
 
 	// resets variables for new character line
@@ -256,7 +292,9 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	void QuitShogunPhase()
 	{
 		selectedDialogue = null;
-		endDialogue.Invoke();
+
+		if(endDialogue != null)
+			endDialogue.Invoke();
 	}
 
 	// called by GameManager to start dialogue
@@ -268,8 +306,12 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			return;
 		}
 
+		actualCharacter = Dialogue.Character.SHOGUN;
+
 		dialogueText.color = textColor;
 		selectedDialogue = dialogue;
+
+		actualZoom = 1;
 
 		NewDialogue();
 	}
@@ -279,7 +321,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		public Dialogue.Character character;
 		public Sprite characterPortrait;
-		public Vector3 targetPosition;
+		public Vector2 targetPosition;
 		public float zoomLevel;
 	}
 }
