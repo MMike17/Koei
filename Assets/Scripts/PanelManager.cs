@@ -136,12 +136,24 @@ public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 
 			done = fadeGameIn ? fadePanel.alpha <= 0 + alphaComparisonThreshold : fadePanel.alpha >= 1 - alphaComparisonThreshold;
 
-			fadePanel.gameObject.SetActive(fadePanel.alpha > 0 + alphaComparisonThreshold);
+			fadePanel.blocksRaycasts = fadePanel.alpha > 0;
 
 			fadePanel.alpha += step;
 
 			if(done)
 			{
+				if(fadeGameIn)
+				{
+					fadePanel.alpha = 0;
+					fadePanel.blocksRaycasts = false;
+				}
+				else
+				{
+
+					fadePanel.alpha = 1;
+					fadePanel.blocksRaycasts = true;
+				}
+
 				yield break;
 			}
 

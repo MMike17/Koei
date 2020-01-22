@@ -178,6 +178,19 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 
 				if(done)
 				{
+					if(fadeGameIn)
+					{
+						panel.alpha = 0;
+						panel.blocksRaycasts = false;
+						panel.interactable = false;
+					}
+					else
+					{
+						panel.alpha = 1;
+						panel.blocksRaycasts = true;
+						panel.interactable = true;
+					}
+
 					yield break;
 				}
 
