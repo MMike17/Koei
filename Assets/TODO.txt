@@ -1,4 +1,6 @@
 FEATURES :
+	- Setup dekcbuilding UI
+	- Setup fighting UI
 	- Add deckbuilding gameplay
 	- Add fighting gameplay
 	- Add narrative phase
