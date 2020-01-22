@@ -20,7 +20,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	public List<ShogunChoice> choices;
 	[Space]
 	public EventSystem eventSystem;
-	public TextMeshProUGUI dialogueText;
+	public TextMeshProUGUI dialogueText, quitPopupText;
 	public Button quitPopupQuitButton, quitPopupResumeButton, quitShogunButton;
 	public Animator nextDialogueIndicator;
 	public RectTransform table;
@@ -36,9 +36,9 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	Dialogue selectedDialogue;
 	Dialogue.Character actualCharacter;
 	Action endDialogue;
-	float dialogueTimer, actualZoom;
-	int lineIndex, dialogueIndex;
-	bool showedFirst;
+	float dialogueTimer, actualZoom, quitPopupTimer;
+	int lineIndex, dialogueIndex, quitPopupIndex;
+	bool showedFirst, isQuittingPopup;
 
 	void Awake()
 	{
@@ -58,6 +58,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		quitPopupQuitButton.onClick.RemoveAllListeners();
 		quitPopupQuitButton.onClick.AddListener(() =>
 		{
+			selectedDialogue = null;
+
 			if(quitButtonCallback != null)
 				quitButtonCallback.Invoke();
 		});
@@ -65,12 +67,17 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		quitPopupResumeButton.onClick.RemoveAllListeners();
 		quitPopupResumeButton.onClick.AddListener(() =>
 		{
+			isQuittingPopup = false;
+			quitPopupIndex = 0;
+
 			if(resumeButtonCallback != null)
 				resumeButtonCallback.Invoke();
 		});
 
 		quitShogunButton.onClick.RemoveAllListeners();
 		quitShogunButton.onClick.AddListener(() => QuitShogunPhase());
+
+		isQuittingPopup = false;
 
 		initializableInterface.InitInternal();
 	}
@@ -93,6 +100,19 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		{
 			Debug.LogError(debugableInterface.debugLabel + "Not initialized");
 			return;
+		}
+
+		if(isQuittingPopup)
+		{
+			quitPopupText.text = DialogueTools.HighlightString(selectedDialogue.endLine, quitPopupText.color, highlightColor, quitPopupIndex, highlightLength);
+
+			quitPopupTimer += Time.deltaTime;
+
+			if(quitPopupTimer >= 1 / dialogueSpeed)
+			{
+				quitPopupTimer = 0;
+				quitPopupIndex++;
+			}
 		}
 
 		// enables button to skip the "selected" stage (usefull only for gamepad use)
@@ -291,10 +311,10 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	// resets component for next phase
 	void QuitShogunPhase()
 	{
-		selectedDialogue = null;
-
 		if(endDialogue != null)
 			endDialogue.Invoke();
+
+		isQuittingPopup = true;
 	}
 
 	// called by GameManager to start dialogue
