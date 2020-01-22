@@ -1,5 +1,6 @@
 FEATURES :
-	- 
+	- Add deckbuilding gameplay
+	- Add fighting gameplay
+	- Add narrative phase
 
 BUGS :
-	- [Shogun] choices selection have index error
