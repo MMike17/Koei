@@ -75,11 +75,23 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 		popups.ForEach(popup => popup.Deactivate(this));
 	}
 
+	// calls event when transition is done
+	void CallEndTransitionEvent()
+	{
+		Popup selected = popups.Find(item => { return item.popup == actualPopup; });
+
+		if(selected != null && selected.onPopup != null)
+		{
+			selected.onPopup.Invoke();
+		}
+	}
+
 	[Serializable]
 	public class Popup : IInitializable, IDebugable
 	{
 		public GameManager.GamePopup popup;
 		public CanvasGroup panel;
+		public Action onPopup;
 
 		IInitializable initializableInterface => (IInitializable) this;
 		IDebugable debugableInterface => (IDebugable) this;
@@ -90,7 +102,6 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 		bool IInitializable.initializedInternal { get; set; }
 
 		float fadeDuration, alphaComparisonThreshold;
-		Action onPopup;
 
 		public void Init(float duration, float threshold)
 		{
@@ -155,7 +166,7 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 
 			while (!done)
 			{
-				float step = 1 / fadeDuration * Time.deltaTime;
+				float step = (1 / fadeDuration) * Time.deltaTime;
 				step = fadeGameIn ? -step : step;
 
 				done = fadeGameIn ? panel.alpha <= alphaComparisonThreshold : panel.alpha >= 1 - alphaComparisonThreshold;
@@ -169,16 +180,9 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 				{
 					yield break;
 				}
+
+				yield return null;
 			}
-
-			yield return null;
-		}
-
-		// calls event when transition is done
-		void CallEndTransitionEvent()
-		{
-			if(onPopup != null)
-				onPopup.Invoke();
 		}
 	}
 }
