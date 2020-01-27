@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameManager;
 
 // manager for game panels
 public class PanelManager : MonoBehaviour, IDebugable, IInitializable
@@ -17,8 +18,8 @@ public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 	public CanvasGroup fadePanel;
 
 	[Header("Debug")]
-	public GameManager.GamePhase actualPanel;
-	public GameManager.GamePhase nextPanel;
+	public GamePhase actualPanel;
+	public GamePhase nextPanel;
 
 	public bool initialized => initializableInterface.initializedInternal;
 
@@ -33,12 +34,12 @@ public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 
 	public void Init()
 	{
-		actualPanel = GameManager.GamePhase.TITLE;
+		actualPanel = GamePhase.TITLE;
 
 		// deactivates all panels except TITLE panel that is activated
 		panels.ForEach(panel =>
 		{
-			if(panel.phase == GameManager.GamePhase.TITLE)
+			if(panel.phase == GamePhase.TITLE)
 			{
 				panel.Activate();
 			}
@@ -59,7 +60,7 @@ public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 	}
 
 	// jumps to corresponding panel and calls transition event
-	public void JumpTo(GameManager.GamePhase newPanel, Action callback)
+	public void JumpTo(GamePhase newPanel, Action callback)
 	{
 		if(!initialized)
 		{
@@ -175,7 +176,7 @@ public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 	[Serializable]
 	public class GamePanel
 	{
-		public GameManager.GamePhase phase;
+		public GamePhase phase;
 		public GameObject panel;
 
 		public void Deactivate()

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static GeneralDialogue;
 
 // class managing gameplay of Shogun panel
 public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
@@ -17,13 +18,10 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	public List<ShogunCharacter> characters;
 
 	[Header("Assing in Inspector")]
-	public List<ShogunChoice> choices;
-	[Space]
 	public EventSystem eventSystem;
-	public TextMeshProUGUI dialogueText, quitPopupText;
-	public Button quitPopupQuitButton, quitPopupResumeButton, quitShogunButton;
-	public Animator nextDialogueIndicator;
-	public RectTransform table;
+	public GameObject characterTextBubble, playerChoice, playerTextBubble;
+	public Button changeCharacterbutton, quitButton;
+	public Image characterPortrait;
 
 	IDebugable debugableInterface => (IDebugable) this;
 	IInitializable initializableInterface => (IInitializable) this;
@@ -33,51 +31,36 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	bool IInitializable.initializedInternal { get; set; }
 	string IDebugable.debugLabel => "<b>[ShogunManager] : </b>";
 
-	Dialogue selectedDialogue;
-	Dialogue.Character actualCharacter;
-	Action endDialogue;
-	float dialogueTimer, actualZoom, quitPopupTimer;
-	int lineIndex, dialogueIndex, quitPopupIndex;
-	bool showedFirst, isQuittingPopup;
+	GeneralDialogue selectedDialogue;
+	Character actualCharacter;
+	int dialogueIndex, lineIndex;
 
 	void Awake()
 	{
-		// prevents choices from appearing during transition
-		HideChoices();
 
-		dialogueText.text = string.Empty;
 	}
 
 	// receives actions from GameManager
-	public void Init(Action quitButtonCallback, Action resumeButtonCallback, Action endDialogueCallback)
+	public void Init(Action quitButtonCallback, Action changeCharacterButtonCallback)
 	{
-		// action to call when player selects choice that ends dialogue
-		endDialogue = endDialogueCallback;
-
-		// plugs in actions for the popup buttons
-		quitPopupQuitButton.onClick.RemoveAllListeners();
-		quitPopupQuitButton.onClick.AddListener(() =>
+		// plugs in actions for the buttons
+		quitButton.onClick.RemoveAllListeners();
+		quitButton.onClick.AddListener(() =>
 		{
-			selectedDialogue = null;
-
 			if(quitButtonCallback != null)
+			{
 				quitButtonCallback.Invoke();
+			}
 		});
 
-		quitPopupResumeButton.onClick.RemoveAllListeners();
-		quitPopupResumeButton.onClick.AddListener(() =>
+		changeCharacterbutton.onClick.RemoveAllListeners();
+		changeCharacterbutton.onClick.AddListener(() =>
 		{
-			isQuittingPopup = false;
-			quitPopupIndex = 0;
-
-			if(resumeButtonCallback != null)
-				resumeButtonCallback.Invoke();
+			if(changeCharacterButtonCallback != null)
+			{
+				changeCharacterButtonCallback.Invoke();
+			}
 		});
-
-		quitShogunButton.onClick.RemoveAllListeners();
-		quitShogunButton.onClick.AddListener(() => QuitShogunPhase());
-
-		isQuittingPopup = false;
 
 		initializableInterface.InitInternal();
 	}
@@ -88,31 +71,13 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		Debug.Log(debugableInterface.debugLabel + "Initializing done");
 	}
 
+	/*
 	void Update()
 	{
-		// doesn't do anything if Dialogue object is not set
-		if(selectedDialogue == null)
-		{
-			return;
-		}
-
 		if(!initialized)
 		{
 			Debug.LogError(debugableInterface.debugLabel + "Not initialized");
 			return;
-		}
-
-		if(isQuittingPopup)
-		{
-			quitPopupText.text = DialogueTools.HighlightString(selectedDialogue.endLine, quitPopupText.color, highlightColor, quitPopupIndex, highlightLength);
-
-			quitPopupTimer += Time.deltaTime;
-
-			if(quitPopupTimer >= 1 / dialogueSpeed)
-			{
-				quitPopupTimer = 0;
-				quitPopupIndex++;
-			}
 		}
 
 		// enables button to skip the "selected" stage (usefull only for gamepad use)
@@ -174,7 +139,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	bool CharacterLine(string line)
 	{
 		// if line is displayed fully
-		if(lineIndex >= line.Length + highlightLength)
+		if(dialogueIndex >= line.Length + highlightLength)
 		{
 			// if all lines of dialogue are displayed
 			if(selectedDialogue.IsCharacterDone(actualCharacter, dialogueIndex))
@@ -218,11 +183,11 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		if(dialogueTimer >= 1 / dialogueSpeed)
 		{
 			dialogueTimer = 0;
-			lineIndex++;
+			dialogueIndex++;
 		}
 
 		// displays highlighted character line
-		dialogueText.text = DialogueTools.HighlightString(line, textColor, highlightColor, lineIndex, highlightLength);
+		dialogueText.text = DialogueTools.HighlightString(line, textColor, highlightColor, dialogueIndex, highlightLength);
 
 		return false;
 	}
@@ -276,7 +241,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	}
 
 	// called when the player clicks on a choice
-	void SelectChoice(Dialogue.Character character)
+	void SelectChoice(GeneralDialogue.Character character)
 	{
 		CharacterDialogue selected = selectedDialogue.characterDialogues.Find(item => { return item.character == character; });
 
@@ -300,12 +265,12 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		dialogueIndex = 0;
 	}
-
+	
 	// resets variables for new character line
 	void NewLine()
 	{
 		dialogueTimer = 0;
-		lineIndex = 0;
+		dialogueIndex = 0;
 	}
 
 	// resets component for next phase
@@ -318,7 +283,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	}
 
 	// called by GameManager to start dialogue
-	public void StartDialogue(Dialogue dialogue)
+	public void StartDialogue(GeneralDialogue dialogue)
 	{
 		if(!initialized)
 		{
@@ -326,7 +291,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			return;
 		}
 
-		actualCharacter = Dialogue.Character.SHOGUN;
+		actualCharacter = GeneralDialogue.Character.SHOGUN;
 
 		dialogueText.color = textColor;
 		selectedDialogue = dialogue;
@@ -335,13 +300,12 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		NewDialogue();
 	}
+	*/
 
 	[Serializable]
 	public class ShogunCharacter
 	{
-		public Dialogue.Character character;
+		public Character character;
 		public Sprite characterPortrait;
-		public Vector2 targetPosition;
-		public float zoomLevel;
 	}
 }

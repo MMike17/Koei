@@ -1,8 +1,1 @@
-FEATURES :
-	- Setup dekcbuilding UI
-	- Setup fighting UI
-	- Add deckbuilding gameplay
-	- Add fighting gameplay
-	- Add narrative phase
-
-BUGS :
+- Change Shogum manager to work with new Dialogue class

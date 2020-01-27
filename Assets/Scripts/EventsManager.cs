@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameManager;
 
 // class managing events called when panels change (use to start up game phases)
 public class EventsManager : MonoBehaviour, IDebugable, IInitializable
@@ -21,14 +22,14 @@ public class EventsManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		onPhaseTransitionEvents = new List<PhaseEvent>();
 
-		foreach (GameManager.GamePhase phase in Enum.GetValues(typeof(GameManager.GamePhase)))
+		foreach (GamePhase phase in Enum.GetValues(typeof(GamePhase)))
 		{
 			onPhaseTransitionEvents.Add(new PhaseEvent(phase));
 		}
 
 		onPopupEvents = new List<PopupEvent>();
 
-		foreach (GameManager.GamePopup popup in Enum.GetValues(typeof(GameManager.GamePopup)))
+		foreach (GamePopup popup in Enum.GetValues(typeof(GamePopup)))
 		{
 			onPopupEvents.Add(new PopupEvent(popup));
 		}
@@ -44,7 +45,7 @@ public class EventsManager : MonoBehaviour, IDebugable, IInitializable
 	}
 
 	// ads an action to a phase transition
-	public void AddPhaseAction(GameManager.GamePhase phase, Action callback)
+	public void AddPhaseAction(GamePhase phase, Action callback)
 	{
 		if(!initialized)
 		{
@@ -61,7 +62,7 @@ public class EventsManager : MonoBehaviour, IDebugable, IInitializable
 	}
 
 	// ads an action to a popup transition
-	public void AddPopupAction(GameManager.GamePopup popup, Action callback)
+	public void AddPopupAction(GamePopup popup, Action callback)
 	{
 		if(!initialized)
 		{
@@ -78,7 +79,7 @@ public class EventsManager : MonoBehaviour, IDebugable, IInitializable
 	}
 
 	// calls actions registered for a phase
-	public void CallPhaseActions(GameManager.GamePhase phase)
+	public void CallPhaseActions(GamePhase phase)
 	{
 		if(!initialized)
 		{
@@ -95,7 +96,7 @@ public class EventsManager : MonoBehaviour, IDebugable, IInitializable
 	}
 
 	// calls actions registered for a popup
-	public void CallPopupActions(GameManager.GamePopup popup)
+	public void CallPopupActions(GamePopup popup)
 	{
 		if(!initialized)
 		{
@@ -114,14 +115,14 @@ public class EventsManager : MonoBehaviour, IDebugable, IInitializable
 	// class representing events for a given GamePhase
 	public class PhaseEvent : IDebugable
 	{
-		public GameManager.GamePhase phase;
+		public GamePhase phase;
 		Action callback;
 
 		IDebugable debugableInterface => (IDebugable) this;
 
 		string IDebugable.debugLabel => "<b>[PhaseEvent] : </b>";
 
-		public PhaseEvent(GameManager.GamePhase phase)
+		public PhaseEvent(GamePhase phase)
 		{
 			this.phase = phase;
 		}
@@ -151,14 +152,14 @@ public class EventsManager : MonoBehaviour, IDebugable, IInitializable
 	// class representing events for a giver GamePopup
 	public class PopupEvent : IDebugable
 	{
-		public GameManager.GamePopup popup;
+		public GamePopup popup;
 		Action callback;
 
 		IDebugable debugableInterface => (IDebugable) this;
 
 		string IDebugable.debugLabel => "<b>[PhaseEvent] : </b>";
 
-		public PopupEvent(GameManager.GamePopup popup)
+		public PopupEvent(GamePopup popup)
 		{
 			this.popup = popup;
 		}

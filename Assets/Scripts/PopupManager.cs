@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameManager;
 
 // manager for game popups
 public class PopupManager : MonoBehaviour, IDebugable, IInitializable
@@ -14,7 +15,7 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 	public List<Popup> popups;
 
 	[Header("Debug")]
-	public GameManager.GamePopup actualPopup;
+	public GamePopup actualPopup;
 
 	IDebugable debugableInterface => (IDebugable) this;
 	IInitializable initializableInterface => (IInitializable) this;
@@ -26,7 +27,7 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 
 	public void Init()
 	{
-		actualPopup = GameManager.GamePopup.EMPTY;
+		actualPopup = GamePopup.EMPTY;
 
 		// initializes popups
 		popups.ForEach(popup => { popup.Init(fadeDuration, alphaComparisonThreshold); popup.ForceState(false); });
@@ -42,7 +43,7 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 	}
 
 	// pops corresponding popup and calls transition event
-	public void Pop(GameManager.GamePopup popup, Action callback)
+	public void Pop(GamePopup popup, Action callback)
 	{
 		if(!initialized)
 		{
@@ -89,7 +90,7 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 	[Serializable]
 	public class Popup : IInitializable, IDebugable
 	{
-		public GameManager.GamePopup popup;
+		public GamePopup popup;
 		public CanvasGroup panel;
 		public Action onPopup;
 

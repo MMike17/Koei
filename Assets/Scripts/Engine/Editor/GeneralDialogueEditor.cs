@@ -1,14 +1,14 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Dialogue))]
-public class DialogueEditor : Editor
+[CustomEditor(typeof(GeneralDialogue))]
+public class GeneralDialogueEditor : Editor
 {
-	Dialogue editorTarget;
+	GeneralDialogue editorTarget;
 
 	public override void OnInspectorGUI()
 	{
-		editorTarget = target as Dialogue;
+		editorTarget = target as GeneralDialogue;
 
 		if(!editorTarget.IsValid())
 		{
