@@ -4,9 +4,13 @@ using UnityEngine;
 
 // class used for the whole Shogun phase
 [CreateAssetMenu(fileName = "GeneralDialogue", menuName = "Koei/GeneralDialogue")]
-public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
+public class GeneralDialogue : ScriptableObject, IDebugable
 {
-	[Header("Settings")]
+	// TODO : actually add the weaknesses to PlayerData
+	[Header("Weaknesses")]
+	public List<SubCategory> criticalWeaknessesForPlayer;
+	public List<Category> weaknessesForPlayer;
+	[Header("Dialogue")]
 	public List<CharacterDialogue> charactersDialogues;
 
 	public enum Character
@@ -18,19 +22,8 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 	}
 
 	IDebugable debugableInterface => (IDebugable) this;
-	IInitializable initializableInterface => (IInitializable) this;
-
-	public bool initialized => initializableInterface.initializedInternal;
 
 	string IDebugable.debugLabel => "<b>[Dialogue] : </b>";
-	bool IInitializable.initializedInternal { get; set; }
-
-	public void init()
-	{
-		//
-
-		initializableInterface.InitInternal();
-	}
 
 	// gets CharacterDialogue from Character variable
 	public CharacterDialogue GetCharacterDialogue(Character character)
@@ -79,16 +72,13 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 		}
 	}
 
-	void IInitializable.InitInternal()
-	{
-		initializableInterface.initializedInternal = true;
-	}
-
 	// class representing character's dialogues
 	[Serializable]
 	public class CharacterDialogue : IInitializable
 	{
 		public Character character;
+		[TextArea(1, 10)]
+		public string firstLine;
 		public List<Dialogue> mainDialogue;
 		public List<AdditionnalDialogue> additionalDialogue;
 
@@ -120,6 +110,11 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 			mainDone = true;
 		}
 
+		public bool IsMainDone()
+		{
+			return mainDone;
+		}
+
 		void IInitializable.InitInternal()
 		{
 			initializableInterface.initializedInternal = true;
@@ -137,10 +132,9 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 
 		// class representing an additionnal exchange that can be unlocked
 		[Serializable]
-		public class AdditionnalDialogue
+		public class AdditionnalDialogue : Dialogue
 		{
 			public Trigger trigger;
-			public Dialogue dialogue;
 
 			// class representing conditions to unlock additionnal dialogues
 			[Serializable]
@@ -174,5 +168,12 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 		public Character character;
 		public bool mainDialogueDone;
 		public int lastAdditionnalDialogueIndex;
+
+		public Mark(Character character, bool mainDialogue, int additionnalIndex)
+		{
+			this.character = character;
+			mainDialogueDone = mainDialogue;
+			lastAdditionnalDialogueIndex = additionnalIndex;
+		}
 	}
 }

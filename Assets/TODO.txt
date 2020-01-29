@@ -1,1 +1,1 @@
-- Change Shogum manager to work with new Dialogue class
+X Change Shogum manager to work with new Dialogue class

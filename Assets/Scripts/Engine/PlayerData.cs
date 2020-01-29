@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static GeneralDialogue;
 
 // data of the player
 [Serializable]
@@ -14,6 +15,8 @@ public class PlayerData : IDebugable
 	// list of weaknesses of the player
 	public List<Category> categoryWeaknesses;
 	public List<SubCategory> subCategoryWeaknesses;
+	// dialogue marks
+	public List<Mark> dialogueMarks;
 
 	IDebugable debugableInterface => (IDebugable) this; // this is for dependency injection
 	string IDebugable.debugLabel => "<b>[PlayerData] : </b>";
@@ -41,6 +44,24 @@ public class PlayerData : IDebugable
 		else
 		{
 			Debug.LogWarning(debugableInterface.debugLabel + "Player already has weakness from sub-category " + toAdd.ToString());
+		}
+	}
+
+	public void GiveMark(Character character, bool mainDialogueDone, int additionnalDialogueIndex)
+	{
+		Mark mark = new Mark(character, mainDialogueDone, additionnalDialogueIndex);
+
+		if(mainDialogueDone || additionnalDialogueIndex != 0)
+		{
+			dialogueMarks.Add(mark);
+		}
+		else if(dialogueMarks.Contains(mark))
+		{
+			Debug.LogWarning(debugableInterface.debugLabel + "List already contains Mark (this shouldn't happen)");
+		}
+		else
+		{
+			Debug.LogWarning(debugableInterface.debugLabel + "Mark is empty");
 		}
 	}
 }

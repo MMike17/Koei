@@ -1,5 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static GeneralDialogue;
 
 // main manager script of the game
 // everything should flow from here but not flow back to here
@@ -20,6 +23,9 @@ public class GameManager : MonoBehaviour, IDebugable
 	public PopupManager popupManager;
 	public EventsManager eventsManager;
 	public ShogunManager shogunManager;
+	public EventSystem eventSystem;
+
+	[Header("Debug")]
 	public GameData gameData;
 
 	[Header("test")]
@@ -63,20 +69,28 @@ public class GameManager : MonoBehaviour, IDebugable
 		Init();
 	}
 
+	void Update()
+	{
+		// enables button to skip the "selected" stage (usefull only for gamepad use)
+		if(eventSystem.currentSelectedGameObject != null)
+		{
+			eventSystem.SetSelectedGameObject(null);
+		}
+	}
+
 	void Init()
 	{
 		Get = this;
 
 		// initializes all managers
-		// TODO : implement Iinitializable interface to all managers
 		panelManager.Init();
 		popupManager.Init();
 		eventsManager.Init();
-		// shogunManager.Init(
-		// () => { popupManager.CancelPop(); JumpTo(GamePhase.DECKBUILDING); },
-		// () => { popupManager.CancelPop(); },
-		// () => { Pop(GamePopup.QUIT_SHOGUN); }
-		// );
+		shogunManager.Init(
+			() => JumpTo(GamePhase.DECKBUILDING),
+			() => Pop(GamePopup.SHOGUN_CHARACTER),
+			() => Pop(GamePopup.SHOGUN_NEW_CARD)
+		);
 
 		PlugEvents();
 		PlugButtons();
@@ -93,7 +107,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	// subscribe events to EventManager here
 	void PlugEvents()
 	{
-		// eventsManager.AddPhaseAction(GamePhase.SHOGUN, () => { shogunManager.StartDialogue(testDialogue); });
+		eventsManager.AddPhaseAction(GamePhase.SHOGUN, () => { shogunManager.StartDialogue(testDialogue); });
 	}
 
 	// /!\ Use this instead of PanelManager.JumpTo() /!\
@@ -108,5 +122,15 @@ public class GameManager : MonoBehaviour, IDebugable
 	void Pop(GameManager.GamePopup popup)
 	{
 		popupManager.Pop(popup, () => eventsManager.CallPopupActions(popup));
+	}
+
+	public void GiveMark(Character character, bool mainDialogueDone, int additionnalDialogueIndex = 0)
+	{
+		gameData.playerData.GiveMark(character, mainDialogueDone, additionnalDialogueIndex);
+	}
+
+	public List<Mark> GetAllPlayerMark()
+	{
+		return gameData.playerData.dialogueMarks;
 	}
 }
