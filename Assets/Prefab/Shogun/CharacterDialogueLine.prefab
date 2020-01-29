@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 6895683936509759943}
   - component: {fileID: 6895683936509759941}
   - component: {fileID: 6895683936509759942}
+  - component: {fileID: 4468703721338431833}
   m_Layer: 5
-  m_Name: Shogun Dialogue
+  m_Name: ShogunDialogue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,3 +158,19 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4468703721338431833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6895683936509759944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab5e5e89ac8c07a4eabee7b15a5460ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  writingSpeed: 0
+  trailLength: 0
+  highlightColor: {r: 0, g: 0, b: 0, a: 0}
+  line: 
