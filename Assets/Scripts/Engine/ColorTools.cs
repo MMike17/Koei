@@ -14,5 +14,24 @@ public static class ColorTools
 		return new Color(r, g, b, a);
 	}
 
-	// a hsv version might be interesting...
+	// lerps color "from" to color "to" of "percentile" percentile using hsv
+	public static Color ColorLerpHSV(Color from, Color to, float percentile)
+	{
+		float[] from_values = ReturnHSV(from);
+		float[] to_values = ReturnHSV(to);
+
+		to_values[0] = from_values[0] + ((to_values[0] - from_values[0]) * percentile);
+		to_values[1] = from_values[1] + ((to_values[1] - from_values[1]) * percentile);
+		to_values[2] = from_values[2] + ((to_values[2] - from_values[2]) * percentile);
+
+		return Color.HSVToRGB(to_values[0], to_values[1], to_values[2]);
+	}
+
+	static float[] ReturnHSV(Color color)
+	{
+		float[] values = new float[3];
+		Color.RGBToHSV(color, out values[0], out values[1], out values[2]);
+
+		return values;
+	}
 }
