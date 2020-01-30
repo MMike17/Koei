@@ -4,7 +4,7 @@ using UnityEngine;
 using static GameManager;
 
 // class managing events called when panels change (use to start up game phases)
-public class EventsManager : MonoBehaviour, IDebugable, IInitializable
+public class TransitionEventsManager : MonoBehaviour, IDebugable, IInitializable
 {
 	public List<PhaseEvent> onPhaseTransitionEvents;
 	public List<PopupEvent> onPopupEvents;

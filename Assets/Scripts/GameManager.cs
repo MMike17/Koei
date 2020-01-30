@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	[Header("Assign in Inspector")]
 	public PanelManager panelManager;
 	public PopupManager popupManager;
-	public EventsManager eventsManager;
+	public TransitionEventsManager eventsManager;
 	public ShogunManager shogunManager;
 	public EventSystem eventSystem;
 
@@ -41,7 +41,9 @@ public class GameManager : MonoBehaviour, IDebugable
 		TITLE,
 		SHOGUN,
 		DECKBUILDING,
-		FIGHT
+		FIGHT_INTRO,
+		FIGHT,
+		CONSEQUENCES
 	}
 
 	// enum for game popup
