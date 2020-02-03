@@ -1,0 +1,8 @@
+Test;Effect;Verso (1);
+NewCard;NewEffect;Verso (2);
+IMustDie;YouMustDie;Verso (3);
+1;2;Verso (4);
+NewPhoto;NewLol;Verso (5);
+IWantCookie;IEatCookies;Verso (6);
+MarineLePen;LOL;Verso (7);
+New Card New;New;Verso (8);
