@@ -7,15 +7,15 @@ using CSVReader;
 
 namespace CardGameLib
 {
-    public class Card
+    public class GameCard
     {
         public string Effect { get; set; }
         public string Name { get; set; }
         public Sprite Image { get; set; }
-        public static List<Card> cardsInDeck;
+        public static List<GameCard> cardsInDeck;
 
         // Define the card system
-        public Card(int csvColumn, string pathCardSystem)
+        public GameCard(int csvColumn, string pathCardSystem)
         {
             // Define the effect
             Name = CsvFiles.GetEntryFromPath(pathCardSystem, 0, csvColumn);
@@ -29,17 +29,17 @@ namespace CardGameLib
         /// <summary>
         /// Allows to shuffle one, or several decks
         /// </summary>
-        public static List<Card> Shuffle(List<Card> deckToShuffle)
+        public static List<GameCard> Shuffle(List<GameCard> deckToShuffle)
         {
             int deckLength = deckToShuffle.Count;                         // Init the deck's length
-            List<Card> listCardsOfDeck = deckToShuffle;                   // Init a list of cards in deck
+            List<GameCard> listCardsOfDeck = deckToShuffle;                   // Init a list of cards in deck
 
             for (int i = 0; i < deckLength; i++)
             {
                 // Shuffle Deck
                 int randCard = Random.Range(i, listCardsOfDeck.Count);
 
-                Card temporary = listCardsOfDeck[i];
+                GameCard temporary = listCardsOfDeck[i];
                 listCardsOfDeck[i] = listCardsOfDeck[randCard];
                 listCardsOfDeck[randCard] = temporary;
             }
@@ -51,39 +51,39 @@ namespace CardGameLib
         /// Allows to draw one card, or several cards. Available for Player and AI.
         /// </summary>
         /// <returns></returns>
-        public static Card DrawCard(List<Card> deck)
+        public static GameCard DrawCard(List<GameCard> deck)
         {
-            Card drawedCard = deck[0];
+            GameCard drawedCard = deck[0];
             deck.Remove(drawedCard);
 
             return drawedCard;
         }
 
-        public static List<Card> GenerateDeckFullRandom(int maxCardsInDeck, string cardsPath)
+        public static List<GameCard> GenerateDeckFullRandom(int maxCardsInDeck, string cardsPath)
         {
-            List<Card> newDeck = new List<Card>();
+            List<GameCard> newDeck = new List<GameCard>();
 
             for (int i = 0; i < maxCardsInDeck; i++)
             {
-                newDeck.Add(new Card(i, cardsPath));
+                newDeck.Add(new GameCard(i, cardsPath));
             }
             Shuffle(newDeck);
 
             return newDeck;
         }
 
-        public static List<Card> GenerateDeck(int maxCardsInDeck, string cardsPath)
+        public static List<GameCard> GenerateDeck(int maxCardsInDeck, string cardsPath)
         {
-            List<Card> newDeckReturn = new List<Card>();
+            List<GameCard> newDeckReturn = new List<GameCard>();
             // Define total cards of game
-            List<Card> totalCards = new List<Card>();
+            List<GameCard> totalCards = new List<GameCard>();
 
             for (int cards = 0; cards < CsvFiles.GetNumberOfLinesByPath(cardsPath); cards++)
             {
-                totalCards.Add(new Card(cards, cardsPath));
+                totalCards.Add(new GameCard(cards, cardsPath));
             }
             // Shuffle deck
-            List<Card> newDeck = Shuffle(totalCards);
+            List<GameCard> newDeck = Shuffle(totalCards);
 
             // Generate deck
             for (int i = 0; i < maxCardsInDeck; i++)

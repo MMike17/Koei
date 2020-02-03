@@ -7,7 +7,7 @@ using CSVReader;
 
 public class MainGame : MonoBehaviour
 {
-    private List<Card> cardsInHand = new List<Card>();
+    private List<GameCard> cardsInHand = new List<GameCard>();
     public string cardsPath;
 
     public Image[] images;
@@ -15,7 +15,7 @@ public class MainGame : MonoBehaviour
     private void Start()
     {
         // Create the deck
-        List<Card> deck = GameSys.GenerateDeck(5, cardsPath);
+        List<GameCard> deck = GameSys.GenerateDeck(5, cardsPath);
 
         //images[0].sprite = CsvFiles.GetSpriteFromPath(cardsPath, 2, 0);               // WORKS
 

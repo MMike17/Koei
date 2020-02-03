@@ -12,15 +12,15 @@ public class TesterScript : MonoBehaviour
     public string cardsPath;
 
     public TextAsset cardsAsset;
-    List<Card> newDeck = new List<Card>();
+    List<GameCard> newDeck = new List<GameCard>();
 
     // Start is called before the first frame update
     void Start()
     {
         //DeckTestAndDrawingSys();
-        GenerateNewDeck();
+        //GenerateNewDeck();
     }
-
+    /*
     private void GenerateNewDeck()
     {
         List<Card> newDeck = GameSys.GenerateDeck(5, cardsPath);
@@ -67,5 +67,5 @@ public class TesterScript : MonoBehaviour
         {
             // Blabla
         }
-    }
+    }*/
 }
