@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be0015ed469c69a4391641b4bafc5a48, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  criticalWeaknessesForPlayer: 
+  weaknessesForPlayer: 
+  charactersDialogues:
+  - character: 0
+    firstLine: Shogun test
+    mainDialogue:
+    - playerQuestion: Test question
+      characterAnswer: Test answer
+    additionalDialogue:
+    - playerQuestion: Additionnal test question
+      characterAnswer: Additionnal test answer
+      trigger:
+        character: 1
+        isMainDialogue: 1
+        additionalDialogueIndex: 0
+  - character: 1
+    firstLine: Test 1 test
+    mainDialogue:
+    - playerQuestion: Test question
+      characterAnswer: Test answer
+    additionalDialogue: []
+  - character: 2
+    firstLine: Test 2 test
+    mainDialogue:
+    - playerQuestion: Test question
+      characterAnswer: Test answer
+    additionalDialogue: []
+  - character: 3
+    firstLine: Test 3 test
+    mainDialogue:
+    - playerQuestion: Test question
+      characterAnswer: Test answer
+    additionalDialogue: []

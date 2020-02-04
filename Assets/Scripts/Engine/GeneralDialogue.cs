@@ -4,7 +4,7 @@ using UnityEngine;
 
 // class used for the whole Shogun phase
 [CreateAssetMenu(fileName = "GeneralDialogue", menuName = "Koei/GeneralDialogue")]
-public class GeneralDialogue : ScriptableObject, IDebugable
+public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 {
 	// TODO : actually add the weaknesses to PlayerData
 	[Header("Weaknesses")]
@@ -12,6 +12,8 @@ public class GeneralDialogue : ScriptableObject, IDebugable
 	public List<Category> weaknessesForPlayer;
 	[Header("Dialogue")]
 	public List<CharacterDialogue> charactersDialogues;
+
+	public bool initialized => initializableInterface.initializedInternal;
 
 	public enum Character
 	{
@@ -21,9 +23,25 @@ public class GeneralDialogue : ScriptableObject, IDebugable
 		TEST3
 	}
 
+	IInitializable initializableInterface => (IInitializable) this;
 	IDebugable debugableInterface => (IDebugable) this;
 
+	bool IInitializable.initializedInternal { get; set; }
 	string IDebugable.debugLabel => "<b>[Dialogue] : </b>";
+
+	public void Init()
+	{
+		charactersDialogues.ForEach(item => item.Init());
+
+		initializableInterface.InitInternal();
+	}
+
+	void IInitializable.InitInternal()
+	{
+		initializableInterface.initializedInternal = true;
+
+		Debug.Log(debugableInterface.debugLabel + "Initialized");
+	}
 
 	// gets CharacterDialogue from Character variable
 	public CharacterDialogue GetCharacterDialogue(Character character)

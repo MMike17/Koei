@@ -804,7 +804,7 @@ MonoBehaviour:
   shogunManager: {fileID: 1006298601}
   eventSystem: {fileID: 493658304}
   gameData: {fileID: 147448544}
-  testDialogue: {fileID: 0}
+  testDialogue: {fileID: 11400000, guid: 612960c92b6a8c04b80a1afb52f6c23f, type: 2}
 --- !u!4 &289867285
 Transform:
   m_ObjectHideFlags: 0
@@ -3627,7 +3627,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeDuration: 1.5
   spinnerSpeed: -500
-  alphaComparisonThreshold: 0.01
+  alphaComparisonThreshold: 0.1
   panels:
   - phase: 0
     panel: {fileID: 1146819838}

@@ -42,6 +42,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	// receives actions from GameManager
 	public void Init(Action quitButtonCallback, Action changeCharacterButtonCallback, Action newCardCallback)
 	{
+		lastSpawnedObjects = new List<GameObject>();
+
 		// plugs in actions for the buttons
 		quitButton.onClick.RemoveAllListeners();
 		quitButton.onClick.AddListener(() =>
@@ -77,7 +79,10 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		}
 
 		actualDialogue = dialogue;
+		actualDialogue.Init();
+
 		ChangeCharacter(Character.SHOGUN);
+		forceStartDialogue = false;
 
 		characters.ForEach(item => item.Init());
 	}
@@ -103,7 +108,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		// TODO : Add system to respawn text from character we already talked to so we can have a conversation hystory when we go back to character we already talked to
 
-		if(actualCharacterDialogue.IsMainDone())
+		if(actualCharacterDialogue != null && actualCharacterDialogue.IsMainDone())
 		{
 			ShowButtons();
 		}
@@ -161,6 +166,11 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			}
 			else // previous line was player line
 			{
+				if(GetCharacter(actualCharacter).lastIndex >= actualCharacterDialogue.mainDialogue.Count)
+				{
+					actualCharacterDialogue.MarkMainAsDone();
+				}
+
 				if(actualCharacterDialogue.IsMainDone())
 				{
 					if(additionnalDialogue != null) // show additionnal dialogue
@@ -240,8 +250,9 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	void SpawnPlayerLine(string line, Color text)
 	{
-		DialogueWriter spawned = Instantiate(playerTextPrefab, dialogueScrollList).GetComponent<DialogueWriter>();
+		DialogueWriter spawned = Instantiate(playerTextPrefab, dialogueScrollList).transform.GetChild(0).GetComponent<DialogueWriter>();
 
+		spawned.Reset();
 		spawned.Play(line, dialogueSpeed * 2, Mathf.RoundToInt(highlightLength * 1.5f), highlightColor, text);
 
 		lastWriter = spawned;

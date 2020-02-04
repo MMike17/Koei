@@ -126,6 +126,8 @@ public class DialogueWriter : MonoBehaviour
 		line = toWrite;
 		writingSpeed = speed;
 		trailLength = length;
+
+		Play();
 	}
 
 	public void Reset()
