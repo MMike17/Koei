@@ -14,6 +14,7 @@ public class Card : ScriptableObject
 	public Type type;
 	public Category strength;
 	public SubCategory subStrength;
+    public Sprite image;
 	[Space]
 	[TextArea]
 	public string line;

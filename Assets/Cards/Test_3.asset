@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d14203d9b5a89c44a923efadff1900c2, type: 3}
-  m_Name: Test
+  m_Name: Test_3
   m_EditorClassIdentifier: 
   type: 1
   strength: 1
   subStrength: 2
-  image: {fileID: 21300000, guid: 22baf010830fc7848a0366a5c334d0fc, type: 3}
+  image: {fileID: 21300000, guid: 1537daf4033ea2e45ab6277f09d92b05, type: 3}
   line: dfqsdfsdg
   subLine: cdq gdfgsdfgs fgsfdg
