@@ -98,12 +98,21 @@ public class GameManager : MonoBehaviour, IDebugable
 
 	void InitTitle()
 	{
+		if(titleManager == null)
+		{
+			Debug.LogError(debuguableInterface.debugLabel + "This component shouldn't be null. If we can't get scene references we can't do anything.");
+			return;
+		}
+
 		titleManager.Init(
 			() => panelManager.JumpTo(GamePhase.SHOGUN, () => shogunManager = FindObjectOfType<ShogunManager>()),
 			() => Application.Quit()
 		);
+	}
 
-		// shogunManager.Init()
+	void InitShogun()
+	{
+		// shogunManager.Init
 	}
 
 	// subscribe events to EventManager here
