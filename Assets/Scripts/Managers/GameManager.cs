@@ -19,10 +19,10 @@ public class GameManager : MonoBehaviour, IDebugable
 	[Header("Debug")]
 	public GameData gameData;
 	public TitleManager titleManager;
+	public ShogunManager shogunManager;
 
 	[Header("test")]
 	public GeneralDialogue testDialogue;
-	public ShogunManager shogunManager;
 
 	IDebugable debuguableInterface => (IDebugable) this;
 
