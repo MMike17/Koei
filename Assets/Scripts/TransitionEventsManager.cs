@@ -92,6 +92,11 @@ public class TransitionEventsManager : MonoBehaviour, IDebugable, IInitializable
 		if(selected != null)
 		{
 			selected.CallActions();
+			Debug.Log(debugableInterface.debugLabel + "Called transition method");
+		}
+		else
+		{
+			Debug.Log(debugableInterface.debugLabel + "There was no transition method");
 		}
 	}
 

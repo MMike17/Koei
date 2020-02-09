@@ -11,25 +11,18 @@ public class GameManager : MonoBehaviour, IDebugable
 	// static reference to the class, used for testing or emergency
 	public static GameManager Get;
 
-	[Header("Settings")]
-
-	[Header("Title")]
-	public Button titlePlay;
-	public Button titleSettings;
-	public Button titleQuit;
-
 	[Header("Assign in Inspector")]
 	public PanelManager panelManager;
 	public PopupManager popupManager;
-	public TransitionEventsManager eventsManager;
-	public ShogunManager shogunManager;
 	public EventSystem eventSystem;
 
 	[Header("Debug")]
 	public GameData gameData;
+	public TitleManager titleManager;
 
 	[Header("test")]
 	public GeneralDialogue testDialogue;
+	public ShogunManager shogunManager;
 
 	IDebugable debuguableInterface => (IDebugable) this;
 
@@ -87,43 +80,34 @@ public class GameManager : MonoBehaviour, IDebugable
 		// initializes all managers
 		panelManager.Init();
 		popupManager.Init();
-		eventsManager.Init();
-		shogunManager.Init(
-			() => JumpTo(GamePhase.DECKBUILDING),
-			() => Pop(GamePopup.SHOGUN_CHARACTER),
-			() => Pop(GamePopup.SHOGUN_NEW_CARD)
-		);
+
+		// shogunManager.Init(
+		// 	() => JumpTo(GamePhase.DECKBUILDING),
+		// 	() => Pop(GamePopup.SHOGUN_CHARACTER),
+		// 	() => Pop(GamePopup.SHOGUN_NEW_CARD)
+		// );
 
 		PlugEvents();
-		PlugButtons();
+
+		InitTitle();
 	}
 
-	// adds actions to buttons
-	void PlugButtons()
+	void InitTitle()
 	{
-		titlePlay.onClick.AddListener(() => JumpTo(GamePhase.SHOGUN));
-		// titleSettings.onClick.AddListener(() => popupManager.Pop(GamePopup.SETTINGS));
-		// titleQuit.onClick.AddListener(() => Application.Quit());
+		titleManager.Init(
+			() => panelManager.JumpTo(GamePhase.SHOGUN, () => shogunManager = FindObjectOfType<ShogunManager>()),
+			() => Application.Quit()
+		);
+
+		// shogunManager.Init()
 	}
 
 	// subscribe events to EventManager here
 	void PlugEvents()
 	{
-		eventsManager.AddPhaseAction(GamePhase.SHOGUN, () => { shogunManager.StartDialogue(testDialogue); });
-	}
+		panelManager.eventsManager.AddPhaseAction(GamePhase.TITLE, InitTitle);
 
-	// /!\ Use this instead of PanelManager.JumpTo() /!\
-	// jumps to GamePhase and calls subscribed events
-	void JumpTo(GameManager.GamePhase phase)
-	{
-		panelManager.JumpTo(phase, () => eventsManager.CallPhaseActions(phase));
-	}
-
-	// /!\ Use this instead of PopupManager.Pop() /!\
-	// pops GamePopup and calls subscribed events
-	void Pop(GameManager.GamePopup popup)
-	{
-		popupManager.Pop(popup, () => eventsManager.CallPopupActions(popup));
+		// eventsManager.AddPhaseAction(GamePhase.SHOGUN, () => { shogunManager.StartDialogue(testDialogue); });
 	}
 
 	public void GiveMark(Character character, bool mainDialogueDone, int additionnalDialogueIndex = 0)
