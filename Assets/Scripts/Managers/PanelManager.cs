@@ -38,9 +38,6 @@ public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		actualPanel = GamePhase.TITLE;
 
-		// protects fade panel from disapearing on scene loading
-		DontDestroyOnLoad(fadePanel.gameObject);
-
 		eventsManager.Init();
 
 		initializableInterface.InitInternal();

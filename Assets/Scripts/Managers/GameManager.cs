@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	public static GameManager Get;
 
 	[Header("Assign in Inspector")]
+	public GameObject persistantContainer;
 	public PanelManager panelManager;
 	public PopupManager popupManager;
 	public EventSystem eventSystem;
@@ -76,6 +77,9 @@ public class GameManager : MonoBehaviour, IDebugable
 	void Init()
 	{
 		Get = this;
+
+		// makes object persistant so that they don't get destroyed on scene unloading
+		DontDestroyOnLoad(persistantContainer);
 
 		// initializes all managers
 		panelManager.Init();
