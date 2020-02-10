@@ -15,8 +15,7 @@ public class PlayerData : IDebugable
 	// list of weaknesses of the player
 	public List<Category> categoryWeaknesses;
 	public List<SubCategory> subCategoryWeaknesses;
-	// dialogue marks
-	public List<Mark> dialogueMarks;
+	public List<Clue> clues;
 
 	IDebugable debugableInterface => (IDebugable) this; // this is for dependency injection
 	string IDebugable.debugLabel => "<b>[PlayerData] : </b>";
@@ -47,21 +46,18 @@ public class PlayerData : IDebugable
 		}
 	}
 
-	public void GiveMark(Character character, bool mainDialogueDone, int additionnalDialogueIndex)
+	// called when player finds a clue in a dialogue
+	public void FindClue(Clue clue)
 	{
-		Mark mark = new Mark(character, mainDialogueDone, additionnalDialogueIndex);
+		if(!clues.Contains(clue))
+		{
+			clues.Add(clue);
+		}
+	}
 
-		if(mainDialogueDone || additionnalDialogueIndex != 0)
-		{
-			dialogueMarks.Add(mark);
-		}
-		else if(dialogueMarks.Contains(mark))
-		{
-			Debug.LogWarning(debugableInterface.debugLabel + "List already contains Mark (this shouldn't happen)");
-		}
-		else
-		{
-			Debug.LogWarning(debugableInterface.debugLabel + "Mark is empty");
-		}
+	// resets clues when starting new Shogun dialogue
+	public void ResetClues()
+	{
+		clues.Clear();
 	}
 }

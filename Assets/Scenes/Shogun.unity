@@ -741,17 +741,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueSpeed: 0
   highlightLength: 0
-  textColor: {r: 0, g: 0, b: 0, a: 0}
-  additionalDialogueColor: {r: 0, g: 0, b: 0, a: 0}
+  playerTextColor: {r: 0, g: 0, b: 0, a: 0}
+  playerChoiceDone: {r: 0, g: 0, b: 0, a: 0}
+  playerChoiceUndone: {r: 0, g: 0, b: 0, a: 0}
+  characterTextColor: {r: 0, g: 0, b: 0, a: 0}
   highlightColor: {r: 0, g: 0, b: 0, a: 0}
   characters: []
+  openDeductionButton: {fileID: 0}
   dialogueScrollList: {fileID: 0}
+  cluesScrollList: {fileID: 0}
   characterTextPrefab: {fileID: 0}
   playerChoicePrefab: {fileID: 0}
   playerTextPrefab: {fileID: 0}
-  changeCharacterButton: {fileID: 0}
-  quitButton: {fileID: 0}
   characterPortrait: {fileID: 0}
+  clueKnobPrefab: {fileID: 0}
+  lineCounter: {fileID: 0}
+  clueDescription: {fileID: 0}
+  popupCharacterPortrait: {fileID: 0}
+  returnButton: {fileID: 0}
+  cardPrefab: {fileID: 0}
 --- !u!4 &340177867
 Transform:
   m_ObjectHideFlags: 0
@@ -2564,17 +2572,17 @@ PrefabInstance:
     - target: {fileID: 291119666866949637, guid: 3d296551d7e0b1940bcd0285b3cc3281,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 291119666866949637, guid: 3d296551d7e0b1940bcd0285b3cc3281,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 291119666866949637, guid: 3d296551d7e0b1940bcd0285b3cc3281,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 720
       objectReference: {fileID: 0}
     - target: {fileID: 291119666866949637, guid: 3d296551d7e0b1940bcd0285b3cc3281,
         type: 3}
@@ -2589,7 +2597,7 @@ PrefabInstance:
     - target: {fileID: 291119666866949637, guid: 3d296551d7e0b1940bcd0285b3cc3281,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 291119666866949637, guid: 3d296551d7e0b1940bcd0285b3cc3281,
         type: 3}
@@ -2599,7 +2607,7 @@ PrefabInstance:
     - target: {fileID: 291119666866949637, guid: 3d296551d7e0b1940bcd0285b3cc3281,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 291119666866949637, guid: 3d296551d7e0b1940bcd0285b3cc3281,
         type: 3}

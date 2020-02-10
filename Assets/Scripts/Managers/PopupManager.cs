@@ -43,7 +43,7 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 	}
 
 	// pops corresponding popup and calls transition event
-	public void Pop(GamePopup popup, Action callback)
+	public void Pop(GamePopup popup, Action onPopupDone)
 	{
 		if(!initialized)
 		{
@@ -59,7 +59,7 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 			return;
 		}
 
-		newPopup.Activate(this, callback);
+		newPopup.Activate(this, onPopupDone);
 
 		actualPopup = popup;
 	}
@@ -120,7 +120,7 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 		}
 
 		// fades popup in and calls event at the end of the transition
-		public void Activate(MonoBehaviour runner, Action callback)
+		public void Activate(MonoBehaviour runner, Action onPopupDone)
 		{
 			if(!initialized)
 			{
@@ -131,7 +131,7 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 			runner.StartCoroutine(Fade(false));
 			runner.Invoke("CallEndTransitionEvent", fadeDuration);
 
-			onPopup = callback;
+			onPopup = onPopupDone;
 		}
 
 		// fades popup out

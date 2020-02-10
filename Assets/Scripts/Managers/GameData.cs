@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // class representing global game data
-public class GameData : MonoBehaviour, IDebugable
+public class GameData : MonoBehaviour, IDebugable, IInitializable
 {
 	[Header("Assign in Inspector")]
 	public List<Card> cardList;
@@ -11,9 +11,26 @@ public class GameData : MonoBehaviour, IDebugable
 	[Header("Debug")]
 	public PlayerData playerData;
 
+	public bool initialized => initializableInterface.initializedInternal;
+
+	public IInitializable initializableInterface => (IInitializable) this;
 	public IDebugable debugableInterface => (IDebugable) this;
 
+	bool IInitializable.initializedInternal { get; set; }
 	string IDebugable.debugLabel => "<b>[GameData] : </b>";
+
+	public void Init()
+	{
+		cardList.ForEach(item => item.Init());
+
+		initializableInterface.InitInternal();
+	}
+
+	void IInitializable.InitInternal()
+	{
+		initializableInterface.initializedInternal = true;
+		Debug.Log(debugableInterface.debugLabel + "Initializing done");
+	}
 
 	// makes sure a sub-category is in the right category
 	public static SubCategory CorrectSubCategory(SubCategory sub, Category parent)

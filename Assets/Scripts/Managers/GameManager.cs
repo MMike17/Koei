@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using static GeneralDialogue;
 
 // main manager script of the game
 // everything should flow from here but not flow back to here
@@ -45,8 +42,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	{
 		EMPTY,
 		SETTINGS,
-		SHOGUN_CHARACTER,
-		SHOGUN_NEW_CARD
+		SHOGUN_DEDUCTION
 	}
 
 	void Awake()
@@ -85,22 +81,16 @@ public class GameManager : MonoBehaviour, IDebugable
 		panelManager.Init();
 		popupManager.Init();
 
-		// shogunManager.Init(
-		// 	() => JumpTo(GamePhase.DECKBUILDING),
-		// 	() => Pop(GamePopup.SHOGUN_CHARACTER),
-		// 	() => Pop(GamePopup.SHOGUN_NEW_CARD)
-		// );
-
 		PlugEvents();
 
-		InitTitle();
+		InitTitlePanel();
 	}
 
-	void InitTitle()
+	void InitTitlePanel()
 	{
 		if(titleManager == null)
 		{
-			Debug.LogError(debuguableInterface.debugLabel + "This component shouldn't be null. If we can't get scene references we can't do anything.");
+			Debug.LogError(debuguableInterface.debugLabel + "TitleManager component shouldn't be null. If we can't get scene references we can't do anything.");
 			return;
 		}
 
@@ -110,26 +100,38 @@ public class GameManager : MonoBehaviour, IDebugable
 		);
 	}
 
-	void InitShogun()
+	void InitShogunPanel()
 	{
-		// shogunManager.Init
+		if(shogunManager == null)
+		{
+			Debug.LogError(debuguableInterface.debugLabel + "ShogunManager component shouldn't be null. If we can't get scene references we can't do anything.");
+			return;
+		}
+
+		shogunManager.Init(
+			() => popupManager.Pop(GamePopup.SHOGUN_DEDUCTION, InitDeductionPopup),
+			() => popupManager.CancelPop(),
+			AddClueToPlayer
+		);
+
+		gameData.playerData.ResetClues();
+		shogunManager.StartDialogue(testDialogue);
+	}
+
+	void InitDeductionPopup()
+	{
+		// init deduction popup here
 	}
 
 	// subscribe events to EventManager here
 	void PlugEvents()
 	{
-		panelManager.eventsManager.AddPhaseAction(GamePhase.TITLE, InitTitle);
-
-		// eventsManager.AddPhaseAction(GamePhase.SHOGUN, () => { shogunManager.StartDialogue(testDialogue); });
+		panelManager.eventsManager.AddPhaseAction(GamePhase.TITLE, InitTitlePanel);
+		panelManager.eventsManager.AddPhaseAction(GamePhase.SHOGUN, InitShogunPanel);
 	}
 
-	public void GiveMark(Character character, bool mainDialogueDone, int additionnalDialogueIndex = 0)
+	void AddClueToPlayer(Clue clue)
 	{
-		gameData.playerData.GiveMark(character, mainDialogueDone, additionnalDialogueIndex);
-	}
-
-	public List<Mark> GetAllPlayerMark()
-	{
-		return gameData.playerData.dialogueMarks;
+		gameData.playerData.FindClue(clue);
 	}
 }

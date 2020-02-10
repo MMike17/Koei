@@ -57,7 +57,7 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 		return selected;
 	}
 
-	// checks if all slots are valid
+	// editor checks if all slots are valid
 	public bool IsValid()
 	{
 		bool isValid = true;
@@ -97,8 +97,10 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 		public Character character;
 		[TextArea(1, 10)]
 		public string firstLine;
-		public List<Dialogue> mainDialogue;
-		public List<AdditionnalDialogue> additionalDialogue;
+		public List<Dialogue> initialDialogues;
+
+		[Header("Debug")]
+		public List<int> indexesPath;
 
 		public bool initialized => initializableInterface.initializedInternal;
 
@@ -112,25 +114,34 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 		{
 			this.character = character;
 
-			mainDialogue = new List<Dialogue>();
-			additionalDialogue = new List<AdditionnalDialogue>();
+			initialDialogues = new List<Dialogue>();
 		}
 
 		public void Init()
 		{
 			mainDone = false;
+			indexesPath = new List<int>();
+
+			// resets all dialogues
+			foreach (Dialogue dialogue in initialDialogues)
+			{
+				InitDialogue(dialogue);
+			}
 
 			initializableInterface.InitInternal();
 		}
 
-		public void MarkMainAsDone()
+		// method to recursively reset dialogues
+		void InitDialogue(Dialogue dialogue)
 		{
-			mainDone = true;
-		}
+			// resets current dialogue
+			dialogue.Reset();
 
-		public bool IsMainDone()
-		{
-			return mainDone;
+			// calls method to reset on all next dialogues
+			foreach (Dialogue nextDialogue in dialogue.nextDialogues)
+			{
+				InitDialogue(nextDialogue);
+			}
 		}
 
 		void IInitializable.InitInternal()
@@ -138,60 +149,25 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 			initializableInterface.initializedInternal = true;
 		}
 
-		// class representing an exchange between the player and the character
-		[Serializable]
-		public class Dialogue
+		// called when player selects dialogue choice
+		public void MoveToDialogue(int selectedIndex)
 		{
-			[TextArea(1, 10)]
-			public string playerQuestion;
-			[TextArea(1, 10)]
-			public string characterAnswer;
+			indexesPath.Add(selectedIndex);
+
+			GetActualDialogue().SetAsDone();
 		}
 
-		// class representing an additionnal exchange that can be unlocked
-		[Serializable]
-		public class AdditionnalDialogue : Dialogue
+		public Dialogue GetActualDialogue()
 		{
-			public Trigger trigger;
+			Dialogue dialogueInPath = initialDialogues[indexesPath[0]];
 
-			// class representing conditions to unlock additionnal dialogues
-			[Serializable]
-			public class Trigger
+			// gets the right dialogue in the arborescence
+			for (int i = 1; i < indexesPath.Count; i++)
 			{
-				public Character character;
-				public bool isMainDialogue;
-				public int additionalDialogueIndex; // which additionnal dialogue unlocks the additionnal dialogue
-
-				// does the provided mark unlocks the additionnal dialogue
-				public bool IsUnlocked(Mark mark)
-				{
-					if(isMainDialogue)
-					{
-						return mark.character == character && mark.mainDialogueDone == isMainDialogue;
-					}
-					else
-					{
-						return mark.character == character && mark.lastAdditionnalDialogueIndex == additionalDialogueIndex;
-					}
-				}
+				dialogueInPath = dialogueInPath.nextDialogues[i];
 			}
-		}
-	}
 
-	// class representing marks that the player will keep to say where he is in which dialogue tree
-	// (match these to the trigger)
-	[Serializable]
-	public class Mark
-	{
-		public Character character;
-		public bool mainDialogueDone;
-		public int lastAdditionnalDialogueIndex;
-
-		public Mark(Character character, bool mainDialogue, int additionnalIndex)
-		{
-			this.character = character;
-			mainDialogueDone = mainDialogue;
-			lastAdditionnalDialogueIndex = additionnalIndex;
+			return dialogueInPath;
 		}
 	}
 }

@@ -47,7 +47,7 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 		transform.localPosition = start.localPosition + offset / 2;
 
 		// rotates path
-		float angle = Vector3.Angle(start.right, offset);
+		float angle = Vector3.SignedAngle(start.right, offset, Vector3.forward);
 		transform.rotation = Quaternion.Euler(0, 0, angle);
 
 		// set height

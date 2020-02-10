@@ -11,15 +11,21 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	[Header("Settings")]
 	public float dialogueSpeed;
 	public int highlightLength;
-	public Color textColor, additionalDialogueColor, highlightColor;
+	public Color playerTextColor, playerChoiceDone, playerChoiceUndone, characterTextColor, highlightColor;
 	[Space]
 	public List<ShogunCharacter> characters;
 
 	[Header("Assing in Inspector")]
-	public RectTransform dialogueScrollList;
+	public Button openDeductionButton;
+	public RectTransform dialogueScrollList, cluesScrollList;
 	public GameObject characterTextPrefab, playerChoicePrefab, playerTextPrefab;
-	public Button changeCharacterButton, quitButton;
 	public Image characterPortrait;
+	[Header("Deduction popup")]
+	public ClueKnob clueKnobPrefab;
+	public TextMeshProUGUI lineCounter, clueDescription;
+	public Image popupCharacterPortrait;
+	public Button returnButton;
+	public GameObject cardPrefab;
 
 	IDebugable debugableInterface => (IDebugable) this;
 	IInitializable initializableInterface => (IInitializable) this;
@@ -31,39 +37,26 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	GeneralDialogue actualDialogue;
 	CharacterDialogue actualCharacterDialogue;
-	CharacterDialogue.AdditionnalDialogue additionnalDialogue;
 
+	Action<Clue> findClueEvent;
 	Character actualCharacter;
-	Action newCardEvent;
 	DialogueWriter lastWriter;
-	List<GameObject> lastSpawnedObjects;
+	List<GameObject> lastSpawnedDialogueObjects;
 	bool needsPlayerSpawn, forceStartDialogue, waitForPlayerChoice;
 
 	// receives actions from GameManager
-	public void Init(Action quitButtonCallback, Action changeCharacterButtonCallback, Action newCardCallback)
+	public void Init(Action openDeductionPopup, Action quitDeductionPopup, Action<Clue> findClue)
 	{
-		lastSpawnedObjects = new List<GameObject>();
+		lastSpawnedDialogueObjects = new List<GameObject>();
 
-		// plugs in actions for the buttons
-		quitButton.onClick.RemoveAllListeners();
-		quitButton.onClick.AddListener(() =>
-		{
-			if(quitButtonCallback != null)
-			{
-				quitButtonCallback.Invoke();
-			}
-		});
+		findClueEvent = findClue;
 
-		changeCharacterButton.onClick.RemoveAllListeners();
-		changeCharacterButton.onClick.AddListener(() =>
-		{
-			if(changeCharacterButtonCallback != null)
-			{
-				changeCharacterButtonCallback.Invoke();
-			}
-		});
+		// plug in buttons
+		openDeductionButton.onClick.RemoveAllListeners();
+		openDeductionButton.onClick.AddListener(() => openDeductionPopup.Invoke());
 
-		newCardEvent = newCardCallback;
+		returnButton.onClick.RemoveAllListeners();
+		returnButton.onClick.AddListener(() => quitDeductionPopup.Invoke());
 
 		initializableInterface.InitInternal();
 
@@ -84,7 +77,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		ChangeCharacter(Character.SHOGUN);
 		forceStartDialogue = false;
 
-		characters.ForEach(item => item.Init());
+		characters.ForEach(item => item.Init(() => ChangeCharacter(item.character)));
 	}
 
 	public void ResetDialogue()
@@ -108,15 +101,6 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		// TODO : Add system to respawn text from character we already talked to so we can have a conversation hystory when we go back to character we already talked to
 
-		if(actualCharacterDialogue != null && actualCharacterDialogue.IsMainDone())
-		{
-			ShowButtons();
-		}
-		else
-		{
-			HideButtons();
-		}
-
 		if((lastWriter != null && lastWriter.isDone) || forceStartDialogue)
 		{
 			// prevents update from spawning lines if we are waiting for the player to choose a dialogue line
@@ -130,59 +114,25 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			// previous line was a character line
 			if(needsPlayerSpawn)
 			{
-				// if we need to show additionnal lines
-				if(actualCharacterDialogue.IsMainDone())
+				// adds clue to player clue list if there was one
+				if(actualCharacterDialogue.GetActualDialogue().hasClue)
 				{
-					lastSpawnedObjects = new List<GameObject>();
-
-					// check all additional dialogues
-					for (int i = 0; i < actualCharacterDialogue.additionalDialogue.Count; i++)
-					{
-						bool shouldShowDialogue = false;
-
-						// checks if any player Mark unlocks this additional dialogue
-						foreach (Mark mark in GameManager.Get.GetAllPlayerMark())
-						{
-							if(actualCharacterDialogue.additionalDialogue[i].trigger.IsUnlocked(mark))
-								shouldShowDialogue = true;
-						}
-
-						// marks dialogue as not unlocked if allready saw it
-						if(GetCharacter(actualCharacter).additionalDialogueIndexes.Contains(i))
-						{
-							shouldShowDialogue = false;
-						}
-
-						if(shouldShowDialogue)
-						{
-							SpawnPlayerChoice(actualCharacterDialogue.additionalDialogue[i].playerQuestion, i);
-						}
-					}
+					findClueEvent.Invoke(actualCharacterDialogue.GetActualDialogue().clue);
 				}
-				else // if we show next main dialogue line
+
+				Dialogue[] availableDialogues = actualCharacterDialogue.GetActualDialogue().nextDialogues;
+
+				for (int i = 0; i < availableDialogues.Length; i++)
 				{
-					SpawnPlayerChoice(actualCharacterDialogue.mainDialogue[GetCharacter(actualCharacter).lastIndex].playerQuestion);
+					int j = i;
+					Color actual = availableDialogues[i].IsDone() ? playerChoiceDone : playerChoiceUndone;
+
+					SpawnPlayerChoice(availableDialogues[i].playerQuestion, actual, j);
 				}
 			}
 			else // previous line was player line
 			{
-				if(GetCharacter(actualCharacter).lastIndex >= actualCharacterDialogue.mainDialogue.Count)
-				{
-					actualCharacterDialogue.MarkMainAsDone();
-				}
-
-				if(actualCharacterDialogue.IsMainDone())
-				{
-					if(additionnalDialogue != null) // show additionnal dialogue
-					{
-						SpawnCharacterLine(additionnalDialogue.characterAnswer, additionalDialogueColor);
-						additionnalDialogue = null;
-					}
-				}
-				else // show next dialogue line
-				{
-					SpawnCharacterLine(actualCharacterDialogue.mainDialogue[GetCharacter(actualCharacter).lastIndex].characterAnswer, textColor);
-				}
+				SpawnCharacterLine(actualCharacterDialogue.GetActualDialogue().characterAnswer, characterTextColor);
 			}
 		}
 	}
@@ -193,59 +143,43 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		actualCharacter = character;
 		actualCharacterDialogue = actualDialogue.GetCharacterDialogue(actualCharacter);
-		additionnalDialogue = null;
 
 		forceStartDialogue = true;
 		waitForPlayerChoice = false;
 
-		SpawnCharacterLine(actualCharacterDialogue.firstLine, textColor);
+		SpawnCharacterLine(actualCharacterDialogue.firstLine, characterTextColor);
 	}
 
-	void SpawnPlayerChoice(string line, int index = int.MaxValue)
+	void SpawnPlayerChoice(string line, Color textColor, int index)
 	{
 		Button spawned = Instantiate(playerChoicePrefab, dialogueScrollList).GetComponent<Button>();
 
-		spawned.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = line;
+		TextMeshProUGUI spawnedText = spawned.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+		spawnedText.text = line;
+		spawnedText.color = textColor;
+
 		spawned.onClick.AddListener(() => SelectChoice(line, index));
 
-		lastSpawnedObjects.Add(spawned.gameObject);
+		lastSpawnedDialogueObjects.Add(spawned.gameObject);
 
 		waitForPlayerChoice = true;
 	}
 
 	void SelectChoice(string line, int index)
 	{
-		bool mainDone = true;
-		Color actualTextColor = textColor;
-
-		// if main is not done yet
-		if(index == int.MaxValue)
-		{
-			index = 0;
-			mainDone = false;
-		}
-		else // if dialogue to show is additionnal
-		{
-			GetCharacter(actualCharacter).additionalDialogueIndexes.Add(index);
-			additionnalDialogue = actualCharacterDialogue.additionalDialogue[index];
-			actualTextColor = additionalDialogueColor;
-		}
+		actualCharacterDialogue.MoveToDialogue(index);
 
 		// deletes all previously spawned texts
-		if(lastSpawnedObjects.Count > 0)
+		if(lastSpawnedDialogueObjects.Count > 0)
 		{
-			lastSpawnedObjects.ForEach(item => Destroy(item));
-			lastSpawnedObjects.Clear();
+			lastSpawnedDialogueObjects.ForEach(item => Destroy(item));
+			lastSpawnedDialogueObjects.Clear();
 		}
 
-		// give player mark of the actual dialogue
-		GameManager.Get.GiveMark(actualCharacter, mainDone, index);
-
-		SpawnPlayerLine(line, actualTextColor);
+		SpawnPlayerLine(line, playerTextColor);
 
 		needsPlayerSpawn = false;
 		waitForPlayerChoice = false;
-		GetCharacter(actualCharacter).lastIndex++;
 	}
 
 	void SpawnPlayerLine(string line, Color text)
@@ -266,18 +200,6 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		lastWriter = spawned;
 		needsPlayerSpawn = true;
-	}
-
-	void HideButtons()
-	{
-		changeCharacterButton.gameObject.SetActive(false);
-		quitButton.gameObject.SetActive(false);
-	}
-
-	void ShowButtons()
-	{
-		changeCharacterButton.gameObject.SetActive(true);
-		quitButton.gameObject.SetActive(true);
 	}
 
 	ShogunCharacter GetCharacter(Character character)
@@ -304,11 +226,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		public Character character;
 		public Sprite characterPortrait;
-		public Button popupSelectionButton;
-
-		// hidden from inspector
-		public int lastIndex { get; set; }
-		public List<int> additionalDialogueIndexes { get; set; }
+		public Button selectionButton;
 
 		public bool initialized => initializableInterface.initializedInternal;
 
@@ -321,10 +239,10 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			initializableInterface.initializedInternal = true;
 		}
 
-		public void Init()
+		public void Init(Action changeCharacter)
 		{
-			additionalDialogueIndexes = new List<int>();
-			lastIndex = 0;
+			selectionButton.onClick.RemoveAllListeners();
+			selectionButton.onClick.AddListener(() => changeCharacter.Invoke());
 
 			initializableInterface.InitInternal();
 		}
