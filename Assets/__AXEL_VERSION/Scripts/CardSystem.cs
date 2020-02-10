@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 namespace CardSystem
 {
@@ -39,15 +40,24 @@ namespace CardSystem
             return drawedCard;
         }
 
-        public static List<Card> GenerateDeckFullRandom(int maxCardsInDeck, string cardsPath)
+        public static List<Card> GenerateDeckFullRandom(int maxCardsInDeck, List<Card> customCards)
         {
-            List<Card> newDeck = new List<Card>();
+
+            List<Card> newDeck = customCards;
 
             for (int i = 0; i < maxCardsInDeck; i++)
             {
                 newDeck.Add(new Card());
             }
             Shuffle(newDeck);
+
+            /*
+             * CREATE A DEBUG.LOG TO KNOW EVERY DECKS
+            for(int x = 0; x < newDeck.Count; x++)
+            {
+                Debug.Log(newDeck[x].name);
+            }
+            */
 
             return newDeck;
         }
