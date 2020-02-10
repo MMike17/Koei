@@ -28,7 +28,7 @@ public class CardTester : MonoBehaviour
         for(int i = 0; i < handChildren.Count; i++)
         {
             Text title = GetComponentInChildren<Text>();
-            handChildren[i]
+            // handChildren[i]
         }
     }
 }
