@@ -59,6 +59,7 @@ namespace CardGameLib
             return drawedCard;
         }
 
+
         public static List<GameCard> GenerateDeckFullRandom(int maxCardsInDeck, string cardsPath)
         {
             List<GameCard> newDeck = new List<GameCard>();
