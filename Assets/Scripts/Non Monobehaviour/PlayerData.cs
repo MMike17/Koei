@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static GeneralDialogue;
 
 // data of the player
 [Serializable]
@@ -47,12 +46,15 @@ public class PlayerData : IDebugable
 	}
 
 	// called when player finds a clue in a dialogue
-	public void FindClue(Clue clue)
+	public bool FindClue(Clue clue)
 	{
 		if(!clues.Contains(clue))
 		{
 			clues.Add(clue);
+			return true;
 		}
+
+		return false;
 	}
 
 	// resets clues when starting new Shogun dialogue

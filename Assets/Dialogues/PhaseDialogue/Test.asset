@@ -14,4 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   criticalWeaknessesForPlayer: 
   weaknessesForPlayer: 
-  charactersDialogues: []
+  charactersDialogues:
+  - character: 0
+    firstLine: Shogun test
+    initialDialogues:
+    - {fileID: 11400000, guid: 9cd900c4d7c5a8041b5bb47819e8106b, type: 2}
+    - {fileID: 11400000, guid: 90ae020c7e9768a48bac3398b7fba6f9, type: 2}
+    indexesPath: 
+  - character: 1
+    firstLine: Test 1 test
+    initialDialogues:
+    - {fileID: 11400000, guid: 9cd900c4d7c5a8041b5bb47819e8106b, type: 2}
+    - {fileID: 11400000, guid: 90ae020c7e9768a48bac3398b7fba6f9, type: 2}
+    indexesPath: 
+  - character: 2
+    firstLine: 
+    initialDialogues: []
+    indexesPath: 
+  - character: 3
+    firstLine: 
+    initialDialogues: []
+    indexesPath: 

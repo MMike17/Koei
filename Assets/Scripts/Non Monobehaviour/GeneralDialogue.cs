@@ -164,7 +164,7 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 			// gets the right dialogue in the arborescence
 			for (int i = 1; i < indexesPath.Count; i++)
 			{
-				dialogueInPath = dialogueInPath.nextDialogues[i];
+				dialogueInPath = dialogueInPath.nextDialogues[indexesPath[i]];
 			}
 
 			return dialogueInPath;
