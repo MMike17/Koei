@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class CardTaker : MonoBehaviour, IDragHandler, IEndDragHandler
@@ -58,11 +59,17 @@ public class CardTaker : MonoBehaviour, IDragHandler, IEndDragHandler
         {
             Debug.Log("Card has been replaced in hand.");
         }
-        else
+        else if(uiUnder[1].gameObject.tag == "Reserve")
         {
-            Debug.Log("Do not detect the UI.");
-        }
+            Debug.Log("Placed in reserve + " + transform.GetComponent<Image>().sprite.name);
 
+            uiUnder[1].gameObject.GetComponent<Image>().sprite = transform.GetComponent<Image>().sprite;
+
+            uiUnder[1].gameObject.GetComponent<DesignedCard>().category.text = transform.GetComponent<DesignedCard>().category.text;
+            uiUnder[1].gameObject.GetComponent<DesignedCard>().subcategory.text = transform.GetComponent<DesignedCard>().subcategory.text;
+
+            Destroy(gameObject);
+        }
     }
 
     public List<RaycastResult> RaycastMouse()
@@ -78,7 +85,7 @@ public class CardTaker : MonoBehaviour, IDragHandler, IEndDragHandler
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
 
-        Debug.Log(results.Count);
+        Debug.Log(results[0].gameObject.name);
 
         return results;
     }
