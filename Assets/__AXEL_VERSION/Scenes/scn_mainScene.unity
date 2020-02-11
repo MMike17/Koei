@@ -863,7 +863,7 @@ PrefabInstance:
     - target: {fileID: 4919998420599866353, guid: d07d41c563c3b85458829eb30ece33f2,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 60
+      value: 116.05998
       objectReference: {fileID: 0}
     - target: {fileID: 4919998420599866353, guid: d07d41c563c3b85458829eb30ece33f2,
         type: 3}
@@ -1439,7 +1439,7 @@ PrefabInstance:
     - target: {fileID: 4919998420599866353, guid: d07d41c563c3b85458829eb30ece33f2,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 60
+      value: 116.05998
       objectReference: {fileID: 0}
     - target: {fileID: 4919998420599866353, guid: d07d41c563c3b85458829eb30ece33f2,
         type: 3}
@@ -1846,7 +1846,7 @@ PrefabInstance:
     - target: {fileID: 4919998420599866353, guid: d07d41c563c3b85458829eb30ece33f2,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 60
+      value: 116.05998
       objectReference: {fileID: 0}
     - target: {fileID: 4919998420599866353, guid: d07d41c563c3b85458829eb30ece33f2,
         type: 3}
@@ -2251,7 +2251,7 @@ PrefabInstance:
     - target: {fileID: 4919998420599866353, guid: d07d41c563c3b85458829eb30ece33f2,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 60
+      value: 116.05998
       objectReference: {fileID: 0}
     - target: {fileID: 4919998420599866353, guid: d07d41c563c3b85458829eb30ece33f2,
         type: 3}
@@ -2318,31 +2318,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4919998420749065230, guid: d07d41c563c3b85458829eb30ece33f2,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4919998420749065230, guid: d07d41c563c3b85458829eb30ece33f2,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4919998420749065230, guid: d07d41c563c3b85458829eb30ece33f2,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4919998420749065230, guid: d07d41c563c3b85458829eb30ece33f2,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4919998420749065230, guid: d07d41c563c3b85458829eb30ece33f2,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4919998422154056776, guid: d07d41c563c3b85458829eb30ece33f2,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -2371,31 +2346,6 @@ PrefabInstance:
     - target: {fileID: 4919998422154056776, guid: d07d41c563c3b85458829eb30ece33f2,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4919998422154056777, guid: d07d41c563c3b85458829eb30ece33f2,
-        type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4919998422154056777, guid: d07d41c563c3b85458829eb30ece33f2,
-        type: 3}
-      propertyPath: m_textInfo.spaceCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4919998422154056777, guid: d07d41c563c3b85458829eb30ece33f2,
-        type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4919998422154056777, guid: d07d41c563c3b85458829eb30ece33f2,
-        type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4919998422154056777, guid: d07d41c563c3b85458829eb30ece33f2,
-        type: 3}
-      propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2466,7 +2416,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 0
+  m_Spacing: 5
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -2625,7 +2575,7 @@ PrefabInstance:
     - target: {fileID: 4919998420599866353, guid: d07d41c563c3b85458829eb30ece33f2,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 60
+      value: 116.05998
       objectReference: {fileID: 0}
     - target: {fileID: 4919998420599866353, guid: d07d41c563c3b85458829eb30ece33f2,
         type: 3}

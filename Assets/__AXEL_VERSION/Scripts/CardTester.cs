@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using CardSystem;
 
 public class CardTester : MonoBehaviour
@@ -12,6 +13,8 @@ public class CardTester : MonoBehaviour
     // Set the hand
     public Transform handObject;
     List<Transform> handChildren;
+
+    DesignedCard[] cardsInHand;
 
     // Start is called before the first frame update
     void Start()
@@ -24,11 +27,12 @@ public class CardTester : MonoBehaviour
             handChildren.Add(child);
         }
 
-        // Set the text
-        for(int i = 0; i < handChildren.Count; i++)
+        for (int i = 0; i < handChildren.Count; i++)
         {
-            Text title = GetComponentInChildren<Text>();
-            // handChildren[i]
+            handChildren[i].GetComponent<DesignedCard>();
+
+            handChildren[i].GetComponent<DesignedCard>().category.text = totalCards[i].strength.ToString();
+            handChildren[i].GetComponent<DesignedCard>().subcategory.text = totalCards[i].subStrength.ToString();
         }
     }
 }

@@ -5,8 +5,6 @@ using UnityEngine.EventSystems;
 
 public class CardTaker : MonoBehaviour, IDragHandler, IEndDragHandler
 {
-    public Transform newParent;
-
     private Transform baseParent;
 
     private Vector2 basePos;
