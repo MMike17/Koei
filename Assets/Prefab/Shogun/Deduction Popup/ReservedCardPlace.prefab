@@ -168,8 +168,10 @@ GameObject:
   - component: {fileID: 3725123379197521674}
   - component: {fileID: 3725123379197521672}
   - component: {fileID: 4691807864254805797}
+  - component: {fileID: 3907267719665127130}
+  - component: {fileID: 5378915619275897325}
   m_Layer: 5
-  m_Name: UnlockedCard 1
+  m_Name: ReservedCardPlace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -271,6 +273,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: {fileID: 3725123381003892917}
   subcategory: {fileID: 3725123379154366706}
+--- !u!114 &3907267719665127130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3725123379197521676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79c95af000ea8947a1fb0fe2d10e014, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasBeenActivated: 0
+--- !u!114 &5378915619275897325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3725123379197521676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2556af28e28a9ff41b1a9456f211507b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reserve: {fileID: 3725123379197521676}
 --- !u!1 &3725123381003892919
 GameObject:
   m_ObjectHideFlags: 0

@@ -61,17 +61,29 @@ public class CardTaker : MonoBehaviour, IDragHandler, IEndDragHandler
         }
         else if(uiUnder[1].gameObject.tag == "Reserve")
         {
-            Debug.Log("Placed in reserve + " + transform.GetComponent<Image>().sprite.name);
+            if (uiUnder[1].gameObject.GetComponent<BasicalBoolean>().hasBeenActivated)
+            {
+                // Disagree the placing in the reserve
+                Debug.Log("Card has been replaced in hand because reserve is full.");
+            }
+            else
+            {
+                // Agree with placing in reserve
+                Debug.Log("Placed in reserve");
 
-            uiUnder[1].gameObject.GetComponent<Image>().sprite = transform.GetComponent<Image>().sprite;
+                uiUnder[1].gameObject.GetComponent<Image>().sprite = transform.GetComponent<Image>().sprite;
 
-            uiUnder[1].gameObject.GetComponent<DesignedCard>().category.text = transform.GetComponent<DesignedCard>().category.text;
-            uiUnder[1].gameObject.GetComponent<DesignedCard>().subcategory.text = transform.GetComponent<DesignedCard>().subcategory.text;
+                uiUnder[1].gameObject.GetComponent<DesignedCard>().category.text = transform.GetComponent<DesignedCard>().category.text;
+                uiUnder[1].gameObject.GetComponent<DesignedCard>().subcategory.text = transform.GetComponent<DesignedCard>().subcategory.text;
 
-            Destroy(gameObject);
+                uiUnder[1].gameObject.GetComponent<BasicalBoolean>().hasBeenActivated = true;
+
+                Destroy(gameObject);
+            }
         }
     }
 
+    // Allows to spot things under mouse
     public List<RaycastResult> RaycastMouse()
     {
 

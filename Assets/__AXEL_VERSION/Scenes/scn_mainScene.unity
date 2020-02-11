@@ -240,7 +240,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 700532186}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.46888888}
   m_AnchorMax: {x: 1, y: 1}
@@ -608,11 +608,11 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 329158270}
   - {fileID: 1421599545}
   - {fileID: 1161510590}
   - {fileID: 4919998422301377623}
   - {fileID: 1769919081}
+  - {fileID: 329158270}
   m_Father: {fileID: 1424113720}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1146,7 +1146,7 @@ RectTransform:
   m_Children:
   - {fileID: 1171446974}
   m_Father: {fileID: 700532186}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.01125, y: 0.021888886}
   m_AnchorMax: {x: 0.23810795, y: 0.17655556}
@@ -1506,8 +1506,8 @@ GameObject:
   - component: {fileID: 1421599547}
   - component: {fileID: 1421599546}
   m_Layer: 5
-  m_Name: triggpnl_areaForHadn
-  m_TagString: Reserve
+  m_Name: triggpnl_areaForHand
+  m_TagString: AreaForHand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1524,7 +1524,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 700532186}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.46888888}
@@ -2168,7 +2168,7 @@ RectTransform:
   - {fileID: 905617113}
   - {fileID: 1222484453}
   m_Father: {fileID: 700532186}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.25, y: 0}
   m_AnchorMax: {x: 1, y: 0.2873689}
@@ -2702,7 +2702,7 @@ PrefabInstance:
     - target: {fileID: 3725123379197521677, guid: 62f94850c05678d4d90494f1e762938b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3725123379197521677, guid: 62f94850c05678d4d90494f1e762938b,
         type: 3}
@@ -2722,7 +2722,7 @@ PrefabInstance:
     - target: {fileID: 3725123379197521677, guid: 62f94850c05678d4d90494f1e762938b,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.9869995
+      value: 0.98706055
       objectReference: {fileID: 0}
     - target: {fileID: 3725123379197521677, guid: 62f94850c05678d4d90494f1e762938b,
         type: 3}
