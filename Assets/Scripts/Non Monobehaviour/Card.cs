@@ -10,8 +10,6 @@ public class Card : ScriptableObject
 	[Space]
 	[TextArea]
 	public string line;
-	[TextArea]
-	public string subLine;
 
 	public void Init()
 	{

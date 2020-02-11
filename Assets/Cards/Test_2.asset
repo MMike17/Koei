@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14203d9b5a89c44a923efadff1900c2, type: 3}
   m_Name: Test_2
   m_EditorClassIdentifier: 
-  type: 1
-  strength: 1
-  subStrength: 2
-  image: {fileID: 21300000, guid: 5c673e0b62723284093e72a9cc5ae210, type: 3}
+  strength: 0
+  subStrength: 1
   line: dfqsdfsdg
   subLine: cdq gdfgsdfgs fgsfdg

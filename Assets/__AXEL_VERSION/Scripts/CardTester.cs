@@ -7,7 +7,6 @@ using CardSystem;
 
 public class CardTester : MonoBehaviour
 {
-    public string cardsPath;
     public List<Card> totalCards;
 
     // Set the hand

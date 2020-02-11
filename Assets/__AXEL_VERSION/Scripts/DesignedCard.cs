@@ -8,4 +8,7 @@ public class DesignedCard : MonoBehaviour
 {
     public TextMeshProUGUI category;
     public TextMeshProUGUI subcategory;
+
+    public TextMeshProUGUI line;
+    public TextMeshProUGUI subline;
 }

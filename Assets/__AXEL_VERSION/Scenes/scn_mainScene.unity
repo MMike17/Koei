@@ -749,6 +749,7 @@ Transform:
   m_Children:
   - {fileID: 78392950}
   - {fileID: 267377922}
+  - {fileID: 1533316601}
   m_Father: {fileID: 1595670423}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -979,8 +980,6 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
-  - component: {fileID: 963194229}
-  - component: {fileID: 963194230}
   - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: cam_mainCam
@@ -1054,41 +1053,6 @@ Transform:
   m_Father: {fileID: 1936221037}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &963194229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e326474af751cd744ae6bb94f8e93b2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  namePath: /Data/names.txt
-  weaknessPath: /Data/weakness.txt
-  cardsPath: /Data/cards.txt
-  cardsAsset: {fileID: 4900000, guid: 979eedb4bae1c4243a6b273d05f77659, type: 3}
---- !u!114 &963194230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 277b415a306a82b47ab82f72eef4d043, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cardsPath: /__AXEL_VERSION/Data/cards.txt
-  images:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1101,7 +1065,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60ccf26c6f1995a4a83d94fde4bdf92b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardsPath: /Cards/
   totalCards:
   - {fileID: 11400000, guid: 00557ee8b95b8684fa3ad6a6c02078f3, type: 2}
   - {fileID: 11400000, guid: bac25caffd219324bad3e6393256502a, type: 2}
@@ -1114,6 +1077,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9ddf162d3aa74e64a925de8e640d5410, type: 2}
   - {fileID: 11400000, guid: 1c5408699b6834f48b4403f127f6dee6, type: 2}
   handObject: {fileID: 1769919081}
+--- !u!114 &1006995602 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5001565536496096155, guid: 831a902008d2af9418554ce0e38dcb11,
+    type: 3}
+  m_PrefabInstance: {fileID: 5113173942986898077}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1161510589
 GameObject:
   m_ObjectHideFlags: 0
@@ -1851,6 +1826,54 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1510819275}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1533316600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1533316601}
+  - component: {fileID: 1533316602}
+  m_Layer: 0
+  m_Name: __S_CardManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1533316601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533316600}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 849599093}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1533316602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533316600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fabee7c3d9a67624990f071ff8c0d036, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardTester: {fileID: 963194231}
+  playerSentenceTxt: {fileID: 1006995602}
+  enemySentenceTxt: {fileID: 1601344004}
+  durationBetweenAttacks: 0.5
+  sentenceDuration: 2.75
 --- !u!1 &1545794096
 GameObject:
   m_ObjectHideFlags: 0
@@ -1948,6 +1971,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1601344004 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5001565536496096155, guid: 831a902008d2af9418554ce0e38dcb11,
+    type: 3}
+  m_PrefabInstance: {fileID: 583145384}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1700010027
 PrefabInstance:
   m_ObjectHideFlags: 0

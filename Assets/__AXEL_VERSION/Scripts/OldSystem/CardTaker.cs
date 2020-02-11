@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -8,18 +9,30 @@ public class CardTaker : MonoBehaviour, IDragHandler, IEndDragHandler
 {
     private Transform baseParent;
 
+    private CardManager cardManager;
+
     private Vector2 basePos;
     // Set the new size of the card when we go over
     private Vector2 newSize = new Vector2(250, 250);
     private Vector2 baseSize;
 
+    private TextMeshProUGUI category;
+    private TextMeshProUGUI subcategory;
+
+    private string line;
+
 
     private void Start()
     {
+        cardManager = GameObject.FindObjectOfType<CardManager>();
+        category = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        subcategory = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+
         // Set base parent
         baseParent = transform.parent;
         basePos = transform.position;
         baseSize = transform.GetComponent<RectTransform>().sizeDelta;
+        
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -52,7 +65,12 @@ public class CardTaker : MonoBehaviour, IDragHandler, IEndDragHandler
         // Check every case for uiUnder
         if(uiUnder[0].gameObject.tag == "AreaToPlay")
         {
+            // PLAYER PLAYS HERE
             Debug.Log("Card has been destroyed.");
+
+            cardManager.PlayAndTurn("");
+            
+
             Destroy(gameObject);
         }
         else if(uiUnder[0].gameObject.tag == "AreaForHand")
