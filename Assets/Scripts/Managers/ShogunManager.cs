@@ -18,14 +18,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	[Header("Assing in Inspector")]
 	public Button openDeductionButton;
 	public RectTransform dialogueScrollList, cluesScrollList;
-	public GameObject characterTextPrefab, playerChoicePrefab, playerTextPrefab;
+	public GameObject characterTextPrefab, playerChoicePrefab, playerTextPrefab, cluePrefab;
 	public Image characterPortrait;
-	[Header("Deduction popup")]
-	public ClueKnob clueKnobPrefab;
-	public TextMeshProUGUI lineCounter, clueDescription;
-	public Image popupCharacterPortrait;
-	public Button returnButton;
-	public GameObject cardPrefab;
 
 	IDebugable debugableInterface => (IDebugable) this;
 	IInitializable initializableInterface => (IInitializable) this;
@@ -38,14 +32,14 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	GeneralDialogue actualDialogue;
 	CharacterDialogue actualCharacterDialogue;
 
-	Action<Clue> findClueEvent;
+	Func<Clue, bool> findClueEvent;
 	Character actualCharacter;
 	DialogueWriter lastWriter;
 	List<GameObject> lastSpawnedDialogueObjects;
-	bool needsPlayerSpawn, forceStartDialogue, waitForPlayerChoice;
+	bool needsPlayerSpawn, waitForPlayerChoice;
 
 	// receives actions from GameManager
-	public void Init(Action openDeductionPopup, Action quitDeductionPopup, Action<Clue> findClue)
+	public void Init(Action openDeductionPopup, Func<Clue, bool> findClue)
 	{
 		lastSpawnedDialogueObjects = new List<GameObject>();
 
@@ -55,12 +49,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		openDeductionButton.onClick.RemoveAllListeners();
 		openDeductionButton.onClick.AddListener(() => openDeductionPopup.Invoke());
 
-		returnButton.onClick.RemoveAllListeners();
-		returnButton.onClick.AddListener(() => quitDeductionPopup.Invoke());
-
 		initializableInterface.InitInternal();
-
-		Debug.Log(debugableInterface.debugLabel + "Initializing done");
 	}
 
 	public void StartDialogue(GeneralDialogue dialogue)
@@ -74,26 +63,40 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		actualDialogue = dialogue;
 		actualDialogue.Init();
 
-		ChangeCharacter(Character.SHOGUN);
-		forceStartDialogue = false;
-
 		characters.ForEach(item => item.Init(() => ChangeCharacter(item.character)));
+
+		ChangeCharacter(Character.SHOGUN);
 	}
 
 	public void ResetDialogue()
 	{
+		// deletes all previously spawned texts
+		if(lastSpawnedDialogueObjects.Count > 0)
+		{
+			GameObject[] toDestroy = lastSpawnedDialogueObjects.ToArray();
+
+			for (int i = 0; i < toDestroy.Length; i++)
+			{
+				Destroy(toDestroy[i]);
+			}
+
+			lastSpawnedDialogueObjects.Clear();
+		}
+
 		foreach (Transform child in dialogueScrollList)
 		{
 			Destroy(child.gameObject);
 		}
 
 		lastWriter = null;
-		forceStartDialogue = false;
+		waitForPlayerChoice = false;
+		needsPlayerSpawn = false;
 	}
 
 	void IInitializable.InitInternal()
 	{
 		initializableInterface.initializedInternal = true;
+
 		Debug.Log(debugableInterface.debugLabel + "Initializing done");
 	}
 
@@ -101,7 +104,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		// TODO : Add system to respawn text from character we already talked to so we can have a conversation hystory when we go back to character we already talked to
 
-		if((lastWriter != null && lastWriter.isDone) || forceStartDialogue)
+		if(lastWriter != null && lastWriter.isDone)
 		{
 			// prevents update from spawning lines if we are waiting for the player to choose a dialogue line
 			if(waitForPlayerChoice)
@@ -109,18 +112,33 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 				return;
 			}
 
-			forceStartDialogue = false;
-
 			// previous line was a character line
 			if(needsPlayerSpawn)
 			{
-				// adds clue to player clue list if there was one
-				if(actualCharacterDialogue.GetActualDialogue().hasClue)
-				{
-					findClueEvent.Invoke(actualCharacterDialogue.GetActualDialogue().clue);
-				}
+				Dialogue[] availableDialogues;
 
-				Dialogue[] availableDialogues = actualCharacterDialogue.GetActualDialogue().nextDialogues;
+				if(actualCharacterDialogue.indexesPath.Count > 0)
+				{
+					// adds clue to player clue list if there was one
+					if(actualCharacterDialogue.GetActualDialogue().hasClue)
+					{
+						if(findClueEvent.Invoke(actualCharacterDialogue.GetActualDialogue().clue))
+							AddClueToList(actualCharacterDialogue.GetActualDialogue().clue);
+					}
+
+					availableDialogues = actualCharacterDialogue.GetActualDialogue().nextDialogues;
+
+					// resets indexes path if branch can't go any further
+					if(availableDialogues == null || availableDialogues.Length == 0)
+					{
+						actualCharacterDialogue.indexesPath = new List<int>();
+						return;
+					}
+				}
+				else
+				{
+					availableDialogues = actualCharacterDialogue.initialDialogues.ToArray();
+				}
 
 				for (int i = 0; i < availableDialogues.Length; i++)
 				{
@@ -144,7 +162,10 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		actualCharacter = character;
 		actualCharacterDialogue = actualDialogue.GetCharacterDialogue(actualCharacter);
 
-		forceStartDialogue = true;
+		characterPortrait.sprite = GetCharacter(actualCharacter).characterPortrait;
+
+		actualCharacterDialogue.Init();
+
 		waitForPlayerChoice = false;
 
 		SpawnCharacterLine(actualCharacterDialogue.firstLine, characterTextColor);
@@ -221,6 +242,15 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		return selected;
 	}
 
+	void AddClueToList(Clue clue)
+	{
+
+		GameObject spawnedClue = Instantiate(cluePrefab, cluesScrollList);
+		spawnedClue.transform.SetAsLastSibling();
+
+		spawnedClue.GetComponent<TextMeshProUGUI>().text = "- " + clue.summary;
+	}
+
 	[Serializable]
 	public class ShogunCharacter : IInitializable
 	{
@@ -243,6 +273,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		{
 			selectionButton.onClick.RemoveAllListeners();
 			selectionButton.onClick.AddListener(() => changeCharacter.Invoke());
+
+			selectionButton.GetComponent<Image>().sprite = characterPortrait;
 
 			initializableInterface.InitInternal();
 		}

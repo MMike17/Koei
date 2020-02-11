@@ -13,8 +13,8 @@ public class GameData : MonoBehaviour, IDebugable, IInitializable
 
 	public bool initialized => initializableInterface.initializedInternal;
 
-	public IInitializable initializableInterface => (IInitializable) this;
-	public IDebugable debugableInterface => (IDebugable) this;
+	IInitializable initializableInterface => (IInitializable) this;
+	IDebugable debugableInterface => (IDebugable) this;
 
 	bool IInitializable.initializedInternal { get; set; }
 	string IDebugable.debugLabel => "<b>[GameData] : </b>";
