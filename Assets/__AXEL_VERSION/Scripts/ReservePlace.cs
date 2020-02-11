@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.EventSystems;
 
 public class ReservePlace : MonoBehaviour, IDragHandler, IEndDragHandler
@@ -13,6 +14,13 @@ public class ReservePlace : MonoBehaviour, IDragHandler, IEndDragHandler
 
     private RectTransform rect;
 
+
+    private void OnEnable()
+    {
+        boolean = GetComponent<BasicalBoolean>();
+        boolean.hasBeenActivated = false;
+    }
+
     private void Start()
     {
         Debug.Log("Has just spawned");
@@ -20,8 +28,6 @@ public class ReservePlace : MonoBehaviour, IDragHandler, IEndDragHandler
         rect = gameObject.GetComponent<RectTransform>();
         posi = gameObject.GetComponent<RectTransform>().position;
         parents = transform.parent;
-
-        boolean = GetComponent<BasicalBoolean>();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -60,7 +66,11 @@ public class ReservePlace : MonoBehaviour, IDragHandler, IEndDragHandler
 
                 GameObject newReserve = Instantiate(reserve, parents);                  // ERROR HERE
                 newReserve.GetComponent<RectTransform>().position = posi;
-                newReserve.GetComponent<RectTransform>().sizeDelta = rect.sizeDelta;    
+                newReserve.GetComponent<RectTransform>().sizeDelta = rect.sizeDelta;
+                newReserve.transform.SetSiblingIndex(3);
+
+                newReserve.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "No Category";
+                newReserve.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "No Subcategory";
 
                 Cursor.visible = true;
 
@@ -70,7 +80,8 @@ public class ReservePlace : MonoBehaviour, IDragHandler, IEndDragHandler
             {
                 Debug.Log("Wrong place for reserve, replacing reserve at the good place");
                 Cursor.visible = true;
-                GetComponent<RectTransform>().position = rect.position;
+                transform.SetSiblingIndex(2);
+                GetComponent<RectTransform>().position = posi;
             }
         }
     }
@@ -78,7 +89,6 @@ public class ReservePlace : MonoBehaviour, IDragHandler, IEndDragHandler
     // Allows to spot things under mouse
     public List<RaycastResult> RaycastMouse()
     {
-
         PointerEventData pointerData = new PointerEventData(EventSystem.current)
         {
             pointerId = -1,
