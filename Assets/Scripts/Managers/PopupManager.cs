@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static GameManager;
@@ -10,9 +9,6 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 	[Header("Settings")]
 	public float fadeDuration;
 	public float alphaComparisonThreshold;
-
-	[Header("Assign in Inspector")]
-	public List<Popup> popups;
 
 	[Header("Debug")]
 	public GamePopup actualPopup;
@@ -25,25 +21,38 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 	string IDebugable.debugLabel => "<b>[PopupManager] : </b>";
 	bool IInitializable.initializedInternal { get; set; }
 
+	List<PopupEventSubscription> popupsSubscriptions;
+	// list gets updated at each scene opening
+	List<Popup> scenePopups;
+
 	public void Init()
 	{
 		actualPopup = GamePopup.EMPTY;
 
-		// initializes popups
-		popups.ForEach(popup => { popup.Init(fadeDuration, alphaComparisonThreshold); popup.ForceState(false); });
+		popupsSubscriptions = new List<PopupEventSubscription>();
+
+		// init all event subscriptions (we can then subscribe events)
+		foreach (GamePopup popup in Enum.GetValues(typeof(GamePopup)))
+		{
+			popupsSubscriptions.Add(new PopupEventSubscription(popup));
+		}
+
+		// TODO
+		// Need to put that in scene Init on GameManager
+		// popups.ForEach(popup => { popup.Init(fadeDuration, alphaComparisonThreshold); popup.ForceState(false); });
 
 		initializableInterface.InitInternal();
-
-		Debug.Log(debugableInterface.debugLabel + "Initializing done");
 	}
 
 	void IInitializable.InitInternal()
 	{
 		initializableInterface.initializedInternal = true;
+
+		Debug.Log(debugableInterface.debugLabel + "Initializing done");
 	}
 
 	// pops corresponding popup and calls transition event
-	public void Pop(GamePopup popup, Action onPopupDone)
+	public void Pop(GamePopup popup)
 	{
 		if(!initialized)
 		{
@@ -51,17 +60,28 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 			return;
 		}
 
-		Popup newPopup = popups.Find(item => { return item.popup == popup; });
+		Type type = GetTypeFromPopup(popup);
 
-		if(newPopup == null)
+		if(type == null)
 		{
-			Debug.LogError(debugableInterface.debugLabel + "Can't find the requested popup : " + popup.ToString());
+			Debug.LogError(debugableInterface.debugLabel + "Couln't find type for GamePopup " + popup.ToString());
 			return;
 		}
+		else
+		{
+			Popup selected = scenePopups.Find(item => { return item.GetType() == type; });
 
-		newPopup.Activate(this, onPopupDone);
-
-		actualPopup = popup;
+			if(selected == null)
+			{
+				Debug.LogError(debugableInterface.debugLabel + "Couldn't find Popup for GamePopup " + popup.ToString());
+				return;
+			}
+			else
+			{
+				selected.Activate(this);
+				actualPopup = popup;
+			}
+		}
 	}
 
 	// cancels all popups
@@ -73,130 +93,98 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 			return;
 		}
 
-		popups.ForEach(popup => popup.Deactivate(this));
+		scenePopups.ForEach(popup => popup.Deactivate(this));
 	}
 
-	// calls event when transition is done
-	void CallEndTransitionEvent()
+	// force cancels all popups
+	public void ForceCancelPop()
 	{
-		Popup selected = popups.Find(item => { return item.popup == actualPopup; });
-
-		if(selected != null && selected.onPopup != null)
+		if(!initialized)
 		{
-			selected.onPopup.Invoke();
+			Debug.LogError(debugableInterface.debugLabel + "Not initialized");
+			return;
 		}
+
+		scenePopups.ForEach(popup => popup.ForceState(false));
 	}
 
-	[Serializable]
-	public class Popup : IInitializable, IDebugable
+	public void SubscribeEvent(GamePopup popup, Action callback)
+	{
+		if(!initialized)
+		{
+			Debug.LogError(debugableInterface.debugLabel + "Not initialized");
+			return;
+		}
+
+		PopupEventSubscription eventSubscription = GetSubscriptionEvent(popup);
+
+		if(callback != null)
+			eventSubscription.AddEvent(callback);
+	}
+
+	// call this when you get on a new scene (like an Init but every time you change scenes)
+	public void GetAllScenePopups()
+	{
+		scenePopups = new List<Popup>();
+		scenePopups.AddRange(Resources.FindObjectsOfTypeAll<Popup>());
+
+		scenePopups.ForEach(item =>
+		{
+			item.Init(
+				fadeDuration, alphaComparisonThreshold,
+				() => { actualPopup = item.popup; },
+				() => GetSubscriptionEvent(item.popup).CallEvent()
+			);
+		});
+	}
+
+	PopupEventSubscription GetSubscriptionEvent(GamePopup popup)
+	{
+		PopupEventSubscription popupEvent = popupsSubscriptions.Find(item => { return item.popup == popup; });
+
+		if(popupEvent == null)
+		{
+			Debug.LogWarning(debugableInterface.debugLabel + "Couldn't find PopupEventSubscription for popup " + popup.ToString());
+			return null;
+		}
+
+		return popupEvent;
+	}
+
+	Type GetTypeFromPopup(GamePopup popup)
+	{
+		switch(popup)
+		{
+			case GamePopup.EMPTY:
+				return null;
+			case GamePopup.SETTINGS:
+				return null;
+			case GamePopup.SHOGUN_DEDUCTION:
+				return typeof(ShogunPopup);
+		}
+
+		return null;
+	}
+
+	public class PopupEventSubscription
 	{
 		public GamePopup popup;
-		public CanvasGroup panel;
-		public Action onPopup;
+		public Action transitionEvent;
 
-		IInitializable initializableInterface => (IInitializable) this;
-		IDebugable debugableInterface => (IDebugable) this;
-
-		public bool initialized => initializableInterface.initializedInternal;
-
-		string IDebugable.debugLabel => "<b>[Popup] : </b>";
-		bool IInitializable.initializedInternal { get; set; }
-
-		float fadeDuration, alphaComparisonThreshold;
-
-		public void Init(float duration, float threshold)
+		public PopupEventSubscription(GamePopup popup)
 		{
-			fadeDuration = duration;
-			alphaComparisonThreshold = threshold;
-
-			initializableInterface.InitInternal();
-
-			Debug.Log(debugableInterface.debugLabel + "Initialized");
+			this.popup = popup;
 		}
 
-		void IInitializable.InitInternal()
+		public void AddEvent(Action callback)
 		{
-			initializableInterface.initializedInternal = true;
+			if(callback != null)
+				transitionEvent += callback;
 		}
 
-		// fades popup in and calls event at the end of the transition
-		public void Activate(MonoBehaviour runner, Action onPopupDone)
+		public void CallEvent()
 		{
-			if(!initialized)
-			{
-				Debug.LogError(debugableInterface.debugLabel + "Not initialized");
-				return;
-			}
-
-			runner.StartCoroutine(Fade(false));
-			runner.Invoke("CallEndTransitionEvent", fadeDuration);
-
-			onPopup = onPopupDone;
-		}
-
-		// fades popup out
-		public void Deactivate(MonoBehaviour runner)
-		{
-			if(!initialized)
-			{
-				Debug.LogError(debugableInterface.debugLabel + "Not initialized");
-				return;
-			}
-
-			runner.StartCoroutine(Fade(true));
-		}
-
-		// forces state of the popup (use this for backend)
-		public void ForceState(bool state)
-		{
-			if(!initialized)
-			{
-				Debug.LogError(debugableInterface.debugLabel + "Not initialized");
-				return;
-			}
-
-			panel.alpha = 0;
-			panel.blocksRaycasts = false;
-			panel.interactable = false;
-		}
-
-		// main fade coroutine (fade in and out)
-		IEnumerator Fade(bool fadeGameIn)
-		{
-			bool done = fadeGameIn ? panel.alpha <= alphaComparisonThreshold : panel.alpha >= 1 - alphaComparisonThreshold;
-
-			while (!done)
-			{
-				float step = (1 / fadeDuration) * Time.deltaTime;
-				step = fadeGameIn ? -step : step;
-
-				done = fadeGameIn ? panel.alpha <= alphaComparisonThreshold : panel.alpha >= 1 - alphaComparisonThreshold;
-
-				panel.blocksRaycasts = panel.alpha > 0;
-				panel.interactable = panel.alpha >= 1;
-
-				panel.alpha += step;
-
-				if(done)
-				{
-					if(fadeGameIn)
-					{
-						panel.alpha = 0;
-						panel.blocksRaycasts = false;
-						panel.interactable = false;
-					}
-					else
-					{
-						panel.alpha = 1;
-						panel.blocksRaycasts = true;
-						panel.interactable = true;
-					}
-
-					yield break;
-				}
-
-				yield return null;
-			}
+			transitionEvent.Invoke();
 		}
 	}
 }

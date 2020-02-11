@@ -31,12 +31,14 @@ public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 	string IDebugable.debugLabel => "<b>[PanelsManager] : </b>";
 	bool IInitializable.initializedInternal { get; set; }
 
-	Action onLoadingDone;
+	Action onLoadingDone, genericSceneAction;
 	bool inTransition;
 
-	public void Init()
+	public void Init(Action onGenericLoaded)
 	{
 		actualPanel = GamePhase.TITLE;
+
+		genericSceneAction = onGenericLoaded;
 
 		eventsManager.Init();
 
@@ -106,6 +108,9 @@ public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 
 		// gets ref of new scene
 		onLoadingDone.Invoke();
+
+		// calls generic action (generally gets popup refs)
+		genericSceneAction.Invoke();
 
 		// fades panel out
 		yield return new WaitUntil(() => { return Fade(false); });

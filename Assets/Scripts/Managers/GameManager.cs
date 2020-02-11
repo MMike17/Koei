@@ -78,11 +78,21 @@ public class GameManager : MonoBehaviour, IDebugable
 		DontDestroyOnLoad(persistantContainer);
 
 		// initializes all managers
-		panelManager.Init();
+		panelManager.Init(() =>
+		{
+			// gets refs to popups and closes them without cool effect (as if it was never here)
+			popupManager.GetAllScenePopups();
+			popupManager.ForceCancelPop();
+		});
+
 		popupManager.Init();
 
-		PlugEvents();
+		PlugPanelEvents();
+		PlugPopupEvents();
 
+		// real start of game (these actions are normally called during transition events)
+		popupManager.GetAllScenePopups();
+		popupManager.ForceCancelPop();
 		InitTitlePanel();
 	}
 
@@ -109,8 +119,7 @@ public class GameManager : MonoBehaviour, IDebugable
 		}
 
 		shogunManager.Init(
-			() => popupManager.Pop(GamePopup.SHOGUN_DEDUCTION, InitDeductionPopup),
-			() => popupManager.CancelPop(),
+			() => popupManager.Pop(GamePopup.SHOGUN_DEDUCTION),
 			AddClueToPlayer
 		);
 
@@ -118,20 +127,26 @@ public class GameManager : MonoBehaviour, IDebugable
 		shogunManager.StartDialogue(testDialogue);
 	}
 
-	void InitDeductionPopup()
+	void StartDeduction()
 	{
-		// init deduction popup here
+		// Start deduction popup here
 	}
 
-	// subscribe events to EventManager here
-	void PlugEvents()
+	// subscribe events to panel EventManager here
+	void PlugPanelEvents()
 	{
 		panelManager.eventsManager.AddPhaseAction(GamePhase.TITLE, InitTitlePanel);
 		panelManager.eventsManager.AddPhaseAction(GamePhase.SHOGUN, InitShogunPanel);
 	}
 
-	void AddClueToPlayer(Clue clue)
+	// subscribe events to popup EventManager here
+	void PlugPopupEvents()
 	{
-		gameData.playerData.FindClue(clue);
+		popupManager.SubscribeEvent(GamePopup.SHOGUN_DEDUCTION, StartDeduction);
+	}
+
+	bool AddClueToPlayer(Clue clue)
+	{
+		return gameData.playerData.FindClue(clue);
 	}
 }
