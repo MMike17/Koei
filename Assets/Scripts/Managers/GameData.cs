@@ -74,4 +74,16 @@ public class GameData : MonoBehaviour, IDebugable, IInitializable
 			return sub;
 		}
 	}
+
+	public int GetIndexOfCard(Card card)
+	{
+		int index = cardList.IndexOf(card);
+
+		if(index == -1)
+		{
+			Debug.LogError(debugableInterface.debugLabel + "Couldn't find card " + card.ToString());
+		}
+
+		return index;
+	}
 }
