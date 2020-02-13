@@ -8,8 +8,8 @@ public class Popup : MonoBehaviour, IInitializable, IDebugable
 	public GamePopup popup;
 	public CanvasGroup panel;
 
-	IInitializable initializableInterface => (IInitializable) this;
-	IDebugable debugableInterface => (IDebugable) this;
+	internal IInitializable initializableInterface => (IInitializable) this;
+	internal IDebugable debugableInterface => (IDebugable) this;
 
 	public bool initialized => initializableInterface.initializedInternal;
 
@@ -34,7 +34,7 @@ public class Popup : MonoBehaviour, IInitializable, IDebugable
 	{
 		initializableInterface.initializedInternal = true;
 
-		Debug.Log(debugableInterface.debugLabel + "Initialized");
+		Debug.Log(debugableInterface.debugLabel + "Initilizing done");
 	}
 
 	// fades popup in and calls event at the end of the transition
@@ -66,6 +66,7 @@ public class Popup : MonoBehaviour, IInitializable, IDebugable
 		}
 
 		runner.StartCoroutine(Fade(true));
+		enabled = false;
 	}
 
 	// forces state of the popup (use this for backend)
@@ -77,9 +78,10 @@ public class Popup : MonoBehaviour, IInitializable, IDebugable
 			return;
 		}
 
-		panel.alpha = 0;
-		panel.blocksRaycasts = false;
-		panel.interactable = false;
+		panel.alpha = state? 1 : 0;
+		panel.blocksRaycasts = state;
+		panel.interactable = state;
+		enabled = state;
 
 		ResetPopup();
 	}
@@ -118,6 +120,7 @@ public class Popup : MonoBehaviour, IInitializable, IDebugable
 					panel.interactable = true;
 
 					CallEndTransitionEvent();
+					enabled = true;
 				}
 
 				yield break;
