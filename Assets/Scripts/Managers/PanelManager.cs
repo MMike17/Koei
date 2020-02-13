@@ -109,13 +109,13 @@ public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 		// gets ref of new scene
 		onLoadingDone.Invoke();
 
-		// calls generic action (generally gets popup refs)
+		// calls generic action (generally gets popup refs and init specific popup)
 		genericSceneAction.Invoke();
 
 		// fades panel out
 		yield return new WaitUntil(() => { return Fade(false); });
 
-		// called transition event
+		// calls transition event
 		eventsManager.CallPhaseActions(nextPanel);
 
 		actualPanel = nextPanel;

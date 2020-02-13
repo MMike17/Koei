@@ -37,10 +37,6 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 			popupsSubscriptions.Add(new PopupEventSubscription(popup));
 		}
 
-		// TODO
-		// Need to put that in scene Init on GameManager
-		// popups.ForEach(popup => { popup.Init(fadeDuration, alphaComparisonThreshold); popup.ForceState(false); });
-
 		initializableInterface.InitInternal();
 	}
 
@@ -163,6 +159,21 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 				return typeof(ShogunPopup);
 		}
 
+		return null;
+	}
+
+	// used by game manager to Init specific popup
+	public T GetPopupFromType<T>() where T : MonoBehaviour
+	{
+		foreach (Popup popup in scenePopups)
+		{
+			if(popup.GetType() == typeof(T))
+			{
+				return popup.GetComponent<T>();
+			}
+		}
+
+		Debug.LogWarning(debugableInterface.debugLabel + "Couldn't find popup for type " + typeof(T).ToString());
 		return null;
 	}
 
