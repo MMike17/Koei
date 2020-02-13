@@ -108,6 +108,8 @@ public class GameManager : MonoBehaviour, IDebugable
 			() => panelManager.JumpTo(GamePhase.SHOGUN, () => shogunManager = FindObjectOfType<ShogunManager>()),
 			() => Application.Quit()
 		);
+
+		popupManager.GetPopupFromType<SettingsPopup>().SpecificInit();
 	}
 
 	void InitShogunPanel()
@@ -121,6 +123,22 @@ public class GameManager : MonoBehaviour, IDebugable
 		shogunManager.Init(
 			() => popupManager.Pop(GamePopup.SHOGUN_DEDUCTION),
 			AddClueToPlayer
+		);
+
+		testDialogue.Init();
+
+		popupManager.GetPopupFromType<ShogunPopup>().SpecificInit(
+			testDialogue.GetAllClues(),
+			testDialogue.unlockableCards,
+			shogunManager.characters,
+			() => popupManager.CancelPop(),
+			(Card card) =>
+			{
+				if(!gameData.playerData.actualDeck.Contains(gameData.GetIndexOfCard(card)))
+				{
+					gameData.playerData.actualDeck.Add(gameData.GetIndexOfCard(card));
+				}
+			}
 		);
 
 		gameData.playerData.ResetClues();
