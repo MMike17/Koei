@@ -7,6 +7,8 @@ TagManager:
   - AreaToPlay
   - AreaForHand
   - Reserve
+  - EndPath
+  - StartPath
   layers:
   - Default
   - TransparentFX
