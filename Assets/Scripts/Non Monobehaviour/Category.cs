@@ -9,6 +9,7 @@ public enum Category
 // subcategories HAVE to start with the categories they come from followed with a "_"
 public enum SubCategory
 {
+	EMPTY,
 	WAR_COURAGE,
 	WAR_TALENT,
 	FAMILY_CHILDREN,
