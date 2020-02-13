@@ -7,6 +7,7 @@ public class Clue
 	public Category category;
 	[SerializeField]
 	SubCategory subCategory;
+	public GeneralDialogue.Character giverCharacter;
 	[TextArea(1, 10)]
 	public string summary;
 
