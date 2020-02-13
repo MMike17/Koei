@@ -1,14 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class DesignedCard : MonoBehaviour
 {
-    public TextMeshProUGUI category;
-    public TextMeshProUGUI subcategory;
+	[Header("Assign in Inspector")]
+	public GameObject greyed;
+	public TextMeshProUGUI category;
+	public TextMeshProUGUI subcategory;
 
-    public TextMeshProUGUI line;
-    public TextMeshProUGUI subline;
+	public CardTaker cardTaker => GetComponent<CardTaker>();
+
+	void Awake()
+	{
+		// spawns as not greyed out
+		greyed.SetActive(false);
+	}
+
+	public void GreyCard()
+	{
+		greyed.SetActive(true);
+	}
+
+	public void ShowCard()
+	{
+		greyed.SetActive(false);
+	}
 }
