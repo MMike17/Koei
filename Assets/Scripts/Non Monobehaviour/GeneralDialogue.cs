@@ -7,9 +7,10 @@ using UnityEngine;
 public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 {
 	// TODO : actually add the weaknesses to PlayerData
-	[Header("Weaknesses")]
+	[Header("Player Weaknesses")]
 	public List<SubCategory> criticalWeaknessesForPlayer;
 	public List<Category> weaknessesForPlayer;
+	public List<Card> unlockableCards;
 	[Header("Dialogue")]
 	public List<CharacterDialogue> charactersDialogues;
 
@@ -40,7 +41,7 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 	{
 		initializableInterface.initializedInternal = true;
 
-		Debug.Log(debugableInterface.debugLabel + "Initialized");
+		Debug.Log(debugableInterface.debugLabel + "Initializing done");
 	}
 
 	// gets CharacterDialogue from Character variable
@@ -88,6 +89,38 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 		{
 			charactersDialogues.Add(new CharacterDialogue(character));
 		}
+	}
+
+	public List<Clue> GetAllClues()
+	{
+		List<Clue> result = new List<Clue>();
+
+		foreach (CharacterDialogue characterDialogue in charactersDialogues)
+		{
+			foreach (Dialogue dialogue in characterDialogue.initialDialogues)
+			{
+				result.AddRange(GetClue(dialogue));
+			}
+		}
+
+		return result;
+	}
+
+	List<Clue> GetClue(Dialogue dialogue)
+	{
+		List<Clue> result = new List<Clue>();
+
+		foreach (Dialogue nextDialogue in dialogue.nextDialogues)
+		{
+			result.AddRange(GetClue(nextDialogue));
+		}
+
+		if(dialogue.hasClue)
+		{
+			result.Add(dialogue.clue);
+		}
+
+		return result;
 	}
 
 	// class representing character's dialogues

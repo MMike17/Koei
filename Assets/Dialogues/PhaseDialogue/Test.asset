@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   criticalWeaknessesForPlayer: 
   weaknessesForPlayer: 
+  unlockableCards:
+  - {fileID: 11400000, guid: 1c5408699b6834f48b4403f127f6dee6, type: 2}
   charactersDialogues:
   - character: 0
     firstLine: Shogun test

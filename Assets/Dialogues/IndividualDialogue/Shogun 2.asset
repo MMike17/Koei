@@ -17,6 +17,7 @@ MonoBehaviour:
   hasClue: 1
   clue:
     category: 1
-    subCategory: 2
+    subCategory: 3
+    giverCharacter: 0
     summary: Suck my nipples
   nextDialogues: []
