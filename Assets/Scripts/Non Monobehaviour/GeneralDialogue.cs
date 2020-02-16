@@ -99,7 +99,14 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 		{
 			foreach (Dialogue dialogue in characterDialogue.initialDialogues)
 			{
-				result.AddRange(GetClue(dialogue));
+				// prevents multiple clue spawning
+				foreach (Clue clue in GetClue(dialogue))
+				{
+					if(!result.Contains(clue))
+					{
+						result.Add(clue);
+					}
+				}
 			}
 		}
 

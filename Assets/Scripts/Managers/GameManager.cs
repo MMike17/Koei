@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 // main manager script of the game
@@ -64,7 +65,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	void Update()
 	{
 		// enables button to skip the "selected" stage (usefull only for gamepad use)
-		if(eventSystem.currentSelectedGameObject != null)
+		if(eventSystem != null && eventSystem.currentSelectedGameObject != null)
 		{
 			eventSystem.SetSelectedGameObject(null);
 		}
@@ -80,6 +81,8 @@ public class GameManager : MonoBehaviour, IDebugable
 		// initializes all managers
 		panelManager.Init(() =>
 		{
+			eventSystem = FindObjectOfType<EventSystem>();
+
 			// gets refs to popups and closes them without cool effect (as if it was never here)
 			popupManager.GetAllScenePopups();
 			popupManager.ForceCancelPop();
@@ -96,6 +99,7 @@ public class GameManager : MonoBehaviour, IDebugable
 		InitTitlePanel();
 	}
 
+	// called when we get to the title panel
 	void InitTitlePanel()
 	{
 		if(titleManager == null)
@@ -112,6 +116,7 @@ public class GameManager : MonoBehaviour, IDebugable
 		popupManager.GetPopupFromType<SettingsPopup>().SpecificInit();
 	}
 
+	// called when we get to the shogun panel
 	void InitShogunPanel()
 	{
 		if(shogunManager == null)
@@ -145,9 +150,10 @@ public class GameManager : MonoBehaviour, IDebugable
 		shogunManager.StartDialogue(testDialogue);
 	}
 
+	// gets called every time we pop deduction popup
 	void StartDeduction()
 	{
-		// Start deduction popup here
+		popupManager.GetPopupFromType<ShogunPopup>().ChecKnobsState(gameData.playerData.clues);
 	}
 
 	// subscribe events to panel EventManager here

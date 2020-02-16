@@ -13,20 +13,21 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 	IInitializable initializableInterface => (IInitializable) this;
 
 	public bool initialized => initializableInterface.initializedInternal;
-	public bool isUnlocked => unlocked.activeSelf;
+	public bool isLocked => !isUnlocked;
 
 	bool IInitializable.initializedInternal { get; set; }
 	string IDebugable.debugLabel => "<b>[ClueKnob] : </b>";
 
 	Clue clue;
-	bool isSelected;
+	bool isSelected, isUnlocked;
 
 	public void Init(bool isUnlocked, Clue clue, Sprite characterPortrait, Action<string, Sprite> showClue)
 	{
+		this.isUnlocked = isUnlocked;
+		this.clue = clue;
+
 		locked.SetActive(!isUnlocked);
 		unlocked.SetActive(isUnlocked);
-
-		this.clue = clue;
 
 		showClueButton.onClick.AddListener(() => { showClue.Invoke(clue.summary, characterPortrait); });
 
@@ -45,6 +46,12 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 	// called when you hover with mouse and you started a path
 	public void SelectForPath()
 	{
+		if(!initialized)
+		{
+			Debug.LogError(debuguableInterface.debugLabel + "Not initialized");
+			return;
+		}
+
 		isSelected = !isSelected;
 
 		selected.SetActive(isSelected);
@@ -53,8 +60,55 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 		Debug.Log(debuguableInterface.debugLabel + (isSelected? "Selected knob": "Unselected knob"));
 	}
 
+	public void DeselectKnob()
+	{
+		if(!initialized)
+		{
+			Debug.LogError(debuguableInterface.debugLabel + "Not initialized");
+			return;
+		}
+
+		isSelected = false;
+
+		selected.SetActive(false);
+		unlocked.SetActive(true);
+
+		Debug.Log(debuguableInterface.debugLabel + "Unselected knob");
+	}
+
+	public void Unlock()
+	{
+		if(!initialized)
+		{
+			Debug.LogError(debuguableInterface.debugLabel + "Not initialized");
+			return;
+		}
+
+		isUnlocked = true;
+
+		locked.SetActive(false);
+		unlocked.SetActive(true);
+	}
+
 	public SubCategory GetSubCategory()
 	{
+		if(!initialized)
+		{
+			Debug.LogError(debuguableInterface.debugLabel + "Not initialized");
+			return SubCategory.EMPTY;
+		}
+
 		return clue.correctedSubCategory;
+	}
+
+	public bool CompareClue(Clue clue)
+	{
+		if(!initialized)
+		{
+			Debug.LogError(debuguableInterface.debugLabel + "Not initialized");
+			return false;
+		}
+
+		return this.clue == clue;
 	}
 }

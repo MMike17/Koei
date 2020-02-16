@@ -9,7 +9,7 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 
 	[Header("Debug")]
 	public Transform start;
-	public Vector3 end;
+	public Transform end;
 	public SubCategory startClue;
 	public SubCategory endClue;
 
@@ -33,16 +33,9 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 
 	State state;
 
-	void OnDrawGizmos()
-	{
-		if(start != null && end != null)
-			SetPath(State.NORMAL);
-	}
-
-	public void Init(Transform start, Vector3 end, SubCategory startClue = SubCategory.EMPTY)
+	public void Init(Transform start, SubCategory startClue = SubCategory.EMPTY)
 	{
 		this.start = start;
-		this.end = end;
 
 		this.startClue = startClue;
 		endClue = SubCategory.EMPTY;
@@ -56,22 +49,29 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 		Debug.Log(debuguableInterface.debugLabel + "Initializing done");
 	}
 
-	public void SetPath(State newState = State.NORMAL)
+	public void UpdatePath(Vector3 newEnd = default(Vector3), State newState = State.NORMAL)
 	{
-		Vector3 offset = (end - start.localPosition);
+		if(!initialized)
+		{
+			Debug.LogError(debuguableInterface.debugLabel + "Not initialized");
+			return;
+		}
+
+		Vector3 endPosition = newEnd != default(Vector3) ? newEnd : end.localPosition;
+		Vector3 offset = (endPosition - start.localPosition);
 
 		// moves path center
 		transform.localPosition = start.localPosition + offset / 2;
 
 		// rotates path
-		float angle = Vector3.SignedAngle(start.right, offset, Vector3.forward);
+		float angle = Vector3.SignedAngle(Vector3.right, offset, Vector3.forward);
 		transform.rotation = Quaternion.Euler(0, 0, angle);
 
 		// set height
 		rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pathThickness);
 
 		// set width
-		rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Vector3.Distance(start.localPosition, end));
+		rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Vector3.Distance(start.localPosition, endPosition));
 
 		// puts the path on top of hierarchy to render behind knobs
 		transform.SetAsFirstSibling();
@@ -81,20 +81,34 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 		SetColorFromState();
 	}
 
-	public void SetEnd(Vector3 end, SubCategory clue = SubCategory.EMPTY)
+	public void SetEnd(Transform end, SubCategory clue)
 	{
 		this.end = end;
 		endClue = clue;
+
+		UpdatePath();
 	}
 
-	public Vector3 GetEnd()
+	public Transform GetEnd()
 	{
+		if(!initialized)
+		{
+			Debug.LogError(debuguableInterface.debugLabel + "Not initialized");
+			return null;
+		}
+
 		return end;
 	}
 
 	// checks state of path depending on knob clues
 	public SubCategory CheckState()
 	{
+		if(!initialized)
+		{
+			Debug.LogError(debuguableInterface.debugLabel + "Not initialized");
+			return SubCategory.EMPTY;
+		}
+
 		if(startClue == endClue)
 		{
 			state = State.VALIDATED;
@@ -104,7 +118,7 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 		}
 		else
 		{
-			state = State.VALIDATED;
+			state = State.WRONG;
 			SetColorFromState();
 
 			return SubCategory.EMPTY;
@@ -130,6 +144,17 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 
 	public bool ContainsKnob(Transform knob)
 	{
-		return start == knob || end == knob.position;
+		if(!initialized)
+		{
+			Debug.LogError(debuguableInterface.debugLabel + "Not initialized");
+			return false;
+		}
+
+		return start == knob || end == knob;
+	}
+
+	public bool Compare(Path path)
+	{
+		return path.start == start && path.end == end;
 	}
 }

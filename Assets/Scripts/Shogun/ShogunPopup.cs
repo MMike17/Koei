@@ -25,6 +25,7 @@ public class ShogunPopup : Popup
 	List<CardToUnlock> cardsToUnlock;
 	List<Path> selectionPath;
 	List<Path> checkedPaths;
+	List<ClueKnob> spawnedKnobs;
 	ClueKnob previouslyHoveredKnob;
 	Action<Card> addCardToPlayerCallback;
 	int positionComputingStep;
@@ -51,6 +52,8 @@ public class ShogunPopup : Popup
 		foreach (Card card in unlockableCards)
 		{
 			DesignedCard spawned = Instantiate(cardPrefab, cardList);
+
+			spawned.Init(card);
 			spawned.cardTaker.enabled = false;
 			spawned.GreyCard();
 
@@ -66,16 +69,16 @@ public class ShogunPopup : Popup
 		rectangle.height -= clueKnobSpawnPadding;
 
 		// list of spawned clue knobs to check distance with existing knobs
-		List<ClueKnob> checkList = new List<ClueKnob>();
+		spawnedKnobs = new List<ClueKnob>();
 
 		foreach (Clue clue in clueList)
 		{
 			positionComputingStep = 0;
-			Vector3 targetPosition = ComputeRandomPosition(rectangle, checkList);
+			Vector3 targetPosition = ComputeRandomPosition(rectangle, spawnedKnobs);
 
 			ClueKnob spawned = Instantiate(clueKnobPrefab, clueKnobSpawnZone);
 			spawned.transform.localPosition = targetPosition;
-			checkList.Add(spawned);
+			spawnedKnobs.Add(spawned);
 
 			ShogunCharacter character = characters.Find(item => { return item.character == clue.giverCharacter; });
 
@@ -88,7 +91,7 @@ public class ShogunPopup : Popup
 			spawned.Init(false, clue, character.characterPortrait, (string clueDetail, Sprite portrait) =>
 			{
 				// shows clue only if unlocked
-				if(spawned.isUnlocked)
+				if(!spawned.isLocked)
 				{
 					ShowClue(clueDetail, portrait);
 				}
@@ -142,7 +145,7 @@ public class ShogunPopup : Popup
 	void Update()
 	{
 		// retrieves pointer event data from current input module
-		PointerEventData eventData = ActuallyUsefulInputModule.GetPointerEventData(0);
+		PointerEventData eventData = ActuallyUsefulInputModule.GetPointerEventData(-1);
 
 		// if first click
 		if(Input.GetMouseButtonDown(0))
@@ -159,6 +162,12 @@ public class ShogunPopup : Popup
 					Debug.Log(debugableInterface.debugLabel + "Started selection path");
 				}
 			});
+
+			// resets clue panel if clic in empty
+			if(!isSettingPath)
+			{
+				ResetPopup();
+			}
 		}
 
 		// if we are drawing line (prevents miscalls when we're not in pannel)
@@ -177,7 +186,7 @@ public class ShogunPopup : Popup
 					if(item.CompareTag("EndPath") && selectionPath.Count == 4)
 					{
 						// there is no clue on last knob
-						selectionPath[selectionPath.Count - 1].SetEnd(endPath.position);
+						selectionPath[selectionPath.Count - 1].UpdatePath(endPath.position);
 
 						isPathFinished = true;
 						Debug.Log(debugableInterface.debugLabel + "Finished selection path");
@@ -193,41 +202,66 @@ public class ShogunPopup : Popup
 			}
 			else // updates path if mouse is pressed and path started
 			{
+				// feeds in list of knobs from hovered objects
+				List<ClueKnob> knobs = new List<ClueKnob>();
+
 				eventData.hovered.ForEach(item =>
 				{
-					ClueKnob knob = item.GetComponent<ClueKnob>();
+					ClueKnob selected = item.GetComponent<ClueKnob>();
 
-					// if we are above knob
-					if(knob != null)
+					if(selected != null)
 					{
-						// if it's new knob (if we are not above empty anymore)
-						if(knob != previouslyHoveredKnob)
-						{
-							// if knob is not in chain
-							if(selectionPath.Find(path => { return path.ContainsKnob(knob.transform); }) == null)
-							{
-								SpawnNewPath(knob.GetSubCategory(), knob.transform.position);
-							}
-							// if knob is in chain and is last in chain
-							// (we don't take last path because last path is the path currently forming by player)
-							else if(knob.transform.position == selectionPath[selectionPath.Count - 2].GetEnd())
-							{
-								// deselects knob
-								Destroy(selectionPath[selectionPath.Count - 1].gameObject);
-								selectionPath.RemoveAt(selectionPath.Count - 1);
-							}
-
-							knob.SelectForPath();
-						}
+						knobs.Add(selected);
 					}
-					else // if we are not above knob
-					{
-						// sticks end of path on mouse
-						selectionPath[selectionPath.Count - 1].SetEnd(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-					}
-
-					previouslyHoveredKnob = knob;
 				});
+
+				if(knobs.Count > 1)
+				{
+					Debug.LogWarning(debugableInterface.debugLabel + "There shouldn't be more than one knob hovered at a time");
+				}
+
+				ClueKnob knob = null;
+
+				// there should only be one knob at a time
+				if(knobs.Count > 0)
+				{
+					knob = knobs[0];
+				}
+
+				// if we are above knob
+				if(knob != null)
+				{
+					// if it's new knob (if we are not above empty anymore)
+					if(knob != previouslyHoveredKnob && !knob.isLocked)
+					{
+						// if knob is not in chain
+						if(selectionPath.Find(path => { return path.ContainsKnob(knob.transform); }) == null)
+						{
+							// if we didn't select too many clues
+							if(selectionPath.Count < 4)
+							{
+								SpawnNewPath(knob.GetSubCategory(), knob.transform);
+							}
+						}
+						// if knob is in chain and is last in chain
+						// (we don't take last path because last path is the path currently forming by player)
+						else if(knob.transform == selectionPath[selectionPath.Count - 2].GetEnd())
+						{
+							// deselects knob
+							Destroy(selectionPath[selectionPath.Count - 1].gameObject);
+							selectionPath.RemoveAt(selectionPath.Count - 1);
+						}
+
+						knob.SelectForPath();
+					}
+				}
+				else // if we are not above knob
+				{
+					// sticks end of path on mouse
+					selectionPath[selectionPath.Count - 1].UpdatePath(RealMousePosition());
+				}
+
+				previouslyHoveredKnob = knob;
 			}
 		}
 
@@ -242,17 +276,23 @@ public class ShogunPopup : Popup
 	}
 
 	// ends previous path if there is one and spawns a new one
-	void SpawnNewPath(SubCategory start, Vector3 endPrevious = default(Vector3))
+	void SpawnNewPath(SubCategory start, Transform endPrevious = null)
 	{
-		if(selectionPath.Count > 0)
+		Transform beginPath = startPath;
+
+		// ends previous path
+		if(selectionPath.Count > 0 && endPrevious != null)
 		{
-			// ends previous path
-			selectionPath[selectionPath.Count - 1].SetEnd(endPrevious);
+			selectionPath[selectionPath.Count - 1].SetEnd(endPrevious, start);
+
+			// gets previous end point as starting point
+			beginPath = selectionPath[selectionPath.Count - 1].GetEnd();
 		}
 
 		// spawn new path
 		Path spawned = Instantiate(pathPrefab, clueKnobSpawnZone);
-		spawned.Init(startPath, Camera.main.ScreenToWorldPoint(Input.mousePosition), start);
+		spawned.Init(beginPath, start);
+		selectionPath.Add(spawned);
 	}
 
 	// clue knob button
@@ -262,13 +302,38 @@ public class ShogunPopup : Popup
 		popupCharacterPortrait.sprite = characterPortrait;
 	}
 
+	public void ChecKnobsState(List<Clue> playerClues)
+	{
+		foreach (Clue clue in playerClues)
+		{
+			ClueKnob knob = spawnedKnobs.Find(item => { return item.CompareClue(clue); });
+
+			if(knob == null)
+			{
+				Debug.LogError(debugableInterface.debugLabel + "Couldn't find a ClueKnob with clue " + clue.ToString() + " (ClueKnob probably haven't been initialized properly)");
+			}
+			else
+			{
+				knob.Unlock();
+			}
+		}
+	}
+
 	void CheckFullPath(bool isFinished)
 	{
-		// destroys first path
-		Destroy(selectionPath[0].gameObject);
+		// deselect all knobs
+		spawnedKnobs.ForEach(item => item.DeselectKnob());
 
-		// destroys last path (if finished it's linked to end knob, if not it's interrupted)
-		Destroy(selectionPath[selectionPath.Count - 1].gameObject);
+		// destroys first path (linked to start node)
+		Destroy(selectionPath[0].gameObject);
+		selectionPath.RemoveAt(0);
+
+		if(selectionPath.Count > 0)
+		{
+			// destroys last path (if finished it's linked to end knob, if not it's interrupted)
+			Destroy(selectionPath[selectionPath.Count - 1].gameObject);
+			selectionPath.RemoveAt(selectionPath.Count - 1);
+		}
 
 		List<SubCategory> pathSubCategories = new List<SubCategory>();
 
@@ -277,8 +342,21 @@ public class ShogunPopup : Popup
 			// path checks it's state
 			pathSubCategories.Add(path.CheckState());
 
-			// moves path to path already checked
-			checkedPaths.Add(path);
+			// moves path to path already checked (if we don't already have a similar path)
+			bool contains = false;
+
+			checkedPaths.ForEach(item =>
+			{
+				if(item.Compare(path))
+				{
+					contains = true;
+				}
+			});
+
+			if(!contains)
+			{
+				checkedPaths.Add(path);
+			}
 		}
 
 		// checks if we unlocked a card
@@ -286,6 +364,7 @@ public class ShogunPopup : Popup
 
 		foreach (SubCategory subCategory in pathSubCategories)
 		{
+			// compares first subCategory to all subCategories
 			if(pathSubCategories[0] != subCategory)
 			{
 				unlockCard = false;
@@ -293,7 +372,7 @@ public class ShogunPopup : Popup
 		}
 
 		// unlocks card
-		if(unlockCard)
+		if(selectionPath.Count > 0 && unlockCard)
 		{
 			CardToUnlock unlock = cardsToUnlock.Find(item => { return item.cardData.subStrength == pathSubCategories[0]; });
 
@@ -311,6 +390,16 @@ public class ShogunPopup : Popup
 
 		// deletes selection path
 		selectionPath.Clear();
+	}
+
+	Vector2 RealMousePosition()
+	{
+		// complicated mouse position computation because fuck me I guess ?
+		Vector2 mousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+		mousePosition.x = mousePosition.x * Screen.width - Screen.width / 2;
+		mousePosition.y = mousePosition.y * Screen.height - Screen.height / 2;
+
+		return mousePosition;
 	}
 
 	// class to unlock cards visualy
