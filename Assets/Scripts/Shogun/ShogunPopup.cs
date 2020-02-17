@@ -58,6 +58,7 @@ public class ShogunPopup : Popup
 			spawned.GreyCard();
 
 			cardsToUnlock.Add(new CardToUnlock(card, spawned));
+			cardsToUnlock[cardsToUnlock.Count - 1].cardData.Init();
 		}
 	}
 
@@ -124,6 +125,8 @@ public class ShogunPopup : Popup
 		if(shouldRestart)
 		{
 			positionComputingStep++;
+			Debug.Log(debugableInterface.debugLabel + "Reached computing limit (10)");
+
 			return ComputeRandomPosition(spawnZone, alreadySpawned);
 		}
 		else // or returns the random vector because it's correct
@@ -137,7 +140,7 @@ public class ShogunPopup : Popup
 		lineCounter.text = "0 / 3";
 		clueDescription.text = string.Empty;
 
-		popupCharacterPortrait.sprite = null;
+		popupCharacterPortrait.enabled = false;
 
 		base.ResetPopup();
 	}
@@ -300,6 +303,7 @@ public class ShogunPopup : Popup
 	{
 		clueDescription.text = clueLine;
 		popupCharacterPortrait.sprite = characterPortrait;
+		popupCharacterPortrait.enabled = true;
 	}
 
 	public void ChecKnobsState(List<Clue> playerClues)

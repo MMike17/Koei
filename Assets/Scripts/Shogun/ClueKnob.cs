@@ -26,8 +26,7 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 		this.isUnlocked = isUnlocked;
 		this.clue = clue;
 
-		locked.SetActive(!isUnlocked);
-		unlocked.SetActive(isUnlocked);
+		CheckState();
 
 		showClueButton.onClick.AddListener(() => { showClue.Invoke(clue.summary, characterPortrait); });
 
@@ -55,7 +54,7 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 		isSelected = !isSelected;
 
 		selected.SetActive(isSelected);
-		unlocked.SetActive(!isSelected);
+		CheckState();
 
 		Debug.Log(debuguableInterface.debugLabel + (isSelected? "Selected knob": "Unselected knob"));
 	}
@@ -71,7 +70,7 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 		isSelected = false;
 
 		selected.SetActive(false);
-		unlocked.SetActive(true);
+		CheckState();
 
 		Debug.Log(debuguableInterface.debugLabel + "Unselected knob");
 	}
@@ -86,8 +85,7 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 
 		isUnlocked = true;
 
-		locked.SetActive(false);
-		unlocked.SetActive(true);
+		CheckState();
 	}
 
 	public SubCategory GetSubCategory()
@@ -110,5 +108,11 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 		}
 
 		return this.clue == clue;
+	}
+
+	void CheckState()
+	{
+		locked.SetActive(!isUnlocked);
+		unlocked.SetActive(isUnlocked);
 	}
 }

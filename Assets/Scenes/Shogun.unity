@@ -1844,7 +1844,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -200, y: -200}
+  m_SizeDelta: {x: -300, y: -200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &859880131
 GameObject:
@@ -3709,8 +3709,8 @@ MonoBehaviour:
   popup: 2
   panel: {fileID: 1891534099}
   clueKnobSpawnPadding: 100
-  clueKnobMinDistance: 200
-  positionComputingLimit: 10
+  clueKnobMinDistance: 500
+  positionComputingLimit: 100
   clueKnobPrefab: {fileID: 5588633241759400277, guid: 97504a3c734f6f344851c7a98c0ac8d1,
     type: 3}
   cardPrefab: {fileID: 3956893729713691609, guid: d07d41c563c3b85458829eb30ece33f2,

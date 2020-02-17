@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerQuestion: Test 1 - 1
   characterAnswer: Asnwer 1 - 1
-  hasClue: 0
+  hasClue: 1
   clue:
     category: 0
-    subCategory: 0
-    summary: 
+    subCategory: 2
+    giverCharacter: 0
+    summary: Epstein didn't kill himself
   nextDialogues: []
