@@ -13,8 +13,6 @@ public class CardTester : MonoBehaviour
     public Transform handObject;
     List<Transform> handChildren;
 
-    DesignedCard[] cardsInHand;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -30,8 +28,11 @@ public class CardTester : MonoBehaviour
         {
             handChildren[i].GetComponent<DesignedCard>();
 
+            handChildren[i].GetComponent<DesignedCard>().Init(totalCards[i]);
+            /*
             handChildren[i].GetComponent<DesignedCard>().category.text = totalCards[i].strength.ToString();
             handChildren[i].GetComponent<DesignedCard>().subcategory.text = totalCards[i].subStrength.ToString();
+            */
         }
     }
 }
