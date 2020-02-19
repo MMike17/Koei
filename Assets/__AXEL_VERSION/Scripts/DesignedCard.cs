@@ -5,6 +5,7 @@ public class DesignedCard : MonoBehaviour, IInitializable, IDebugable
 {
 	[Header("Assign in Inspector")]
 	public GameObject greyed;
+	public GameObject normal;
 	public TextMeshProUGUI category;
 	public TextMeshProUGUI subcategory;
 
@@ -19,13 +20,12 @@ public class DesignedCard : MonoBehaviour, IInitializable, IDebugable
 
 	public void Init(Card data)
 	{
-		// spawns as not greyed out
-		greyed.SetActive(false);
-
 		category.text = data.strength.ToString();
 		subcategory.text = data.subStrength.ToString();
 
 		initializableInterface.InitInternal();
+
+		ShowCard();
 	}
 
 	void IInitializable.InitInternal()
@@ -44,6 +44,10 @@ public class DesignedCard : MonoBehaviour, IInitializable, IDebugable
 		}
 
 		greyed.SetActive(true);
+
+		normal.SetActive(false);
+		category.gameObject.SetActive(false);
+		subcategory.gameObject.SetActive(false);
 	}
 
 	public void ShowCard()
@@ -55,5 +59,9 @@ public class DesignedCard : MonoBehaviour, IInitializable, IDebugable
 		}
 
 		greyed.SetActive(false);
+
+		normal.SetActive(true);
+		category.gameObject.SetActive(true);
+		subcategory.gameObject.SetActive(true);
 	}
 }
