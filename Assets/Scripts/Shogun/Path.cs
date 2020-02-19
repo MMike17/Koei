@@ -5,7 +5,6 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 {
 	[Header("Settings")]
 	public float pathThickness;
-	public Color normalColor, validatedColor, wrongColor;
 
 	[Header("Debug")]
 	public Transform start;
@@ -32,13 +31,18 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 	string IDebugable.debugLabel => "<b>[Path] : </b>";
 
 	State state;
+	Color normalColor, validatedColor, wrongColor;
 
-	public void Init(Transform start, SubCategory startClue = SubCategory.EMPTY)
+	public void Init(Transform start, Color normal, Color validated, Color wrong, SubCategory startClue = SubCategory.EMPTY)
 	{
 		this.start = start;
 
 		this.startClue = startClue;
 		endClue = SubCategory.EMPTY;
+
+		normalColor = normal;
+		validatedColor = validated;
+		wrongColor = wrong;
 
 		initializableInterface.InitInternal();
 	}
@@ -151,10 +155,5 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 		}
 
 		return start == knob || end == knob;
-	}
-
-	public bool Compare(Path path)
-	{
-		return path.start == start && path.end == end;
 	}
 }

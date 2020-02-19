@@ -12,6 +12,7 @@ public class ShogunPopup : Popup
 	public float clueKnobSpawnPadding;
 	public float clueKnobMinDistance;
 	public int positionComputingLimit;
+	public Color normalPath, validatedPath, wrongPath;
 
 	[Header("Assing in Inspector")]
 	public ClueKnob clueKnobPrefab;
@@ -196,12 +197,16 @@ public class ShogunPopup : Popup
 					}
 				});
 
-				if(!isPathFinished)
+				List<SubCategory> pathCheck = CheckFullPath(isPathFinished);
+
+				if(isPathFinished)
+				{
+					CheckCardUnlock(pathCheck);
+				}
+				else
 				{
 					Debug.Log(debugableInterface.debugLabel + "Interrupted selection path");
 				}
-
-				CheckFullPath(isPathFinished);
 			}
 			else // updates path if mouse is pressed and path started
 			{
@@ -248,7 +253,7 @@ public class ShogunPopup : Popup
 						}
 						// if knob is in chain and is last in chain
 						// (we don't take last path because last path is the path currently forming by player)
-						else if(knob.transform == selectionPath[selectionPath.Count - 2].GetEnd())
+						else if(selectionPath.Count > 1 && knob.transform == selectionPath[selectionPath.Count - 2].GetEnd())
 						{
 							// deselects knob
 							Destroy(selectionPath[selectionPath.Count - 1].gameObject);
@@ -256,6 +261,10 @@ public class ShogunPopup : Popup
 						}
 
 						knob.SelectForPath();
+					}
+					else
+					{
+						selectionPath[selectionPath.Count - 1].UpdatePath(RealMousePosition());
 					}
 				}
 				else // if we are not above knob
@@ -294,7 +303,7 @@ public class ShogunPopup : Popup
 
 		// spawn new path
 		Path spawned = Instantiate(pathPrefab, clueKnobSpawnZone);
-		spawned.Init(beginPath, start);
+		spawned.Init(beginPath, normalPath, validatedPath, wrongPath, start);
 		selectionPath.Add(spawned);
 	}
 
@@ -323,8 +332,14 @@ public class ShogunPopup : Popup
 		}
 	}
 
-	void CheckFullPath(bool isFinished)
+	List<SubCategory> CheckFullPath(bool isFinished)
 	{
+		string debug = string.Empty;
+
+		checkedPaths.ForEach(item => debug += item + "\n");
+
+		Debug.LogWarning(debugableInterface.debugLabel + debug);
+
 		// deselect all knobs
 		spawnedKnobs.ForEach(item => item.DeselectKnob());
 
@@ -340,6 +355,7 @@ public class ShogunPopup : Popup
 		}
 
 		List<SubCategory> pathSubCategories = new List<SubCategory>();
+		List<Path> toDelete = new List<Path>();
 
 		foreach (Path path in selectionPath)
 		{
@@ -347,22 +363,31 @@ public class ShogunPopup : Popup
 			pathSubCategories.Add(path.CheckState());
 
 			// moves path to path already checked (if we don't already have a similar path)
-			bool contains = false;
+			Path found = checkedPaths.Find(item => { return item == path; });
 
-			checkedPaths.ForEach(item =>
+			if(found != null)
 			{
-				if(item.Compare(path))
-				{
-					contains = true;
-				}
-			});
-
-			if(!contains)
+				// adds path to paths that will be destroyed 
+				toDelete.Add(path);
+			}
+			else
 			{
 				checkedPaths.Add(path);
 			}
 		}
 
+		// delete paths that are already in the checkedPath
+		toDelete.ForEach(item => selectionPath.Remove(item));
+
+		// deletes selection path
+		selectionPath.ForEach(item => Destroy(item));
+		selectionPath.Clear();
+
+		return pathSubCategories;
+	}
+
+	void CheckCardUnlock(List<SubCategory> pathSubCategories)
+	{
 		// checks if we unlocked a card
 		bool unlockCard = true;
 
@@ -376,7 +401,7 @@ public class ShogunPopup : Popup
 		}
 
 		// unlocks card
-		if(selectionPath.Count > 0 && unlockCard)
+		if(pathSubCategories.Count == 2 && unlockCard && pathSubCategories[0] != SubCategory.EMPTY)
 		{
 			CardToUnlock unlock = cardsToUnlock.Find(item => { return item.cardData.subStrength == pathSubCategories[0]; });
 
@@ -391,9 +416,6 @@ public class ShogunPopup : Popup
 				addCardToPlayerCallback.Invoke(unlock.cardData);
 			}
 		}
-
-		// deletes selection path
-		selectionPath.Clear();
 	}
 
 	Vector2 RealMousePosition()

@@ -3711,6 +3711,9 @@ MonoBehaviour:
   clueKnobSpawnPadding: 100
   clueKnobMinDistance: 500
   positionComputingLimit: 100
+  normalPath: {r: 1, g: 1, b: 1, a: 0.5019608}
+  validatedPath: {r: 0.08453977, g: 0.5, b: 0, a: 0.5019608}
+  wrongPath: {r: 0.5, g: 0, b: 0, a: 0.5019608}
   clueKnobPrefab: {fileID: 5588633241759400277, guid: 97504a3c734f6f344851c7a98c0ac8d1,
     type: 3}
   cardPrefab: {fileID: 3956893729713691609, guid: d07d41c563c3b85458829eb30ece33f2,
