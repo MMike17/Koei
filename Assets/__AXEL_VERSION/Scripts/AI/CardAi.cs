@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AiCore;
+using AiLib;
+using AiElementsDefinitions;
 
 public class CardAi : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Generate new AI
+        Ai newAi = Ai.CreateNewAi();
     }
 }
