@@ -5,17 +5,25 @@ using AiElementsDefinitions;
 
 public class TurnSys : MonoBehaviour
 {
-    public Entity.EntityGenre entityToPlay;
+    public CardAi cardAi;
     
     public void EndTurn()
     {
-        if(entityToPlay == Entity.EntityGenre.Ai)
+        if(DataGame.entityToPlay == Entity.EntityGenre.Ai)
         {
-            entityToPlay = Entity.EntityGenre.Player;
+            Debug.Log("<b>TURN MANAGER</b> >> Player Turn");
+            DataGame.entityToPlay = Entity.EntityGenre.Player;
         }
-        else if(entityToPlay == Entity.EntityGenre.Player)
+        else if(DataGame.entityToPlay == Entity.EntityGenre.Player)
         {
-            entityToPlay = Entity.EntityGenre.Ai;
+            // Define the variable to allow AI to make a futur choice
+            cardAi.aiHasPlayed = false;
+
+            // Display that AI is making something
+            Debug.Log("<b>TURN MANAGER</b> >> AI Turn");
+
+            // Define current 'entity to play' as AI
+            DataGame.entityToPlay = Entity.EntityGenre.Ai;
         }
     }
 }

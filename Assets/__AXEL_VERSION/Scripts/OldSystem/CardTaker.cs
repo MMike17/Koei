@@ -20,12 +20,10 @@ public class CardTaker : MonoBehaviour, IDragHandler, IEndDragHandler
     private TextMeshProUGUI subcategory;
 
     private string line;
-    private TurnSys turnSys;
 
 
     private void Start()
     {
-        turnSys = FindObjectOfType<TurnSys>();
         cardManager = GameObject.FindObjectOfType<CardManager>();
         category = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         subcategory = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
@@ -39,66 +37,77 @@ public class CardTaker : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        // Set the new size of the card
-        transform.GetComponent<RectTransform>().sizeDelta = newSize;
+        if(DataGame.entityToPlay == AiElementsDefinitions.Entity.EntityGenre.Player)
+        {
+            // Set the new size of the card
+            transform.GetComponent<RectTransform>().sizeDelta = newSize;
 
-        // Set the cursor invisible
-        Cursor.visible = false;
-        
-        // Set the card on the mouse position
-        transform.position = Input.mousePosition;
+            // Set the cursor invisible
+            Cursor.visible = false;
+
+            // Set the card on the mouse position
+            transform.position = Input.mousePosition;
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        // Reset the size of the card
-        transform.GetComponent<RectTransform>().sizeDelta = baseSize;
-
-        // Set the cursor visible
-        Cursor.visible = true;
-        
-        // Set the position of the card
-        transform.position = basePos;
-
-
-        // Set the UI detector system
-        List<RaycastResult> uiUnder = RaycastMouse();
-
-        // Check every case for uiUnder
-        if(uiUnder[0].gameObject.tag == "AreaToPlay")
+        if (DataGame.entityToPlay == AiElementsDefinitions.Entity.EntityGenre.Player)
         {
-            // PLAYER PLAYS HERE
-            Debug.Log("Card has been destroyed.");
+            // Reset the size of the card
+            transform.GetComponent<RectTransform>().sizeDelta = baseSize;
 
-            cardManager.PlayAndTurn("");
-            
+            // Set the cursor visible
+            Cursor.visible = true;
 
-            Destroy(gameObject);
-        }
-        else if(uiUnder[0].gameObject.tag == "AreaForHand")
-        {
-            Debug.Log("Card has been replaced in hand.");
-        }
-        else if(uiUnder[1].gameObject.tag == "Reserve")
-        {
-            if (uiUnder[1].gameObject.GetComponent<BasicalBoolean>().hasBeenActivated)
+            // Set the position of the card
+            transform.position = basePos;
+
+
+            // Set the UI detector system
+            List<RaycastResult> uiUnder = RaycastMouse();
+
+            // Check every case for uiUnder
+            if (uiUnder[0].gameObject.tag == "AreaToPlay")
             {
-                // Disagree the placing in the reserve
-                Debug.Log("Card has been replaced in hand because reserve is full.");
-            }
-            else
-            {
-                // Agree with placing in reserve
-                Debug.Log("Placed in reserve");
+                // PLAYER PLAYS HERE
+                Debug.Log("Card has been destroyed.");
 
-                uiUnder[1].gameObject.GetComponent<Image>().sprite = transform.GetComponent<Image>().sprite;
-
-                uiUnder[1].gameObject.GetComponent<DesignedCard>().category.text = transform.GetComponent<DesignedCard>().category.text;
-                uiUnder[1].gameObject.GetComponent<DesignedCard>().subcategory.text = transform.GetComponent<DesignedCard>().subcategory.text;
-
-                uiUnder[1].gameObject.GetComponent<BasicalBoolean>().hasBeenActivated = true;
+                cardManager.PlayAndTurn("");
 
                 Destroy(gameObject);
+
+                // Change turn to get AI play
+                DataGame.entityToPlay = AiElementsDefinitions.Entity.EntityGenre.Ai;
+            }
+            else if (uiUnder[0].gameObject.tag == "AreaForHand")
+            {
+                Debug.Log("Card has been replaced in hand.");
+            }
+            else if (uiUnder[1].gameObject.tag == "Reserve")
+            {
+                if (uiUnder[1].gameObject.GetComponent<BasicalBoolean>().hasBeenActivated)
+                {
+                    // Disagree the placing in the reserve
+                    Debug.Log("Card has been replaced in hand because reserve is full.");
+                }
+                else
+                {
+                    // Agree with placing in reserve
+                    Debug.Log("Placed in reserve");
+
+                    //uiUnder[1].gameObject.GetComponent<Image>().sprite = transform.GetComponent<Image>().sprite;
+
+                    uiUnder[1].gameObject.GetComponent<DesignedCard>().category.text = transform.GetComponent<DesignedCard>().category.text;
+                    uiUnder[1].gameObject.GetComponent<DesignedCard>().subcategory.text = transform.GetComponent<DesignedCard>().subcategory.text;
+
+                    uiUnder[1].gameObject.GetComponent<BasicalBoolean>().hasBeenActivated = true;
+
+                    Destroy(gameObject);
+
+                    // Let's AI play
+                    DataGame.entityToPlay = AiElementsDefinitions.Entity.EntityGenre.Ai;
+                }
             }
         }
     }

@@ -7,24 +7,29 @@ using AiElementsDefinitions;
 
 public class CardAi : MonoBehaviour
 {
-    public bool aiCanPlay;
+    public TurnSys turnSys;
+
+    [HideInInspector]
     public bool aiHasPlayed;
+
+    private Ai newAi;
 
     private void Start()
     {
         // Generate new AI
-        Ai newAi = Ai.CreateNewAi();
-        Debug.Log("<b>[AI]</b> >> AI was initialized and defined new strategy.");
+         newAi = Ai.CreateNewAi();
+         Debug.Log("<b>[AI]</b> >> AI was initialized and defined new strategy.");
     }
 
     private void Update()
     {
-        if (aiCanPlay)
+        if (DataGame.entityToPlay == Entity.EntityGenre.Ai)
         {
             if (!aiHasPlayed)
             {
                 // AI make a choice
                 Debug.Log("<b>[AI]</b> >> AI is about to make a choice.");
+                Ai.MakeChoice(newAi);
                 aiHasPlayed = true;
             }
         }

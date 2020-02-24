@@ -10,7 +10,6 @@ namespace AiCore
     {
         public Strategy strategy;
         public List<Memory> memories = new List<Memory>();
-        Entity.EntityGenre entityToPlay = new Entity.EntityGenre();
 
         /// <summary>
         /// [WIP] Allows to recalculate score according to human brain deformation.
@@ -62,7 +61,7 @@ namespace AiCore
         // HERE: Allows to AI to make choice
         public static void MakeChoice(Ai ai)
         {
-            if(ai.entityToPlay == Entity.EntityGenre.Ai)
+            if(DataGame.entityToPlay == Entity.EntityGenre.Ai)
             {
                 Debug.Log("<b>[AI]</b> >> AI had make a choice.");
             }
