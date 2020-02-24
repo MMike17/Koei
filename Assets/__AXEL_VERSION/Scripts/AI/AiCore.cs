@@ -59,7 +59,7 @@ namespace AiCore
 
 
         // HERE: Allows to AI to make choice
-        public static void MakeChoice(Ai ai, CardAi cardAiScript)
+        public static void MakeChoice(Ai ai, CardAi cardAiScript, EnemyKnowledge knowledge)
         {
             if(DataGame.entityToPlay == Entity.EntityGenre.Ai)
             {
@@ -67,11 +67,9 @@ namespace AiCore
                 // List cards in hand
                 Debug.Log("<b>[AI]</b> >> CARD => " + cardAiScript.deckObj[0].id + " + " + cardAiScript.deckObj[1].id);
 
-
-
-                for (int i = 0; i < cardAiScript.deckObj.Count; i++)
+                if(knowledge.playerKnewWeaknessCategory[0] == Category.FAMILY)
                 {
-
+                    Debug.Log("<b>[DEBUG]</b> >> AI KNOWS ABOUT YOUR FAMILY...");
                 }
             }
         }

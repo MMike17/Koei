@@ -463,6 +463,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1c5408699b6834f48b4403f127f6dee6, type: 2}
   - {fileID: 11400000, guid: 9ddf162d3aa74e64a925de8e640d5410, type: 2}
   - {fileID: 11400000, guid: fface084b232d1f4ab870030038e5b7d, type: 2}
+  knowledge: {fileID: 11400000, guid: 9f586d927e03ed94d84b91d17df7355f, type: 2}
   aiHasPlayed: 0
 --- !u!1 &329158269
 GameObject:
