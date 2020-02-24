@@ -67,13 +67,21 @@ namespace AiCore
                 Debug.Log("<b>[AI]</b> >> CARD => " + cardAiScript.deckObj[0].id + " + " + cardAiScript.deckObj[1].id);
             }
         }
-        
+
+        public static void PlayACard(List<Card> hand)
+        {
+            Debug.Log("<b>[AI - CARD].Placement</b> >> Placed a card");
+        }
+
         public static void WatchPlayer(CardManager manager, PlayerTroubles playerWeakness)
         {
-            Debug.Log("<b>[AI]</b> >> Is watching at player");
+            Debug.Log("<b>[AI]</b> >> Is watching at player & preparing for next moment");
 
-            if (manager.playedCards.Count > manager.playedCards.Count)
+            if (manager.turn < manager.playedCards.Count)
             {
+                // Check the card system
+                Debug.Log("<b>[AI - SYSTEM]</b> >> CARD: " + manager.playedCards[manager.turn].strength.ToString() + " | PLAYER WEAKNESS: " + playerWeakness.categoriesWeakness[manager.turn].ToString());
+
                 // Played card is equal to playerTrouble
                 if (manager.playedCards[manager.turn].strength == playerWeakness.categoriesWeakness[manager.turn])
                 {

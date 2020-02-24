@@ -113,9 +113,6 @@ public class CardTaker : MonoBehaviour, IDragHandler, IEndDragHandler
                     //cardManager.playedCards.Add(GetComponent<DesignedCard>().Card);
 
                     Destroy(gameObject);
-
-                    // Let's AI play
-                    DataGame.entityToPlay = AiElementsDefinitions.Entity.EntityGenre.Ai;
                 }
             }
         }

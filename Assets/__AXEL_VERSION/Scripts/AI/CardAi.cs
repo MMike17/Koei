@@ -4,6 +4,7 @@ using UnityEngine;
 using AiCore;
 using AiLib;
 using AiElementsDefinitions;
+using CardSystem;
 
 public class CardAi : MonoBehaviour
 {
@@ -46,10 +47,18 @@ public class CardAi : MonoBehaviour
                 // AI make a choice
                 Debug.Log("<b>[AI]</b> >> AI is about to make a choice.");
                 Ai.MakeChoice(newAi, GetComponent<CardAi>(), knowledge);
-                aiHasPlayed = true;
+
+                // Create the hand of enemy
+                // HERE
+
+                // Play a card
+                Ai.PlayACard(deck);
 
                 // Finish turn
                 turnSys.EndTurn();
+
+                // Finish loop
+                aiHasPlayed = true;
             }
         }
         else

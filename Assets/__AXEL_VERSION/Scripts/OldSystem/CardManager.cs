@@ -22,8 +22,6 @@ public class CardManager : MonoBehaviour
     private bool hasCouroutined;
     private bool hasBeenEnemy;
 
-
-
     public void PlayAndTurn(string sentence)
     {
         if (!hasCouroutined)

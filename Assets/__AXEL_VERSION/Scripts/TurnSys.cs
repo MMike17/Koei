@@ -10,6 +10,7 @@ public class TurnSys : MonoBehaviour
     
     public void EndTurn()
     {
+        Debug.Log("<b>DEBUG</b>>> Turn => " + cardMana.turn);
         if(DataGame.entityToPlay == Entity.EntityGenre.Ai)
         {
             Debug.Log("<b>TURN MANAGER</b> >> Player Turn");
