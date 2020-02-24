@@ -10,6 +10,8 @@ public class CardAi : MonoBehaviour
     public TurnSys turnSys;
     public List<Card> deck = new List<Card>();
     public EnemyKnowledge knowledge;
+    public CardManager manager;
+    public PlayerTroubles currentPlayerTroubles;
 
     [HideInInspector]
     public List<CardObj> deckObj = new List<CardObj>();
@@ -43,6 +45,10 @@ public class CardAi : MonoBehaviour
                 Ai.MakeChoice(newAi, GetComponent<CardAi>(), knowledge);
                 aiHasPlayed = true;
             }
+        }
+        else
+        {
+            Ai.WatchPlayer(manager, currentPlayerTroubles);
         }
     }
 }

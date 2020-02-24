@@ -66,12 +66,12 @@ namespace AiCore
                 Debug.Log("<b>[AI]</b> >> AI had make a choice.");
                 // List cards in hand
                 Debug.Log("<b>[AI]</b> >> CARD => " + cardAiScript.deckObj[0].id + " + " + cardAiScript.deckObj[1].id);
-
-                if(knowledge.playerKnewWeaknessCategory[0] == Category.FAMILY)
-                {
-                    Debug.Log("<b>[DEBUG]</b> >> AI KNOWS ABOUT YOUR FAMILY...");
-                }
             }
+        }
+
+        public static void WatchPlayer(CardManager manager, PlayerTroubles playerTroubles)
+        {
+            Debug.Log("<b>[AI]</b> >> Is watching at player");
         }
     }
 }

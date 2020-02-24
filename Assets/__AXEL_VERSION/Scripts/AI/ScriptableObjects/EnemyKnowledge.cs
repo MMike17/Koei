@@ -6,5 +6,5 @@ using UnityEngine;
 public class EnemyKnowledge : ScriptableObject
 {
     public List<Category> playerKnewWeaknessCategory;
-    public List<SubCategory> playerKnewWeaknessSubcategry;
+    public List<SubCategory> playerKnewWeaknessSubcategory;
 }

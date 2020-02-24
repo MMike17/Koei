@@ -6,12 +6,16 @@ using UnityEngine.UI;
 
 public class CardManager : MonoBehaviour
 {
+    [Header("Basical System")]
     public CardTester cardTester;
     public Text playerSentenceTxt;
     public Text enemySentenceTxt;
 
     public float durationBetweenAttacks = 0.5f;
     public float sentenceDuration = 2.75f;
+
+    [Header("CardTaker System")]
+    public List<Card> playedCards;
 
     private bool hasCouroutined;
     private bool hasBeenEnemy;

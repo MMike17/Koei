@@ -75,6 +75,9 @@ public class CardTaker : MonoBehaviour, IDragHandler, IEndDragHandler
 
                 cardManager.PlayAndTurn("");
 
+                // Save the used card
+                cardManager.playedCards.Add(GetComponent<DesignedCard>().Card);
+
                 Destroy(gameObject);
 
                 // Change turn to get AI play
@@ -102,6 +105,9 @@ public class CardTaker : MonoBehaviour, IDragHandler, IEndDragHandler
                     uiUnder[1].gameObject.GetComponent<DesignedCard>().subcategory.text = transform.GetComponent<DesignedCard>().subcategory.text;
 
                     uiUnder[1].gameObject.GetComponent<BasicalBoolean>().hasBeenActivated = true;
+
+                    // Save the used card
+                    cardManager.playedCards.Add(GetComponent<DesignedCard>().Card);
 
                     Destroy(gameObject);
 

@@ -17,16 +17,22 @@ public class DesignedCard : MonoBehaviour, IInitializable, IDebugable
 
 	string IDebugable.debugLabel => "<b>[DesignedCard] : </b>";
 	bool IInitializable.initializedInternal { get; set; }
+
+    [HideInInspector]
+    public Card Card;
     
 
     public void Init(Card data)
-	{
-		category.text = data.strength.ToString();
+    {
+        Card = data;
+
+        category.text = data.strength.ToString();
 		subcategory.text = data.subStrength.ToString();
 
 		initializableInterface.InitInternal();
 
-		ShowCard();
+
+        ShowCard();
 	}
 
 	void IInitializable.InitInternal()
