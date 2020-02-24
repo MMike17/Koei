@@ -10,6 +10,7 @@ namespace AiElementsDefinitions
     public class Turn
     {
         public static int idTurn;
+        public static Entity entityToPlay;
 
         public Turn(int nbTurns)
         {
@@ -19,12 +20,19 @@ namespace AiElementsDefinitions
 
     public class Strategy
     {
+        // Define strategies
         public enum Strategies { Agresive, Calm, Defensive, Bluff }
         public Strategies strategy;
 
+        // Define the good and bad moments in fight
         private int totalGoodMoments;
         private int totalBadMoments;
 
+        /// <summary>
+        /// Define a new strategy
+        /// </summary>
+        /// <param name="memories"></param>
+        /// <returns></returns>
         public Strategies DefineNewStrategy(List<Memory> memories)
         {
             for(int i = 0; i < memories.Count; i++)
@@ -43,6 +51,7 @@ namespace AiElementsDefinitions
                     }
                 }
             }
+
             // Define the behaviour of the AI at x moment
             if(totalGoodMoments > totalBadMoments)
             {
@@ -71,5 +80,10 @@ namespace AiElementsDefinitions
     {
         public enum BehaviourChoices { Agresive, Calm, Defensive, Bluff, Escape, Charge }
         public BehaviourChoices personality;
+    }
+
+    public class Entity
+    {
+        public enum EntityGenre { Player, Ai }
     }
 }

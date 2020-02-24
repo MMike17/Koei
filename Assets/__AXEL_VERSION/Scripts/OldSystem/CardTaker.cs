@@ -20,10 +20,12 @@ public class CardTaker : MonoBehaviour, IDragHandler, IEndDragHandler
     private TextMeshProUGUI subcategory;
 
     private string line;
+    private TurnSys turnSys;
 
 
     private void Start()
     {
+        turnSys = FindObjectOfType<TurnSys>();
         cardManager = GameObject.FindObjectOfType<CardManager>();
         category = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         subcategory = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
