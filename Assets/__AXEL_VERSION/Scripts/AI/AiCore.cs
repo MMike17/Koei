@@ -59,11 +59,20 @@ namespace AiCore
 
 
         // HERE: Allows to AI to make choice
-        public static void MakeChoice(Ai ai)
+        public static void MakeChoice(Ai ai, CardAi cardAiScript)
         {
             if(DataGame.entityToPlay == Entity.EntityGenre.Ai)
             {
                 Debug.Log("<b>[AI]</b> >> AI had make a choice.");
+                // List cards in hand
+                Debug.Log("<b>[AI]</b> >> CARD => " + cardAiScript.deckObj[0].id + " + " + cardAiScript.deckObj[1].id);
+
+
+
+                for (int i = 0; i < cardAiScript.deckObj.Count; i++)
+                {
+
+                }
             }
         }
     }
