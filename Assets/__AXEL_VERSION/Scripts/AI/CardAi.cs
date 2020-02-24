@@ -2,18 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AiCore;
+using AiLib;
+using AiElementsDefinitions;
 
 public class CardAi : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public bool aiCanPlay;
+    public bool aiHasPlayed;
+
+    private void Start()
     {
-        
+        // Generate new AI
+        Ai newAi = Ai.CreateNewAi();
+        Debug.Log("<b>[AI]</b> >> AI was initialized and defined new strategy.");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (aiCanPlay)
+        {
+            if (!aiHasPlayed)
+            {
+                // AI make a choice
+                Debug.Log("<b>[AI]</b> >> AI is about to make a choice.");
+                aiHasPlayed = true;
+            }
+        }
     }
 }

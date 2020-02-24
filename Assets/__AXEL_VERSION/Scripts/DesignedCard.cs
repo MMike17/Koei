@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DesignedCard : MonoBehaviour, IInitializable, IDebugable
 {
-	[Header("Assign in Inspector")]
+    [Header("Assign in Inspector")]
 	public GameObject greyed;
 	public GameObject normal;
 	public TextMeshProUGUI category;
@@ -17,8 +17,9 @@ public class DesignedCard : MonoBehaviour, IInitializable, IDebugable
 
 	string IDebugable.debugLabel => "<b>[DesignedCard] : </b>";
 	bool IInitializable.initializedInternal { get; set; }
+    
 
-	public void Init(Card data)
+    public void Init(Card data)
 	{
 		category.text = data.strength.ToString();
 		subcategory.text = data.subStrength.ToString();
