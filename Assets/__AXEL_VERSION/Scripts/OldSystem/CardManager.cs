@@ -11,6 +11,8 @@ public class CardManager : MonoBehaviour
     public Text playerSentenceTxt;
     public Text enemySentenceTxt;
 
+    public int turn;
+
     public float durationBetweenAttacks = 0.5f;
     public float sentenceDuration = 2.75f;
 
@@ -19,6 +21,7 @@ public class CardManager : MonoBehaviour
 
     private bool hasCouroutined;
     private bool hasBeenEnemy;
+
 
 
     public void PlayAndTurn(string sentence)

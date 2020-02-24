@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Player Troubles", menuName = "Koei/Player Troubles")]
+[CreateAssetMenu(fileName = "Player Configuration", menuName = "Koei/Player Configuration")]
 public class PlayerTroubles : ScriptableObject
 {
     public List<Category> categoriesWeakness;

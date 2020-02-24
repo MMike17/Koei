@@ -7,11 +7,14 @@ using AiElementsDefinitions;
 
 public class CardAi : MonoBehaviour
 {
-    public TurnSys turnSys;
+    [Header("Cards Settings")]
     public List<Card> deck = new List<Card>();
+    [Header("Knowledges")]
     public EnemyKnowledge knowledge;
-    public CardManager manager;
     public PlayerTroubles currentPlayerTroubles;
+    [Header("Objects Attribution")]
+    public TurnSys turnSys;
+    public CardManager manager;
 
     [HideInInspector]
     public List<CardObj> deckObj = new List<CardObj>();
@@ -44,6 +47,9 @@ public class CardAi : MonoBehaviour
                 Debug.Log("<b>[AI]</b> >> AI is about to make a choice.");
                 Ai.MakeChoice(newAi, GetComponent<CardAi>(), knowledge);
                 aiHasPlayed = true;
+
+                // Finish turn
+                turnSys.EndTurn();
             }
         }
         else

@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 
 public class CardTaker : MonoBehaviour, IDragHandler, IEndDragHandler
 {
+    private TurnSys turnSys;
+
     private Transform baseParent;
 
     private CardManager cardManager;
@@ -24,6 +26,7 @@ public class CardTaker : MonoBehaviour, IDragHandler, IEndDragHandler
 
     private void Start()
     {
+        turnSys = FindObjectOfType<TurnSys>();
         cardManager = GameObject.FindObjectOfType<CardManager>();
         category = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         subcategory = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
@@ -81,7 +84,7 @@ public class CardTaker : MonoBehaviour, IDragHandler, IEndDragHandler
                 Destroy(gameObject);
 
                 // Change turn to get AI play
-                DataGame.entityToPlay = AiElementsDefinitions.Entity.EntityGenre.Ai;
+                turnSys.EndTurn();
             }
             else if (uiUnder[0].gameObject.tag == "AreaForHand")
             {
@@ -107,7 +110,7 @@ public class CardTaker : MonoBehaviour, IDragHandler, IEndDragHandler
                     uiUnder[1].gameObject.GetComponent<BasicalBoolean>().hasBeenActivated = true;
 
                     // Save the used card
-                    cardManager.playedCards.Add(GetComponent<DesignedCard>().Card);
+                    //cardManager.playedCards.Add(GetComponent<DesignedCard>().Card);
 
                     Destroy(gameObject);
 

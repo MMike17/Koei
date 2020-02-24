@@ -1,8 +1,7 @@
-﻿using System.Collections;
+﻿using AiElementsDefinitions;
+using AiLib;
 using System.Collections.Generic;
 using UnityEngine;
-using AiLib;
-using AiElementsDefinitions;
 
 namespace AiCore
 {
@@ -69,9 +68,19 @@ namespace AiCore
             }
         }
 
+        // ERROR X_001A
         public static void WatchPlayer(CardManager manager, PlayerTroubles playerTroubles)
         {
             Debug.Log("<b>[AI]</b> >> Is watching at player");
+
+            if (manager.playedCards.Count > manager.playedCards.Count)
+            {
+                // Played card is equal to playerTrouble
+                if (manager.playedCards[manager.turn].strength == playerTroubles.categoriesWeakness[manager.turn])
+                {
+                    Debug.Log("DISPLAY CATEGORY >> " + playerTroubles.categoriesWeakness[manager.turn]);
+                }
+            }
         }
     }
 }
