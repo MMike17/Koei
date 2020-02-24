@@ -67,18 +67,17 @@ namespace AiCore
                 Debug.Log("<b>[AI]</b> >> CARD => " + cardAiScript.deckObj[0].id + " + " + cardAiScript.deckObj[1].id);
             }
         }
-
-        // ERROR X_001A
-        public static void WatchPlayer(CardManager manager, PlayerTroubles playerTroubles)
+        
+        public static void WatchPlayer(CardManager manager, PlayerTroubles playerWeakness)
         {
             Debug.Log("<b>[AI]</b> >> Is watching at player");
 
             if (manager.playedCards.Count > manager.playedCards.Count)
             {
                 // Played card is equal to playerTrouble
-                if (manager.playedCards[manager.turn].strength == playerTroubles.categoriesWeakness[manager.turn])
+                if (manager.playedCards[manager.turn].strength == playerWeakness.categoriesWeakness[manager.turn])
                 {
-                    Debug.Log("DISPLAY CATEGORY >> " + playerTroubles.categoriesWeakness[manager.turn]);
+                    Debug.Log("DISPLAY CATEGORY >> " + playerWeakness.categoriesWeakness[manager.turn]);
                 }
             }
         }

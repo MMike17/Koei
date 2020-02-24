@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 4919998420599866352, guid: d07d41c563c3b85458829eb30ece33f2,
         type: 3}
       propertyPath: m_Name
-      value: UnlockedCard
+      value: UnlockedCardFight
       objectReference: {fileID: 0}
     - target: {fileID: 4919998420599866353, guid: d07d41c563c3b85458829eb30ece33f2,
         type: 3}
@@ -172,6 +172,11 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4919998420749065230, guid: d07d41c563c3b85458829eb30ece33f2,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 4919998422154056776, guid: d07d41c563c3b85458829eb30ece33f2,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -226,6 +231,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.pageCount
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4919998422154056777, guid: d07d41c563c3b85458829eb30ece33f2,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d07d41c563c3b85458829eb30ece33f2, type: 3}

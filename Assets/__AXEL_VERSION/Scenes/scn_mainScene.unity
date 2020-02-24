@@ -255,12 +255,12 @@ PrefabInstance:
     - target: {fileID: 4810323639611227319, guid: 317e4decac7874c42bafd00ae95ad9f6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 360
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 4810323639611227319, guid: 317e4decac7874c42bafd00ae95ad9f6,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 120
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4810323639611227319, guid: 317e4decac7874c42bafd00ae95ad9f6,
         type: 3}
@@ -1158,12 +1158,12 @@ PrefabInstance:
     - target: {fileID: 4810323639611227319, guid: 317e4decac7874c42bafd00ae95ad9f6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 360
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 4810323639611227319, guid: 317e4decac7874c42bafd00ae95ad9f6,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 120
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4810323639611227319, guid: 317e4decac7874c42bafd00ae95ad9f6,
         type: 3}
@@ -1773,12 +1773,12 @@ PrefabInstance:
     - target: {fileID: 4810323639611227319, guid: 317e4decac7874c42bafd00ae95ad9f6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 360
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 4810323639611227319, guid: 317e4decac7874c42bafd00ae95ad9f6,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 120
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4810323639611227319, guid: 317e4decac7874c42bafd00ae95ad9f6,
         type: 3}
@@ -2339,12 +2339,12 @@ PrefabInstance:
     - target: {fileID: 4810323639611227319, guid: 317e4decac7874c42bafd00ae95ad9f6,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 360
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 4810323639611227319, guid: 317e4decac7874c42bafd00ae95ad9f6,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 120
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4810323639611227319, guid: 317e4decac7874c42bafd00ae95ad9f6,
         type: 3}
