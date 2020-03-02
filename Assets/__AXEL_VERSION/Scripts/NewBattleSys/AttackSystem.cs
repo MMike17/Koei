@@ -83,6 +83,10 @@ public class AttackSystem : MonoBehaviour
             // Create new buttons
             GameObject newButton = Instantiate(buttonsToMakeAppear);
             newButton.transform.SetParent(mainParent.transform);
+
+            // Set the scale
+            newButton.transform.localScale = Vector3.one;
+
             Debug.Log(newButton.name + "is initializing now.", newButton);
             buttonsToClick.Add(newButton.GetComponent<Button>());
             newButton.GetComponentInChildren<TextMeshProUGUI>().text = stepsOfBattle[currentStep].buttonSentences[buttons];
