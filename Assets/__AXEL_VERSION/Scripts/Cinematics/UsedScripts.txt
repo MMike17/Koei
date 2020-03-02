@@ -3,10 +3,12 @@ CineDelay.cs
 
 - - - 
 
-CineStart.cs
+CineStart.cs (Removed: can be automatics in Unity)
 >> Allows to start an animation at start (boolean based)
 
 - - -
 
-
+[...]
 >> 
+
+- - -

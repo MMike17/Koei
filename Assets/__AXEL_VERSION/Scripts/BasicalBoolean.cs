@@ -6,4 +6,9 @@ public class BasicalBoolean : MonoBehaviour
 {
     [HideInInspector]
     public bool hasBeenActivated;
+
+    public void HasBeenActivated()
+    {
+        hasBeenActivated = true;
+    }
 }

@@ -9,6 +9,8 @@ TagManager:
   - Reserve
   - EndPath
   - StartPath
+  - Fight/Fight Button
+  - Fight/Main UI Parent
   layers:
   - Default
   - TransparentFX
