@@ -6,10 +6,19 @@ using TMPro;
 
 public class AttackSystem : MonoBehaviour
 {
+    [Header("Objects Selection")]
     public AttackObj[] stepsOfBattle;
     public GameObject buttonsToMakeAppear;
+    public TextMeshProUGUI timerText;
 
+    [Header("Timer")]
+    public float openingCinematicDuration;
+    [Space(15)]
+    public float timerPerRounds;
+    [Space(15)]
     public int currentStep;
+
+    [Header("Animation")]
     public string animVariable = "PlayFadeOut";
 
     // Animation system
@@ -18,10 +27,18 @@ public class AttackSystem : MonoBehaviour
     private GameObject mainParent;
     private List<Button> buttonsToClick = new List<Button>();
 
+
+    private float remainingTimer;
+
     private bool alreadyLaunchedAnimation;
+    private bool timerCoroutine;
+    private bool hasEndCinematic;
 
     private void OnEnable()
     {
+        remainingTimer = timerPerRounds;
+        timerText.text = remainingTimer.ToString();
+
         InitializeButtons();
     }
 
@@ -53,13 +70,11 @@ public class AttackSystem : MonoBehaviour
             }
         }
 
-        // Set active false the panel if panel is invisible
-        /*
-        if (mainParent.GetComponent<Image>().color == new Color(mainParent.GetComponent<Image>().color.r, mainParent.GetComponent<Image>().color.g, mainParent.GetComponent<Image>().color.b, 0))
+        if (!timerCoroutine)
         {
-            mainParent.SetActive(false);
+            StartCoroutine(UseTimer());
+            timerCoroutine = true;
         }
-        */
     }
 
     private void InitializeButtons()
@@ -72,6 +87,8 @@ public class AttackSystem : MonoBehaviour
             Destroy(GameObject.FindGameObjectsWithTag("Fight/Fight Button")[i]);
         }
 
+        Debug.Log("Reload timer");
+        remainingTimer = timerPerRounds;
 
         Debug.Log("Intialize Buttons");
         mainParent = GameObject.FindGameObjectWithTag("Fight/Main UI Parent");
@@ -103,6 +120,25 @@ public class AttackSystem : MonoBehaviour
         for (int i = 0; i < anims.Count; i++)
         {
             anims[i].SetBool("Play", true);
+        }
+    }
+
+    private IEnumerator UseTimer()
+    {
+        if (!hasEndCinematic)
+        {
+            yield return new WaitForSeconds(openingCinematicDuration);
+            hasEndCinematic = true;
+        }
+
+        if (hasEndCinematic)
+        {
+            yield return new WaitForSeconds(1);
+
+            remainingTimer--;
+            timerText.text = remainingTimer.ToString();
+
+            timerCoroutine = false;
         }
     }
 }
