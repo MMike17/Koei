@@ -163,6 +163,7 @@ GameObject:
   - component: {fileID: 468484508}
   - component: {fileID: 468484507}
   - component: {fileID: 468484509}
+  - component: {fileID: 468484510}
   m_Layer: 5
   m_Name: pnl_buttonPlace
   m_TagString: Fight/Main UI Parent
@@ -250,6 +251,25 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!95 &468484510
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468484505}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 54274ea296c7ab94595fe9f60e0044e3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &619607848
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,10 +497,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a046f9a153ab4074c84affde70acfee0, type: 2}
   - {fileID: 11400000, guid: 260129f717dd08c4db4225e1ae1d2961, type: 2}
   - {fileID: 11400000, guid: 943266a46f2855541a2aebd3c14be9f6, type: 2}
-  - {fileID: 11400000, guid: 943266a46f2855541a2aebd3c14be9f6, type: 2}
   buttonsToMakeAppear: {fileID: 6327671017288317223, guid: 8e849829934197b40b363cccc6a247bf,
     type: 3}
   currentStep: 0
+  animVariable: Play
 --- !u!1 &1394454089
 GameObject:
   m_ObjectHideFlags: 0
