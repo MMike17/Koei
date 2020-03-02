@@ -12,10 +12,14 @@ public class AttackSystem : MonoBehaviour
     public TextMeshProUGUI timerText;
 
     [Header("Timer")]
+    [Min(0)]
     public float openingCinematicDuration;
     [Space(15)]
+    [Tooltip("0 to disable timer | Superior to 0 to enable timer")]
+    [Min(0)]
     public float timerPerRounds;
     [Space(15)]
+    [Min(0)]
     public int currentStep;
 
     [Header("Animation")]
@@ -29,15 +33,28 @@ public class AttackSystem : MonoBehaviour
 
 
     private float remainingTimer;
+    private bool isTimerDisabled;
 
     private bool alreadyLaunchedAnimation;
-    private bool timerCoroutine;
+
     private bool hasEndCinematic;
+
+    private bool startCoroutine = true;
+    private bool timerCoroutine;
 
     private void OnEnable()
     {
-        remainingTimer = timerPerRounds;
-        timerText.text = remainingTimer.ToString();
+        if(timerPerRounds == 0)
+        {
+            isTimerDisabled = true;
+            timerText.text = "";
+        }
+        else
+        {
+            remainingTimer = timerPerRounds;
+            timerText.text = remainingTimer.ToString();
+        }
+
 
         InitializeButtons();
     }
@@ -69,11 +86,16 @@ public class AttackSystem : MonoBehaviour
                 }
             }
         }
-
-        if (!timerCoroutine)
+        if (!isTimerDisabled)
         {
-            StartCoroutine(UseTimer());
-            timerCoroutine = true;
+            if (startCoroutine)
+            {
+                if (!timerCoroutine)
+                {
+                    StartCoroutine(UseTimer());
+                    timerCoroutine = true;
+                }
+            }
         }
     }
 
@@ -117,6 +139,7 @@ public class AttackSystem : MonoBehaviour
 
     public void OnClick()
     {
+        startCoroutine = false;
         for (int i = 0; i < anims.Count; i++)
         {
             anims[i].SetBool("Play", true);

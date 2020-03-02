@@ -187,7 +187,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.31675002, y: 0.572}
   m_AnchorMax: {x: 0.68050003, y: 0.8946045}
-  m_AnchoredPosition: {x: 0.5, y: -0.1000061}
+  m_AnchoredPosition: {x: 0.5, y: -0.10003662}
   m_SizeDelta: {x: -2.5, y: 0.79999924}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &468484507
@@ -596,7 +596,7 @@ MonoBehaviour:
     type: 3}
   timerText: {fileID: 1743253841}
   openingCinematicDuration: 2
-  timerPerRounds: 5
+  timerPerRounds: 10
   currentStep: 0
   animVariable: Play
 --- !u!1 &1394454089
@@ -722,7 +722,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.46, y: 0.90460455}
   m_AnchorMax: {x: 0.54125005, y: 0.99100006}
-  m_AnchoredPosition: {x: -0.5, y: -0.40008545}
+  m_AnchoredPosition: {x: -0.5, y: -0.40014648}
   m_SizeDelta: {x: 0.8899994, y: -0.099998474}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1743253841
