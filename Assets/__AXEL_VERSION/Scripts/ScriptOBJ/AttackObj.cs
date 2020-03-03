@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Player_Attack", menuName = "Koei/Battle/Player Attacks")]
+[CreateAssetMenu(fileName = "Player_Attack_Family", menuName = "Koei/Battle/Player Attacks Family")]
 public class AttackObj : ScriptableObject
 {
-    public float delayBeforeEnd = 5f;
     [TextArea]
     public string[] buttonSentences;
 }

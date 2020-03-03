@@ -555,6 +555,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1337160139}
   - component: {fileID: 1337160140}
+  - component: {fileID: 1337160141}
   m_Layer: 0
   m_Name: __S_FightManager
   m_TagString: Untagged
@@ -583,7 +584,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1337160138}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f68c62810542234a81905d30e915df2, type: 3}
   m_Name: 
@@ -599,6 +600,26 @@ MonoBehaviour:
   timerPerRounds: 10
   currentStep: 0
   animVariable: Play
+--- !u!114 &1337160141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337160138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e985cd01e121bd34891e938012781930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackCategories:
+  - {fileID: 11400000, guid: 260129f717dd08c4db4225e1ae1d2961, type: 2}
+  - {fileID: 11400000, guid: 943266a46f2855541a2aebd3c14be9f6, type: 2}
+  - {fileID: 11400000, guid: 9c5252e8f84068b4c9b780f3c422c3bd, type: 2}
+  - {fileID: 11400000, guid: a046f9a153ab4074c84affde70acfee0, type: 2}
+  buttonPrefab: {fileID: 6327671017288317223, guid: 8e849829934197b40b363cccc6a247bf,
+    type: 3}
+  timer: 0
 --- !u!1 &1394454089
 GameObject:
   m_ObjectHideFlags: 0
