@@ -5,7 +5,7 @@ using UnityEngine;
 public class CineDelay : MonoBehaviour
 {
     public Animator animator;
-
+    public bool state;
     public string variableAnim;
 
     public float startDelay;
@@ -18,6 +18,6 @@ public class CineDelay : MonoBehaviour
 
     private void PlayAnim()
     {
-        animator.SetBool(variableAnim, true);
+        animator.SetBool(variableAnim, state);
     }
 }
