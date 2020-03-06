@@ -8,6 +8,7 @@ public class DialogPlayer : MonoBehaviour
     public DialogsObj dialog;
     public float delayStart;
     public float delayBetweenSentences;
+    public Animator blackBands;
 
     public float delayBetweenAnswers = 1.75f;
 
@@ -50,6 +51,8 @@ public class DialogPlayer : MonoBehaviour
             // Set dialogs to zero
             textPlayer.text = "";
             textEnemy.text = "";
+
+            blackBands.SetBool("IsDisplayed", false);
 
             CancelInvoke("DisplayDialog");
         }

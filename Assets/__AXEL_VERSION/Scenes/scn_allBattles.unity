@@ -213,6 +213,7 @@ MonoBehaviour:
   dialog: {fileID: 11400000, guid: 043fde0a6e751b14e9e76eeffd19cebe, type: 2}
   delayStart: 6.5
   delayBetweenSentences: 5
+  blackBands: {fileID: 892674904}
   delayBetweenAnswers: 3
   textPlayer: {fileID: 448791595}
   textEnemy: {fileID: 1921174015}
@@ -584,7 +585,6 @@ GameObject:
   m_Component:
   - component: {fileID: 525655184}
   - component: {fileID: 525655185}
-  - component: {fileID: 525655186}
   m_Layer: 0
   m_Name: __S_CineSystem
   m_TagString: Untagged
@@ -622,22 +622,6 @@ MonoBehaviour:
   state: 1
   variableAnim: StartGame
   startDelay: 3
---- !u!114 &525655186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 525655183}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 449f84ec54f6e674a824a307f7e7a5af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 892674904}
-  state: 0
-  variableAnim: IsDisplayed
-  startDelay: 5.75
 --- !u!1 &577139986
 GameObject:
   m_ObjectHideFlags: 0
