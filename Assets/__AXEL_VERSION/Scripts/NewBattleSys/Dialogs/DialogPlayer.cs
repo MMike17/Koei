@@ -9,6 +9,7 @@ public class DialogPlayer : MonoBehaviour
     public float delayStart;
     public float delayBetweenSentences;
     public Animator blackBands;
+    public Animator katanaAnim;
 
     public float delayBetweenAnswers = 1.75f;
 
@@ -53,6 +54,7 @@ public class DialogPlayer : MonoBehaviour
             textEnemy.text = "";
 
             blackBands.SetBool("IsDisplayed", false);
+            katanaAnim.SetBool("Appears", true);
 
             CancelInvoke("DisplayDialog");
         }
