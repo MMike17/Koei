@@ -20,7 +20,9 @@ public class DrawSentencesPanel : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < dialogsWar.buttonSentences.Count; i++)
+        Debug.Log(dialogsWar.currentDialogsNumber + " << Test 1");
+
+        for (int i = 0; i < dialogsWar.currentDialogsNumber; i++)
         {
             GameObject newBtt = Instantiate(buttonPrefab);
             newBtt.transform.SetParent(parentOfButtons, false);
@@ -50,16 +52,18 @@ public class DrawSentencesPanel : MonoBehaviour
 
     private void ChangeCategory(AttackObj attack)
     {
+        Debug.Log(attack.currentDialogsNumber + " << Test 2");
+
         objButtons.AddRange(GameObject.FindGameObjectsWithTag("Fight/Fight Button"));
 
-        for(int oldButton = 0; oldButton < objButtons.Count; oldButton++)
+        for(int oldButton = 0; oldButton < attack.currentDialogsNumber; oldButton++)
         {
             Destroy(objButtons[oldButton].gameObject);
         }
 
         objButtons.Clear();
 
-        for (int i = 0; i < attack.buttonSentences.Count; i++)
+        for (int i = 0; i < attack.currentDialogsNumber; i++)
         {
             GameObject newBtt = Instantiate(buttonPrefab);
             newBtt.transform.SetParent(parentOfButtons, false);

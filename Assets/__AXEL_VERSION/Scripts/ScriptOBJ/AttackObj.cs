@@ -9,6 +9,12 @@ public class AttackObj : ScriptableObject
     [SerializeField]
     public List<string> buttonSentences;
 
+    [HideInInspector]
+    public int dialogNumber;
+
+    [HideInInspector]
+    public int currentDialogsNumber;
+
     [SerializeField]
     public Category cat;
     [SerializeField]
