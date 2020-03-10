@@ -10,6 +10,8 @@ public class KatanaSlider : MonoBehaviour
     public Animator anim;
     public Animator worldAnim;
 
+    public GameObject attackPanel;
+
     private bool hasBeenValued;
     private bool isWatchingAbove;
 
@@ -36,6 +38,7 @@ public class KatanaSlider : MonoBehaviour
             if (!isWatchingAbove)
             {
                 worldAnim.SetBool("WatchAbove", true);
+                attackPanel.SetActive(true);
                 isWatchingAbove = true;
             }
         }

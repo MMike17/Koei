@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f400660e03ef7674cbb6b5d65478b7a5, type: 3}
   m_Name: Player_Attack_Money
   m_EditorClassIdentifier: 
+  category: 3
   buttonSentences:
   - Money 1
   - Tu ne peux rien contre moi !
