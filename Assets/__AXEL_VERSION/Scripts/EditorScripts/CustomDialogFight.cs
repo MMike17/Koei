@@ -12,6 +12,8 @@ public class CustomDialogFight : Editor
     
     private int dialogNumber;
 
+    private bool getDialogsNbOneTime;
+
     public override void OnInspectorGUI()
     {
         AttackObj newAttack = target as AttackObj;
@@ -19,11 +21,17 @@ public class CustomDialogFight : Editor
         
         SubCategory[] newSubCat = newAttack.subCat;
 
-        dialogNumber = EditorPrefs.GetInt("totalDialogs_" + newAttack.cat.ToString());
+        if (!getDialogsNbOneTime)
+        {
+            dialogNumber = EditorPrefs.GetInt("totalDialogs_" + newAttack.cat.ToString());
+            getDialogsNbOneTime = true;
+        }
+        
 
         newAttack.cat = (Category)EditorGUILayout.EnumPopup("Category: ", newAttack.cat);
 
         dialogNumber = EditorGUILayout.IntField("Number of Dialogs: ", dialogNumber);
+        
 
         EditorStyles.textField.wordWrap = true;
         
