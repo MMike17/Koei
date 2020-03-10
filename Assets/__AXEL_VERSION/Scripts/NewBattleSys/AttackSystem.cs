@@ -117,7 +117,7 @@ public class AttackSystem : MonoBehaviour
         Debug.Log("Found the main parent.");
 
 
-        for (int buttons = 0; buttons < stepsOfBattle[currentStep].buttonSentences.Length; buttons++)
+        for (int buttons = 0; buttons < stepsOfBattle[currentStep].buttonSentences.Count; buttons++)
         {
             // Create new buttons
             GameObject newButton = Instantiate(buttonsToMakeAppear);

@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f400660e03ef7674cbb6b5d65478b7a5, type: 3}
   m_Name: Player_Attack_Family
   m_EditorClassIdentifier: 
-  category: 2
   buttonSentences:
-  - Lol
-  - MDR
-  - J'aime les cookies !
+  - 3
+  - 
+  - 
+  cat: 1
+  subCat: 0300000003000000030000000300000003000000

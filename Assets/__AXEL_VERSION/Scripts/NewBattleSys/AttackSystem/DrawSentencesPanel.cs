@@ -20,7 +20,7 @@ public class DrawSentencesPanel : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < dialogsWar.buttonSentences.Length; i++)
+        for (int i = 0; i < dialogsWar.buttonSentences.Count; i++)
         {
             GameObject newBtt = Instantiate(buttonPrefab);
             newBtt.transform.SetParent(parentOfButtons, false);
@@ -59,7 +59,7 @@ public class DrawSentencesPanel : MonoBehaviour
 
         objButtons.Clear();
 
-        for (int i = 0; i < attack.buttonSentences.Length; i++)
+        for (int i = 0; i < attack.buttonSentences.Count; i++)
         {
             GameObject newBtt = Instantiate(buttonPrefab);
             newBtt.transform.SetParent(parentOfButtons, false);

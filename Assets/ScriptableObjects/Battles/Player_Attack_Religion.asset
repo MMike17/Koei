@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f400660e03ef7674cbb6b5d65478b7a5, type: 3}
   m_Name: Player_Attack_Religion
   m_EditorClassIdentifier: 
-  category: 1
   buttonSentences:
-  - Bah non
-  - En fait, non
-  - PTDR T KI ?!
+  - 
+  - 
+  - 
+  cat: 2
+  subCat: 03000000030000000300000003000000030000000500000005000000050000000500000005000000050000000500000005000000
