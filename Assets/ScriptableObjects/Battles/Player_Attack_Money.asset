@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Player_Attack_Money
   m_EditorClassIdentifier: 
   buttonSentences:
-  - 
-  - 
-  - 
+  - Mdr
+  - Lol
+  - Test
   - LOL
   - Ceci est un placeholder.
   - 
