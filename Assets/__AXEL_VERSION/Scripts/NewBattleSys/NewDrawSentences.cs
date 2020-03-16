@@ -6,6 +6,7 @@ using TMPro;
 
 public class NewDrawSentences : MonoBehaviour
 {
+    [Header("Choice System")]
     public GameObject buttonPrefab;
     public Transform parent;
 

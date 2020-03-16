@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 1202724682446834298}
   - component: {fileID: 6895242202692443810}
   - component: {fileID: 2116950230148309128}
+  - component: {fileID: 8145300120490612398}
   m_Layer: 5
   m_Name: btt_fightAttack
   m_TagString: Fight/Fight Button
@@ -318,6 +319,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8145300120490612398}
+        m_MethodName: OnClickButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &1202724682446834298
 Animator:
   serializedVersion: 3
@@ -362,3 +374,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3bc42aeb4d25ca4584dd75ed632eedf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8145300120490612398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6327671017288317223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b904c54700a688245a0d323c98b3fd72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  variableName: WatchAbove
