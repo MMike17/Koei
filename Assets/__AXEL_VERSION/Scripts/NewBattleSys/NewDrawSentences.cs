@@ -44,18 +44,18 @@ public class NewDrawSentences : MonoBehaviour
     {
         bttAttacks.AddRange(GameObject.FindGameObjectsWithTag("Fight/Fight Button"));
         Debug.Log(bttAttacks);
+
         if (parent.childCount != 0)
         {
             Debug.Log("Buttons to remove (number only): " + parent.childCount + " | Buttons to display: " + buttonsToDisplay);
 
-            for (int btt = 0; btt <= bttAttacks.Count; btt++)
+            for (int btt = 0; btt < parent.childCount; btt++)
             {
                 Destroy(bttAttacks[btt]);
                 Debug.Log(btt);
-                //Destroy(parent.GetChild(0).gameObject);
             }
         }
-
+        
         for (int i = 0; i < buttonsToDisplay; i++)
         {
             GameObject button = Instantiate(buttonPrefab);
@@ -63,6 +63,6 @@ public class NewDrawSentences : MonoBehaviour
             button.transform.localScale = Vector3.one;
             button.GetComponentInChildren<TextMeshProUGUI>().text = attack.buttonSentences[i];
         }
-
+        bttAttacks.Clear();
     }
 }
