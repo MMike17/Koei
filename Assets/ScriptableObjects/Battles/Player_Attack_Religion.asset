@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Player_Attack_Religion
   m_EditorClassIdentifier: 
   buttonSentences:
-  - 
+  - MDR
   - 
   - 
   - "Attention : je suis tr\xE8s m\xE9chant."
@@ -115,5 +115,7 @@ MonoBehaviour:
   - 
   - 
   - 
+  dialogNumber: 3
+  currentDialogsNumber: 3
   cat: 2
   subCat: 05000000060000000500000006000000050000000500000005000000050000000500000005000000050000000500000005000000

@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: FightTest
   m_EditorClassIdentifier: 
   dialogsPlayer:
-  - Je suis plus fort que toi!
-  - "Je suis l'obscurit\xE9, je suis les t\xE9n\xE8bres... ICH BIN BATMAN !"
+  - "J'ai r\xE9ussis \xE0 parfaire le script d'attaque !!!"
   dialogsEnemy:
-  - Pour qui te prends-tu ?
-  - Bon, aller, en garde Yugi ! C'est l'heure dudududududu duel !
+  - Oh non, c'est impossible !!!

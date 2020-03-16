@@ -404,8 +404,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1091116578}
-        m_MethodName: OnClickCategoryWar
+      - m_Target: {fileID: 1091116579}
+        m_MethodName: DrawSentencesWar
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1588,8 +1588,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1091116578}
-        m_MethodName: OnClickCategoryFamily
+      - m_Target: {fileID: 1091116579}
+        m_MethodName: DrawSentencesFamily
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2039,6 +2039,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1091116577}
   - component: {fileID: 1091116578}
+  - component: {fileID: 1091116579}
   m_Layer: 0
   m_Name: __S_AttacksManager
   m_TagString: Untagged
@@ -2067,7 +2068,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1091116576}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7987a487cb4a6f449fdd0b9c1ed0455, type: 3}
   m_Name: 
@@ -2079,6 +2080,25 @@ MonoBehaviour:
   dialogsReligion: {fileID: 11400000, guid: 943266a46f2855541a2aebd3c14be9f6, type: 2}
   dialogsMoney: {fileID: 11400000, guid: a046f9a153ab4074c84affde70acfee0, type: 2}
   dialogsFamily: {fileID: 11400000, guid: 260129f717dd08c4db4225e1ae1d2961, type: 2}
+--- !u!114 &1091116579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091116576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10bfba77d7e86641a174451908e846d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonPrefab: {fileID: 6327671017288317223, guid: 8e849829934197b40b363cccc6a247bf,
+    type: 3}
+  parent: {fileID: 1643496512}
+  war: {fileID: 11400000, guid: 9c5252e8f84068b4c9b780f3c422c3bd, type: 2}
+  family: {fileID: 11400000, guid: 260129f717dd08c4db4225e1ae1d2961, type: 2}
+  money: {fileID: 11400000, guid: a046f9a153ab4074c84affde70acfee0, type: 2}
+  religion: {fileID: 11400000, guid: 943266a46f2855541a2aebd3c14be9f6, type: 2}
 --- !u!1 &1114801832
 GameObject:
   m_ObjectHideFlags: 0
@@ -2879,8 +2899,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1091116578}
-        m_MethodName: OnClickCategoryReligion
+      - m_Target: {fileID: 1091116579}
+        m_MethodName: DrawSentencesReligion
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3565,8 +3585,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1091116578}
-        m_MethodName: OnClickCategoryMoney
+      - m_Target: {fileID: 1091116579}
+        m_MethodName: DrawSentencesFamily
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
