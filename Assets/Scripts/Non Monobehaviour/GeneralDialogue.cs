@@ -6,11 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GeneralDialogue", menuName = "Koei/GeneralDialogue")]
 public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 {
-	// TODO : actually add the weaknesses to PlayerData
-	[Header("Player Weaknesses")]
-	public List<SubCategory> criticalWeaknessesForPlayer;
-	public List<Category> weaknessesForPlayer;
-	public List<Card> unlockableCards;
+	[Header("Settings")]
+	public List<Conclusion> unlockableConclusions;
 	[Header("Dialogue")]
 	public List<CharacterDialogue> charactersDialogues;
 

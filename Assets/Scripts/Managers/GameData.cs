@@ -5,11 +5,8 @@ using UnityEngine;
 // class representing global game data
 public class GameData : MonoBehaviour, IDebugable, IInitializable
 {
-	[Header("Assign in Inspector")]
-	public List<Card> cardList;
-
 	[Header("Debug")]
-	public PlayerData playerData;
+	public List<Clue> playerClues;
 
 	public bool initialized => initializableInterface.initializedInternal;
 
@@ -21,9 +18,27 @@ public class GameData : MonoBehaviour, IDebugable, IInitializable
 
 	public void Init()
 	{
-		cardList.ForEach(item => item.Init());
+		playerClues = new List<Clue>();
 
 		initializableInterface.InitInternal();
+	}
+
+	// called when player finds a clue in a dialogue
+	public bool FindClue(Clue clue)
+	{
+		if(!playerClues.Contains(clue))
+		{
+			playerClues.Add(clue);
+			return true;
+		}
+
+		return false;
+	}
+
+	// resets clues when starting new Shogun dialogue
+	public void ResetPlayerClues()
+	{
+		playerClues.Clear();
 	}
 
 	void IInitializable.InitInternal()
@@ -73,17 +88,5 @@ public class GameData : MonoBehaviour, IDebugable, IInitializable
 		{
 			return sub;
 		}
-	}
-
-	public int GetIndexOfCard(Card card)
-	{
-		int index = cardList.IndexOf(card);
-
-		if(index == -1)
-		{
-			Debug.LogError(debugableInterface.debugLabel + "Couldn't find card " + card.ToString());
-		}
-
-		return index;
 	}
 }

@@ -134,26 +134,19 @@ public class GameManager : MonoBehaviour, IDebugable
 
 		popupManager.GetPopupFromType<ShogunPopup>().SpecificInit(
 			testDialogue.GetAllClues(),
-			testDialogue.unlockableCards,
+			testDialogue.unlockableConclusions,
 			shogunManager.characters,
-			() => popupManager.CancelPop(),
-			(Card card) =>
-			{
-				if(!gameData.playerData.actualDeck.Contains(gameData.GetIndexOfCard(card)))
-				{
-					gameData.playerData.actualDeck.Add(gameData.GetIndexOfCard(card));
-				}
-			}
+			() => popupManager.CancelPop()
 		);
 
-		gameData.playerData.ResetClues();
+		gameData.ResetPlayerClues();
 		shogunManager.StartDialogue(testDialogue);
 	}
 
 	// gets called every time we pop deduction popup
 	void StartDeduction()
 	{
-		popupManager.GetPopupFromType<ShogunPopup>().ChecKnobsState(gameData.playerData.clues);
+		popupManager.GetPopupFromType<ShogunPopup>().ChecKnobsState(gameData.playerClues);
 	}
 
 	// subscribe events to panel EventManager here
@@ -171,6 +164,6 @@ public class GameManager : MonoBehaviour, IDebugable
 
 	bool AddClueToPlayer(Clue clue)
 	{
-		return gameData.playerData.FindClue(clue);
+		return gameData.FindClue(clue);
 	}
 }

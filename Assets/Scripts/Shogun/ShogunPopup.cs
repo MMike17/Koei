@@ -23,22 +23,20 @@ public class ShogunPopup : Popup
 	public Image popupCharacterPortrait;
 	public Button returnButton;
 
-	List<CardToUnlock> cardsToUnlock;
+	List<Conclusion> conclusionsToUnlock;
 	List<Path> selectionPath;
 	List<Path> checkedPaths;
 	List<ClueKnob> spawnedKnobs;
 	ClueKnob previouslyHoveredKnob;
-	Action<Card> addCardToPlayerCallback;
 	int positionComputingStep;
 	bool isSettingPath;
 
-	public void SpecificInit(List<Clue> clueList, List<Card> unlockableCards, List<ShogunCharacter> characters, Action returnCallback, Action<Card> addCardToPlayer)
+	public void SpecificInit(List<Clue> clueList, List<Conclusion> unlockableConclusions, List<ShogunCharacter> characters, Action returnCallback)
 	{
 		SpawnKnobs(clueList, characters);
-		SpawnCards(unlockableCards);
+		SpawnConclusions(unlockableConclusions);
 
 		returnButton.onClick.AddListener(() => returnCallback.Invoke());
-		addCardToPlayerCallback = addCardToPlayer;
 
 		selectionPath = new List<Path>();
 		checkedPaths = new List<Path>();
@@ -46,20 +44,18 @@ public class ShogunPopup : Popup
 		isSettingPath = false;
 	}
 
-	void SpawnCards(List<Card> unlockableCards)
+	void SpawnConclusions(List<Conclusion> unlockableConclusions)
 	{
-		cardsToUnlock = new List<CardToUnlock>();
+		conclusionsToUnlock = new List<Conclusion>();
 
-		foreach (Card card in unlockableCards)
+		foreach (Conclusion conclusion in unlockableConclusions)
 		{
 			DesignedCard spawned = Instantiate(cardPrefab, cardList);
 
-			spawned.Init(card);
-			spawned.cardTaker.enabled = false;
-			spawned.GreyCard();
+			spawned.Init(conclusion);
+			spawned.HideCard();
 
-			cardsToUnlock.Add(new CardToUnlock(card, spawned));
-			cardsToUnlock[cardsToUnlock.Count - 1].cardData.Init();
+			conclusionsToUnlock.Add(new Conclusion(conclusion.category, conclusion.correctedSubCategory, spawned));
 		}
 	}
 
@@ -403,7 +399,7 @@ public class ShogunPopup : Popup
 		// unlocks card
 		if(pathSubCategories.Count == 2 && unlockCard && pathSubCategories[0] != SubCategory.EMPTY)
 		{
-			CardToUnlock unlock = cardsToUnlock.Find(item => { return item.cardData.subStrength == pathSubCategories[0]; });
+			Conclusion unlock = conclusionsToUnlock.Find(item => { return item.correctedSubCategory == pathSubCategories[0]; });
 
 			if(unlock == null)
 			{
@@ -413,7 +409,6 @@ public class ShogunPopup : Popup
 			{
 				// adds card to player data
 				unlock.cardObject.ShowCard();
-				addCardToPlayerCallback.Invoke(unlock.cardData);
 			}
 		}
 	}
@@ -426,18 +421,5 @@ public class ShogunPopup : Popup
 		mousePosition.y = mousePosition.y * Screen.height - Screen.height / 2;
 
 		return mousePosition;
-	}
-
-	// class to unlock cards visualy
-	class CardToUnlock
-	{
-		public Card cardData;
-		public DesignedCard cardObject;
-
-		public CardToUnlock(Card card, DesignedCard spawned)
-		{
-			cardData = card;
-			cardObject = spawned;
-		}
 	}
 }

@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class DesignedCard : MonoBehaviour, IInitializable, IDebugable
 {
-    [Header("Assign in Inspector")]
+	[Header("Assign in Inspector")]
 	public GameObject greyed;
 	public GameObject normal;
 	public TextMeshProUGUI category;
 	public TextMeshProUGUI subcategory;
 
-	public CardTaker cardTaker => GetComponent<CardTaker>();
+	[Header("Debug")]
+	public Conclusion conclusion;
+
 	public bool initialized => initializableInterface.initializedInternal;
 
 	IInitializable initializableInterface => (IInitializable) this;
@@ -18,21 +20,16 @@ public class DesignedCard : MonoBehaviour, IInitializable, IDebugable
 	string IDebugable.debugLabel => "<b>[DesignedCard] : </b>";
 	bool IInitializable.initializedInternal { get; set; }
 
-    [HideInInspector]
-    public Card Card;
-    
+	public void Init(Conclusion data)
+	{
+		conclusion = data;
 
-    public void Init(Card data)
-    {
-        Card = data;
-
-        category.text = data.strength.ToString();
-		subcategory.text = data.subStrength.ToString();
+		category.text = data.category.ToString();
+		subcategory.text = data.correctedSubCategory.ToString();
 
 		initializableInterface.InitInternal();
 
-
-        ShowCard();
+		ShowCard();
 	}
 
 	void IInitializable.InitInternal()
@@ -42,7 +39,7 @@ public class DesignedCard : MonoBehaviour, IInitializable, IDebugable
 		Debug.Log(debugableInterface.debugLabel + "Initializing done");
 	}
 
-	public void GreyCard()
+	public void HideCard()
 	{
 		if(!initialized)
 		{
