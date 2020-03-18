@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GeneralDialogue", menuName = "Koei/GeneralDialogue")]
 public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 {
-	[Header("Settings")]
+	[Header("Conclusions")]
 	public List<Conclusion> unlockableConclusions;
 	[Header("Dialogue")]
 	public List<CharacterDialogue> charactersDialogues;

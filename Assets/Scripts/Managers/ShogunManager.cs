@@ -162,7 +162,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		actualCharacter = character;
 		actualCharacterDialogue = actualDialogue.GetCharacterDialogue(actualCharacter);
 
-		characterPortrait.sprite = GetCharacter(actualCharacter).characterPortrait;
+		characterPortrait.sprite = GetCharacter(actualCharacter).characterFull;
 
 		actualCharacterDialogue.Init();
 
@@ -256,6 +256,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		public Character character;
 		public Sprite characterPortrait;
+		public Sprite characterFull;
 		public Button selectionButton;
 
 		public bool initialized => initializableInterface.initializedInternal;
