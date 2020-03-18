@@ -16,9 +16,10 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 	public enum Character
 	{
 		SHOGUN,
-		TEST1,
-		TEST2,
-		TEST3
+		FAMILLY,
+		RELIGION,
+		MONNEY,
+		WAR
 	}
 
 	IInitializable initializableInterface => (IInitializable) this;
