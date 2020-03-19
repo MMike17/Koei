@@ -44,7 +44,6 @@ public class NewDrawSentences : MonoBehaviour
     private void DrawSentences(AttackObj attack, int buttonsToDisplay)
     {
         bttAttacks.AddRange(GameObject.FindGameObjectsWithTag("Fight/Fight Button"));
-        Debug.Log(bttAttacks);
 
         if (parent.childCount != 0)
         {

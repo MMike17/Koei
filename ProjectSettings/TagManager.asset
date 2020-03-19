@@ -12,6 +12,10 @@ TagManager:
   - Fight/Fight Button
   - Fight/Main UI Parent
   - Fight/World
+  - GUI/Black Panel
+  - GUI/Black Bands
+  - Sentences/Player
+  - Sentences/Enemy
   layers:
   - Default
   - TransparentFX

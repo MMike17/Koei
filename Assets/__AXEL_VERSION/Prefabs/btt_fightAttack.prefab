@@ -387,3 +387,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   variableName: WatchAbove
+  timeBeforeRemoveSentence: 3.5
+  delayBands: 0.5
