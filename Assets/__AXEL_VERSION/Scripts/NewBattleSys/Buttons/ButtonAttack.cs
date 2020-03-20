@@ -45,6 +45,11 @@ public class ButtonAttack : MonoBehaviour
         {
             Debug.Log("Just displayed Fatality Sentences");
 
+            worldAnim.SetBool(variableName, false);
+            blackBands.SetBool("IsDisplayed", true);
+
+            StartCoroutine(WriteSentence());
+
         }
     }
 

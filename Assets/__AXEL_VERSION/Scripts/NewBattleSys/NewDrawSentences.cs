@@ -22,6 +22,8 @@ public class NewDrawSentences : MonoBehaviour
     public GameObject buttonMoney;
     public GameObject buttonReligion;
 
+    private bool hasDisplayedFatality;
+
     private List<GameObject> bttAttacks = new List<GameObject>();
 
     /*
@@ -35,34 +37,35 @@ public class NewDrawSentences : MonoBehaviour
     {
         if(FightSettings.currentHpEnemy <= 0)
         {
-            buttonFamily.SetActive(false);
-            buttonMoney.SetActive(false);
-            buttonReligion.SetActive(false);
-            buttonWar.SetActive(false);
-
-            Debug.Log("Display Fatality Buttons");
-
-            bttAttacks.AddRange(GameObject.FindGameObjectsWithTag("Fight/Fight Button"));
-
-            if (parent.childCount != 0)
+            if (!hasDisplayedFatality)
             {
-                Debug.Log("Buttons to remove (number only): " + parent.childCount + " | Buttons to display: " + buttonsToDisplay);
+                buttonFamily.SetActive(false);
+                buttonMoney.SetActive(false);
+                buttonReligion.SetActive(false);
+                buttonWar.SetActive(false);
 
-                for (int btt = 0; btt < parent.childCount; btt++)
+                Debug.Log("Display Fatality Buttons");
+
+                bttAttacks.AddRange(GameObject.FindGameObjectsWithTag("Fight/Fight Button"));
+
+                if (parent.childCount != 0)
                 {
-                    Destroy(bttAttacks[btt]);
-                    Debug.Log(btt);
+                    for (int btt = 0; btt < parent.childCount; btt++)
+                    {
+                        Destroy(bttAttacks[btt]);
+                        Debug.Log(btt);
+                    }
                 }
-            }
 
-            for (int i = 0; i < fatalitySentences.fatalitiesSentences.Length; i++)
-            {
-                GameObject button = Instantiate(buttonPrefab);
-                button.transform.SetParent(parent, false);
-                button.transform.localScale = Vector3.one;
-                button.GetComponentInChildren<TextMeshProUGUI>().text = fatalitySentences.fatalitiesSentences[i];
+                for (int i = 0; i < fatalitySentences.fatalitiesSentences.Length; i++)
+                {
+                    GameObject button = Instantiate(buttonPrefab);
+                    button.transform.SetParent(parent, false);
+                    button.transform.localScale = Vector3.one;
+                    button.GetComponentInChildren<TextMeshProUGUI>().text = fatalitySentences.fatalitiesSentences[i];
+                }
+                hasDisplayedFatality = true;
             }
-
         }
     }
 
