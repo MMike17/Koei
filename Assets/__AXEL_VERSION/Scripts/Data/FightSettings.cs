@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class FightSettings : MonoBehaviour
 {
-    public int currentHpEnemy;
-    public int currentHpPlayer;
+    public static int currentHpEnemy = 3;
+    public static int currentHpPlayer;
 }

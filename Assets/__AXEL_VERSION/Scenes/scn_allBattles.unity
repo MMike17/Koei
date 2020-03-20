@@ -2099,6 +2099,11 @@ MonoBehaviour:
   family: {fileID: 11400000, guid: 260129f717dd08c4db4225e1ae1d2961, type: 2}
   money: {fileID: 11400000, guid: a046f9a153ab4074c84affde70acfee0, type: 2}
   religion: {fileID: 11400000, guid: 943266a46f2855541a2aebd3c14be9f6, type: 2}
+  fatalitySentences: {fileID: 11400000, guid: 98540cb5263925248894b2de31f5dac6, type: 2}
+  buttonWar: {fileID: 176242341}
+  buttonFamily: {fileID: 998876203}
+  buttonMoney: {fileID: 2132245852}
+  buttonReligion: {fileID: 1777915182}
 --- !u!1 &1114801832
 GameObject:
   m_ObjectHideFlags: 0

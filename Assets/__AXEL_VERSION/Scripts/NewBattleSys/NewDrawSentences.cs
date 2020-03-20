@@ -15,6 +15,13 @@ public class NewDrawSentences : MonoBehaviour
     public AttackObj money;
     public AttackObj religion;
 
+    public FatalityObj fatalitySentences;
+
+    public GameObject buttonWar;
+    public GameObject buttonFamily;
+    public GameObject buttonMoney;
+    public GameObject buttonReligion;
+
     private List<GameObject> bttAttacks = new List<GameObject>();
 
     /*
@@ -23,6 +30,41 @@ public class NewDrawSentences : MonoBehaviour
         DrawSentencesWar();
     }
     */
+
+    private void Update()
+    {
+        if(FightSettings.currentHpEnemy <= 0)
+        {
+            buttonFamily.SetActive(false);
+            buttonMoney.SetActive(false);
+            buttonReligion.SetActive(false);
+            buttonWar.SetActive(false);
+
+            Debug.Log("Display Fatality Buttons");
+
+            bttAttacks.AddRange(GameObject.FindGameObjectsWithTag("Fight/Fight Button"));
+
+            if (parent.childCount != 0)
+            {
+                Debug.Log("Buttons to remove (number only): " + parent.childCount + " | Buttons to display: " + buttonsToDisplay);
+
+                for (int btt = 0; btt < parent.childCount; btt++)
+                {
+                    Destroy(bttAttacks[btt]);
+                    Debug.Log(btt);
+                }
+            }
+
+            for (int i = 0; i < fatalitySentences.fatalitiesSentences.Length; i++)
+            {
+                GameObject button = Instantiate(buttonPrefab);
+                button.transform.SetParent(parent, false);
+                button.transform.localScale = Vector3.one;
+                button.GetComponentInChildren<TextMeshProUGUI>().text = fatalitySentences.fatalitiesSentences[i];
+            }
+
+        }
+    }
 
     public void DrawSentencesWar()
     {
@@ -43,26 +85,29 @@ public class NewDrawSentences : MonoBehaviour
 
     private void DrawSentences(AttackObj attack, int buttonsToDisplay)
     {
-        bttAttacks.AddRange(GameObject.FindGameObjectsWithTag("Fight/Fight Button"));
-
-        if (parent.childCount != 0)
+        if(FightSettings.currentHpEnemy > 0)
         {
-            Debug.Log("Buttons to remove (number only): " + parent.childCount + " | Buttons to display: " + buttonsToDisplay);
+            bttAttacks.AddRange(GameObject.FindGameObjectsWithTag("Fight/Fight Button"));
 
-            for (int btt = 0; btt < parent.childCount; btt++)
+            if (parent.childCount != 0)
             {
-                Destroy(bttAttacks[btt]);
-                Debug.Log(btt);
+                Debug.Log("Buttons to remove (number only): " + parent.childCount + " | Buttons to display: " + buttonsToDisplay);
+
+                for (int btt = 0; btt < parent.childCount; btt++)
+                {
+                    Destroy(bttAttacks[btt]);
+                    Debug.Log(btt);
+                }
             }
+
+            for (int i = 0; i < buttonsToDisplay; i++)
+            {
+                GameObject button = Instantiate(buttonPrefab);
+                button.transform.SetParent(parent, false);
+                button.transform.localScale = Vector3.one;
+                button.GetComponentInChildren<TextMeshProUGUI>().text = attack.buttonSentences[i];
+            }
+            bttAttacks.Clear();
         }
-        
-        for (int i = 0; i < buttonsToDisplay; i++)
-        {
-            GameObject button = Instantiate(buttonPrefab);
-            button.transform.SetParent(parent, false);
-            button.transform.localScale = Vector3.one;
-            button.GetComponentInChildren<TextMeshProUGUI>().text = attack.buttonSentences[i];
-        }
-        bttAttacks.Clear();
     }
 }

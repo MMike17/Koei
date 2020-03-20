@@ -30,18 +30,27 @@ public class ButtonAttack : MonoBehaviour
     // Update is called once per frame
     public void OnClickButton()
     {
-        //blackPanel.SetActive(true);
+        if (FightSettings.currentHpEnemy > 0)
+        {
+            //blackPanel.SetActive(true);
 
-        worldAnim.SetBool(variableName, false);
-        blackBands.SetBool("IsDisplayed", true);
+            worldAnim.SetBool(variableName, false);
+            blackBands.SetBool("IsDisplayed", true);
 
-        StartCoroutine(WriteSentence());
+            StartCoroutine(WriteSentence());
 
-        //blackPanel.GetComponent<Animator>().SetBool("IsHalfBlack", true);
+            //blackPanel.GetComponent<Animator>().SetBool("IsHalfBlack", true);
+        }
+        else
+        {
+            Debug.Log("Just displayed Fatality Sentences");
+
+        }
     }
 
     private IEnumerator WriteSentence()
     {
+
         yield return new WaitForSeconds(1f);
 
         textPlayer.text = gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text;
@@ -55,5 +64,8 @@ public class ButtonAttack : MonoBehaviour
         yield return new WaitForSeconds(delayBands);
 
         worldAnim.SetBool(variableName, true);
+
+
+        FightSettings.currentHpEnemy--;
     }
 }
