@@ -14,7 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goodFatality: 0
   fatalitiesSentences:
-  - Plus fort que toi !
-  - "La R\xE9publique, c'est moi !"
-  - C'est de la poudre de Perlinpinpin
-  - C'est possible avec la carte kiwi !
+  - "Tu es n\xE9 dans la boue et elle accueille tes \xE9bats pervers ! Tu n\u2019es
+    que la preuve vivante qu\u2019un paysan ne pourra jamais devenir un samurai, retourne
+    donc \xE0 la fange d\u2019o\xF9 viens ton p\xE8re ! "
+  - "N\xE9 de sorciers et sorcier toi-m\xEAme, tu n\u2019es pas digne de parcourir
+    cette terre ! Un d\xE9mon reste un d\xE9mon toute sa vie !"
+  - "Regarde-toi ! Tu es habill\xE9 de haillons et ta langue ne sait que prononcer
+    des obsc\xE9nit\xE9s, tu va de bordels en tavernes, ronin sans but ! Tu n\u2019es
+    qu\u2019une parodie de samurai sans int\xE9r\xEAt !"
+  badAnswerResponseFromEnemy: "Et c\u2019est \xE7a les \u201Cvrais\u201D samoura\xEFs
+    ? Tu b\xE9gayes ! Restes mort, \xE7a vaut mieux pour tout le monde."

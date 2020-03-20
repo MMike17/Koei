@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
+  m_Name: Religion 1 - 3
+  m_EditorClassIdentifier: 
+  playerQuestion: "Comment ? Est-il un h\xE9r\xE9tique, pour que vous le d\xE9testiez
+    autant ?"
+  characterAnswer: "H\xE9r\xE9tique ? Non. Il fr\xE9quente les temples de mani\xE8re
+    tout a fait normale. Non, j'\xE9voque l\xE0 un autre probl\xE8me. Il est vulgaire,
+    vois-tu. Ind\xE9cent. Constamment mal habill\xE9, au langage d'un grossier insupportable.
+    Et ce n'est que la surface. Lorsque je visitais le ch\xE2teau de Takeda...\r\n\nOh,
+    les regards qu'il envoyait aux jeunes filles ! Un v\xE9ritable porc.\r\n"
+  hasClue: 1
+  clue:
+    category: 1
+    subCategory: 9
+    giverCharacter: 2
+    summary: "Il est vulgaire et ind\xE9cent."
+  nextDialogues:
+  - {fileID: 11400000, guid: 86b7210d3a66799409d9dbb47f9f7f55, type: 2}
