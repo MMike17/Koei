@@ -8,11 +8,16 @@ public class ButtonAttack : MonoBehaviour
     [Header("Animation System")]
     public string variableName = "WatchAbove";
 
+
     public float timeBeforeRemoveSentence;
     public float delayBands;
 
+    [HideInInspector]
+    public int order;
+
     private TextMeshProUGUI textPlayer;
 
+    private NewDrawSentences sentenceDrawner;
     private GameObject blackPanel;
     private Animator worldAnim;
     private Animator blackBands;
@@ -20,6 +25,8 @@ public class ButtonAttack : MonoBehaviour
     private void OnEnable()
     {
         textPlayer = GameObject.FindGameObjectWithTag("Sentences/Player").GetComponent<TextMeshProUGUI>();
+
+        sentenceDrawner = FindObjectOfType<NewDrawSentences>();
 
         //blackPanel = GameObject.FindGameObjectWithTag("GUI/Black Panel");
         //Debug.Log(blackPanel.name);
@@ -43,12 +50,19 @@ public class ButtonAttack : MonoBehaviour
         }
         else
         {
+            // FATALITY PART
             Debug.Log("Just displayed Fatality Sentences");
 
-            worldAnim.SetBool(variableName, false);
-            blackBands.SetBool("IsDisplayed", true);
+            for(int i = 0; i < sentenceDrawner.fatalitySentences.fatalitiesSentences.Length; i++)
+            {
+                if (order == sentenceDrawner.fatalitySentences.goodFatality)
+                {
+                    worldAnim.SetBool(variableName, false);
+                    blackBands.SetBool("IsDisplayed", true);
 
-            StartCoroutine(WriteSentence());
+                    StartCoroutine(WriteSentence());
+                }
+            }
 
         }
     }

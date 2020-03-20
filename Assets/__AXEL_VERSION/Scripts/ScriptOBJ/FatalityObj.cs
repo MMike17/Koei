@@ -7,4 +7,5 @@ public class FatalityObj : ScriptableObject
 {
     public int goodFatality;
     public string[] fatalitiesSentences;
+    public string badAnswerResponseFromEnemy;
 }

@@ -35,7 +35,7 @@ public class NewDrawSentences : MonoBehaviour
 
     private void Update()
     {
-        if(FightSettings.currentHpEnemy <= 0)
+        if(FightSettings.currentHpEnemy == 0)
         {
             if (!hasDisplayedFatality)
             {
@@ -63,6 +63,7 @@ public class NewDrawSentences : MonoBehaviour
                     button.transform.SetParent(parent, false);
                     button.transform.localScale = Vector3.one;
                     button.GetComponentInChildren<TextMeshProUGUI>().text = fatalitySentences.fatalitiesSentences[i];
+                    button.GetComponent<ButtonAttack>().order = i;
                 }
                 hasDisplayedFatality = true;
             }
