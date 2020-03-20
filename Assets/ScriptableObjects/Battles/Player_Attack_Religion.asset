@@ -115,7 +115,7 @@ MonoBehaviour:
   - 
   - 
   - 
-  dialogNumber: 0
-  currentDialogsNumber: 0
+  dialogNumber: 3
+  currentDialogsNumber: 3
   cat: 2
   subCat: 05000000060000000500000006000000050000000500000005000000050000000500000005000000050000000500000005000000

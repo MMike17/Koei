@@ -10,12 +10,14 @@ public class ButtonAttack : MonoBehaviour
 
 
     public float timeBeforeRemoveSentence;
+    public float timeBeforePlayerLoose;
     public float delayBands;
 
     [HideInInspector]
     public int order;
 
     private TextMeshProUGUI textPlayer;
+    private TextMeshProUGUI textEnemy;
 
     private NewDrawSentences sentenceDrawner;
     private GameObject blackPanel;
@@ -25,6 +27,7 @@ public class ButtonAttack : MonoBehaviour
     private void OnEnable()
     {
         textPlayer = GameObject.FindGameObjectWithTag("Sentences/Player").GetComponent<TextMeshProUGUI>();
+        textEnemy = GameObject.FindGameObjectWithTag("Sentences/Enemy").GetComponent<TextMeshProUGUI>();
 
         sentenceDrawner = FindObjectOfType<NewDrawSentences>();
 
@@ -57,10 +60,21 @@ public class ButtonAttack : MonoBehaviour
             {
                 if (order == sentenceDrawner.fatalitySentences.goodFatality)
                 {
+                    // RIGHT FATALITY
                     worldAnim.SetBool(variableName, false);
                     blackBands.SetBool("IsDisplayed", true);
 
                     StartCoroutine(WriteSentence());
+                }
+                else
+                {
+                    // WRONG FATALITY
+
+                    worldAnim.SetBool(variableName, false);
+                    blackBands.SetBool("IsDisplayed", true);
+
+                    StartCoroutine(WriteSentenceWrongFatality());
+
                 }
             }
 
@@ -86,5 +100,39 @@ public class ButtonAttack : MonoBehaviour
 
 
         FightSettings.currentHpEnemy--;
+    }
+    private IEnumerator WriteSentenceWrongFatality()
+    {
+
+        yield return new WaitForSeconds(1f);
+
+        textPlayer.text = gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text;
+
+        yield return new WaitForSeconds(timeBeforeRemoveSentence);
+
+        textPlayer.text = "";
+
+
+        yield return new WaitForSeconds(timeBeforePlayerLoose);
+
+        textEnemy.text = sentenceDrawner.fatalitySentences.badAnswerResponseFromEnemy;
+
+        yield return new WaitForSeconds(timeBeforeRemoveSentence);
+
+        textEnemy.text = "";
+        textPlayer.text = "Je suis déshonoré !!";
+
+        yield return new WaitForSeconds(timeBeforeRemoveSentence);
+
+        textPlayer.text = "";
+
+        yield return new WaitForSeconds(delayBands);
+
+        blackBands.SetBool("IsDisplayed", false);
+
+        //worldAnim.SetBool(variableName, true);
+        
+
+        Debug.Log("<b>GAME OVER</b>");
     }
 }

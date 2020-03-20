@@ -388,4 +388,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variableName: WatchAbove
   timeBeforeRemoveSentence: 3.5
+  timeBeforePlayerLoose: 0.75
   delayBands: 0.5
+  order: 0
