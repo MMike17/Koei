@@ -102,8 +102,6 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	void Update()
 	{
-		// TODO : Add system to respawn text from character we already talked to so we can have a conversation hystory when we go back to character we already talked to
-
 		if(lastWriter != null && lastWriter.isDone)
 		{
 			// prevents update from spawning lines if we are waiting for the player to choose a dialogue line
@@ -152,6 +150,10 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			{
 				SpawnCharacterLine(actualCharacterDialogue.GetActualDialogue().characterAnswer, characterTextColor);
 			}
+		}
+		else if(Input.GetMouseButtonDown(0))
+		{
+			lastWriter.Finish();
 		}
 	}
 
@@ -215,6 +217,12 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	void SpawnCharacterLine(string line, Color text)
 	{
+		if(string.IsNullOrEmpty(line))
+		{
+			needsPlayerSpawn = true;
+			return;
+		}
+
 		DialogueWriter spawned = Instantiate(characterTextPrefab, dialogueScrollList).GetComponent<DialogueWriter>();
 
 		spawned.Play(line, dialogueSpeed, highlightLength, highlightColor, text);
@@ -275,7 +283,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			selectionButton.onClick.RemoveAllListeners();
 			selectionButton.onClick.AddListener(() => changeCharacter.Invoke());
 
-			selectionButton.GetComponent<Image>().sprite = characterPortrait;
+			selectionButton.transform.GetChild(0).GetComponent<Image>().sprite = characterPortrait;
 
 			initializableInterface.InitInternal();
 		}

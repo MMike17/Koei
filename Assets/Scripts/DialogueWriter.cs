@@ -34,7 +34,7 @@ public class DialogueWriter : MonoBehaviour
 		{
 			if(string.IsNullOrEmpty(line))
 			{
-				Debug.LogError("line to write is empty");
+				Debug.LogError("line to write is empty", gameObject);
 				return;
 			}
 
@@ -137,6 +137,11 @@ public class DialogueWriter : MonoBehaviour
 
 		writingIndex = 0;
 		timer = 0;
+	}
+
+	public void Finish()
+	{
+		writingIndex = line.Length + trailLength;
 	}
 
 	void ComputeColors()
