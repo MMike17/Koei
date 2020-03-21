@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: Player_Attack_Family
   m_EditorClassIdentifier: 
   buttonSentences:
+<<<<<<< Updated upstream
   - Test
   - C la family
   - XD
+=======
+  - 
+  - 
+  - 
+>>>>>>> Stashed changes
   dialogNumber: 3
   currentDialogsNumber: 3
   cat: 1

@@ -13,11 +13,18 @@ MonoBehaviour:
   m_Name: Player_Attack_Religion
   m_EditorClassIdentifier: 
   buttonSentences:
-  - MDR
+  - "Le moine de ton village ne conna\xEEt m\xEAme pas ton visage tant la pri\xE8re
+    t\u2019est inconnue !"
+  - "Les processions \xE9vitent ton chateau, de peur que tu ne leur crache dessus
+    !"
+  - "Comment peux-tu parler, toi qui \xE0 offert ton \xE2me et ton sabre aux forces
+    d\xE9moniaques ?"
+  - "L\u2019or qui paie tes troupes \xE0 \xE9t\xE9 vol\xE9 aux temples par tes soins,
+    m\xE9cr\xE9ant !"
+  - "Ta pr\xE9sence en notre monde offense tous les \xEAtres c\xE9lestes, d\xE9mon
+    sans dieu !"
   - 
   - 
-  - "Attention : je suis tr\xE8s m\xE9chant."
-  - "J'ai fais pour de faux de dire que j'\xE9tais mort !"
   - 
   - 
   - 
@@ -113,9 +120,14 @@ MonoBehaviour:
   - 
   - 
   - 
+<<<<<<< Updated upstream
   - 
   - 
   dialogNumber: 3
   currentDialogsNumber: 3
+=======
+  dialogNumber: 5
+  currentDialogsNumber: 5
+>>>>>>> Stashed changes
   cat: 2
-  subCat: 05000000060000000500000006000000050000000500000005000000050000000500000005000000050000000500000005000000
+  subCat: 0d0000000e0000000f0000000c0000000b0000000500000005000000050000000500000005000000050000000500000005000000

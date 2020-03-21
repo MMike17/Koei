@@ -13,11 +13,16 @@ MonoBehaviour:
   m_Name: Player_Attack_Money
   m_EditorClassIdentifier: 
   buttonSentences:
-  - Mdr
-  - Lol
-  - Test
-  - LOL
-  - Ceci est un placeholder.
+  - "Ton armure ne t\u2019appartient m\xEAme pas, parodie de guerrier, elle appartient
+    \xE0 ton cr\xE9ancier !"
+  - "Tu ose te pr\xE9tendre serviteur de l\u2019empereur, mais jamais le percepteur
+    d\u2019imp\xF4ts ne vit ta contribution !"
+  - "Honorable, toi ?! Il n\u2019est d\u2019artisan ou d\u2019ouvrier de ton domaine
+    qui ne te paye pour tordre la loi !"
+  - "Les villageois de ton domaine sont fam\xE9liques ; pour nourrir leurs enfants,
+    tu ne leur donne que de la boue et des imp\xF4ts !"
+  - "- Dans ta maison s\u2019accumulent des babioles indignes de la simplicit\xE9
+    d\u2019un vrai samurai !"
   - 
   - 
   - 
@@ -503,7 +508,12 @@ MonoBehaviour:
   - 
   - 
   - 
+<<<<<<< Updated upstream
   dialogNumber: 4
   currentDialogsNumber: 4
+=======
+  dialogNumber: 5
+  currentDialogsNumber: 5
+>>>>>>> Stashed changes
   cat: 3
-  subCat: 0700000008000000070000000800000007000000070000000700000007000000070000000700000007000000070000000700000007000000070000000700000007000000070000000700000007000000070000000700000007000000070000000700000007000000070000000700000007000000070000000700000007000000
+  subCat: 1000000013000000140000001100000012000000070000000700000007000000070000000700000007000000070000000700000007000000070000000700000007000000070000000700000007000000070000000700000007000000070000000700000007000000070000000700000007000000070000000700000007000000

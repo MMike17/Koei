@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: Player_Attack_War
   m_EditorClassIdentifier: 
   buttonSentences:
-  - Ahah ! Je suis plus fort que toi.
-  - Machin Wins, FATALITY
-  - Flawless victory!
+  - "Repose ce sabre, honte du Japon ! Ton seul talent est de mener tes hommes \xE0
+    une mort inutile !"
+  - "Tous les daimyo du Japon t\u2019ont vu fuir les batailles que tu m\xE8nes !\r"
+  - "Hum ! Quel fou oserait te prendre dans son arm\xE9e, toi qui est r\xE9put\xE9
+    pour ta d\xE9loyaut\xE9 \xE0 travers tout le Japon !"
+  - "Chaque villageois crains pour sa famille et ses biens, tant ta soif de pillage
+    est connue !\r"
+  - "Tandis que tes soldats se battent loin de leur foyer, tu laisse ta maison \xEAtre
+    incendi\xE9e par tes ennemis !\r"
   - 
   - 
   - 
@@ -1319,9 +1325,14 @@ MonoBehaviour:
   - 
   - 
   - 
+<<<<<<< Updated upstream
   - 
   - 
   dialogNumber: 3
   currentDialogsNumber: 3
+=======
+  dialogNumber: 5
+  currentDialogsNumber: 5
+>>>>>>> Stashed changes
   cat: 0
-  subCat: 01000000010000000100000001000000010000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
+  subCat: 02000000010000000300000004000000050000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000030000000300000003000000
