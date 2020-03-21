@@ -25,4 +25,4 @@ MonoBehaviour:
     giverCharacter: 0
     summary: 
   nextDialogues:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 7061d45ae80883e42b4910b94e04964d, type: 2}

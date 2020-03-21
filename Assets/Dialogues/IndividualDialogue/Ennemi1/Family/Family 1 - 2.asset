@@ -24,4 +24,4 @@ MonoBehaviour:
     giverCharacter: 1
     summary: "La rumeur le pr\xE9sente comme un sorcier..."
   nextDialogues:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 8b25a6c1ec00a7c49b83933359839641, type: 2}
