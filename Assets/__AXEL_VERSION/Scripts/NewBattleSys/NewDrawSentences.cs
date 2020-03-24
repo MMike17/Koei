@@ -70,6 +70,8 @@ public class NewDrawSentences : MonoBehaviour
         }
     }
 
+    #region Step 3
+    // Phasis 3
     public void DrawSentencesWar()
     {
         DrawSentences(war, EditorPrefs.GetInt("totalDialogs_" + war.cat.ToString()));
@@ -114,4 +116,5 @@ public class NewDrawSentences : MonoBehaviour
             bttAttacks.Clear();
         }
     }
+    #endregion
 }

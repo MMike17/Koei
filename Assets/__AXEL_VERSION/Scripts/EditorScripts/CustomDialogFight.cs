@@ -49,7 +49,7 @@ public class CustomDialogFight : Editor
             newAttack.subCat = newList.ToArray();
         }
 
-        for (int i = 0; i < newAttack.currentDialogsNumber; i++)
+        for (int i = 0; i < EditorPrefs.GetInt("totalDialogs_" + newAttack.cat.ToString()); i++)
         {
             dialogs[i] = EditorPrefs.GetString("dialog_" + i + "__" + newAttack.cat.ToString());
 
@@ -66,6 +66,7 @@ public class CustomDialogFight : Editor
             //EditorGUILayout.EndHorizontal();
         }
         EditorPrefs.SetInt("totalDialogs_" + newAttack.cat.ToString(), newAttack.dialogNumber);
+
         EditorUtility.SetDirty(newAttack);
 
         Debug.Log("<b>Number of buttons >> </b>" + newAttack.currentDialogsNumber);
