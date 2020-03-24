@@ -10,16 +10,28 @@ public class AttackFightObj : ScriptableObject
     public string id = "aaaa_0000_zzzz";
 
     [SerializeField]
-    public string[] attackArray =
-    {
-        "War", "Family", "Religion", "Money"
-    };
-
-    [SerializeField]
     public int choiceAttack;
+    [SerializeField]
+    public int numberOfDialogsWar;
+    [SerializeField]
+    public int numberOfDialogsFamily;
+    [SerializeField]
+    public int numberOfDialogsReligion;
+    [SerializeField]
+    public int numberOfDialogsMoney;
+
 
     [SerializeField]
-    public List<string> attack = new List<string>();
+    public int currentDialogChoice;
+
+    [SerializeField]
+    public List<string> attackWar = new List<string>();
+    [SerializeField]
+    public List<string> attackFamily = new List<string>();
+    [SerializeField]
+    public List<string> attackReligion = new List<string>();
+    [SerializeField]
+    public List<string> attackMoney = new List<string>();
 
     [SerializeField]
     public Category category;
