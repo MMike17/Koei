@@ -19,7 +19,7 @@ public class ShogunPopup : Popup
 	public DesignedCard cardPrefab;
 	public Path pathPrefab;
 	public RectTransform clueKnobSpawnZone, cardList, startPath, endPath;
-	public TextMeshProUGUI lineCounter, clueDescription;
+	public TextMeshProUGUI lineCounter, clueDescription, clueLineAddUp;
 	public Image popupCharacterPortrait;
 	public Button returnButton;
 
@@ -27,6 +27,7 @@ public class ShogunPopup : Popup
 	List<Path> selectionPath;
 	List<Path> checkedPaths;
 	List<ClueKnob> spawnedKnobs;
+	List<Clue> selectedClues;
 	ClueKnob previouslyHoveredKnob;
 	int positionComputingStep;
 	bool isSettingPath;
@@ -40,6 +41,7 @@ public class ShogunPopup : Popup
 
 		selectionPath = new List<Path>();
 		checkedPaths = new List<Path>();
+		selectedClues = new List<Clue>();
 
 		isSettingPath = false;
 	}
@@ -177,6 +179,7 @@ public class ShogunPopup : Popup
 			if(!Input.GetMouseButton(0))
 			{
 				isSettingPath = false;
+				selectedClues.Clear();
 
 				bool isPathFinished = false;
 
@@ -245,6 +248,8 @@ public class ShogunPopup : Popup
 							if(selectionPath.Count < 4)
 							{
 								SpawnNewPath(knob.GetSubCategory(), knob.transform);
+
+								selectedClues.Add(knob.GetClue());
 							}
 						}
 						// if knob is in chain and is last in chain
@@ -252,6 +257,8 @@ public class ShogunPopup : Popup
 						else if(selectionPath.Count > 1 && knob.transform == selectionPath[selectionPath.Count - 2].GetEnd())
 						{
 							// deselects knob
+							selectedClues.Remove(knob.GetClue());
+
 							Destroy(selectionPath[selectionPath.Count - 1].gameObject);
 							selectionPath.RemoveAt(selectionPath.Count - 1);
 						}
@@ -270,6 +277,25 @@ public class ShogunPopup : Popup
 				}
 
 				previouslyHoveredKnob = knob;
+			}
+
+			if(selectedClues.Count > 0)
+			{
+				clueLineAddUp.text = selectedClues[0].deductionLine;
+
+				if(selectedClues.Count > 1)
+				{
+					clueLineAddUp.text += ", " + selectedClues[1].deductionLine;
+
+					if(selectedClues.Count > 2)
+					{
+						clueLineAddUp.text += " et " + selectedClues[2].deductionLine + " donc...";
+					}
+				}
+			}
+			else
+			{
+				clueLineAddUp.text = string.Empty;
 			}
 		}
 

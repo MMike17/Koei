@@ -9,7 +9,7 @@ public class Clue
 	SubCategory subCategory;
 	public GeneralDialogue.Character giverCharacter;
 	[TextArea(1, 10)]
-	public string summary;
+	public string summary, deductionLine;
 
 	public SubCategory correctedSubCategory => GameData.CorrectSubCategory(subCategory, category);
 }

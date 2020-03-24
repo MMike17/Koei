@@ -110,6 +110,11 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 		return this.clue == clue;
 	}
 
+	public Clue GetClue()
+	{
+		return clue;
+	}
+
 	void CheckState()
 	{
 		locked.SetActive(!isUnlocked);
