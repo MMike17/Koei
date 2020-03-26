@@ -252,11 +252,12 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	void AddClueToList(Clue clue)
 	{
-
 		GameObject spawnedClue = Instantiate(cluePrefab, cluesScrollList);
 		spawnedClue.transform.SetAsLastSibling();
 
-		spawnedClue.GetComponent<TextMeshProUGUI>().text = "- " + clue.summary;
+		spawnedClue.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = clue.summary;
+
+		LayoutRebuilder.ForceRebuildLayoutImmediate(cluesScrollList);
 	}
 
 	[Serializable]
