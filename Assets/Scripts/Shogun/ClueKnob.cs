@@ -21,7 +21,7 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 	Clue clue;
 	bool isSelected, isUnlocked;
 
-	public void Init(bool isUnlocked, Clue clue, Sprite characterPortrait, Action<string, Sprite> showClue)
+	public void Init(bool isUnlocked, Clue clue, Sprite characterPortrait, Color selectedColor, Action<string, Sprite> showClue)
 	{
 		this.isUnlocked = isUnlocked;
 		this.clue = clue;
@@ -32,6 +32,7 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 
 		selected.SetActive(false);
 		isSelected = false;
+		selected.GetComponent<Image>().color = new Color(selectedColor.r, selectedColor.g, selectedColor.b, 1);
 
 		initializableInterface.InitInternal();
 	}
@@ -108,6 +109,11 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 		}
 
 		return this.clue == clue;
+	}
+
+	public Clue GetClue()
+	{
+		return clue;
 	}
 
 	void CheckState()

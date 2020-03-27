@@ -90,7 +90,8 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 		this.end = end;
 		endClue = clue;
 
-		UpdatePath();
+		if(end != null)
+			UpdatePath();
 	}
 
 	public Transform GetEnd()

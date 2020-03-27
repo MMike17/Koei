@@ -19,14 +19,15 @@ public class ShogunPopup : Popup
 	public DesignedCard cardPrefab;
 	public Path pathPrefab;
 	public RectTransform clueKnobSpawnZone, cardList, startPath, endPath;
-	public TextMeshProUGUI lineCounter, clueDescription;
+	public TextMeshProUGUI lineCounter, clueDescription, clueLineAddUp;
 	public Image popupCharacterPortrait;
 	public Button returnButton;
 
 	List<Conclusion> conclusionsToUnlock;
 	List<Path> selectionPath;
-	List<Path> checkedPaths;
+	List<Path> persistentPaths;
 	List<ClueKnob> spawnedKnobs;
+	List<Clue> selectedClues;
 	ClueKnob previouslyHoveredKnob;
 	int positionComputingStep;
 	bool isSettingPath;
@@ -39,7 +40,8 @@ public class ShogunPopup : Popup
 		returnButton.onClick.AddListener(() => returnCallback.Invoke());
 
 		selectionPath = new List<Path>();
-		checkedPaths = new List<Path>();
+		persistentPaths = new List<Path>();
+		selectedClues = new List<Clue>();
 
 		isSettingPath = false;
 	}
@@ -66,13 +68,33 @@ public class ShogunPopup : Popup
 		rectangle.width -= clueKnobSpawnPadding;
 		rectangle.height -= clueKnobSpawnPadding;
 
+		// debug
+		// Image temp = Instantiate(popupCharacterPortrait, clueKnobSpawnZone);
+		// temp.transform.localPosition = clueKnobSpawnZone.localPosition;
+		// temp.enabled = true;
+		// temp.color = Color.red;
+
+		// RectTransform tempRect = temp.GetComponent<RectTransform>();
+		// tempRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, clueKnobSpawnZone.rect.width);
+		// tempRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, clueKnobSpawnZone.rect.height);
+
+		// temp = Instantiate(popupCharacterPortrait, clueKnobSpawnZone);
+		// temp.transform.localPosition = clueKnobSpawnZone.localPosition;
+		// temp.enabled = true;
+		// temp.color = Color.green;
+
+		// tempRect = temp.GetComponent<RectTransform>();
+		// tempRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rectangle.width);
+		// tempRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectangle.height);
+		// debug
+
 		// list of spawned clue knobs to check distance with existing knobs
 		spawnedKnobs = new List<ClueKnob>();
 
 		foreach (Clue clue in clueList)
 		{
 			positionComputingStep = 0;
-			Vector3 targetPosition = ComputeRandomPosition(rectangle, spawnedKnobs);
+			Vector3 targetPosition = ComputeRandomPosition(rectangle);
 
 			ClueKnob spawned = Instantiate(clueKnobPrefab, clueKnobSpawnZone);
 			spawned.transform.localPosition = targetPosition;
@@ -86,7 +108,7 @@ public class ShogunPopup : Popup
 				continue;
 			}
 
-			spawned.Init(false, clue, character.characterPortrait, (string clueDetail, Sprite portrait) =>
+			spawned.Init(false, clue, character.characterPortrait, validatedPath, (string clueDetail, Sprite portrait) =>
 			{
 				// shows clue only if unlocked
 				if(!spawned.isLocked)
@@ -97,9 +119,10 @@ public class ShogunPopup : Popup
 		}
 	}
 
-	Vector3 ComputeRandomPosition(Rect spawnZone, List<ClueKnob> alreadySpawned)
+	Vector3 ComputeRandomPosition(Rect spawnZone)
 	{
 		bool shouldRestart = false;
+
 		// computes random position
 		Vector3 newPosition = new Vector2(UnityEngine.Random.Range(spawnZone.xMin, spawnZone.xMax), UnityEngine.Random.Range(spawnZone.yMin, spawnZone.yMax));
 
@@ -109,10 +132,10 @@ public class ShogunPopup : Popup
 			return newPosition;
 		}
 
-		foreach (ClueKnob knob in alreadySpawned)
+		foreach (ClueKnob knob in spawnedKnobs)
 		{
 			// checks distance between vector and previous knob
-			if(Vector3.Distance(knob.transform.position, newPosition) < clueKnobMinDistance)
+			if(Vector3.Distance(knob.transform.localPosition, newPosition) < clueKnobMinDistance)
 			{
 				shouldRestart = true;
 			}
@@ -122,9 +145,8 @@ public class ShogunPopup : Popup
 		if(shouldRestart)
 		{
 			positionComputingStep++;
-			Debug.Log(debugableInterface.debugLabel + "Reached computing limit (10)");
 
-			return ComputeRandomPosition(spawnZone, alreadySpawned);
+			return ComputeRandomPosition(spawnZone);
 		}
 		else // or returns the random vector because it's correct
 		{
@@ -177,6 +199,7 @@ public class ShogunPopup : Popup
 			if(!Input.GetMouseButton(0))
 			{
 				isSettingPath = false;
+				selectedClues.Clear();
 
 				bool isPathFinished = false;
 
@@ -197,7 +220,7 @@ public class ShogunPopup : Popup
 
 				if(isPathFinished)
 				{
-					CheckCardUnlock(pathCheck);
+					CheckConclusionUnlock(pathCheck);
 				}
 				else
 				{
@@ -235,7 +258,12 @@ public class ShogunPopup : Popup
 				// if we are above knob
 				if(knob != null)
 				{
-					// if it's new knob (if we are not above empty anymore)
+					if(knob != previouslyHoveredKnob)
+					{
+						Debug.Log(selectionPath[0].ContainsKnob(knob.transform));
+					}
+
+					// if it's new knob (if we are not above empty anymore) & can select knob
 					if(knob != previouslyHoveredKnob && !knob.isLocked)
 					{
 						// if knob is not in chain
@@ -245,6 +273,9 @@ public class ShogunPopup : Popup
 							if(selectionPath.Count < 4)
 							{
 								SpawnNewPath(knob.GetSubCategory(), knob.transform);
+
+								selectedClues.Add(knob.GetClue());
+								knob.SelectForPath();
 							}
 						}
 						// if knob is in chain and is last in chain
@@ -252,11 +283,15 @@ public class ShogunPopup : Popup
 						else if(selectionPath.Count > 1 && knob.transform == selectionPath[selectionPath.Count - 2].GetEnd())
 						{
 							// deselects knob
+							selectedClues.Remove(knob.GetClue());
+
 							Destroy(selectionPath[selectionPath.Count - 1].gameObject);
 							selectionPath.RemoveAt(selectionPath.Count - 1);
-						}
 
-						knob.SelectForPath();
+							selectionPath[selectionPath.Count - 1].SetEnd(null, SubCategory.EMPTY);
+
+							knob.SelectForPath();
+						}
 					}
 					else
 					{
@@ -270,6 +305,25 @@ public class ShogunPopup : Popup
 				}
 
 				previouslyHoveredKnob = knob;
+			}
+
+			if(selectedClues.Count > 0)
+			{
+				clueLineAddUp.text = selectedClues[0].deductionLine;
+
+				if(selectedClues.Count > 1)
+				{
+					clueLineAddUp.text += ", " + selectedClues[1].deductionLine;
+
+					if(selectedClues.Count > 2)
+					{
+						clueLineAddUp.text += " et " + selectedClues[2].deductionLine + " donc...";
+					}
+				}
+			}
+			else
+			{
+				clueLineAddUp.text = string.Empty;
 			}
 		}
 
@@ -330,12 +384,6 @@ public class ShogunPopup : Popup
 
 	List<SubCategory> CheckFullPath(bool isFinished)
 	{
-		string debug = string.Empty;
-
-		checkedPaths.ForEach(item => debug += item + "\n");
-
-		Debug.LogWarning(debugableInterface.debugLabel + debug);
-
 		// deselect all knobs
 		spawnedKnobs.ForEach(item => item.DeselectKnob());
 
@@ -343,7 +391,7 @@ public class ShogunPopup : Popup
 		Destroy(selectionPath[0].gameObject);
 		selectionPath.RemoveAt(0);
 
-		if(selectionPath.Count > 0)
+		if(selectionPath.Count > 0 && selectionPath[selectionPath.Count - 1].end == null || selectionPath[selectionPath.Count - 1].end == endPath)
 		{
 			// destroys last path (if finished it's linked to end knob, if not it's interrupted)
 			Destroy(selectionPath[selectionPath.Count - 1].gameObject);
@@ -351,7 +399,6 @@ public class ShogunPopup : Popup
 		}
 
 		List<SubCategory> pathSubCategories = new List<SubCategory>();
-		List<Path> toDelete = new List<Path>();
 
 		foreach (Path path in selectionPath)
 		{
@@ -359,30 +406,26 @@ public class ShogunPopup : Popup
 			pathSubCategories.Add(path.CheckState());
 
 			// moves path to path already checked (if we don't already have a similar path)
-			Path found = checkedPaths.Find(item => { return item == path; });
+			Path found = persistentPaths.Find(item => { return item.ContainsKnob(path.start) && item.ContainsKnob(path.end); });
 
-			if(found != null)
+			if(found == null)
 			{
-				// adds path to paths that will be destroyed 
-				toDelete.Add(path);
-			}
-			else
-			{
-				checkedPaths.Add(path);
+				// adds path to paths that will be destroyed
+				persistentPaths.Add(path);
 			}
 		}
 
-		// delete paths that are already in the checkedPath
-		toDelete.ForEach(item => selectionPath.Remove(item));
+		// removes persistent paths from selectionPath to not destroy them
+		persistentPaths.ForEach(item => selectionPath.Remove(item));
 
 		// deletes selection path
-		selectionPath.ForEach(item => Destroy(item));
+		selectionPath.ForEach(item => Destroy(item.gameObject));
 		selectionPath.Clear();
 
 		return pathSubCategories;
 	}
 
-	void CheckCardUnlock(List<SubCategory> pathSubCategories)
+	void CheckConclusionUnlock(List<SubCategory> pathSubCategories)
 	{
 		// checks if we unlocked a card
 		bool unlockCard = true;

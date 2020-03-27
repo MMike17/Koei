@@ -2040,6 +2040,7 @@ GameObject:
   - component: {fileID: 1091116577}
   - component: {fileID: 1091116578}
   - component: {fileID: 1091116579}
+  - component: {fileID: 1091116580}
   m_Layer: 0
   m_Name: __S_AttacksManager
   m_TagString: Untagged
@@ -2095,15 +2096,28 @@ MonoBehaviour:
   buttonPrefab: {fileID: 6327671017288317223, guid: 8e849829934197b40b363cccc6a247bf,
     type: 3}
   parent: {fileID: 1643496512}
-  war: {fileID: 11400000, guid: 9c5252e8f84068b4c9b780f3c422c3bd, type: 2}
-  family: {fileID: 11400000, guid: 260129f717dd08c4db4225e1ae1d2961, type: 2}
-  money: {fileID: 11400000, guid: a046f9a153ab4074c84affde70acfee0, type: 2}
-  religion: {fileID: 11400000, guid: 943266a46f2855541a2aebd3c14be9f6, type: 2}
+  attacks: {fileID: 0}
   fatalitySentences: {fileID: 11400000, guid: 98540cb5263925248894b2de31f5dac6, type: 2}
   buttonWar: {fileID: 176242341}
   buttonFamily: {fileID: 998876203}
   buttonMoney: {fileID: 2132245852}
   buttonReligion: {fileID: 1777915182}
+--- !u!114 &1091116580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091116576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71071f1e697a64043853dcb3d5106dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allAttacks: {fileID: 11400000, guid: 084d8aefc56ed9446b4396a635933f38, type: 2}
+  parent: {fileID: 1651364590}
+  attackBtt: {fileID: 6327671017288317223, guid: 8e849829934197b40b363cccc6a247bf,
+    type: 3}
 --- !u!1 &1114801832
 GameObject:
   m_ObjectHideFlags: 0

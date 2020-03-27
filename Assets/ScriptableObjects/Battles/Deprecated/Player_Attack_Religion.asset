@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonSentences:
   - MDR
-  - 
-  - 
+  - Test placeholder
+  - Other placeholder
   - "Attention : je suis tr\xE8s m\xE9chant."
   - "J'ai fais pour de faux de dire que j'\xE9tais mort !"
   - 
