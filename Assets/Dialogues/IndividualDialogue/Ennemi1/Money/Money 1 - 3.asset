@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerQuestion: "On m'a parl\xE9 d'un bandit borgne, \xE9galement, ma\xEEtre Junichi."
   characterAnswer: "Seulement Junichi ! Un bandit borgne ? Oui, je crois avoir vu
-    passer \xE7a dans mes registres.\r\n\r\nOui oui oui... Voil\xE0 ! Shigeru Maeda.
-    J'ai ici divers r\xE9cits d'aggressions et de vols commis par cet homme. Rien
-    de tr\xE8s int\xE9ressant."
-  hasClue: 0
+    passer \xE7a dans mes registres.\r Oui oui oui... Voil\xE0 ! Shigeru Maeda. J'ai
+    ici divers r\xE9cits d'aggressions et de vols commis par cet homme. Rien de tr\xE8s
+    int\xE9ressant."
+  hasClue: 1
   clue:
-    category: 0
-    subCategory: 0
-    giverCharacter: 0
-    summary: 
+    category: 1
+    subCategory: 9
+    giverCharacter: 3
+    summary: Son nom est connu dans les lupanars du coin.
+    deductionLine: 
   nextDialogues:
-  - {fileID: 11400000, guid: 4f7e70902b0b11843b50c8670399f910, type: 2}
+  - {fileID: 11400000, guid: b5350b76d3956b241a75b8de3fd91209, type: 2}

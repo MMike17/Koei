@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
+  m_Name: Religion 3 - 2
+  m_EditorClassIdentifier: 
+  playerQuestion: "Takeda ? N'est-ce pas le seigneur qui poss\xE8de le domaine d'\xE0
+    c\xF4t\xE9 ?"
+  characterAnswer: "Si. Un homme riche, expansif, accueillant aussi. Vois-tu, c'\xE9tait
+    une \xE9poque peu faste pour moi, j'allais de villages en villages pour me nourrir
+    de poign\xE9es de riz re\xE7ues en \xE9change de mes conseils... Et Takeda me
+    servit un v\xE9ritable festin ! Il s'\xE9tait habill\xE9 de son plus beau kimono
+    et avait fait lustrer tous les bois de son palais en mon honneur. Un v\xE9ritable
+    h\xF4te."
+  hasClue: 0
+  clue:
+    category: 0
+    subCategory: 0
+    giverCharacter: 0
+    summary: 
+    deductionLine: 
+  nextDialogues:
+  - {fileID: 11400000, guid: 2f49533a90fd08d408b4c73b9bb2acd9, type: 2}

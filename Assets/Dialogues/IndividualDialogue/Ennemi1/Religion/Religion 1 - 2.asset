@@ -15,14 +15,15 @@ MonoBehaviour:
   playerQuestion: "Saint homme, j'ai besoin de vos conseils quand \xE0 ma mission."
   characterAnswer: "Ne me sers pas du \"Saint homme\", jeune imb\xE9cile ! Quand on
     a v\xE9cu aussi longtemps que moi, on ne prend pas ces mots \xE0 la l\xE9g\xE8re,
-    tu peux me croire.\r\n\nQuand \xE0 ta mission, je ne saurais trop te recommander
-    de faire vite. L'existence d'un homme comme ce bandit de la for\xEAt est insupportable
-    pour tout homme d'honneur."
+    tu peux me croire. Quand \xE0 ta mission, je ne saurais trop te recommander de
+    faire vite. L'existence d'un homme comme ce bandit de la for\xEAt est insupportable
+    pour tout homme d'honneur.\n"
   hasClue: 0
   clue:
-    category: 0
-    subCategory: 0
-    giverCharacter: 0
-    summary: 
+    category: 1
+    subCategory: 9
+    giverCharacter: 2
+    summary: "Il est vulgaire et ind\xE9cent."
+    deductionLine: 
   nextDialogues:
-  - {fileID: 11400000, guid: 7956dbc391e1d5640b9b7fc4581163a5, type: 2}
+  - {fileID: 11400000, guid: 86b7210d3a66799409d9dbb47f9f7f55, type: 2}

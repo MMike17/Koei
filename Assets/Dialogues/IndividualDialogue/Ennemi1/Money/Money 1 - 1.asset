@@ -10,14 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
-  m_Name: Money 1- 5
+  m_Name: Money 1 - 1
   m_EditorClassIdentifier: 
-  playerQuestion: "Merci, Junichi. Je vous laisse \xE0 vos comptes."
-  characterAnswer: 
+  playerQuestion: "Et vous, vous \xEAtes... l'intendant du seigneur Shinegawa ?"
+  characterAnswer: "Oui, je suis l'intendant. Le seigneur Shinegawa vous a demand\xE9
+    de vous occuper de la situation dans les for\xEAts, non ?"
   hasClue: 0
   clue:
     category: 0
     subCategory: 0
     giverCharacter: 0
     summary: 
-  nextDialogues: []
+    deductionLine: 
+  nextDialogues:
+  - {fileID: 11400000, guid: e91c1f63465529e4fb5a6a4c66ff4364, type: 2}

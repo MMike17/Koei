@@ -12,17 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: War 1 - 2
   m_EditorClassIdentifier: 
-  playerQuestion: "Le seigneur Shinegawa m'a charg\xE9 de r\xE9tablir l'ordre \xE0
-    la fronti\xE8re, et..."
-  characterAnswer: "Et tu veux un point militaire de la situation. Je comprends. Les
-    arm\xE9es du seigneur Takeda restent \xE0 l'aff\xFBt dans les for\xEAts environnantes,
-    et elles sont sup\xE9rieures en nombre, en \xE9quipement, en chevaux... Ah, et
-    bien s\xFBr, la fronti\xE8re est infest\xE9e de bandits."
-  hasClue: 0
+  playerQuestion: "Oui, le seigneur m'a parl\xE9 de l'un d'entre eux, un borgne."
+  characterAnswer: "Ah, lui. Je l'ai crois\xE9, un jour que je rentrais d'Edo avec
+    notre seigneur. C'est a peine un guerrier, presque un paysan. Son katana \xE9tait
+    si mal entretenu qu'il n'aurait qu'\xE0 grand-peine tranch\xE9 une feuille !\r"
+  hasClue: 1
   clue:
-    category: 0
-    subCategory: 0
-    giverCharacter: 0
-    summary: 
+    category: 2
+    subCategory: 14
+    giverCharacter: 4
+    summary: "Son sabre est en mauvais \xE9tat et il s'habille de haillons."
+    deductionLine: 
   nextDialogues:
-  - {fileID: 11400000, guid: ba48d44786912544e9745304f3c14d85, type: 2}
+  - {fileID: 11400000, guid: 5dbcc7cb9fd5aa142abb3df02c6c5a5b, type: 2}

@@ -15,14 +15,14 @@ MonoBehaviour:
   playerQuestion: "Un sorcier ? Que pourrait-il face \xE0 un spectre loyal ?"
   characterAnswer: "Vous plaisantez, samurai, mais vous ne devriez pas. En-dehors
     de ce ch\xE2teau r\xF4dent des cr\xE9atures mal\xE9fiques, et si ce bandit est
-    un sorcier, soyez s\xFBr qu'il pourra vous faire du mal !\n\nMais la bravoure
-    et la loyaut\xE9 sont les remparts du samurai, n'est-ce pas ? Je devrais vous
-    faire plus confiance et vous souhaiter bonne chance."
+    un sorcier, soyez s\xFBr qu'il pourra vous faire du mal ! Mais la bravoure et
+    la loyaut\xE9 sont les remparts du samurai, n'est-ce pas ?"
   hasClue: 0
   clue:
     category: 0
     subCategory: 0
     giverCharacter: 0
     summary: 
+    deductionLine: 
   nextDialogues:
-  - {fileID: 11400000, guid: 3c0ed230afbfa844cbbd5e61d7e4885b, type: 2}
+  - {fileID: 11400000, guid: 7061d45ae80883e42b4910b94e04964d, type: 2}

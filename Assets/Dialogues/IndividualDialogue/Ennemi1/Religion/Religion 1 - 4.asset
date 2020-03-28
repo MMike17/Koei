@@ -16,15 +16,15 @@ MonoBehaviour:
     ! Est-ce possible ?"
   characterAnswer: "Et tu ne sais pas tout. Je pourrais t'en raconter, des choses...
     A en faire fr\xE9mir le plus noble des daimyo ! Lors de mon retour, j'ai m\xEAme
-    omis d'en faire part au seigneur, car sa femme \xE9tait pr\xE9sente.\r\n\r\nLa
-    fille de Takeda, Hideki, celle qui reste enferm\xE9e toute la journ\xE9e... Elle
-    a \xE9t\xE9 d\xE9shonor\xE9e ! Alors, je ne sais pas par qui. Mais tu imagine
-    bien, avec un cochon pareil dans le chateau..."
+    omis d'en faire part au seigneur, car sa femme \xE9tait pr\xE9sente. La fille
+    de Takeda, Hideki, celle qui reste enferm\xE9e toute la journ\xE9e... Elle a \xE9t\xE9
+    d\xE9shonor\xE9e ! Alors, je ne sais pas par qui. Mais tu imagine bien, avec un
+    cochon pareil..."
   hasClue: 1
   clue:
     category: 1
     subCategory: 9
     giverCharacter: 2
-    summary: "Il aurait d\xE9shonor\xE9 la fille de son propre seigneur !"
-  nextDialogues:
-  - {fileID: 11400000, guid: b8c134ea720be134bae96671843acd82, type: 2}
+    summary: "Il aurait d\xE9shonor\xE9 la fille de son seigneur !"
+    deductionLine: "il a d\xE9shonor\xE9 la fille de son seigneur"
+  nextDialogues: []

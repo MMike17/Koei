@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
+  m_Name: Family 3 - 2
+  m_EditorClassIdentifier: 
+  playerQuestion: Que voulez-vous dire ?
+  characterAnswer: "Eh bien, except\xE9s les samurais, les seigneurs et les moines,
+    il me semble que le genre masculin ne soit fait que de paysans rustres, sans \xE9ducation,
+    sans aucune forme de contr\xF4le sur eux-m\xEAme."
+  hasClue: 0
+  clue:
+    category: 0
+    subCategory: 0
+    giverCharacter: 0
+    summary: 
+    deductionLine: 
+  nextDialogues:
+  - {fileID: 11400000, guid: dc1d6bb19649f5d4fa0e26de59bc629d, type: 2}

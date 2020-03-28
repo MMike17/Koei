@@ -22,6 +22,7 @@ MonoBehaviour:
     category: 2
     subCategory: 15
     giverCharacter: 1
-    summary: "La rumeur le pr\xE9sente comme un sorcier..."
+    summary: La rumeur dit que c'est un sorcier
+    deductionLine: c'est un sorcier
   nextDialogues:
-  - {fileID: 11400000, guid: 8b25a6c1ec00a7c49b83933359839641, type: 2}
+  - {fileID: 11400000, guid: 3c0ed230afbfa844cbbd5e61d7e4885b, type: 2}

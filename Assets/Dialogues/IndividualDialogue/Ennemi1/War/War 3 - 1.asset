@@ -10,14 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
-  m_Name: War 1 - 5
+  m_Name: War 3 - 1
   m_EditorClassIdentifier: 
-  playerQuestion: "Je vous remercie de votre aide, ma\xEEtre Ueda."
-  characterAnswer: 
+  playerQuestion: "Seigneur Ueda, comment puis-je \xEAtre un meilleur samurai ?"
+  characterAnswer: "Bonne question. Qu'en sais-je ? Qu'est-ce qu'un bon samurai ?
+    Essaye donc d'\xEAtre un bon guerrier, spectre, et tu pourras ensuite demander
+    \xE0 quelqu'un d'autre ce qui fait un bon samurai."
   hasClue: 0
   clue:
     category: 0
     subCategory: 0
     giverCharacter: 0
     summary: 
-  nextDialogues: []
+    deductionLine: 
+  nextDialogues:
+  - {fileID: 11400000, guid: a0ddbea240fbc4344bc305d671f9b1f0, type: 2}

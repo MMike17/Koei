@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Money 1 - 2
   m_EditorClassIdentifier: 
   playerQuestion: "Effectivement, ma\xEEtre Masuda. Je viens pour vos conseils."
-  characterAnswer: "Mes conseils, mes conseils... Qu'en feriez-vous ? Notre seigneur
-    m'a dit qu'il vous avait demand\xE9 de pacifier la fronti\xE8re. Allez plut\xF4t
-    voir Fumito, ou Shinji, que voulez-vous qu'un intendant vous dise ? Ah, et appelez-moi
-    Junichi, je vous prie."
+  characterAnswer: "Mes conseils, mes conseils... Qu'en feriez-vous ? Vous devez pacifier
+    la fronti\xE8re. Allez plut\xF4t voir Fumito, ou Shinji, que voulez-vous qu'un
+    intendant vous dise ? Ah, et appelez-moi Junichi, je vous prie."
   hasClue: 0
   clue:
     category: 0
     subCategory: 0
     giverCharacter: 0
     summary: 
+    deductionLine: 
   nextDialogues:
-  - {fileID: 11400000, guid: e91c1f63465529e4fb5a6a4c66ff4364, type: 2}
+  - {fileID: 11400000, guid: 4f7e70902b0b11843b50c8670399f910, type: 2}

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
+  m_Name: Religion 3 - 3
+  m_EditorClassIdentifier: 
+  playerQuestion: "En effet, on ne peut que saluer cette volont\xE9 d'accueillir dignement
+    un invit\xE9."
+  characterAnswer: "Oui... M\xEAme si, h\xE9las, la maison toute enti\xE8re n'\xE9tait
+    pas anim\xE9e des m\xEAmes intentions. Ainsi, et m\xEAme si son \xE9pouse \xE9tait
+    un mod\xE8le de politesse, les servants et les samurais \xE9taient d'une vulgarit\xE9
+    !"
+  hasClue: 0
+  clue:
+    category: 0
+    subCategory: 0
+    giverCharacter: 0
+    summary: 
+    deductionLine: 
+  nextDialogues:
+  - {fileID: 11400000, guid: 86e0c1aec6790f5468e81f7cd970b74f, type: 2}

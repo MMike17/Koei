@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
+  m_Name: Family 2 - 1
+  m_EditorClassIdentifier: 
+  playerQuestion: "Que savez-vous sur les for\xEAts qui bordent la fronti\xE8re du
+    domaine de notre seigneur, ma dame ?"
+  characterAnswer: "Oh, je me souviens bien de ces bois ! Lorsque le seigneur Shinegawa
+    m'a \xE9pous\xE9e, il m'a fait visiter son domaine, et notamment cette fronti\xE8re
+    avec Takeda... C'\xE9tait si po\xE9tique."
+  hasClue: 0
+  clue:
+    category: 0
+    subCategory: 0
+    giverCharacter: 0
+    summary: 
+    deductionLine: 
+  nextDialogues:
+  - {fileID: 11400000, guid: d8b7e52d876d7d340b263bb3536dd1a7, type: 2}

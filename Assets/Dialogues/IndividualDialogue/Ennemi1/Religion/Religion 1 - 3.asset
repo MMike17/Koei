@@ -17,13 +17,14 @@ MonoBehaviour:
   characterAnswer: "H\xE9r\xE9tique ? Non. Il fr\xE9quente les temples de mani\xE8re
     tout a fait normale. Non, j'\xE9voque l\xE0 un autre probl\xE8me. Il est vulgaire,
     vois-tu. Ind\xE9cent. Constamment mal habill\xE9, au langage d'un grossier insupportable.
-    Et ce n'est que la surface. Lorsque je visitais le ch\xE2teau de Takeda...\r\n\nOh,
-    les regards qu'il envoyait aux jeunes filles ! Un v\xE9ritable porc.\r\n"
+    Et ce n'est que la surface. Lorsque je visitais le ch\xE2teau de Takeda... Oh,
+    les regards qu'il envoyait aux jeunes filles ! Un v\xE9ritable porc."
   hasClue: 1
   clue:
     category: 1
     subCategory: 9
     giverCharacter: 2
-    summary: "Il est vulgaire et ind\xE9cent."
+    summary: Il envoie des oeillades suggestives aux femmes
+    deductionLine: "il est ind\xE9cent envers les femmes"
   nextDialogues:
-  - {fileID: 11400000, guid: 86b7210d3a66799409d9dbb47f9f7f55, type: 2}
+  - {fileID: 11400000, guid: b8c134ea720be134bae96671843acd82, type: 2}

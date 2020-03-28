@@ -10,15 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
-  m_Name: Religion 1 - 5
+  m_Name: Money 2 - 2
   m_EditorClassIdentifier: 
-  playerQuestion: "Oh, quelle horreur ! La fille de son seigneur ! Je ne saurais en
-    entendre plus. Au revoir, ma\xEEtre."
-  characterAnswer: 
+  playerQuestion: "Non, je le crains... J'avais oubli\xE9 ce d\xE9tail."
+  characterAnswer: "Ce n'est pas grave. De toute mani\xE8re, le forgeron n'aurait
+    s\xFBrement pas pu vous aider, il est bien trop occup\xE9 \xE0 forger les nouveaux
+    sabres que Fumito lui a command\xE9."
   hasClue: 0
   clue:
     category: 0
     subCategory: 0
     giverCharacter: 0
     summary: 
-  nextDialogues: []
+    deductionLine: 
+  nextDialogues:
+  - {fileID: 11400000, guid: f54495514b7b097418d355bef7a2d4a6, type: 2}
