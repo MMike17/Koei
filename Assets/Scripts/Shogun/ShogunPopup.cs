@@ -65,8 +65,11 @@ public class ShogunPopup : Popup
 	{
 		// compute real spawn zone (apply padding)
 		Rect rectangle = clueKnobSpawnZone.rect;
-		rectangle.width -= clueKnobSpawnPadding;
-		rectangle.height -= clueKnobSpawnPadding;
+
+		rectangle.xMin += clueKnobSpawnPadding / 2;
+		rectangle.yMin += clueKnobSpawnPadding / 2;
+		rectangle.xMax -= clueKnobSpawnPadding / 2;
+		rectangle.yMax -= clueKnobSpawnPadding / 2;
 
 		// debug
 		// Image temp = Instantiate(popupCharacterPortrait, clueKnobSpawnZone);
@@ -74,18 +77,20 @@ public class ShogunPopup : Popup
 		// temp.enabled = true;
 		// temp.color = Color.red;
 
-		// RectTransform tempRect = temp.GetComponent<RectTransform>();
-		// tempRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, clueKnobSpawnZone.rect.width);
-		// tempRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, clueKnobSpawnZone.rect.height);
+		// RectTransform tempRectTransform = temp.GetComponent<RectTransform>();
+		// tempRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, clueKnobSpawnZone.rect.width);
+		// tempRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, clueKnobSpawnZone.rect.height);
+		// tempRectTransform.localPosition = new Vector2(clueKnobSpawnZone.rect.xMin + clueKnobSpawnZone.rect.width / 2, clueKnobSpawnZone.rect.yMin + clueKnobSpawnZone.rect.height / 2);
 
 		// temp = Instantiate(popupCharacterPortrait, clueKnobSpawnZone);
-		// temp.transform.localPosition = clueKnobSpawnZone.localPosition;
+		// temp.transform.localPosition = rectangle.position;
 		// temp.enabled = true;
 		// temp.color = Color.green;
 
-		// tempRect = temp.GetComponent<RectTransform>();
-		// tempRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rectangle.width);
-		// tempRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectangle.height);
+		// tempRectTransform = temp.GetComponent<RectTransform>();
+		// tempRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rectangle.width);
+		// tempRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectangle.height);
+		// tempRectTransform.localPosition = new Vector2(rectangle.xMin + rectangle.width / 2, rectangle.yMin + rectangle.height / 2);
 		// debug
 
 		// list of spawned clue knobs to check distance with existing knobs

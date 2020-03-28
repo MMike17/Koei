@@ -195,14 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ac352eeb205504893062b999a36ef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardList:
-  - {fileID: 11400000, guid: 1c5408699b6834f48b4403f127f6dee6, type: 2}
-  playerData:
-    ownedCards: 
-    actualDeck: 
-    categoryWeaknesses: 
-    subCategoryWeaknesses: 
-    clues: []
+  playerClues: []
 --- !u!4 &147448545
 Transform:
   m_ObjectHideFlags: 0
@@ -1260,7 +1253,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0, g: 0, b: 0, a: 0}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
     m_HighlightedColor: {r: 0, g: 0, b: 0, a: 0.4}
     m_PressedColor: {r: 1, g: 0.37086907, b: 0.13999999, a: 1}
     m_SelectedColor: {r: 0, g: 0, b: 0, a: 0}
