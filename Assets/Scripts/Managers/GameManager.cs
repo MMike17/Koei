@@ -32,8 +32,6 @@ public class GameManager : MonoBehaviour, IDebugable
 	{
 		TITLE,
 		SHOGUN,
-		DECKBUILDING,
-		FIGHT_INTRO,
 		FIGHT,
 		CONSEQUENCES
 	}
@@ -42,7 +40,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	public enum GamePopup
 	{
 		EMPTY,
-		SETTINGS,
+		TITLE_SETTINGS,
 		SHOGUN_DEDUCTION
 	}
 

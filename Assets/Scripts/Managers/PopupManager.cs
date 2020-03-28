@@ -153,7 +153,7 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 		{
 			case GamePopup.EMPTY:
 				return null;
-			case GamePopup.SETTINGS:
+			case GamePopup.TITLE_SETTINGS:
 				return null;
 			case GamePopup.SHOGUN_DEDUCTION:
 				return typeof(ShogunPopup);
