@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
+  m_Name: Money 1 - 3
+  m_EditorClassIdentifier: 
+  playerQuestion: "On m'a parl\xE9 d'un bandit borgne, \xE9galement, ma\xEEtre Junichi."
+  characterAnswer: "Seulement Junichi ! Un bandit borgne ? Oui, je crois avoir vu
+    passer \xE7a dans mes registres.\r Oui oui oui... Voil\xE0 ! Shigeru Maeda. J'ai
+    ici divers r\xE9cits d'aggressions et de vols commis par cet homme. Rien de tr\xE8s
+    int\xE9ressant."
+  hasClue: 1
+  clue:
+    category: 1
+    subCategory: 9
+    giverCharacter: 3
+    summary: Son nom est connu dans les lupanars du coin.
+    deductionLine: 
+  nextDialogues:
+  - {fileID: 11400000, guid: b5350b76d3956b241a75b8de3fd91209, type: 2}

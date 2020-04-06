@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
+  m_Name: War 2 - 3
+  m_EditorClassIdentifier: 
+  playerQuestion: "Seigneur Ueda, un homme s\xFBr de lui et de sa loyaut\xE9 peut
+    affronter une arm\xE9e seul. Gardez la foi."
+  characterAnswer: "Ne m'insulte pas, samurai. Jusqu'\xE0 ma mort je lutterai aux
+    c\xF4t\xE9s de Shinegawa. Je me contente d'\xEAtre r\xE9aliste. Militairement
+    parlant, nous pouvons infliger beaucoup de d\xE9g\xE2ts \xE0 Takeda, mais nous
+    ne pouvons le vaincre. D'o\xF9 l'importance de trouver une solution. D'o\xF9 ton
+    importance."
+  hasClue: 0
+  clue:
+    category: 0
+    subCategory: 0
+    giverCharacter: 0
+    summary: 
+    deductionLine: 
+  nextDialogues:
+  - {fileID: 11400000, guid: 0cd613d8f7a30f542909fe54a40fbc56, type: 2}

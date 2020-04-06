@@ -8,12 +8,14 @@ public class Conclusion
 	public Category category;
 	[SerializeField]
 	SubCategory subCategory;
+	[TextArea]
+	public string comment;
 	[HideInInspector]
-	public DesignedCard cardObject;
+	public ConclusionCard cardObject;
 
 	public SubCategory correctedSubCategory => GameData.CorrectSubCategory(subCategory, category);
 
-	public Conclusion(Category category, SubCategory subCategory, DesignedCard card)
+	public Conclusion(Category category, SubCategory subCategory, ConclusionCard card)
 	{
 		this.category = category;
 		this.subCategory = subCategory;

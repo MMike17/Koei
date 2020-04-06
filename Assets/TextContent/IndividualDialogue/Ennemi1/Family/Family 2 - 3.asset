@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
+  m_Name: Family 2 - 3
+  m_EditorClassIdentifier: 
+  playerQuestion: "Si vous le dites. Je crains que les samurais ne s'int\xE9ressent
+    que peu aux fleurs."
+  characterAnswer: "Hum ! Apprenez que si un samurai de basse extraction comme vous
+    peut se permettre d'ignorer l'ikebana, l'art des fleurs, un v\xE9ritable seigneur
+    ne saurait se permettre d'en \xEAtre un simple novice. C'est ce qui fait leur
+    noblesse."
+  hasClue: 0
+  clue:
+    category: 0
+    subCategory: 0
+    giverCharacter: 0
+    summary: 
+    deductionLine: 
+  nextDialogues:
+  - {fileID: 11400000, guid: a815fd98ff4f8504aa8fd050ea04fdf4, type: 2}

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
+  m_Name: War 3 - 3
+  m_EditorClassIdentifier: 
+  playerQuestion: "De tels hommes ne servent pas un ma\xEEtre. Aucun ma\xEEtre ne
+    les garderait \xE0 son service !"
+  characterAnswer: "Hum. Cela d\xE9pend des ma\xEEtres ! Peu d'entres eux sont suffisamment
+    lucides pour prendre cette d\xE9cision. Quoique... Takeda l'a fait, au moins une
+    fois. Mais la d\xE9ch\xE9ance de ce samurai \xE9tait pr\xE9visible. C'\xE9tait
+    un serf, de naissance. Rien d'\xE9tonnant \xE0 ce qu'il finisse avec un oeil en
+    moins."
+  hasClue: 1
+  clue:
+    category: 1
+    subCategory: 7
+    giverCharacter: 4
+    summary: C'est un fils de paysans !
+    deductionLine: c'est un fils de paysans
+  nextDialogues:
+  - {fileID: 11400000, guid: e75ce95a08ac9a243afa1ee60aec8292, type: 2}

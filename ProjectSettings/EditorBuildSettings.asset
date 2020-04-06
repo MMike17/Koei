@@ -12,12 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Shogun.unity
     guid: f5a98469381446f4dad63b9391e6c74f
   - enabled: 1
-    path: Assets/Scenes/Deckbuilding.unity
-    guid: b085fcc868ef446409499ef65a4a0241
-  - enabled: 1
-    path: Assets/Scenes/Fight intro.unity
-    guid: 2d5dfeea780b2744197093a355fbccbc
-  - enabled: 1
     path: Assets/Scenes/Fight.unity
     guid: ab4f6009bc1e9bc46af83b4cc26a45d8
   - enabled: 1

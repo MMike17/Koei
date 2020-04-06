@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
+  m_Name: Religion 1 - 4
+  m_EditorClassIdentifier: 
+  playerQuestion: "Un tel manque \xE0 l'\xE9tiquette, et chez son seigneur en plus
+    ! Est-ce possible ?"
+  characterAnswer: "Et tu ne sais pas tout. Je pourrais t'en raconter, des choses...
+    A en faire fr\xE9mir le plus noble des daimyo ! Lors de mon retour, j'ai m\xEAme
+    omis d'en faire part au seigneur, car sa femme \xE9tait pr\xE9sente. La fille
+    de Takeda, Hideki, celle qui reste enferm\xE9e toute la journ\xE9e... Elle a \xE9t\xE9
+    d\xE9shonor\xE9e ! Alors, je ne sais pas par qui. Mais tu imagine bien, avec un
+    cochon pareil..."
+  hasClue: 1
+  clue:
+    category: 1
+    subCategory: 9
+    giverCharacter: 2
+    summary: "Il aurait d\xE9shonor\xE9 la fille de son seigneur !"
+    deductionLine: "il a d\xE9shonor\xE9 la fille de son seigneur"
+  nextDialogues: []

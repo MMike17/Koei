@@ -5,6 +5,11 @@ using UnityEngine;
 // class representing global game data
 public class GameData : MonoBehaviour, IDebugable, IInitializable
 {
+	[Header("Assign in Inspector")]
+	public List<CombatDialogue> combatDialogues;
+	[Space]
+	public GeneralPunchlines comonPunchlines;
+
 	[Header("Debug")]
 	public List<Clue> playerClues;
 
@@ -15,6 +20,8 @@ public class GameData : MonoBehaviour, IDebugable, IInitializable
 
 	bool IInitializable.initializedInternal { get; set; }
 	string IDebugable.debugLabel => "<b>[GameData] : </b>";
+
+	public bool gameOver;
 
 	public void Init()
 	{
@@ -88,5 +95,60 @@ public class GameData : MonoBehaviour, IDebugable, IInitializable
 		{
 			return sub;
 		}
+	}
+
+	public static string PrettySubCategory(SubCategory subCategory)
+	{
+		switch(subCategory)
+		{
+			case SubCategory.EMPTY:
+				return "ERROR";
+
+			case SubCategory.FAMILY_CHILDREN:
+				return "Enfants";
+			case SubCategory.FAMILY_FIDELITY:
+				return "Fidélité";
+			case SubCategory.FAMILY_PARENTS:
+				return "Parents";
+			case SubCategory.FAMILY_SEXUALITY:
+				return "Séxualité";
+			case SubCategory.FAMILY_SPOUSE:
+				return "Epoux";
+
+			case SubCategory.MONEY_CORRUPTION:
+				return "Corruption";
+			case SubCategory.MONEY_DEBTS:
+				return "Dettes";
+			case SubCategory.MONEY_EXPENSES:
+				return "Dépenses";
+			case SubCategory.MONEY_MANAGING:
+				return "Managment";
+			case SubCategory.MONEY_TAXES:
+				return "Taxes";
+
+			case SubCategory.RELIGION_ATHEISM:
+				return "Athéisme";
+			case SubCategory.RELIGION_DEVOTION:
+				return "Dévotion";
+			case SubCategory.RELIGION_OCCULTISM:
+				return "Occultisme";
+			case SubCategory.RELIGION_OFFERING:
+				return "Offrande";
+			case SubCategory.RELIGION_RESPECT:
+				return "Respect";
+
+			case SubCategory.WAR_COURAGE:
+				return "Courage";
+			case SubCategory.WAR_LOYALTY:
+				return "Loyauté";
+			case SubCategory.WAR_PLUNDER:
+				return "Pillage";
+			case SubCategory.WAR_PROTECTION:
+				return "Protection";
+			case SubCategory.WAR_TALENT:
+				return "Talent militaire";
+		}
+
+		return null;
 	}
 }

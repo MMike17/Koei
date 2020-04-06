@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
+  m_Name: War 1 - 4
+  m_EditorClassIdentifier: 
+  playerQuestion: "Un tel homme ne saurait \xEAtre un samurai !-"
+  characterAnswer: "Ne surestime pas les guerriers de Takeda... Tous les samurais
+    de ce pays ne sont pas aussi nobles que les n\xF4tres, et bien des porteurs d'\xE9p\xE9es
+    ne sont que des rustres sans mani\xE8res. Celui-l\xE0 plus que d'autres, c'est
+    tout. "
+  hasClue: 0
+  clue:
+    category: 0
+    subCategory: 0
+    giverCharacter: 0
+    summary: 
+    deductionLine: 
+  nextDialogues: []

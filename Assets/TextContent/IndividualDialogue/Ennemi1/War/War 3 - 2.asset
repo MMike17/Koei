@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
+  m_Name: War 3 - 2
+  m_EditorClassIdentifier: 
+  playerQuestion: "Mais, seigneur Ueda ?! N'avez-vous aucun conseil \xE0 me donner
+    ?"
+  characterAnswer: "Que puis-je te dire ? Le respect, la biens\xE9ance, la loyaut\xE9...
+    Tous le monde sait cela ! Un samurai doit toujours prot\xE9ger l'honneur de son
+    ma\xEEtre. Une fois cela pos\xE9, il n'y a plus rien \xE0 dire. Il existe des
+    hommes qui ne veulent pas suivre cette v\xE9rit\xE9. Ils se donnent mais ne m\xE9ritent
+    pas le nom de samurai."
+  hasClue: 0
+  clue:
+    category: 0
+    subCategory: 0
+    giverCharacter: 0
+    summary: 
+    deductionLine: 
+  nextDialogues:
+  - {fileID: 11400000, guid: a3bd13e566464ec48999291207cf1dbf, type: 2}

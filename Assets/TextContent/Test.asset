@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f22f1eee57b5d374fb9eee46263c8430, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  allPunchlines:
+  - category: 0
+    punchlines:
+    - subCategory: 1
+      line: 
+    - subCategory: 2
+      line: 
+    - subCategory: 3
+      line: 
+    - subCategory: 4
+      line: 
+    - subCategory: 5
+      line: 
+  - category: 1
+    punchlines:
+    - subCategory: 6
+      line: 
+    - subCategory: 7
+      line: 
+    - subCategory: 8
+      line: 
+    - subCategory: 9
+      line: 
+    - subCategory: 10
+      line: 
+  - category: 2
+    punchlines:
+    - subCategory: 11
+      line: 
+    - subCategory: 12
+      line: 
+    - subCategory: 13
+      line: 
+    - subCategory: 14
+      line: 
+    - subCategory: 15
+      line: 
+  - category: 3
+    punchlines:
+    - subCategory: 16
+      line: 
+    - subCategory: 17
+      line: 
+    - subCategory: 18
+      line: 
+    - subCategory: 19
+      line: 
+    - subCategory: 20
+      line: 

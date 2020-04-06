@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be0015ed469c69a4391641b4bafc5a48, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  unlockableConclusions:
+  - category: 1
+    subCategory: 9
+    cardObject: {fileID: 0}
+  charactersDialogues:
+  - character: 0
+    firstLine: "Te revoil\xE0, samurai... Eh bien... Que puis-je pour toi ?\r"
+    initialDialogues:
+    - {fileID: 11400000, guid: d2aa3f4cc79ee0243a5006c1e014996b, type: 2}
+    indexesPath: 
+  - character: 1
+    firstLine: "Bonjour ! Vous \xEAtes le spectre, n'est-ce pas ? Je suis tr\xE8s
+      heureuse que vous soyez aussi loyal envers mon \xE9poux ! Combien de samurais
+      peuvent en dire autant ?"
+    initialDialogues:
+    - {fileID: 11400000, guid: a8a20732b357ea04daffbde074d249a5, type: 2}
+    - {fileID: 11400000, guid: ce77ea719ecda6c4c8d280d2539bc527, type: 2}
+    - {fileID: 11400000, guid: c374d896ba573824493b84f6b5262e07, type: 2}
+    indexesPath: 
+  - character: 2
+    firstLine: "Hum ! C'est toi le \"spectre\" revenu \xE0 la vie par la gr\xE2ce
+      d'Uzume ? Permet-moi d'en douter un peu ! Le seigneur veut bien y croire, mais
+      moi... Laisse-moi toucher.\r Grands dieux ! Tu es vraiment un fant\xF4me ! C'est
+      incroyable."
+    initialDialogues:
+    - {fileID: 11400000, guid: ea7f4c37a3d52484bbda498ca11391cd, type: 2}
+    - {fileID: 11400000, guid: 1010a27ac5f51ea4bbd2be4c41e54142, type: 2}
+    - {fileID: 11400000, guid: c5133ca94ec324b4d860683774367047, type: 2}
+    indexesPath: 
+  - character: 3
+    firstLine: "Merci, posez-\xE7a l\xE0. Et d\xE9p\xEAchez-vous de m'apporter la
+      derni\xE8re lettre du seigneur Sato... Oh, excusez-moi ! Vous \xEAtes le samurai
+      ? "
+    initialDialogues:
+    - {fileID: 11400000, guid: 29963775ac58b284387db86aca692805, type: 2}
+    - {fileID: 11400000, guid: bc124e32b80d7ce43aa814f40abb21e1, type: 2}
+    indexesPath: 
+  - character: 4
+    firstLine: "Vous \xEAtes le samurai revenu \xE0 la vie,  n'est-ce pas ? Que voulez-vous
+      ?"
+    initialDialogues:
+    - {fileID: 11400000, guid: 777009fb5b510c9418b528108bcba312, type: 2}
+    - {fileID: 11400000, guid: 777009fb5b510c9418b528108bcba312, type: 2}
+    - {fileID: 11400000, guid: 777009fb5b510c9418b528108bcba312, type: 2}
+    indexesPath: 

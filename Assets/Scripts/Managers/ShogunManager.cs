@@ -17,6 +17,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	[Header("Assing in Inspector")]
 	public Button openDeductionButton;
+	public Button combatButton;
 	public RectTransform dialogueScrollList, cluesScrollList;
 	public GameObject characterTextPrefab, playerChoicePrefab, playerTextPrefab, cluePrefab;
 	public Image characterPortrait;
@@ -38,16 +39,22 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	List<GameObject> lastSpawnedDialogueObjects;
 	bool needsPlayerSpawn, waitForPlayerChoice;
 
+	public void PreInit()
+	{
+		characters.ForEach(item => item.Init(() => ChangeCharacter(item.character)));
+	}
+
 	// receives actions from GameManager
-	public void Init(Action openDeductionPopup, Func<Clue, bool> findClue)
+	public void Init(Action openDeductionPopup, Func<Clue, bool> findClue, Action toCombatCallback)
 	{
 		lastSpawnedDialogueObjects = new List<GameObject>();
 
 		findClueEvent = findClue;
 
 		// plug in buttons
-		openDeductionButton.onClick.RemoveAllListeners();
 		openDeductionButton.onClick.AddListener(() => openDeductionPopup.Invoke());
+
+		combatButton.onClick.AddListener(() => toCombatCallback.Invoke());
 
 		initializableInterface.InitInternal();
 	}
@@ -62,8 +69,6 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		actualDialogue = dialogue;
 		actualDialogue.Init();
-
-		characters.ForEach(item => item.Init(() => ChangeCharacter(item.character)));
 
 		ChangeCharacter(Character.SHOGUN);
 	}

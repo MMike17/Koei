@@ -16,12 +16,12 @@ public class ShogunPopup : Popup
 
 	[Header("Assing in Inspector")]
 	public ClueKnob clueKnobPrefab;
-	public DesignedCard cardPrefab;
+	public ConclusionCard cardPrefab;
 	public Path pathPrefab;
 	public RectTransform clueKnobSpawnZone, cardList, startPath, endPath;
 	public TextMeshProUGUI lineCounter, clueDescription, clueLineAddUp;
 	public Image popupCharacterPortrait;
-	public Button returnButton;
+	public Button returnButton, combatButton;
 
 	List<Conclusion> conclusionsToUnlock;
 	List<Path> selectionPath;
@@ -32,12 +32,13 @@ public class ShogunPopup : Popup
 	int positionComputingStep;
 	bool isSettingPath;
 
-	public void SpecificInit(List<Clue> clueList, List<Conclusion> unlockableConclusions, List<ShogunCharacter> characters, Action returnCallback)
+	public void SpecificInit(List<Clue> clueList, List<Conclusion> unlockableConclusions, List<ShogunCharacter> characters, Action returnCallback, Action combatCallback)
 	{
 		SpawnKnobs(clueList, characters);
 		SpawnConclusions(unlockableConclusions);
 
 		returnButton.onClick.AddListener(() => returnCallback.Invoke());
+		combatButton.onClick.AddListener(() => combatCallback.Invoke());
 
 		selectionPath = new List<Path>();
 		persistentPaths = new List<Path>();
@@ -52,7 +53,7 @@ public class ShogunPopup : Popup
 
 		foreach (Conclusion conclusion in unlockableConclusions)
 		{
-			DesignedCard spawned = Instantiate(cardPrefab, cardList);
+			ConclusionCard spawned = Instantiate(cardPrefab, cardList);
 
 			spawned.Init(conclusion);
 			spawned.HideCard();

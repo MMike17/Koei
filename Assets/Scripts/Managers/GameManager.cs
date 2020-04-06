@@ -1,5 +1,4 @@
-﻿using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 // main manager script of the game
@@ -14,11 +13,13 @@ public class GameManager : MonoBehaviour, IDebugable
 	public PanelManager panelManager;
 	public PopupManager popupManager;
 	public EventSystem eventSystem;
-
-	[Header("Debug")]
 	public GameData gameData;
 	public TitleManager titleManager;
+
+	[Header("Debug")]
 	public ShogunManager shogunManager;
+	public FightManager fightManager;
+	public ConsequencesManager consequencesManager;
 
 	[Header("test")]
 	public GeneralDialogue testDialogue;
@@ -26,6 +27,8 @@ public class GameManager : MonoBehaviour, IDebugable
 	IDebugable debuguableInterface => (IDebugable) this;
 
 	string IDebugable.debugLabel => "<b>[GameManager] : </b>";
+
+	Enemy actualEnemy;
 
 	// enum for game phases
 	public enum GamePhase
@@ -42,6 +45,13 @@ public class GameManager : MonoBehaviour, IDebugable
 		EMPTY,
 		TITLE_SETTINGS,
 		SHOGUN_DEDUCTION
+	}
+
+	public enum Enemy
+	{
+		SHIGERU, // 1
+		GORO, // 3
+		HIROO // 6
 	}
 
 	void Awake()
@@ -73,6 +83,8 @@ public class GameManager : MonoBehaviour, IDebugable
 	{
 		Get = this;
 
+		actualEnemy = (Enemy) 0;
+
 		// makes object persistant so that they don't get destroyed on scene unloading
 		DontDestroyOnLoad(persistantContainer);
 
@@ -95,6 +107,7 @@ public class GameManager : MonoBehaviour, IDebugable
 		popupManager.GetAllScenePopups();
 		popupManager.ForceCancelPop();
 		InitTitlePanel();
+
 	}
 
 	// called when we get to the title panel
@@ -107,7 +120,11 @@ public class GameManager : MonoBehaviour, IDebugable
 		}
 
 		titleManager.Init(
-			() => panelManager.JumpTo(GamePhase.SHOGUN, () => shogunManager = FindObjectOfType<ShogunManager>()),
+			() => panelManager.JumpTo(GamePhase.SHOGUN, () =>
+			{
+				shogunManager = FindObjectOfType<ShogunManager>();
+				shogunManager.PreInit();
+			}),
 			() => Application.Quit()
 		);
 
@@ -125,7 +142,12 @@ public class GameManager : MonoBehaviour, IDebugable
 
 		shogunManager.Init(
 			() => popupManager.Pop(GamePopup.SHOGUN_DEDUCTION),
-			AddClueToPlayer
+			AddClueToPlayer,
+			() => panelManager.JumpTo(GamePhase.FIGHT, () =>
+			{
+				fightManager = FindObjectOfType<FightManager>();
+				fightManager.PreInit(gameData.combatDialogues[(int) actualEnemy]);
+			})
 		);
 
 		testDialogue.Init();
@@ -134,11 +156,49 @@ public class GameManager : MonoBehaviour, IDebugable
 			testDialogue.GetAllClues(),
 			testDialogue.unlockableConclusions,
 			shogunManager.characters,
-			() => popupManager.CancelPop()
+			() => popupManager.CancelPop(),
+			() => panelManager.JumpTo(GamePhase.FIGHT, () =>
+			{
+				fightManager = FindObjectOfType<FightManager>();
+				fightManager.PreInit(gameData.combatDialogues.Find(item => { return item.enemy == actualEnemy; }));
+			})
 		);
 
 		gameData.ResetPlayerClues();
 		shogunManager.StartDialogue(testDialogue);
+	}
+
+	void InitFightPanel()
+	{
+		if(fightManager == null)
+		{
+			Debug.LogError(debuguableInterface.debugLabel + "FightManager component shouldn't be null. If we can't get scene references we can't do anything.");
+		}
+
+		fightManager.Init(
+			gameData.comonPunchlines,
+			() => panelManager.JumpTo(GamePhase.CONSEQUENCES, () => { consequencesManager = FindObjectOfType<ConsequencesManager>(); actualEnemy++; }),
+			() => { panelManager.JumpTo(GamePhase.CONSEQUENCES, () => consequencesManager = FindObjectOfType<ConsequencesManager>()); gameData.gameOver = true; }
+		);
+	}
+
+	void InitConsequencesPanel()
+	{
+		if(consequencesManager == null)
+		{
+			Debug.LogError(debuguableInterface.debugLabel + "ConsequencesManager component shouldn't be null. If we can't get scene references we can't do anything.");
+		}
+
+		consequencesManager.Init(
+			gameData.gameOver,
+			(int) actualEnemy,
+			() => panelManager.JumpTo(GamePhase.SHOGUN, () =>
+			{
+				shogunManager = FindObjectOfType<ShogunManager>();
+				shogunManager.PreInit();
+			}),
+			gameData.gameOver?null : gameData.combatDialogues[(int) actualEnemy - 1].playerWinConsequence
+		);
 	}
 
 	// gets called every time we pop deduction popup
@@ -152,6 +212,8 @@ public class GameManager : MonoBehaviour, IDebugable
 	{
 		panelManager.eventsManager.AddPhaseAction(GamePhase.TITLE, InitTitlePanel);
 		panelManager.eventsManager.AddPhaseAction(GamePhase.SHOGUN, InitShogunPanel);
+		panelManager.eventsManager.AddPhaseAction(GamePhase.FIGHT, InitFightPanel);
+		panelManager.eventsManager.AddPhaseAction(GamePhase.CONSEQUENCES, InitConsequencesPanel);
 	}
 
 	// subscribe events to popup EventManager here
