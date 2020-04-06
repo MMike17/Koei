@@ -1,8 +1,0 @@
-Step X.1 >> Strategy newStrat = new Strategy(); [GENERATE A NEW STRATEGY TO GET SOME BEHAVIOUR FOR THE AI]
-Step X.2 (at the right moment in code) >> Generate new strategy for the AI ( 'AiElementDefinitions.DefineNewStrategy()' )
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-Step 1 >> Add the new AI		// OK
-Step 2 >> Configure the new AI	// OK
-Step 3 >> Make first choice		// WIP
