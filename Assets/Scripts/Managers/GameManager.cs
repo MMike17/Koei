@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 // main manager script of the game
@@ -20,9 +21,6 @@ public class GameManager : MonoBehaviour, IDebugable
 	public ShogunManager shogunManager;
 	public FightManager fightManager;
 	public ConsequencesManager consequencesManager;
-
-	[Header("test")]
-	public GeneralDialogue testDialogue;
 
 	IDebugable debuguableInterface => (IDebugable) this;
 
@@ -142,19 +140,16 @@ public class GameManager : MonoBehaviour, IDebugable
 
 		shogunManager.Init(
 			() => popupManager.Pop(GamePopup.SHOGUN_DEDUCTION),
-			AddClueToPlayer,
-			() => panelManager.JumpTo(GamePhase.FIGHT, () =>
-			{
-				fightManager = FindObjectOfType<FightManager>();
-				fightManager.PreInit(gameData.combatDialogues[(int) actualEnemy]);
-			})
+			AddClueToPlayer
 		);
 
-		testDialogue.Init();
+		GeneralDialogue selected = gameData.shogunDialogues.Find(item => { return item.assignedEnemy == actualEnemy; });
+
+		selected.Init();
 
 		popupManager.GetPopupFromType<ShogunPopup>().SpecificInit(
-			testDialogue.GetAllClues(),
-			testDialogue.unlockableConclusions,
+			selected.GetAllClues(),
+			selected.unlockableConclusions,
 			shogunManager.characters,
 			() => popupManager.CancelPop(),
 			() => panelManager.JumpTo(GamePhase.FIGHT, () =>
@@ -165,7 +160,7 @@ public class GameManager : MonoBehaviour, IDebugable
 		);
 
 		gameData.ResetPlayerClues();
-		shogunManager.StartDialogue(testDialogue);
+		shogunManager.StartDialogue(selected);
 	}
 
 	void InitFightPanel()

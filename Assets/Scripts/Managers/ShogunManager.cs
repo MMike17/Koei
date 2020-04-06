@@ -45,7 +45,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	}
 
 	// receives actions from GameManager
-	public void Init(Action openDeductionPopup, Func<Clue, bool> findClue, Action toCombatCallback)
+	public void Init(Action openDeductionPopup, Func<Clue, bool> findClue)
 	{
 		lastSpawnedDialogueObjects = new List<GameObject>();
 
@@ -53,8 +53,6 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		// plug in buttons
 		openDeductionButton.onClick.AddListener(() => openDeductionPopup.Invoke());
-
-		combatButton.onClick.AddListener(() => toCombatCallback.Invoke());
 
 		initializableInterface.InitInternal();
 	}

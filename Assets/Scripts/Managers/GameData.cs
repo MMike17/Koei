@@ -9,6 +9,8 @@ public class GameData : MonoBehaviour, IDebugable, IInitializable
 	public List<CombatDialogue> combatDialogues;
 	[Space]
 	public GeneralPunchlines comonPunchlines;
+	[Space]
+	public List<GeneralDialogue> shogunDialogues;
 
 	[Header("Debug")]
 	public List<Clue> playerClues;

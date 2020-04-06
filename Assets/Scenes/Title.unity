@@ -198,6 +198,8 @@ MonoBehaviour:
   combatDialogues:
   - {fileID: 11400000, guid: 60d78bcd064987c4c9565276c8fe7a3a, type: 2}
   comonPunchlines: {fileID: 11400000, guid: ef2795dd924a37143a9de9d9b00487f4, type: 2}
+  shogunDialogues:
+  - {fileID: 11400000, guid: 612960c92b6a8c04b80a1afb52f6c23f, type: 2}
   playerClues: []
   gameOver: 0
 --- !u!4 &147448545
@@ -490,7 +492,6 @@ MonoBehaviour:
   shogunManager: {fileID: 0}
   fightManager: {fileID: 0}
   consequencesManager: {fileID: 0}
-  testDialogue: {fileID: 11400000, guid: 612960c92b6a8c04b80a1afb52f6c23f, type: 2}
 --- !u!4 &289867285
 Transform:
   m_ObjectHideFlags: 0

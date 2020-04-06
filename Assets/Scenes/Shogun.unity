@@ -4216,7 +4216,7 @@ MonoBehaviour:
   clueLineAddUp: {fileID: 1848538978}
   popupCharacterPortrait: {fileID: 1034158721}
   returnButton: {fileID: 497297580}
-  combatButton: {fileID: 0}
+  combatButton: {fileID: 1823902231}
 --- !u!1001 &1906256060
 PrefabInstance:
   m_ObjectHideFlags: 0

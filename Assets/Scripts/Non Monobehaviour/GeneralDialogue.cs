@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameManager;
 
 // class used for the whole Shogun phase
 [CreateAssetMenu(fileName = "GeneralDialogue", menuName = "Koei/GeneralDialogue")]
 public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 {
+	public Enemy assignedEnemy;
 	[Header("Conclusions")]
 	public List<Conclusion> unlockableConclusions;
 	[Header("Dialogue")]
