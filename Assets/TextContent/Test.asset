@@ -16,48 +16,68 @@ MonoBehaviour:
   - category: 0
     punchlines:
     - subCategory: 1
-      line: 
+      line: "Tous les daimyo du Japon t\u2019ont vu fuir les batailles que tu m\xE8nes
+        !"
     - subCategory: 2
-      line: 
+      line: "Repose ce sabre, honte du Japon ! Ton seul talent est de mener tes hommes
+        \xE0 une mort inutile !"
     - subCategory: 3
-      line: 
+      line: "Hum ! Quel fou oserait te prendre dans son arm\xE9e, toi qui es r\xE9put\xE9
+        pour ta d\xE9loyaut\xE9 \xE0 travers tout le Japon !"
     - subCategory: 4
-      line: 
+      line: Chaque villageois craint pour sa famille et ses biens, tant ta soif de
+        pillage est connue !
     - subCategory: 5
-      line: 
+      line: "Tandis que tes soldats se battent loin de leur foyer, tu laisses ta maison
+        \xEAtre incendi\xE9e par tes ennemis !"
   - category: 1
     punchlines:
     - subCategory: 6
-      line: 
+      line: "La pleine mesure de ton infamie est visible dans les yeux de tes enfants,
+        ill\xE9gitimes b\xE2tards d\u2019un \xEAtre d\xE9g\xE9n\xE9r\xE9 !"
     - subCategory: 7
-      line: 
+      line: "Quel honneur pourrais-tu avoir quand tes parents n\u2019en eurent aucun
+        avant toi ?"
     - subCategory: 8
-      line: 
+      line: "Ah ! Je comprends facilement d\u2019o\xF9 vient ta l\xE2chet\xE9 : tout
+        le Japon conna\xEEt ta femme mieux que toi !"
     - subCategory: 9
-      line: 
+      line: "Il n\u2019est aucune perversion dont tu ne sois un expert, d\xE9mon libidineux
+        !"
     - subCategory: 10
-      line: 
+      line: Tu connais mieux les geishas de ton domaine que tu ne connais ta femme
+        !
   - category: 2
     punchlines:
     - subCategory: 11
-      line: 
+      line: "Ta pr\xE9sence en notre monde offense tous les \xEAtres c\xE9lestes,
+        d\xE9mon sans dieu !"
     - subCategory: 12
-      line: 
+      line: "L\u2019or qui paie tes troupes \xE0 \xE9t\xE9 vol\xE9 aux temples par
+        tes soins, m\xE9cr\xE9ant !"
     - subCategory: 13
-      line: 
+      line: "Le moine de ton village ne conna\xEEt m\xEAme pas ton visage tant la
+        pri\xE8re t\u2019est inconnue !"
     - subCategory: 14
-      line: 
+      line: "Les processions \xE9vitent ton chateau, de peur que tu ne leur crache
+        dessus !"
     - subCategory: 15
-      line: 
+      line: "Comment peux-tu parler, toi qui \xE0 offert ton \xE2me et ton sabre aux
+        forces d\xE9moniaques ?"
   - category: 3
     punchlines:
     - subCategory: 16
-      line: 
+      line: "Ton armure ne t\u2019appartient m\xEAme pas, parodie de guerrier, elle
+        appartient \xE0 ton cr\xE9ancier !"
     - subCategory: 17
-      line: 
+      line: "Les villageois de ton domaine sont fam\xE9liques ; pour nourrir leurs
+        enfants, tu ne leur donnes que de la boue et des imp\xF4ts !"
     - subCategory: 18
-      line: 
+      line: "Dans ta maison s\u2019accumulent des babioles indignes de la simplicit\xE9
+        d\u2019un vrai samurai !"
     - subCategory: 19
-      line: 
+      line: "Tu oses te pr\xE9tendre serviteur de l\u2019empereur, mais le percepteur
+        d\u2019imp\xF4ts jamais ne vit ta contribution !"
     - subCategory: 20
-      line: 
+      line: "Honorable, toi ?! Il n\u2019est d\u2019artisan ou d\u2019ouvrier de ton
+        domaine qui ne te paye pour tordre la loi !"
