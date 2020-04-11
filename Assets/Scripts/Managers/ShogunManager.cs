@@ -21,6 +21,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	public RectTransform dialogueScrollList, cluesScrollList;
 	public GameObject characterTextPrefab, playerChoicePrefab, playerTextPrefab, cluePrefab;
 	public Image characterPortrait;
+	public TextMeshProUGUI characterName;
 
 	IDebugable debugableInterface => (IDebugable) this;
 	IInitializable initializableInterface => (IInitializable) this;
@@ -162,12 +163,16 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	void ChangeCharacter(Character character)
 	{
+		if(character != Character.SHOGUN && !actualDialogue.GetCharacterDialogue(Character.SHOGUN).IsDone())
+			return;
+
 		ResetDialogue();
 
 		actualCharacter = character;
 		actualCharacterDialogue = actualDialogue.GetCharacterDialogue(actualCharacter);
 
 		characterPortrait.sprite = GetCharacter(actualCharacter).characterFull;
+		characterName.text = GetCharacter(actualCharacter).name;
 
 		actualCharacterDialogue.Init();
 
@@ -270,6 +275,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		public Sprite characterPortrait;
 		public Sprite characterFull;
 		public Button selectionButton;
+		public string name;
 
 		public bool initialized => initializableInterface.initializedInternal;
 

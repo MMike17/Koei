@@ -148,8 +148,6 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 
 		bool IInitializable.initializedInternal { get; set; }
 
-		bool mainDone;
-
 		public CharacterDialogue(Character character)
 		{
 			this.character = character;
@@ -159,7 +157,6 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 
 		public void Init()
 		{
-			mainDone = false;
 			indexesPath = new List<int>();
 
 			// resets all dialogues
@@ -208,6 +205,19 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 			}
 
 			return dialogueInPath;
+		}
+
+		public bool IsDone()
+		{
+			bool done = true;
+
+			foreach (Dialogue dialogue in initialDialogues)
+			{
+				if(!dialogue.IsDone())
+					done = false;
+			}
+
+			return done;
 		}
 	}
 }
