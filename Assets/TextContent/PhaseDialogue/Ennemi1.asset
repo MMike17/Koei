@@ -10,18 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be0015ed469c69a4391641b4bafc5a48, type: 3}
-  m_Name: Test
+  m_Name: Ennemi1
   m_EditorClassIdentifier: 
+  assignedEnemy: 0
   unlockableConclusions:
   - category: 1
     subCategory: 9
+    comment: C'est un gros sale
     cardObject: {fileID: 0}
   charactersDialogues:
   - character: 0
     firstLine: "Te revoil\xE0, samurai... Eh bien... Que puis-je pour toi ?\r"
     initialDialogues:
     - {fileID: 11400000, guid: d2aa3f4cc79ee0243a5006c1e014996b, type: 2}
-    indexesPath: 
+    indexesPath: 00000000
   - character: 1
     firstLine: "Bonjour ! Vous \xEAtes le spectre, n'est-ce pas ? Je suis tr\xE8s
       heureuse que vous soyez aussi loyal envers mon \xE9poux ! Combien de samurais
@@ -53,7 +55,5 @@ MonoBehaviour:
     firstLine: "Vous \xEAtes le samurai revenu \xE0 la vie,  n'est-ce pas ? Que voulez-vous
       ?"
     initialDialogues:
-    - {fileID: 11400000, guid: 777009fb5b510c9418b528108bcba312, type: 2}
-    - {fileID: 11400000, guid: 777009fb5b510c9418b528108bcba312, type: 2}
     - {fileID: 11400000, guid: 777009fb5b510c9418b528108bcba312, type: 2}
     indexesPath: 
