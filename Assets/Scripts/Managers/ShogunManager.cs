@@ -10,6 +10,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 {
 	[Header("Settings")]
 	public float dialogueSpeed;
+	public float cluesAddDelay;
 	public int highlightLength;
 	public Color playerTextColor, playerChoiceDone, playerChoiceUndone, characterTextColor, highlightColor;
 	[Space]
@@ -17,11 +18,12 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	[Header("Assing in Inspector")]
 	public Button openDeductionButton;
-	public Button combatButton;
+	public Button combatButton, cluesPanelButton;
 	public RectTransform dialogueScrollList, cluesScrollList;
 	public GameObject characterTextPrefab, playerChoicePrefab, playerTextPrefab, cluePrefab;
 	public Image characterPortrait;
 	public TextMeshProUGUI characterName;
+	public Animator cluesPanelAnim;
 
 	IDebugable debugableInterface => (IDebugable) this;
 	IInitializable initializableInterface => (IInitializable) this;
@@ -38,7 +40,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	Character actualCharacter;
 	DialogueWriter lastWriter;
 	List<GameObject> lastSpawnedDialogueObjects;
-	bool needsPlayerSpawn, waitForPlayerChoice;
+	float cluesAddTimer;
+	bool needsPlayerSpawn, waitForPlayerChoice, cluesOpen;
 
 	public void PreInit()
 	{
@@ -51,9 +54,13 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		lastSpawnedDialogueObjects = new List<GameObject>();
 
 		findClueEvent = findClue;
+		cluesOpen = false;
+		cluesAddTimer = 0;
 
 		// plug in buttons
 		openDeductionButton.onClick.AddListener(() => openDeductionPopup.Invoke());
+
+		cluesPanelButton.onClick.AddListener(OpenCloseClues);
 
 		initializableInterface.InitInternal();
 	}
@@ -106,6 +113,17 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	void Update()
 	{
+		if(cluesAddTimer > 0)
+		{
+			cluesAddTimer -= Time.deltaTime;
+
+			if(cluesAddTimer <= 0)
+			{
+				cluesAddTimer = 0;
+				cluesPanelAnim.Play("Close");
+			}
+		}
+
 		if(lastWriter != null && lastWriter.isDone)
 		{
 			// prevents update from spawning lines if we are waiting for the player to choose a dialogue line
@@ -215,7 +233,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	void SpawnPlayerLine(string line, Color text)
 	{
-		DialogueWriter spawned = Instantiate(playerTextPrefab, dialogueScrollList).transform.GetChild(0).GetComponent<DialogueWriter>();
+		DialogueWriter spawned = Instantiate(playerTextPrefab, dialogueScrollList).GetComponent<DialogueWriter>();
 
 		spawned.Reset();
 		spawned.Play(line, dialogueSpeed * 2, Mathf.RoundToInt(highlightLength * 1.5f), highlightColor, text);
@@ -266,14 +284,30 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		spawnedClue.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = clue.summary;
 
 		LayoutRebuilder.ForceRebuildLayoutImmediate(cluesScrollList);
+
+		cluesAddTimer = cluesAddDelay;
+
+		cluesPanelAnim.Play("Open");
+	}
+
+	void OpenCloseClues()
+	{
+		cluesOpen = !cluesOpen;
+
+		if(cluesOpen)
+			cluesPanelAnim.Play("Open");
+		else
+		{
+			cluesAddTimer = 0;
+			cluesPanelAnim.Play("Close");
+		}
 	}
 
 	[Serializable]
 	public class ShogunCharacter : IInitializable
 	{
 		public Character character;
-		public Sprite characterPortrait;
-		public Sprite characterFull;
+		public Sprite characterPortrait, characterDetail, characterFull;
 		public Button selectionButton;
 		public string name;
 
@@ -293,7 +327,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			selectionButton.onClick.RemoveAllListeners();
 			selectionButton.onClick.AddListener(() => changeCharacter.Invoke());
 
-			selectionButton.transform.GetChild(0).GetComponent<Image>().sprite = characterPortrait;
+			selectionButton.GetComponent<Image>().sprite = characterPortrait;
+			selectionButton.GetComponentInChildren<Image>().sprite = characterDetail;
 
 			initializableInterface.InitInternal();
 		}
