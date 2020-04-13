@@ -21,7 +21,7 @@ MonoBehaviour:
     category: 2
     subCategory: 15
     giverCharacter: 1
-    summary: "La rumeur le pr\xE9sente comme un sorcier..."
+    summary: 
     deductionLine: 
   nextDialogues:
   - {fileID: 11400000, guid: b069c19db79caf1418fef481802267e9, type: 2}

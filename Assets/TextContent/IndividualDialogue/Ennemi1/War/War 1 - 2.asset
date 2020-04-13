@@ -22,6 +22,6 @@ MonoBehaviour:
     subCategory: 14
     giverCharacter: 4
     summary: "Son sabre est en mauvais \xE9tat et il s'habille de haillons."
-    deductionLine: 
+    deductionLine: "il ne sait pas entretenir son \xE9quipement"
   nextDialogues:
   - {fileID: 11400000, guid: 5dbcc7cb9fd5aa142abb3df02c6c5a5b, type: 2}
