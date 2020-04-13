@@ -36,7 +36,7 @@ MonoBehaviour:
   - character: 2
     firstLine: "Hum ! C'est toi le \"spectre\" revenu \xE0 la vie par la gr\xE2ce
       d'Uzume ? Permet-moi d'en douter un peu ! Le seigneur veut bien y croire, mais
-      moi... Laisse-moi toucher.\r Grands dieux ! Tu es vraiment un fant\xF4me ! C'est
+      moi... Laisse-moi toucher.\nGrands dieux ! Tu es vraiment un fant\xF4me ! C'est
       incroyable."
     initialDialogues:
     - {fileID: 11400000, guid: ea7f4c37a3d52484bbda498ca11391cd, type: 2}

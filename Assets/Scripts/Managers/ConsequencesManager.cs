@@ -1,8 +1,6 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
 
-// script used for 
 public class ConsequencesManager : MonoBehaviour, IDebugable, IInitializable
 {
 	[Header("Assign in Inspector")]

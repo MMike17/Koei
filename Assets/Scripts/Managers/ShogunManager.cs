@@ -120,6 +120,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			if(cluesAddTimer <= 0)
 			{
 				cluesAddTimer = 0;
+				cluesOpen = false;
+
 				cluesPanelAnim.Play("Close");
 			}
 		}
@@ -288,6 +290,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		cluesAddTimer = cluesAddDelay;
 
 		cluesPanelAnim.Play("Open");
+		cluesOpen = true;
 	}
 
 	void OpenCloseClues()

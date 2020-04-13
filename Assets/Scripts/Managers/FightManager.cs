@@ -65,6 +65,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	GeneralPunchlines gamePunchlines;
 	List<SubCategory> enemyHealth;
 	Action toConsequences, restart;
+	string selectedFinisher;
 	float preCombatTimer, suicideTimer;
 	int dialogueIndex, triesCount, suicideIndex;
 	bool isPlayer, writerIsCommanded, isFinisher;
@@ -108,6 +109,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 			finisherPunchlineButtons[i].onClick.AddListener(() =>
 			{
+				selectedFinisher = actualCombat.finisherPunchlines.finishers[j];
 				isFinisher = j == actualCombat.finisherPunchlines.correctOne;
 
 				canvasAnimator.Play("PanDown");
@@ -296,16 +298,13 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				Invoke("ShowGameOver", 0.15f);
 			}
 		}
-
-		if(triesCount >= actualCombat.tries)
+		else // if(actualPhase == Phase.EFFECT_GENERAL)
 		{
-			if(triesCount == actualCombat.tries && enemyHealth.Count == 0)
+			if(triesCount >= actualCombat.tries && enemyHealth.Count != 0)
+				Invoke("ShowGameOver", 0.15f);
+			else
 				Invoke("StartKatanaAgain", 0.15f);
-
-			Invoke("ShowGameOver", 0.15f);
 		}
-		else
-			Invoke("StartKatanaAgain", 0.15f);
 	}
 
 	void StartKatanaAgain()
@@ -343,7 +342,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				KanjiFinisherAnimator.Play("Show");
 				KanjiGeneralAnimator.Play("Hide");
 
-				finisherAttack.text = selectedPunchline.line;
+				finisherAttack.text = selectedFinisher;
 				break;
 		}
 

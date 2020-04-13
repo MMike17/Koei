@@ -158,12 +158,19 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 		public void Init()
 		{
 			indexesPath = new List<int>();
+			List<Dialogue> realDialogues = new List<Dialogue>();
 
 			// resets all dialogues
 			foreach (Dialogue dialogue in initialDialogues)
 			{
-				InitDialogue(dialogue);
+				if(dialogue != null)
+				{
+					realDialogues.Add(dialogue);
+					InitDialogue(dialogue);
+				}
 			}
+
+			initialDialogues = realDialogues;
 
 			initializableInterface.InitInternal();
 		}

@@ -397,7 +397,7 @@ public class ShogunPopup : Popup
 		Destroy(selectionPath[0].gameObject);
 		selectionPath.RemoveAt(0);
 
-		if(selectionPath.Count > 0 && selectionPath[selectionPath.Count - 1].end == null || selectionPath[selectionPath.Count - 1].end == endPath)
+		if(selectionPath.Count > 1 && (selectionPath[selectionPath.Count - 1].end == null || selectionPath[selectionPath.Count - 1].end == endPath))
 		{
 			// destroys last path (if finished it's linked to end knob, if not it's interrupted)
 			Destroy(selectionPath[selectionPath.Count - 1].gameObject);

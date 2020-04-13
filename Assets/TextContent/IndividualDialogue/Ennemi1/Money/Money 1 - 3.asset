@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerQuestion: "On m'a parl\xE9 d'un bandit borgne, \xE9galement, ma\xEEtre Junichi."
   characterAnswer: "Seulement Junichi ! Un bandit borgne ? Oui, je crois avoir vu
-    passer \xE7a dans mes registres.\r Oui oui oui... Voil\xE0 ! Shigeru Maeda. J'ai
+    passer \xE7a dans mes registres. Oui oui oui... Voil\xE0 ! Shigeru Maeda. J'ai
     ici divers r\xE9cits d'aggressions et de vols commis par cet homme. Rien de tr\xE8s
     int\xE9ressant."
   hasClue: 1
