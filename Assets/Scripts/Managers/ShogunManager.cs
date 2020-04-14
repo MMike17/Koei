@@ -193,6 +193,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		characterPortrait.sprite = GetCharacter(actualCharacter).characterFull;
 		characterName.text = GetCharacter(actualCharacter).name;
+		characterName.color = GameManager.GetColorFromCharacter(actualCharacter);
 
 		actualCharacterDialogue.Init();
 
@@ -332,6 +333,10 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 			selectionButton.GetComponent<Image>().sprite = characterPortrait;
 			selectionButton.GetComponentInChildren<Image>().sprite = characterDetail;
+
+			ColorBlock block = selectionButton.colors;
+			block.highlightedColor = GameManager.GetColorFromCharacter(character);
+			selectionButton.colors = block;
 
 			initializableInterface.InitInternal();
 		}

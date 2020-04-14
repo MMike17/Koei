@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static GeneralDialogue;
 
 // main manager script of the game
 // everything should flow from here but not flow back to here
@@ -8,6 +9,9 @@ public class GameManager : MonoBehaviour, IDebugable
 {
 	// static reference to the class, used for testing or emergency
 	public static GameManager Get;
+
+	[Header("Settings")]
+	public List<CategoryColor> colors = new List<CategoryColor>(4);
 
 	[Header("Assign in Inspector")]
 	public GameObject persistantContainer;
@@ -220,5 +224,24 @@ public class GameManager : MonoBehaviour, IDebugable
 	bool AddClueToPlayer(Clue clue)
 	{
 		return gameData.FindClue(clue);
+	}
+
+	public static Color GetColorFromCharacter(Character character)
+	{
+		switch(character)
+		{
+			case Character.FAMILLY:
+				return GameManager.Get.colors.Find(item => { return item.category == Category.FAMILY; }).color;
+			case Character.MONEY:
+				return GameManager.Get.colors.Find(item => { return item.category == Category.MONEY; }).color;
+			case Character.RELIGION:
+				return GameManager.Get.colors.Find(item => { return item.category == Category.RELIGION; }).color;
+			case Character.SHOGUN:
+				return GameManager.Get.colors.Find(item => { return item.category == Category.EMPTY; }).color;
+			case Character.WAR:
+				return GameManager.Get.colors.Find(item => { return item.category == Category.WAR; }).color;
+		}
+
+		return default(Color);
 	}
 }

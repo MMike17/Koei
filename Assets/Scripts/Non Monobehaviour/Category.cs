@@ -1,9 +1,13 @@
+using System;
+using UnityEngine;
+
 public enum Category
 {
 	WAR,
 	FAMILY,
 	RELIGION,
-	MONEY
+	MONEY,
+	EMPTY
 }
 
 // subcategories HAVE to start with the categories they come from followed with a "_"
@@ -30,4 +34,11 @@ public enum SubCategory
 	MONEY_EXPENSES,
 	MONEY_TAXES,
 	MONEY_CORRUPTION
+}
+
+[Serializable]
+public class CategoryColor
+{
+	public Category category;
+	public Color color;
 }

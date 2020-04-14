@@ -20,7 +20,7 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 		SHOGUN,
 		FAMILLY,
 		RELIGION,
-		MONNEY,
+		MONEY,
 		WAR
 	}
 

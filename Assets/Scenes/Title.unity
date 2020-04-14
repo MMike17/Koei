@@ -483,6 +483,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1105566fc9e163c4e889503a93be4c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colors:
+  - category: 0
+    color: {r: 1, g: 0, b: 0, a: 1}
+  - category: 1
+    color: {r: 1, g: 0.39999998, b: 0.69816977, a: 1}
+  - category: 2
+    color: {r: 0.34836596, g: 0.2784314, b: 0.69803923, a: 1}
+  - category: 3
+    color: {r: 1, g: 0.78316975, b: 0, a: 1}
+  - category: 4
+    color: {r: 0, g: 1, b: 0.84648275, a: 1}
   persistantContainer: {fileID: 2139341956}
   panelManager: {fileID: 1301627171}
   popupManager: {fileID: 112819161}
