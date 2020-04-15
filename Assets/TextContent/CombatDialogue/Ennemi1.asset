@@ -29,12 +29,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   preCombatReplicas:
-  - playerLine: 
-    enemyLine: Test 1
-  - playerLine: Test 2
-    enemyLine: Test 2
-  - playerLine: Test 3
-    enemyLine: 
+  - playerLine: C'est donc toi, Maeda le bandit...
+    enemyLine: "Et toi, t'es quoi ? Un fant\xF4me d\xE9bile ?"
+  - playerLine: "Peu importe ! Je vais purger ce monde de ton existence sacril\xE8ge
+      !"
+    enemyLine: Ah ouais ? Je t'attends !
   finisherPunchlines:
     finishers:
     - "Tu es n\xE9 dans la boue et elle accueille tes \xE9bats pervers ! Tu n\u2019es
