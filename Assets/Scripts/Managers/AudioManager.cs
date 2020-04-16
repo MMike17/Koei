@@ -30,12 +30,54 @@ public class AudioManager : MonoBehaviour, IDebugable, IInitializable
 
 	public void PlayMusic(GamePhase phase)
 	{
+		if(!initialized)
+		{
+			Debug.LogError(debugableInterface.debugLabel + "Not initialized !");
+			return;
+		}
+
+		StopAll();
 		panelMusics.Find(item => { return item.phase == phase; }).Play();
 	}
 
 	public void PlayMusic(GamePopup popup)
 	{
+		if(!initialized)
+		{
+			Debug.LogError(debugableInterface.debugLabel + "Not initialized !");
+			return;
+		}
+
+		StopAll();
 		popupMusics.Find(item => { return item.popup == popup; }).Play();
+	}
+
+	public void StopMusic(GamePhase phase)
+	{
+		if(!initialized)
+		{
+			Debug.LogError(debugableInterface.debugLabel + "Not initialized !");
+			return;
+		}
+
+		panelMusics.Find(item => { return item.phase == phase; }).Stop();
+	}
+
+	public void StopMusic(GamePopup popup)
+	{
+		if(!initialized)
+		{
+			Debug.LogError(debugableInterface.debugLabel + "Not initialized !");
+			return;
+		}
+
+		popupMusics.Find(item => { return item.popup == popup; }).Stop();
+	}
+
+	public void StopAll()
+	{
+		panelMusics.ForEach(item => item.Stop());
+		popupMusics.ForEach(item => item.Stop());
 	}
 
 	[Serializable]
@@ -48,6 +90,11 @@ public class AudioManager : MonoBehaviour, IDebugable, IInitializable
 		{
 			source.Play();
 		}
+
+		public void Stop()
+		{
+			source.Stop();
+		}
 	}
 
 	[Serializable]
@@ -59,6 +106,11 @@ public class AudioManager : MonoBehaviour, IDebugable, IInitializable
 		public void Play()
 		{
 			source.Play();
+		}
+
+		public void Stop()
+		{
+			source.Stop();
 		}
 	}
 }

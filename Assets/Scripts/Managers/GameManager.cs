@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	public EventSystem eventSystem;
 	public GameData gameData;
 	public TitleManager titleManager;
+	public AudioManager audioManager;
 
 	[Header("Debug")]
 	public ShogunManager shogunManager;
@@ -91,15 +92,16 @@ public class GameManager : MonoBehaviour, IDebugable
 
 		// initializes all managers
 		panelManager.Init(() =>
-		{
-			eventSystem = FindObjectOfType<EventSystem>();
+			{
+				eventSystem = FindObjectOfType<EventSystem>();
 
-			// gets refs to popups and closes them without cool effect (as if it was never here)
-			popupManager.GetAllScenePopups();
-			popupManager.ForceCancelPop();
-		});
+				// gets refs to popups and closes them without cool effect (as if it was never here)
+				popupManager.GetAllScenePopups();
+				popupManager.ForceCancelPop();
+			});
 
 		popupManager.Init();
+		audioManager.Init();
 
 		PlugPanelEvents();
 		PlugPopupEvents();
@@ -108,7 +110,6 @@ public class GameManager : MonoBehaviour, IDebugable
 		popupManager.GetAllScenePopups();
 		popupManager.ForceCancelPop();
 		InitTitlePanel();
-
 	}
 
 	// called when we get to the title panel
@@ -125,6 +126,8 @@ public class GameManager : MonoBehaviour, IDebugable
 			{
 				shogunManager = FindObjectOfType<ShogunManager>();
 				shogunManager.PreInit();
+
+				audioManager.PlayMusic(GamePhase.SHOGUN);
 			}),
 			() => Application.Quit()
 		);
@@ -159,6 +162,8 @@ public class GameManager : MonoBehaviour, IDebugable
 			{
 				fightManager = FindObjectOfType<FightManager>();
 				fightManager.PreInit(gameData.combatDialogues.Find(item => { return item.enemy == actualEnemy; }));
+
+				audioManager.PlayMusic(GamePhase.FIGHT);
 			})
 		);
 
