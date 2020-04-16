@@ -22,7 +22,7 @@ MonoBehaviour:
     subCategory: 7
     comment: C'est un paysan et pas un samourai !
     cardObject: {fileID: 0}
-  - category: 1
+  - category: 2
     subCategory: 15
     comment: "Il est plong\xE9 dans la magie noire !"
     cardObject: {fileID: 0}
@@ -31,7 +31,7 @@ MonoBehaviour:
     firstLine: "Te revoil\xE0, samurai... Eh bien... Que puis-je pour toi ?\r"
     initialDialogues:
     - {fileID: 11400000, guid: d2aa3f4cc79ee0243a5006c1e014996b, type: 2}
-    indexesPath: 00000000
+    indexesPath: 00000000000000000000000000000000
   - character: 1
     firstLine: "Bonjour ! Vous \xEAtes le spectre, n'est-ce pas ? Je suis tr\xE8s
       heureuse que vous soyez aussi loyal envers mon \xE9poux ! Combien de samurais

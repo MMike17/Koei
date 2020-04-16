@@ -20,7 +20,7 @@ public class ShogunPopup : Popup
 	public Path pathPrefab;
 	public RectTransform clueKnobSpawnZone, cardList, endPath, cursor, infoBubble;
 	public TextMeshProUGUI lineCounter, clueDescription, clueLineAddUp;
-	public Image popupCharacterPortrait;
+	public UICharacter popupCharacterPortrait;
 	public Button returnButton, combatButton;
 	public GraphicRaycaster raycaster;
 
@@ -117,12 +117,12 @@ public class ShogunPopup : Popup
 				continue;
 			}
 
-			spawned.Init(false, clue, character.characterPortrait, validatedPath, (string clueDetail, Sprite portrait) =>
+			spawned.Init(false, clue, character, validatedPath, (string clueDetail, ShogunCharacter portrait) =>
 			{
 				// shows clue only if unlocked
 				if(!spawned.isLocked)
 				{
-					ShowClue(clueDetail, portrait);
+					ShowClue(clueDetail, character);
 				}
 			});
 		}
@@ -170,7 +170,7 @@ public class ShogunPopup : Popup
 
 		lineCounter.text = "0 / 3";
 		clueDescription.text = string.Empty;
-		popupCharacterPortrait.sprite = null;
+		popupCharacterPortrait.Hide();
 
 		base.ResetPopup();
 	}
@@ -272,6 +272,8 @@ public class ShogunPopup : Popup
 				{
 					Debug.Log(debugableInterface.debugLabel + "Interrupted selection path");
 				}
+
+				ResetPopup();
 			}
 			else // updates path if mouse is pressed and path started
 			{
@@ -350,7 +352,7 @@ public class ShogunPopup : Popup
 			}
 		}
 
-		if(selectionPath.Count > 0)
+		if(selectionPath.Count > 0 && isSettingPath)
 		{
 			lineCounter.gameObject.SetActive(true);
 			lineCounter.text = selectionPath.Count + " / 3";
@@ -377,12 +379,12 @@ public class ShogunPopup : Popup
 	}
 
 	// clue knob button
-	void ShowClue(string clueLine, Sprite characterPortrait)
+	void ShowClue(string clueLine, ShogunCharacter characterPortrait)
 	{
 		SetStateInfoBubble(true);
 
 		clueDescription.text = clueLine;
-		popupCharacterPortrait.sprite = characterPortrait;
+		popupCharacterPortrait.SetCharacterPortrait(characterPortrait);
 	}
 
 	public void ChecKnobsState(List<Clue> playerClues)

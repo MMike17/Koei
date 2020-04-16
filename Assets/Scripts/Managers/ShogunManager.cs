@@ -21,7 +21,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	public Button cluesPanelButton;
 	public RectTransform dialogueScrollList, cluesScrollList;
 	public GameObject characterTextPrefab, playerChoicePrefab, playerTextPrefab, cluePrefab;
-	public Image characterPortrait;
+	public UICharacter characterPortrait;
 	public TextMeshProUGUI characterName;
 	public Animator cluesPanelAnim;
 
@@ -46,7 +46,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	public void PreInit()
 	{
-		characterPortrait.enabled = false;
+		characterPortrait.Hide();
 
 		characters.ForEach(item => item.Init(() => ChangeCharacter(item.character)));
 	}
@@ -79,7 +79,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		actualDialogue = dialogue;
 		actualDialogue.Init();
 
-		characterPortrait.enabled = true;
+		characterPortrait.Show();
 		ChangeCharacter(Character.SHOGUN);
 	}
 
@@ -196,11 +196,10 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		actualCharacter = character;
 		actualCharacterDialogue = actualDialogue.GetCharacterDialogue(actualCharacter);
 
-		characterPortrait.sprite = GetCharacter(actualCharacter).characterFull;
+		characterPortrait.SetCharacterPortrait(GetCharacter(actualCharacter));
+
 		characterName.text = GetCharacter(actualCharacter).name;
 		characterName.color = GameData.GetColorFromCharacter(actualCharacter);
-
-		actualCharacterDialogue.Init();
 
 		waitForPlayerChoice = false;
 		characterTextColor = GameData.GetColorFromCharacter(character);
@@ -317,7 +316,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	public class ShogunCharacter : IInitializable
 	{
 		public Character character;
-		public Sprite characterPortrait, characterDetail, characterFull;
+		public Sprite characterUnder, characterOver, characterDetail;
+		public UICharacter UI;
 		public Button selectionButton;
 		public string name;
 
@@ -337,12 +337,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			selectionButton.onClick.RemoveAllListeners();
 			selectionButton.onClick.AddListener(() => changeCharacter.Invoke());
 
-			selectionButton.GetComponent<Image>().sprite = characterPortrait;
-			selectionButton.GetComponentInChildren<Image>().sprite = characterDetail;
-
-			ColorBlock block = selectionButton.colors;
-			block.highlightedColor = GameData.GetColorFromCharacter(character);
-			selectionButton.colors = block;
+			UI.SetCharacterPortrait(this, selectionButton);
 
 			initializableInterface.InitInternal();
 		}

@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using static ShogunManager;
 
 public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 {
@@ -22,7 +23,7 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 	Clue clue;
 	bool isSelected, isUnlocked;
 
-	public void Init(bool isUnlocked, Clue clue, Sprite characterPortrait, Color selectedColor, Action<string, Sprite> showClue)
+	public void Init(bool isUnlocked, Clue clue, ShogunCharacter characterPortrait, Color selectedColor, Action<string, ShogunCharacter> showClue)
 	{
 		this.isUnlocked = isUnlocked;
 		this.clue = clue;

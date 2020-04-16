@@ -2084,7 +2084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34832ec360a17324dbb0764b753b598e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  preCombatReplicaDelay: 1
+  preCombatReplicaDelay: 0.5
   preCombatWriterSpeed: 30
   suicideDelay: 1
   preCombatWriterTrailLength: 20
@@ -2154,7 +2154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c150a51f9ad75244d9b8ec65adda7e42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTesting: 1
+  isTesting: 0
   testedDialogue: {fileID: 11400000, guid: 60d78bcd064987c4c9565276c8fe7a3a, type: 2}
   fightManager: {fileID: 954304312}
   comonPunchlines: {fileID: 11400000, guid: ef2795dd924a37143a9de9d9b00487f4, type: 2}
