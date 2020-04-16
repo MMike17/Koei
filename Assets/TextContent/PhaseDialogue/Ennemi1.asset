@@ -16,7 +16,15 @@ MonoBehaviour:
   unlockableConclusions:
   - category: 1
     subCategory: 9
-    comment: C'est un gros sale
+    comment: "Il est obs\xE9d\xE9 par le sexe !"
+    cardObject: {fileID: 0}
+  - category: 1
+    subCategory: 7
+    comment: C'est un paysan et pas un samourai !
+    cardObject: {fileID: 0}
+  - category: 1
+    subCategory: 15
+    comment: "Il est plong\xE9 dans la magie noire !"
     cardObject: {fileID: 0}
   charactersDialogues:
   - character: 0
