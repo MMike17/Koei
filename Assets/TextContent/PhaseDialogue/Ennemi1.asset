@@ -64,4 +64,6 @@ MonoBehaviour:
       ?"
     initialDialogues:
     - {fileID: 11400000, guid: 777009fb5b510c9418b528108bcba312, type: 2}
+    - {fileID: 11400000, guid: 079f6e1ecc9d3cd4e863b0f47d79c762, type: 2}
+    - {fileID: 11400000, guid: b7990b0588dd51741b6a77823a52d938, type: 2}
     indexesPath: 

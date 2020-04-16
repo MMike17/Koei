@@ -25,6 +25,6 @@ MonoBehaviour:
     subCategory: 7
     giverCharacter: 4
     summary: C'est un fils de paysans !
-    deductionLine: c'est un fils de paysans
+    deductionLine: c'est un fils de paysan
   nextDialogues:
   - {fileID: 11400000, guid: e75ce95a08ac9a243afa1ee60aec8292, type: 2}

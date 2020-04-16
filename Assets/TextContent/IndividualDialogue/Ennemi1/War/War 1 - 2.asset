@@ -16,12 +16,12 @@ MonoBehaviour:
   characterAnswer: "Ah, lui. Je l'ai crois\xE9, un jour que je rentrais d'Edo avec
     notre seigneur. C'est a peine un guerrier, presque un paysan. Son katana \xE9tait
     si mal entretenu qu'il n'aurait qu'\xE0 grand-peine tranch\xE9 une feuille !\r"
-  hasClue: 1
+  hasClue: 0
   clue:
     category: 2
     subCategory: 14
     giverCharacter: 4
-    summary: "Son sabre est en mauvais \xE9tat et il s'habille de haillons."
-    deductionLine: "il ne sait pas entretenir son \xE9quipement"
+    summary: 
+    deductionLine: 
   nextDialogues:
   - {fileID: 11400000, guid: 5dbcc7cb9fd5aa142abb3df02c6c5a5b, type: 2}
