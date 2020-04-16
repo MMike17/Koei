@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static GeneralDialogue;
 
 // class representing global game data
 public class GameData : MonoBehaviour, IDebugable, IInitializable
@@ -99,58 +100,57 @@ public class GameData : MonoBehaviour, IDebugable, IInitializable
 		}
 	}
 
-	public static string PrettySubCategory(SubCategory subCategory)
+	public static string PrettyCategory(Category category)
 	{
-		switch(subCategory)
+		switch(category)
 		{
-			case SubCategory.EMPTY:
+			case Category.EMPTY:
 				return "ERROR";
-
-			case SubCategory.FAMILY_CHILDREN:
-				return "Enfants";
-			case SubCategory.FAMILY_FIDELITY:
-				return "Fidélité";
-			case SubCategory.FAMILY_PARENTS:
-				return "Parents";
-			case SubCategory.FAMILY_SEXUALITY:
-				return "Séxualité";
-			case SubCategory.FAMILY_SPOUSE:
-				return "Epoux";
-
-			case SubCategory.MONEY_CORRUPTION:
-				return "Corruption";
-			case SubCategory.MONEY_DEBTS:
-				return "Dettes";
-			case SubCategory.MONEY_EXPENSES:
-				return "Dépenses";
-			case SubCategory.MONEY_MANAGING:
-				return "Managment";
-			case SubCategory.MONEY_TAXES:
-				return "Taxes";
-
-			case SubCategory.RELIGION_ATHEISM:
-				return "Athéisme";
-			case SubCategory.RELIGION_DEVOTION:
-				return "Dévotion";
-			case SubCategory.RELIGION_OCCULTISM:
-				return "Occultisme";
-			case SubCategory.RELIGION_OFFERING:
-				return "Offrande";
-			case SubCategory.RELIGION_RESPECT:
-				return "Respect";
-
-			case SubCategory.WAR_COURAGE:
-				return "Courage";
-			case SubCategory.WAR_LOYALTY:
-				return "Loyauté";
-			case SubCategory.WAR_PLUNDER:
-				return "Pillage";
-			case SubCategory.WAR_PROTECTION:
-				return "Protection";
-			case SubCategory.WAR_TALENT:
-				return "Talent militaire";
+			case Category.FAMILY:
+				return "Famille";
+			case Category.MONEY:
+				return "Argent";
+			case Category.RELIGION:
+				return "Religion";
+			case Category.WAR:
+				return "Guerre";
 		}
 
 		return null;
+	}
+
+	public static Category GetCategoryFromSubCategory(SubCategory subCategory)
+	{
+		foreach (Category category in Enum.GetValues(typeof(Category)))
+		{
+			if(subCategory.ToString().Contains(category.ToString()))
+				return category;
+		}
+
+		return Category.EMPTY;
+	}
+
+	public static Color GetColorFromCharacter(Character character)
+	{
+		switch(character)
+		{
+			case Character.FAMILLY:
+				return GetColorFromCategory(Category.FAMILY);
+			case Character.MONEY:
+				return GetColorFromCategory(Category.MONEY);
+			case Character.RELIGION:
+				return GetColorFromCategory(Category.RELIGION);
+			case Character.SHOGUN:
+				return GetColorFromCategory(Category.EMPTY);
+			case Character.WAR:
+				return GetColorFromCategory(Category.WAR);
+		}
+
+		return default(Color);
+	}
+
+	public static Color GetColorFromCategory(Category category)
+	{
+		return GameManager.Get.colors.Find(item => { return item.category == category; }).color;
 	}
 }

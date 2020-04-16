@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using static GameManager;
 
 // manager for game panels
@@ -94,7 +95,9 @@ public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		// spins spinner if vivisble
 		if(fadePanel.alpha > 0)
-			fadeSpinner.Rotate(0, 0, -spinnerSpeed * Time.deltaTime);
+		{
+			fadeSpinner.Rotate(0, 0, Time.deltaTime * spinnerSpeed);
+		}
 	}
 
 	// main coroutine for scene changing

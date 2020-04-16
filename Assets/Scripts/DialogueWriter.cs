@@ -59,7 +59,7 @@ public class DialogueWriter : MonoBehaviour
 					int index = writingIndex - trailLength + i;
 
 					if(index >= 0 && index < line.Length)
-						result += "<color=#" + ColorUtility.ToHtmlStringRGB(trailColors[i]) + ">" + line.Substring(index, 1) + "</color>";
+						result += "<color=#" + ColorUtility.ToHtmlStringRGBA(trailColors[i]) + ">" + line.Substring(index, 1) + "</color>";
 				}
 
 				// add invisible chars

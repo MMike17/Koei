@@ -53,7 +53,7 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 		Debug.Log(debuguableInterface.debugLabel + "Initializing done");
 	}
 
-	public void UpdatePath(Vector3 newEnd = default(Vector3), State newState = State.NORMAL)
+	public void UpdatePath(bool hasPos = false, Vector3 newEnd = default(Vector3), State newState = State.NORMAL)
 	{
 		if(!initialized)
 		{
@@ -61,7 +61,7 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 			return;
 		}
 
-		Vector3 endPosition = newEnd != default(Vector3) ? newEnd : end.localPosition;
+		Vector3 endPosition = hasPos ? newEnd : end.localPosition;
 		Vector3 offset = (endPosition - start.localPosition);
 
 		// moves path center
@@ -69,7 +69,7 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 
 		// rotates path
 		float angle = Vector3.SignedAngle(Vector3.right, offset, Vector3.forward);
-		transform.rotation = Quaternion.Euler(0, 0, angle);
+		transform.rotation = Quaternion.Euler(0, 0, angle + transform.parent.eulerAngles.z);
 
 		// set height
 		rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, pathThickness);

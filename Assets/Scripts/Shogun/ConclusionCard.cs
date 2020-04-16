@@ -6,7 +6,7 @@ public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 	[Header("Assign in Inspector")]
 	public GameObject hidden;
 	public TextMeshProUGUI comment;
-	public TextMeshProUGUI subCategory;
+	public TextMeshProUGUI category;
 
 	[Header("Debug")]
 	public Conclusion conclusion;
@@ -24,7 +24,10 @@ public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 		conclusion = data;
 
 		comment.text = data.comment;
-		subCategory.text = GameData.PrettySubCategory(data.correctedSubCategory);
+		comment.color = GameData.GetColorFromCategory(data.category);
+
+		category.text = GameData.PrettyCategory(data.category);
+		category.color = GameData.GetColorFromCategory(data.category);
 
 		initializableInterface.InitInternal();
 

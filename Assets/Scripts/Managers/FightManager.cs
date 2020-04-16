@@ -99,7 +99,10 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 		katanaSlider.gameObject.SetActive(false);
 
-		categoryButtons.ForEach(item => item.Init(ShowPunchlines, gamePunchlines));
+		categoryButtons.ForEach(item =>
+		{
+			item.Init(ShowPunchlines, gamePunchlines);
+		});
 
 		for (int i = 0; i < finisherPunchlineButtons.Length; i++)
 		{
@@ -201,7 +204,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			if(lastWriterPlayer != null)
 				Destroy(lastWriterPlayer.gameObject);
 
-			if(string.IsNullOrEmpty(actualCombat.preCombatReplicas[dialogueIndex].playerLine) && dialogueIndex >= actualCombat.preCombatReplicas.Count - 1)
+			if(dialogueIndex > actualCombat.preCombatReplicas.Count - 1 || string.IsNullOrEmpty(actualCombat.preCombatReplicas[dialogueIndex].playerLine))
 			{
 				actualPhase = Phase.KATANA;
 				Destroy(lastWriter.gameObject);
@@ -218,7 +221,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			if(lastWriterEnemy != null)
 				Destroy(lastWriterEnemy.gameObject);
 
-			if(string.IsNullOrEmpty(actualCombat.preCombatReplicas[dialogueIndex].enemyLine) && dialogueIndex >= actualCombat.preCombatReplicas.Count - 1)
+			if(dialogueIndex > actualCombat.preCombatReplicas.Count - 1 || string.IsNullOrEmpty(actualCombat.preCombatReplicas[dialogueIndex].enemyLine))
 			{
 				actualPhase = Phase.KATANA;
 				Destroy(lastWriter.gameObject);
@@ -264,6 +267,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				temp.GetComponentInChildren<TextMeshProUGUI>().text = punchline.subCategory.ToString();
 			else
 				temp.GetComponentInChildren<TextMeshProUGUI>().text = punchline.line;
+
+			temp.GetComponent<Image>().color = GameData.GetColorFromCategory(GameData.GetCategoryFromSubCategory(punchline.subCategory));
 		}
 	}
 
@@ -457,6 +462,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		{
 			List<Punchline> temp = gamePunchlines.allPunchlines.Find(item => { return item.category == category; }).punchlines;
 			button.onClick.AddListener(() => showCallback.Invoke(temp));
+
+			button.GetComponent<Image>().color = GameData.GetColorFromCategory(category);
 		}
 	}
 }

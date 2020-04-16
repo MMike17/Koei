@@ -12,13 +12,13 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	public float dialogueSpeed;
 	public float cluesAddDelay;
 	public int highlightLength;
-	public Color playerTextColor, playerChoiceDone, playerChoiceUndone, characterTextColor, highlightColor;
+	public Color playerTextColor, playerChoiceDone, playerChoiceUndone, highlightColor;
 	[Space]
 	public List<ShogunCharacter> characters;
 
 	[Header("Assing in Inspector")]
 	public Button openDeductionButton;
-	public Button combatButton, cluesPanelButton;
+	public Button cluesPanelButton;
 	public RectTransform dialogueScrollList, cluesScrollList;
 	public GameObject characterTextPrefab, playerChoicePrefab, playerTextPrefab, cluePrefab;
 	public Image characterPortrait;
@@ -38,6 +38,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	Func<Clue, bool> findClueEvent;
 	Character actualCharacter;
+	Color characterTextColor;
 	DialogueWriter lastWriter;
 	List<GameObject> lastSpawnedDialogueObjects;
 	float cluesAddTimer;
@@ -45,6 +46,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	public void PreInit()
 	{
+		characterPortrait.enabled = false;
+
 		characters.ForEach(item => item.Init(() => ChangeCharacter(item.character)));
 	}
 
@@ -76,6 +79,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		actualDialogue = dialogue;
 		actualDialogue.Init();
 
+		characterPortrait.enabled = true;
 		ChangeCharacter(Character.SHOGUN);
 	}
 
@@ -177,7 +181,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		}
 		else if(Input.GetMouseButtonDown(0))
 		{
-			lastWriter.Finish();
+			if(lastWriter != null)
+				lastWriter.Finish();
 		}
 	}
 
@@ -193,11 +198,12 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		characterPortrait.sprite = GetCharacter(actualCharacter).characterFull;
 		characterName.text = GetCharacter(actualCharacter).name;
-		characterName.color = GameManager.GetColorFromCharacter(actualCharacter);
+		characterName.color = GameData.GetColorFromCharacter(actualCharacter);
 
 		actualCharacterDialogue.Init();
 
 		waitForPlayerChoice = false;
+		characterTextColor = GameData.GetColorFromCharacter(character);
 
 		SpawnCharacterLine(actualCharacterDialogue.firstLine, characterTextColor);
 	}
@@ -335,7 +341,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			selectionButton.GetComponentInChildren<Image>().sprite = characterDetail;
 
 			ColorBlock block = selectionButton.colors;
-			block.highlightedColor = GameManager.GetColorFromCharacter(character);
+			block.highlightedColor = GameData.GetColorFromCharacter(character);
 			selectionButton.colors = block;
 
 			initializableInterface.InitInternal();

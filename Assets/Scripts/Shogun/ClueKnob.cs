@@ -7,13 +7,14 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 	[Header("Assign in Inspector")]
 	public GameObject locked;
 	public GameObject unlocked, selected;
-	public Button showClueButton;
 
 	IDebugable debuguableInterface => (IDebugable) this;
 	IInitializable initializableInterface => (IInitializable) this;
 
 	public bool initialized => initializableInterface.initializedInternal;
 	public bool isLocked => !isUnlocked;
+
+	public Action showClue { get; private set; }
 
 	bool IInitializable.initializedInternal { get; set; }
 	string IDebugable.debugLabel => "<b>[ClueKnob] : </b>";
@@ -25,10 +26,9 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 	{
 		this.isUnlocked = isUnlocked;
 		this.clue = clue;
+		this.showClue = () => { showClue.Invoke(clue.summary, characterPortrait); };
 
 		CheckState();
-
-		showClueButton.onClick.AddListener(() => { showClue.Invoke(clue.summary, characterPortrait); });
 
 		selected.SetActive(false);
 		isSelected = false;

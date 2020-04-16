@@ -10,7 +10,7 @@ public class ShogunPopup : Popup
 {
 	[Header("Settings")]
 	public float clueKnobSpawnPadding;
-	public float clueKnobMinDistance;
+	public float clueKnobMinDistance, clueDisplayDelay;
 	public int positionComputingLimit;
 	public Color normalPath, validatedPath, wrongPath;
 
@@ -18,17 +18,18 @@ public class ShogunPopup : Popup
 	public ClueKnob clueKnobPrefab;
 	public ConclusionCard cardPrefab;
 	public Path pathPrefab;
-	public RectTransform clueKnobSpawnZone, cardList, startPath, endPath;
+	public RectTransform clueKnobSpawnZone, cardList, endPath, cursor, infoBubble;
 	public TextMeshProUGUI lineCounter, clueDescription, clueLineAddUp;
 	public Image popupCharacterPortrait;
 	public Button returnButton, combatButton;
+	public GraphicRaycaster raycaster;
 
 	List<Conclusion> conclusionsToUnlock;
 	List<Path> selectionPath;
-	List<Path> persistentPaths;
 	List<ClueKnob> spawnedKnobs;
 	List<Clue> selectedClues;
 	ClueKnob previouslyHoveredKnob;
+	float clueDisplayTimer;
 	int positionComputingStep;
 	bool isSettingPath;
 
@@ -37,14 +38,16 @@ public class ShogunPopup : Popup
 		SpawnKnobs(clueList, characters);
 		SpawnConclusions(unlockableConclusions);
 
-		returnButton.onClick.AddListener(() => returnCallback.Invoke());
+		returnButton.onClick.AddListener(() => { returnCallback.Invoke(); SetStateCursor(false); });
 		combatButton.onClick.AddListener(() => combatCallback.Invoke());
 
 		selectionPath = new List<Path>();
-		persistentPaths = new List<Path>();
 		selectedClues = new List<Clue>();
 
 		isSettingPath = false;
+		clueDisplayTimer = 0;
+
+		ResetPopup();
 	}
 
 	void SpawnConclusions(List<Conclusion> unlockableConclusions)
@@ -162,10 +165,12 @@ public class ShogunPopup : Popup
 
 	public override void ResetPopup()
 	{
+		SetStateInfoBubble(false);
+		SetStateCursor(false);
+
 		lineCounter.text = "0 / 3";
 		clueDescription.text = string.Empty;
-
-		popupCharacterPortrait.enabled = false;
+		popupCharacterPortrait.sprite = null;
 
 		base.ResetPopup();
 	}
@@ -175,27 +180,62 @@ public class ShogunPopup : Popup
 		// retrieves pointer event data from current input module
 		PointerEventData eventData = ActuallyUsefulInputModule.GetPointerEventData(-1);
 
+		SetStateCursor(false);
+
+		ClueKnob selected = null;
+
+		foreach (GameObject ui in eventData.hovered)
+		{
+			if(ui == clueKnobSpawnZone.gameObject)
+			{
+				SetStateCursor(true);
+				cursor.transform.position = Input.mousePosition;
+			}
+
+			ClueKnob local = ui.GetComponent<ClueKnob>();
+
+			if(local != null)
+			{
+				clueDisplayTimer += Time.deltaTime;
+				selected = local;
+			}
+		}
+
+		if(selected != null)
+		{
+			if(clueDisplayTimer >= clueDisplayDelay)
+				selected.showClue.Invoke();
+		}
+		else
+		{
+			clueDisplayTimer = 0;
+			SetStateInfoBubble(false);
+		}
+
 		// if first click
 		if(Input.GetMouseButtonDown(0))
 		{
-			// detect if pressed above startPath object
+			// detect if pressed above clue knob
 			eventData.hovered.ForEach(item =>
 			{
-				if(item.CompareTag("StartPath"))
+				ClueKnob knob = item.GetComponent<ClueKnob>();
+
+				if(knob != null && !knob.isLocked)
 				{
-					// spawns first path (there is no clue on first knob)
-					SpawnNewPath(SubCategory.EMPTY);
+					// deletes previous selection path
+					selectionPath.ForEach(path => Destroy(path.gameObject));
+					selectionPath.Clear();
+
+					// spawns first path
+					SpawnNewPath(knob);
+
+					selectedClues.Add(knob.GetClue());
+					knob.SelectForPath();
 
 					isSettingPath = true;
 					Debug.Log(debugableInterface.debugLabel + "Started selection path");
 				}
 			});
-
-			// resets clue panel if clic in empty
-			if(!isSettingPath)
-			{
-				ResetPopup();
-			}
 		}
 
 		// if we are drawing line (prevents miscalls when we're not in pannel)
@@ -212,10 +252,10 @@ public class ShogunPopup : Popup
 				// detect if lifted above endPath object
 				eventData.hovered.ForEach(item =>
 				{
-					if(item.CompareTag("EndPath") && selectionPath.Count == 4)
+					if(item.CompareTag("EndPath") && selectionPath.Count == 3)
 					{
 						// there is no clue on last knob
-						selectionPath[selectionPath.Count - 1].UpdatePath(endPath.position);
+						selectionPath[selectionPath.Count - 1].UpdatePath(true, endPath.localPosition);
 
 						isPathFinished = true;
 						Debug.Log(debugableInterface.debugLabel + "Finished selection path");
@@ -235,40 +275,17 @@ public class ShogunPopup : Popup
 			}
 			else // updates path if mouse is pressed and path started
 			{
-				// feeds in list of knobs from hovered objects
-				List<ClueKnob> knobs = new List<ClueKnob>();
+				ClueKnob knob = null;
 
 				eventData.hovered.ForEach(item =>
 				{
-					ClueKnob selected = item.GetComponent<ClueKnob>();
-
-					if(selected != null)
-					{
-						knobs.Add(selected);
-					}
+					if(item.GetComponent<ClueKnob>() != null)
+						knob = item.GetComponent<ClueKnob>();
 				});
-
-				if(knobs.Count > 1)
-				{
-					Debug.LogWarning(debugableInterface.debugLabel + "There shouldn't be more than one knob hovered at a time");
-				}
-
-				ClueKnob knob = null;
-
-				// there should only be one knob at a time
-				if(knobs.Count > 0)
-				{
-					knob = knobs[0];
-				}
 
 				// if we are above knob
 				if(knob != null)
 				{
-					if(knob != previouslyHoveredKnob)
-					{
-						Debug.Log(selectionPath[0].ContainsKnob(knob.transform));
-					}
-
 					// if it's new knob (if we are not above empty anymore) & can select knob
 					if(knob != previouslyHoveredKnob && !knob.isLocked)
 					{
@@ -276,9 +293,9 @@ public class ShogunPopup : Popup
 						if(selectionPath.Find(path => { return path.ContainsKnob(knob.transform); }) == null)
 						{
 							// if we didn't select too many clues
-							if(selectionPath.Count < 4)
+							if(selectionPath.Count < 3)
 							{
-								SpawnNewPath(knob.GetSubCategory(), knob.transform);
+								SpawnNewPath(knob, knob.transform);
 
 								selectedClues.Add(knob.GetClue());
 								knob.SelectForPath();
@@ -301,13 +318,13 @@ public class ShogunPopup : Popup
 					}
 					else
 					{
-						selectionPath[selectionPath.Count - 1].UpdatePath(RealMousePosition());
+						selectionPath[selectionPath.Count - 1].UpdatePath(true, RealMousePosition());
 					}
 				}
 				else // if we are not above knob
 				{
 					// sticks end of path on mouse
-					selectionPath[selectionPath.Count - 1].UpdatePath(RealMousePosition());
+					selectionPath[selectionPath.Count - 1].UpdatePath(true, RealMousePosition());
 				}
 
 				previouslyHoveredKnob = knob;
@@ -335,40 +352,37 @@ public class ShogunPopup : Popup
 
 		if(selectionPath.Count > 0)
 		{
-			lineCounter.text = selectionPath.Count - 1 + " / 3";
+			lineCounter.gameObject.SetActive(true);
+			lineCounter.text = selectionPath.Count + " / 3";
 		}
 		else
 		{
-			lineCounter.text = "0 / 3";
+			lineCounter.gameObject.SetActive(false);
 		}
 	}
 
 	// ends previous path if there is one and spawns a new one
-	void SpawnNewPath(SubCategory start, Transform endPrevious = null)
+	void SpawnNewPath(ClueKnob start, Transform endPrevious = null)
 	{
-		Transform beginPath = startPath;
-
 		// ends previous path
 		if(selectionPath.Count > 0 && endPrevious != null)
 		{
-			selectionPath[selectionPath.Count - 1].SetEnd(endPrevious, start);
-
-			// gets previous end point as starting point
-			beginPath = selectionPath[selectionPath.Count - 1].GetEnd();
+			selectionPath[selectionPath.Count - 1].SetEnd(endPrevious, start.GetSubCategory());
 		}
 
 		// spawn new path
 		Path spawned = Instantiate(pathPrefab, clueKnobSpawnZone);
-		spawned.Init(beginPath, normalPath, validatedPath, wrongPath, start);
+		spawned.Init(start.transform, normalPath, validatedPath, wrongPath, start.GetSubCategory());
 		selectionPath.Add(spawned);
 	}
 
 	// clue knob button
 	void ShowClue(string clueLine, Sprite characterPortrait)
 	{
+		SetStateInfoBubble(true);
+
 		clueDescription.text = clueLine;
 		popupCharacterPortrait.sprite = characterPortrait;
-		popupCharacterPortrait.enabled = true;
 	}
 
 	public void ChecKnobsState(List<Clue> playerClues)
@@ -393,40 +407,16 @@ public class ShogunPopup : Popup
 		// deselect all knobs
 		spawnedKnobs.ForEach(item => item.DeselectKnob());
 
-		// destroys first path (linked to start node)
-		Destroy(selectionPath[0].gameObject);
-		selectionPath.RemoveAt(0);
-
-		if(selectionPath.Count > 1 && (selectionPath[selectionPath.Count - 1].end == null || selectionPath[selectionPath.Count - 1].end == endPath))
+		if(selectionPath[selectionPath.Count - 1].end == null || selectionPath[selectionPath.Count - 1].end == endPath)
 		{
 			// destroys last path (if finished it's linked to end knob, if not it's interrupted)
 			Destroy(selectionPath[selectionPath.Count - 1].gameObject);
 			selectionPath.RemoveAt(selectionPath.Count - 1);
 		}
 
+		// path checks it's own state
 		List<SubCategory> pathSubCategories = new List<SubCategory>();
-
-		foreach (Path path in selectionPath)
-		{
-			// path checks it's state
-			pathSubCategories.Add(path.CheckState());
-
-			// moves path to path already checked (if we don't already have a similar path)
-			Path found = persistentPaths.Find(item => { return item.ContainsKnob(path.start) && item.ContainsKnob(path.end); });
-
-			if(found == null)
-			{
-				// adds path to paths that will be destroyed
-				persistentPaths.Add(path);
-			}
-		}
-
-		// removes persistent paths from selectionPath to not destroy them
-		persistentPaths.ForEach(item => selectionPath.Remove(item));
-
-		// deletes selection path
-		selectionPath.ForEach(item => Destroy(item.gameObject));
-		selectionPath.Clear();
+		selectionPath.ForEach(item => pathSubCategories.Add(item.CheckState()));
 
 		return pathSubCategories;
 	}
@@ -465,10 +455,22 @@ public class ShogunPopup : Popup
 	Vector2 RealMousePosition()
 	{
 		// complicated mouse position computation because fuck me I guess ?
-		Vector2 mousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-		mousePosition.x = mousePosition.x * Screen.width - Screen.width / 2;
-		mousePosition.y = mousePosition.y * Screen.height - Screen.height / 2;
+		Vector2 mousePosition = Input.mousePosition;
+		mousePosition.x -= Screen.width / 2 - 147;
+		mousePosition.y -= Screen.height / 2 - 40;
+
+		Debug.DrawLine(Vector3.zero, mousePosition, Color.red);
 
 		return mousePosition;
+	}
+
+	void SetStateCursor(bool state)
+	{
+		cursor.gameObject.SetActive(state);
+	}
+
+	void SetStateInfoBubble(bool state)
+	{
+		infoBubble.gameObject.SetActive(state);
 	}
 }

@@ -4,18 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - AreaToPlay
-  - AreaForHand
-  - Reserve
   - EndPath
-  - StartPath
-  - Fight/Fight Button
-  - Fight/Main UI Parent
-  - Fight/World
-  - GUI/Black Panel
-  - GUI/Black Bands
-  - Sentences/Player
-  - Sentences/Enemy
   layers:
   - Default
   - TransparentFX
