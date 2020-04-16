@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: War 2 - 1
   m_EditorClassIdentifier: 
   playerQuestion: Comment se porte les forces de notre seigneur ?
-  characterAnswer: "Eh bien... Relativement bien. Nos hommes sont entra\xEEn\xE9s,
-    fid\xE8les, bien arm\xE9s, en un mot efficaces. Le seigneur m'a donn\xE9 les moyens
-    de transformer ses serviteurs englu\xE9s dans la paix en une force de frappe puissante,
-    bien r\xE9gl\xE9e."
+  characterAnswer: "Comme il faut ! Les guerriers sont r\xE9gl\xE9s, nerveux, pr\xEAts
+    \xE0 en d\xE9coudre, de vraies machines \xE0 tuer ! On va relativement gagner
+    contre Takeda, si tu veux mon avis !"
   hasClue: 0
   clue:
     category: 0

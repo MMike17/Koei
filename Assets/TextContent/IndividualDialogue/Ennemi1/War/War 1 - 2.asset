@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: War 1 - 2
   m_EditorClassIdentifier: 
   playerQuestion: "Oui, le seigneur m'a parl\xE9 de l'un d'entre eux, un borgne."
-  characterAnswer: "Ah, lui. Je l'ai crois\xE9, un jour que je rentrais d'Edo avec
-    notre seigneur. C'est a peine un guerrier, presque un paysan. Son katana \xE9tait
-    si mal entretenu qu'il n'aurait qu'\xE0 grand-peine tranch\xE9 une feuille !\r"
+  characterAnswer: "Ah, lui. Je l'ai crois\xE9 une fois. C'est \xE0 peine un guerrier,
+    presque un paysan. Son katana \xE9tait si mal entretenu qu'il ne trancherait m\xEAme
+    pas une feuille ! Alors, une gorge..."
   hasClue: 0
   clue:
     category: 2

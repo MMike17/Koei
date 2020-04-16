@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: War 3 - 4
   m_EditorClassIdentifier: 
-  playerQuestion: "Un oeil en moins ? Il s'agit donc du bandit de la for\xEAt ?"
-  characterAnswer: "En effet. Un homme qui a tent\xE9 de s'\xE9lever au-dessus de
-    ses origines. Mais il tente encore de se faire passer pour ce qu'il n'est pas,
-    et cela est impardonnable. Le katana est une arme noble, qu'un fils de paysans
-    ne devrait jamais manier."
+  playerQuestion: "Et c'est l\xE0 que j'entre en jeu..."
+  characterAnswer: "Exactement ! Tu es d\xE9j\xE0 mort dans le d\xE9shonneur, donc
+    peu t'importe encore plus de d\xE9shonneur ! "
   hasClue: 0
   clue:
     category: 0

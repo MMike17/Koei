@@ -14,11 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerQuestion: "Seigneur Ueda, un homme s\xFBr de lui et de sa loyaut\xE9 peut
     affronter une arm\xE9e seul. Gardez la foi."
-  characterAnswer: "Ne m'insulte pas, samurai. Jusqu'\xE0 ma mort je lutterai aux
-    c\xF4t\xE9s de Shinegawa. Je me contente d'\xEAtre r\xE9aliste. Militairement
-    parlant, nous pouvons infliger beaucoup de d\xE9g\xE2ts \xE0 Takeda, mais nous
-    ne pouvons le vaincre. D'o\xF9 l'importance de trouver une solution. D'o\xF9 ton
-    importance."
+  characterAnswer: "Ne m'insultes pas, samurai. Jusqu'\xE0 ma mort je lutterai aux
+    c\xF4t\xE9s de Shinegawa, dussais-je affronter tout les samurais du Japon avec
+    un \xE9ventail pour seule arme."
   hasClue: 0
   clue:
     category: 0

@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: War 3 - 1
   m_EditorClassIdentifier: 
   playerQuestion: "Seigneur Ueda, comment puis-je \xEAtre un meilleur samurai ?"
-  characterAnswer: "Bonne question. Qu'en sais-je ? Qu'est-ce qu'un bon samurai ?
-    Essaye donc d'\xEAtre un bon guerrier, spectre, et tu pourras ensuite demander
-    \xE0 quelqu'un d'autre ce qui fait un bon samurai."
+  characterAnswer: "C'est pas compliqu\xE9 : loyaut\xE9, honneur, et surtout dignit\xE9."
   hasClue: 0
   clue:
     category: 0

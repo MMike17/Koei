@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: War 1 - 4
   m_EditorClassIdentifier: 
-  playerQuestion: "Un tel homme ne saurait \xEAtre un samurai !-"
-  characterAnswer: "Ne surestime pas les guerriers de Takeda... Tous les samurais
-    de ce pays ne sont pas aussi nobles que les n\xF4tres, et bien des porteurs d'\xE9p\xE9es
-    ne sont que des rustres sans mani\xE8res. Celui-l\xE0 plus que d'autres, c'est
-    tout. "
+  playerQuestion: "Un tel homme ne saurait \xEAtre un samurai !"
+  characterAnswer: "Mais ce n'est pas un samurai ! Un samurai est un parangon de noblesse
+    et de loyaut\xE9 : bref, son exact inverse."
   hasClue: 0
   clue:
     category: 0

@@ -12,13 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: War 3 - 2
   m_EditorClassIdentifier: 
-  playerQuestion: "Mais, seigneur Ueda ?! N'avez-vous aucun conseil \xE0 me donner
-    ?"
-  characterAnswer: "Que puis-je te dire ? Le respect, la biens\xE9ance, la loyaut\xE9...
-    Tous le monde sait cela ! Un samurai doit toujours prot\xE9ger l'honneur de son
-    ma\xEEtre. Une fois cela pos\xE9, il n'y a plus rien \xE0 dire. Il existe des
-    hommes qui ne veulent pas suivre cette v\xE9rit\xE9. Ils se donnent mais ne m\xE9ritent
-    pas le nom de samurai."
+  playerQuestion: "Dignit\xE9 ? La loyaut\xE9 ne passe-t-elle pas avant tout ?"
+  characterAnswer: "La loyaut\xE9 c'est bien, c'est m\xEAme tr\xE8s bien, mais il
+    faut savoir rester digne. Je ne partirai jamais au combat si mon armure \xE9tait
+    mal ajust\xE9e, par exemple. Seigneur ! Ce serait... d\xE9shonorant."
   hasClue: 0
   clue:
     category: 0

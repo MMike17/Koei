@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: War 2 - 4
   m_EditorClassIdentifier: 
-  playerQuestion: Mon importance ?
-  characterAnswer: "Oui. Si tu peux, effectivement, aller affronter Takeda et le vaincre
-    sans qu'un autre sang que le sien coule, tu es un v\xE9ritable h\xE9ros. Pas tant
-    pour moi, qui n'emploie plus le mot h\xE9ros avec s\xE9rieux, mais pour mes hommes,
-    qui craignent avec raison une bataille perdue d'avance. "
+  playerQuestion: "Bien s\xFBr ! D\xE9sol\xE9 !"
+  characterAnswer: Mouais. Bref ! La guerre, c'est la guerre, et on va gagner, si
+    on reste fort ! Compris, gamin ?
   hasClue: 0
   clue:
     category: 0
