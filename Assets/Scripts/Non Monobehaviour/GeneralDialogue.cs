@@ -216,15 +216,31 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 
 		public bool IsDone()
 		{
-			bool done = true;
-
 			foreach (Dialogue dialogue in initialDialogues)
 			{
-				if(!dialogue.IsDone())
-					done = false;
+				if(!CheckDialogueRecursive(dialogue))
+					return false;
 			}
 
-			return done;
+			return true;
+		}
+
+		bool CheckDialogueRecursive(Dialogue dialogue)
+		{
+			if(dialogue.nextDialogues == null || dialogue.nextDialogues.Length == 0)
+				return dialogue.IsDone();
+			else
+			{
+				foreach (Dialogue nextDialogue in dialogue.nextDialogues)
+				{
+					if(!CheckDialogueRecursive(nextDialogue))
+					{
+						return false;
+					}
+				}
+
+				return true;
+			}
 		}
 	}
 }

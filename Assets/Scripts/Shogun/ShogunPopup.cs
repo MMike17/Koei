@@ -117,7 +117,7 @@ public class ShogunPopup : Popup
 				continue;
 			}
 
-			spawned.Init(false, clue, character, validatedPath, (string clueDetail, ShogunCharacter portrait) =>
+			spawned.Init(false, clue, character, (string clueDetail, ShogunCharacter portrait) =>
 			{
 				// shows clue only if unlocked
 				if(!spawned.isLocked)
@@ -457,9 +457,13 @@ public class ShogunPopup : Popup
 	Vector2 RealMousePosition()
 	{
 		// complicated mouse position computation because fuck me I guess ?
+		// x : - 189 | 37.5 | 31
+		// y : -16 | -40
+
+		// we need to add offset of ui objects
 		Vector2 mousePosition = Input.mousePosition;
-		mousePosition.x -= Screen.width / 2 - 147;
-		mousePosition.y -= Screen.height / 2 - 40;
+		mousePosition.x -= Screen.width / 2 - 120.5f;
+		mousePosition.y -= Screen.height / 2 - 56;
 
 		Debug.DrawLine(Vector3.zero, mousePosition, Color.red);
 

@@ -21,24 +21,7 @@ public class Dialogue : ScriptableObject
 	// will be called recursively along dialogues untill explorations of all branches are done
 	public bool IsDone()
 	{
-		if(nextDialogues == null || nextDialogues.Length == 0)
-		{
-			return done;
-		}
-		else
-		{
-			bool nextDialoguesDone = true;
-
-			foreach (Dialogue dialogue in nextDialogues)
-			{
-				if(!dialogue.done)
-				{
-					nextDialoguesDone = false;
-				}
-			}
-
-			return nextDialoguesDone;
-		}
+		return done;
 	}
 
 	public void SetAsDone()

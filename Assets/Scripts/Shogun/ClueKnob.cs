@@ -23,17 +23,18 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 	Clue clue;
 	bool isSelected, isUnlocked;
 
-	public void Init(bool isUnlocked, Clue clue, ShogunCharacter characterPortrait, Color selectedColor, Action<string, ShogunCharacter> showClue)
+	public void Init(bool isUnlocked, Clue clue, ShogunCharacter characterPortrait, Action<string, ShogunCharacter> showClue)
 	{
 		this.isUnlocked = isUnlocked;
 		this.clue = clue;
 		this.showClue = () => { showClue.Invoke(clue.summary, characterPortrait); };
 
-		CheckState();
+		locked.SetActive(true);
+		unlocked.SetActive(false);
+		selected.SetActive(false);
 
 		selected.SetActive(false);
 		isSelected = false;
-		selected.GetComponent<Image>().color = new Color(selectedColor.r, selectedColor.g, selectedColor.b, 1);
 
 		initializableInterface.InitInternal();
 	}
@@ -56,7 +57,7 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 		isSelected = !isSelected;
 
 		selected.SetActive(isSelected);
-		CheckState();
+		unlocked.SetActive(!isSelected);
 
 		Debug.Log(debuguableInterface.debugLabel + (isSelected? "Selected knob": "Unselected knob"));
 	}
@@ -72,7 +73,7 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 		isSelected = false;
 
 		selected.SetActive(false);
-		CheckState();
+		unlocked.SetActive(!isLocked);
 
 		Debug.Log(debuguableInterface.debugLabel + "Unselected knob");
 	}
@@ -87,7 +88,8 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 
 		isUnlocked = true;
 
-		CheckState();
+		locked.SetActive(false);
+		unlocked.SetActive(true);
 	}
 
 	public SubCategory GetSubCategory()
@@ -115,11 +117,5 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 	public Clue GetClue()
 	{
 		return clue;
-	}
-
-	void CheckState()
-	{
-		locked.SetActive(!isUnlocked);
-		unlocked.SetActive(isUnlocked);
 	}
 }
