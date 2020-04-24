@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 574528d77f72d724ea6f6fe6be1eb0be, type: 3}
-  m_Name: 15 - 205
+  m_Name: 10 - 205
   m_EditorClassIdentifier: 
   skin_slots:
   - tag: 0
-    color: {r: 0.16, g: 0.184, b: 0.2, a: 1}
+    color: {r: 0.17, g: 0.188, b: 0.2, a: 1}
   - tag: 1
-    color: {r: 0.21333334, g: 0.235129, b: 0.2509804, a: 1}
+    color: {r: 0.22588237, g: 0.24094118, b: 0.2509804, a: 1}
   - tag: 2
-    color: {r: 0.2682353, g: 0.28611764, b: 0.29803923, a: 1}
+    color: {r: 0.28313726, g: 0.292451, b: 0.29803923, a: 1}
   - tag: 3
     color: {r: 0, g: 0, b: 0, a: 1}
   - tag: 4
