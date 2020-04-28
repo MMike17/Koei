@@ -479,8 +479,8 @@ MonoBehaviour:
   m_Spacing: 20
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
 --- !u!1 &71994102
@@ -2090,6 +2090,7 @@ MonoBehaviour:
   preCombatWriterTrailLength: 20
   preCombatWriterColor: {r: 0, g: 0, b: 0, a: 1}
   preCombatWriterHighlight: {r: 1, g: 0.52359486, b: 0, a: 1}
+  skip: 9
   canvasAnimator: {fileID: 505563002}
   effectAnimator: {fileID: 972982346}
   KanjiGeneralAnimator: {fileID: 1777526159}
@@ -2116,7 +2117,7 @@ MonoBehaviour:
     button: {fileID: 172459545}
   - category: 3
     button: {fileID: 6342825}
-  punchlinePrefab: {fileID: 96874687126867753, guid: a9433da72e0b9d74b8e2bdf7ebdeb108,
+  punchlinePrefab: {fileID: 5956742803870733835, guid: a9433da72e0b9d74b8e2bdf7ebdeb108,
     type: 3}
   finisherPunchlineButtons:
   - {fileID: 768330673}

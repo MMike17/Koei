@@ -22,4 +22,9 @@ public class Conclusion
 
 		cardObject = card;
 	}
+
+	public bool IsUnlocked(bool playAnim = false)
+	{
+		return cardObject.IsUnlocked(playAnim);
+	}
 }

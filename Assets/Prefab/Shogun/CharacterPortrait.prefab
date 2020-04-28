@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 3635219293131800681}
   - component: {fileID: 5154563397848546647}
   - component: {fileID: 614354075208866277}
+  - component: {fileID: 8448515736931859617}
   m_Layer: 5
   m_Name: CharacterPortrait
   m_TagString: Untagged
@@ -208,6 +209,19 @@ MonoBehaviour:
   under: {fileID: 3635219293131800681}
   over: {fileID: 7612002230427642427}
   detail: {fileID: 4686267927861825404}
+--- !u!114 &8448515736931859617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5768105917564092850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba4f9a0810f3b994987dc6cd705567b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skin_tag: 2
 --- !u!1 &7739530529536723318
 GameObject:
   m_ObjectHideFlags: 0

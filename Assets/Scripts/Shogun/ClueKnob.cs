@@ -8,6 +8,7 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 	[Header("Assign in Inspector")]
 	public GameObject locked;
 	public GameObject unlocked, selected;
+	public SkinGraphic lockedKanji, unlockedBack, selectedBack;
 
 	IDebugable debuguableInterface => (IDebugable) this;
 	IInitializable initializableInterface => (IInitializable) this;
@@ -32,6 +33,10 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 		locked.SetActive(true);
 		unlocked.SetActive(false);
 		selected.SetActive(false);
+
+		lockedKanji.Skin();
+		unlockedBack.Skin();
+		selectedBack.Skin();
 
 		selected.SetActive(false);
 		isSelected = false;

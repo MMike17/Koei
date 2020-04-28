@@ -67,6 +67,9 @@ public static class Skinning
 
 	public static void ResetSkin(SkinData data)
 	{
+		if(components == null)
+			components = new List<SkinGraphic>();
+
 		actual_skin = data;
 		components.ForEach((item) => { item.Skin(); });
 	}

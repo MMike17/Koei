@@ -13,6 +13,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	public float cluesAddDelay;
 	public int highlightLength;
 	public Color playerTextColor, playerChoiceDone, playerChoiceUndone, highlightColor;
+	public KeyCode getAllCluesKey;
 	[Space]
 	public List<ShogunCharacter> characters;
 
@@ -42,7 +43,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	DialogueWriter lastWriter;
 	List<GameObject> lastSpawnedDialogueObjects;
 	float cluesAddTimer;
-	bool needsPlayerSpawn, waitForPlayerChoice, cluesOpen;
+	bool needsPlayerSpawn, waitForPlayerChoice, cluesOpen, didCheat;
 
 	public void PreInit()
 	{
@@ -58,6 +59,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		findClueEvent = findClue;
 		cluesOpen = false;
+		didCheat = false;
 		cluesAddTimer = 0;
 
 		// plug in buttons
@@ -117,6 +119,18 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	void Update()
 	{
+		if(Input.GetKeyDown(getAllCluesKey) && !didCheat)
+		{
+			// findClueEvent.Invoke(actualCharacterDialogue.GetActualDialogue().clue
+			foreach (CharacterDialogue characterDialogue in actualDialogue.charactersDialogues)
+			{
+				foreach (Dialogue dialogue in characterDialogue.initialDialogues)
+					GetCluesRecursive(dialogue);
+			}
+
+			didCheat = true;
+		}
+
 		if(cluesAddTimer > 0)
 		{
 			cluesAddTimer -= Time.deltaTime;
@@ -309,6 +323,18 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		{
 			cluesAddTimer = 0;
 			cluesPanelAnim.Play("Close");
+		}
+	}
+
+	void GetCluesRecursive(Dialogue dialogue)
+	{
+		if(dialogue.hasClue)
+			findClueEvent.Invoke(dialogue.clue);
+
+		if(dialogue.nextDialogues != null && dialogue.nextDialogues.Length > 0)
+		{
+			foreach (Dialogue nextDialogue in dialogue.nextDialogues)
+				GetCluesRecursive(nextDialogue);
 		}
 	}
 

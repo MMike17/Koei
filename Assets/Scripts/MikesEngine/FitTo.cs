@@ -1,58 +1,81 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class FitTo : MonoBehaviour
 {
-    public enum Fit { WIDTH, HEIGHT, PARENT }
+	public enum Fit { WIDTH, HEIGHT, PARENT }
 
-    public Fit fit_mode;
-    public float padding;
+	public Fit fit_mode;
+	public float padding;
+	public bool keepRatio;
 
-    RectTransform rect_transform;
+	RectTransform rect_transform;
 
-    void Awake()
-    {
-        rect_transform = GetComponent<RectTransform>();
-    }
+	void Awake()
+	{
+		rect_transform = GetComponent<RectTransform>();
+	}
 
-    void OnDrawGizmos()
-    {
-        if(!enabled)
-            return;
+	void OnDrawGizmos()
+	{
+		if(!enabled)
+			return;
 
-        if(rect_transform == null)
-            Awake();
-        else
-            Update();
-    }
+		if(rect_transform == null)
+			Awake();
+		else
+			Update();
+	}
 
-    void Update()
-    {
-        switch(fit_mode)
-        {
-            case Fit.HEIGHT:
-                if(rect_transform.rect.width != rect_transform.rect.height - padding)
-                    rect_transform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rect_transform.rect.height - padding);
-                break;
+	void Update()
+	{
+		float targetSize = 0;
+		float ratio = 0;
 
-            case Fit.WIDTH:
-                if(rect_transform.rect.height != rect_transform.rect.width - padding)
-                    rect_transform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rect_transform.rect.width - padding);
-                break;
+		switch(fit_mode)
+		{
+			case Fit.HEIGHT:
+				targetSize = rect_transform.GetComponent<Image>().sprite.textureRect.height - padding;
+				ratio = rect_transform.GetComponent<Image>().sprite.textureRect.height / rect_transform.GetComponent<Image>().sprite.textureRect.width;
 
-            case Fit.PARENT:
-                if(rect_transform.rect.width != rect_transform.rect.height - padding)
-                    rect_transform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, GetLowestSize() - padding);
+				if(rect_transform.rect.width != targetSize)
+				{
+					rect_transform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, targetSize);
 
-                if(rect_transform.rect.height != rect_transform.rect.width - padding)
-                    rect_transform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, GetLowestSize() - padding);
-                break;
-        }
-    }
+					if(keepRatio)
+						rect_transform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, targetSize * ratio);
+				}
+				break;
 
-    float GetLowestSize()
-    {
-        RectTransform parent = rect_transform.parent.GetComponent<RectTransform>();
+			case Fit.WIDTH:
+				targetSize = rect_transform.GetComponent<Image>().sprite.textureRect.width - padding;
+				ratio = rect_transform.GetComponent<Image>().sprite.textureRect.width / rect_transform.GetComponent<Image>().sprite.textureRect.height;
 
-        return Mathf.Min(parent.rect.width, parent.rect.height);
-    }
+				if(rect_transform.rect.height != targetSize)
+				{
+					rect_transform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, targetSize);
+
+					if(keepRatio)
+						rect_transform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, targetSize * ratio);
+				}
+				break;
+
+			case Fit.PARENT:
+				targetSize = GetLowestSize() - padding;
+
+				if(rect_transform.rect.width != rect_transform.rect.height - padding)
+					rect_transform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, targetSize);
+
+				if(rect_transform.rect.height != rect_transform.rect.width - padding)
+					rect_transform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, targetSize);
+				break;
+		}
+	}
+
+	float GetLowestSize()
+	{
+		RectTransform parent = rect_transform.parent.GetComponent<RectTransform>();
+
+		return Mathf.Min(rect_transform.GetComponent<Image>().sprite.textureRect.width, rect_transform.GetComponent<Image>().sprite.textureRect.height);
+	}
 }

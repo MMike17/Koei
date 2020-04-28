@@ -11,8 +11,9 @@ public class ShogunPopup : Popup
 	[Header("Settings")]
 	public float clueKnobSpawnPadding;
 	public float clueKnobMinDistance, clueDisplayDelay;
-	public int positionComputingLimit;
+	public int positionComputingLimit, goodGameThreshold;
 	public Color normalPath, validatedPath, wrongPath;
+	public KeyCode skip;
 
 	[Header("Assing in Inspector")]
 	public ClueKnob clueKnobPrefab;
@@ -23,6 +24,7 @@ public class ShogunPopup : Popup
 	public UICharacter popupCharacterPortrait;
 	public Button returnButton, combatButton;
 	public GraphicRaycaster raycaster;
+	public Animator anim;
 
 	List<Conclusion> conclusionsToUnlock;
 	List<Path> selectionPath;
@@ -30,8 +32,8 @@ public class ShogunPopup : Popup
 	List<Clue> selectedClues;
 	ClueKnob previouslyHoveredKnob;
 	float clueDisplayTimer;
-	int positionComputingStep;
-	bool isSettingPath;
+	int positionComputingStep, lineTries;
+	bool isSettingPath, didFeedback;
 
 	public void SpecificInit(List<Clue> clueList, List<Conclusion> unlockableConclusions, List<ShogunCharacter> characters, Action returnCallback, Action combatCallback)
 	{
@@ -39,13 +41,27 @@ public class ShogunPopup : Popup
 		SpawnConclusions(unlockableConclusions);
 
 		returnButton.onClick.AddListener(() => { returnCallback.Invoke(); SetStateCursor(false); });
-		combatButton.onClick.AddListener(() => combatCallback.Invoke());
+		combatButton.onClick.AddListener(() =>
+		{
+			bool can = true;
+
+			foreach (Conclusion conclusion in conclusionsToUnlock)
+			{
+				if(!conclusion.IsUnlocked(true))
+					can = false;
+			}
+
+			if(can)
+				combatCallback.Invoke();
+		});
 
 		selectionPath = new List<Path>();
 		selectedClues = new List<Clue>();
 
 		isSettingPath = false;
+		didFeedback = false;
 		clueDisplayTimer = 0;
+		lineTries = 0;
 
 		ResetPopup();
 	}
@@ -144,7 +160,7 @@ public class ShogunPopup : Popup
 		foreach (ClueKnob knob in spawnedKnobs)
 		{
 			// checks distance between vector and previous knob
-			if(Vector3.Distance(knob.transform.localPosition, newPosition) < clueKnobMinDistance)
+			if(Vector3.Distance(knob.GetComponent<RectTransform>().anchoredPosition, newPosition) < clueKnobMinDistance)
 			{
 				shouldRestart = true;
 			}
@@ -184,6 +200,9 @@ public class ShogunPopup : Popup
 
 		ClueKnob selected = null;
 
+		if(Input.GetKeyDown(skip))
+			conclusionsToUnlock.ForEach(item => item.cardObject.ShowCard());
+
 		foreach (GameObject ui in eventData.hovered)
 		{
 			if(ui == clueKnobSpawnZone.gameObject)
@@ -198,6 +217,14 @@ public class ShogunPopup : Popup
 			{
 				clueDisplayTimer += Time.deltaTime;
 				selected = local;
+			}
+
+			if(ui.CompareTag("Block") && ui.GetComponent<CanvasGroup>().blocksRaycasts)
+			{
+				clueDisplayTimer = 0;
+				selected = null;
+
+				SetStateCursor(false);
 			}
 		}
 
@@ -420,6 +447,8 @@ public class ShogunPopup : Popup
 		List<SubCategory> pathSubCategories = new List<SubCategory>();
 		selectionPath.ForEach(item => pathSubCategories.Add(item.CheckState()));
 
+		lineTries++;
+
 		return pathSubCategories;
 	}
 
@@ -452,22 +481,44 @@ public class ShogunPopup : Popup
 				unlock.cardObject.ShowCard();
 			}
 		}
+
+		// checks for good feedback
+		bool completed = true;
+
+		foreach (Conclusion conclusion in conclusionsToUnlock)
+		{
+			if(!conclusion.IsUnlocked())
+				completed = false;
+		}
+
+		if(completed && !didFeedback && lineTries <= goodGameThreshold)
+		{
+			anim.Play("GoodFeedback");
+			SetStateCursor(false);
+
+			didFeedback = true;
+		}
 	}
 
 	Vector2 RealMousePosition()
 	{
 		// complicated mouse position computation because fuck me I guess ?
-		// x : - 189 | 37.5 | 31
-		// y : -16 | -40
-
-		// we need to add offset of ui objects
+		Vector2 totalOffset = RecursiveTotalOffset(clueKnobSpawnZone);
 		Vector2 mousePosition = Input.mousePosition;
-		mousePosition.x -= Screen.width / 2 - 120.5f;
-		mousePosition.y -= Screen.height / 2 - 56;
 
-		Debug.DrawLine(Vector3.zero, mousePosition, Color.red);
+		mousePosition.x -= Screen.width / 2 + totalOffset.x;
+		mousePosition.y -= Screen.height / 2 + totalOffset.y;
 
 		return mousePosition;
+	}
+
+	// we need to add offset of all parent ui objects
+	Vector2 RecursiveTotalOffset(RectTransform ui)
+	{
+		if(ui.parent.GetComponent<Canvas>() != null)
+			return ui.localPosition;
+		else
+			return (Vector2) ui.localPosition + RecursiveTotalOffset(ui.parent.GetComponent<RectTransform>());
 	}
 
 	void SetStateCursor(bool state)

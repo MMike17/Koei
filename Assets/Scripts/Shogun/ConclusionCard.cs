@@ -6,7 +6,7 @@ public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 	[Header("Assign in Inspector")]
 	public GameObject hidden;
 	public TextMeshProUGUI comment;
-	public TextMeshProUGUI category;
+	public Animator animator;
 
 	[Header("Debug")]
 	public Conclusion conclusion;
@@ -25,9 +25,6 @@ public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 
 		comment.text = data.comment;
 		comment.color = GameData.GetColorFromCategory(data.category);
-
-		category.text = GameData.PrettyCategory(data.category);
-		category.color = GameData.GetColorFromCategory(data.category);
 
 		initializableInterface.InitInternal();
 
@@ -61,5 +58,13 @@ public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 		}
 
 		hidden.SetActive(false);
+	}
+
+	public bool IsUnlocked(bool playAnim = false)
+	{
+		if(hidden.activeSelf && playAnim)
+			animator.Play("Locked");
+
+		return !hidden.activeSelf;
 	}
 }

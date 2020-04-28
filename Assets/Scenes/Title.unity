@@ -540,11 +540,12 @@ MonoBehaviour:
   - category: 1
     color: {r: 1, g: 0.3, b: 0.47500002, a: 1}
   - category: 2
-    color: {r: 0.37333313, g: 0.16, b: 0.8, a: 1}
+    color: {r: 0.69143754, g: 0.16078429, b: 0.8, a: 1}
   - category: 3
-    color: {r: 1, g: 0.70000005, b: 0.100000024, a: 1}
+    color: {r: 1, g: 0.6494732, b: 0.10196078, a: 1}
   - category: 4
-    color: {r: 0.100000024, g: 1, b: 0.775, a: 1}
+    color: {r: 0.10196078, g: 0.67883164, b: 1, a: 1}
+  selectedSkin: {fileID: 11400000, guid: cd79fa9a6c0119448a81f6edf2def689, type: 2}
   persistantContainer: {fileID: 2139341956}
   panelManager: {fileID: 1301627171}
   popupManager: {fileID: 112819161}

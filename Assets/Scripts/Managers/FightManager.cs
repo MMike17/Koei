@@ -13,6 +13,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	public float preCombatWriterSpeed, suicideDelay;
 	public int preCombatWriterTrailLength;
 	public Color preCombatWriterColor, preCombatWriterHighlight;
+	public KeyCode skip;
 
 	[Header("Assign in Inspector")]
 	public Animator canvasAnimator;
@@ -142,6 +143,13 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		switch(actualPhase)
 		{
 			case Phase.DIALOGUE:
+				if(Input.GetKeyDown(skip))
+				{
+					actualPhase = Phase.KATANA;
+					Destroy(lastWriter.gameObject);
+					return;
+				}
+
 				if(lastWriter.isDone && !writerIsCommanded)
 				{
 					Invoke("SpawnNextPreDialogue", preCombatReplicaDelay * 2);
@@ -264,11 +272,12 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			});
 
 			if(string.IsNullOrEmpty(punchline.line))
-				temp.GetComponentInChildren<TextMeshProUGUI>().text = punchline.subCategory.ToString();
+				temp.transform.GetChild(1).GetChild(0).GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = punchline.subCategory.ToString();
 			else
-				temp.GetComponentInChildren<TextMeshProUGUI>().text = punchline.line;
+				temp.transform.GetChild(1).GetChild(0).GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = punchline.line;
 
-			temp.GetComponent<Image>().color = GameData.GetColorFromCategory(GameData.GetCategoryFromSubCategory(punchline.subCategory));
+			temp.targetGraphic.color = GameData.GetColorFromCategory(GameData.GetCategoryFromSubCategory(punchline.subCategory));
+			temp.GetComponent<Animator>().Play("Open");
 		}
 	}
 
