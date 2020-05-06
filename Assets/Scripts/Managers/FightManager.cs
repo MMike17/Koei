@@ -24,7 +24,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	public Image[] backgrounds;
 	[Space]
 	public Image enemyGraph;
-	public Slider katanaSlider;
+	public KatanaSlider katanaSlider;
 	[Space]
 	public List<CategoryButton> categoryButtons;
 	[Space]
@@ -32,9 +32,11 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	[Space]
 	public Button[] finisherPunchlineButtons;
 	[Space]
-	public Transform punchlineScroll;
+	public ConclusionCard conclusionPrefab;
+	public Transform punchlineScroll, conclusionScroll;
 	public TextMeshProUGUI generalAttack, finisherAttack;
 	public GameObject generalPunchlinePanel, finisherPunchlinePanel;
+	public Camera camera;
 
 	[Header("Debug")]
 	public CombatDialogue actualCombat;
@@ -65,18 +67,16 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	Punchline selectedPunchline;
 	GeneralPunchlines gamePunchlines;
 	List<SubCategory> enemyHealth;
-	Action toConsequences, restart;
+	Action toConsequencesWin, toConsequencesLost;
 	string selectedFinisher;
 	float preCombatTimer, suicideTimer;
 	int dialogueIndex, triesCount, suicideIndex;
-	bool isPlayer, writerIsCommanded, isFinisher;
+	bool isPlayer, writerIsCommanded, isGoodFinisher;
 
 	public void PreInit(CombatDialogue actualCombat)
 	{
 		for (int i = 0; i < backgrounds.Length; i++)
-		{
 			backgrounds[i].sprite = actualCombat.sceneBackgrounds[i];
-		}
 
 		this.actualCombat = actualCombat;
 
@@ -84,37 +84,42 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		enemyGraph.sprite = actualCombat.enemySprites[4 + enemyHealth.Count];
 
 		actualPhase = Phase.INTRO;
+		camera.backgroundColor = Skinning.GetSkin(SkinTag.PICTO);
 
 		canvasAnimator.Play("Intro");
 		Invoke("StartDialogue", 3);
 	}
 
-	public void Init(GeneralPunchlines punchlines, Action toConsequencesCallback, Action restartCallback)
+	public void Init(GeneralPunchlines punchlines, GeneralDialogue dialogue, Action toConsequencesWinCallback, Action toConsequencesLostCallback)
 	{
 		initializableInterface.InitInternal();
 
-		this.gamePunchlines = punchlines;
+		gamePunchlines = punchlines;
 
-		toConsequences = toConsequencesCallback;
-		restart = restartCallback;
+		toConsequencesWin = toConsequencesWinCallback;
+		toConsequencesLost = toConsequencesLostCallback;
 
 		katanaSlider.gameObject.SetActive(false);
 
-		categoryButtons.ForEach(item =>
+		categoryButtons.ForEach(item => item.Init(ShowPunchlines, gamePunchlines));
+
+		foreach (Conclusion conclusion in dialogue.unlockableConclusions)
 		{
-			item.Init(ShowPunchlines, gamePunchlines);
-		});
+			ConclusionCard spawned = Instantiate(conclusionPrefab, conclusionScroll);
+			spawned.Init(conclusion);
+			spawned.ShowCard();
+		}
 
 		for (int i = 0; i < finisherPunchlineButtons.Length; i++)
 		{
-			finisherPunchlineButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = actualCombat.finisherPunchlines.finishers[i];
+			finisherPunchlineButtons[i].transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = actualCombat.finisherPunchlines.finishers[i];
 
 			int j = i;
 
 			finisherPunchlineButtons[i].onClick.AddListener(() =>
 			{
 				selectedFinisher = actualCombat.finisherPunchlines.finishers[j];
-				isFinisher = j == actualCombat.finisherPunchlines.correctOne;
+				isGoodFinisher = j == actualCombat.finisherPunchlines.correctOne;
 
 				canvasAnimator.Play("PanDown");
 				Invoke("ShowAttackLines", 1);
@@ -122,10 +127,16 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				SetCanvasInterractable(false);
 				actualPhase = Phase.EFFECT_FINAL;
 			});
+
+			ColorBlock colors = finisherPunchlineButtons[i].colors;
+			colors.normalColor = Skinning.GetSkin(SkinTag.PICTO);
+			colors.highlightedColor = Skinning.GetSkin(SkinTag.PRIMARY_WINDOW);
+			colors.pressedColor = Skinning.GetSkin(SkinTag.PRIMARY_ELEMENT);
+			finisherPunchlineButtons[i].colors = colors;
 		}
 
 		triesCount = 0;
-		isFinisher = false;
+		isGoodFinisher = false;
 
 		Debug.Log(debugableInterface.debugLabel + "Initializing done");
 	}
@@ -154,14 +165,14 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				{
 					Invoke("SpawnNextPreDialogue", preCombatReplicaDelay * 2);
 					writerIsCommanded = true;
-					katanaSlider.value = 0;
+					katanaSlider.slider.value = 0;
 				}
 				break;
 
 			case Phase.KATANA:
 				katanaSlider.gameObject.SetActive(true);
 
-				if(katanaSlider.value == 1)
+				if(katanaSlider.slider.value == 1)
 				{
 					if(enemyHealth.Count == 0)
 						actualPhase = Phase.CHOICE_FINAL;
@@ -192,6 +203,10 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				if(lastWriter.isDone)
 					Invoke("PlayerSuicideAnimation", preCombatReplicaDelay);
 				break;
+			case Phase.SUICIDE:
+				if(lastWriter.isDone)
+					EnemySuicideAnimation();
+				break;
 		}
 	}
 
@@ -212,15 +227,24 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			if(lastWriterPlayer != null)
 				Destroy(lastWriterPlayer.gameObject);
 
-			if(dialogueIndex > actualCombat.preCombatReplicas.Count - 1 || string.IsNullOrEmpty(actualCombat.preCombatReplicas[dialogueIndex].playerLine))
+			if(actualCombat.alreadyLost)
 			{
 				actualPhase = Phase.KATANA;
 				Destroy(lastWriter.gameObject);
 				return;
 			}
+			else
+			{
+				if(dialogueIndex > actualCombat.preCombatReplicas.Count - 1 || string.IsNullOrEmpty(actualCombat.preCombatReplicas[dialogueIndex].playerLine))
+				{
+					actualPhase = Phase.KATANA;
+					Destroy(lastWriter.gameObject);
+					return;
+				}
 
-			lastWriter = Instantiate(writerPrefab, playerDialoguePosition);
-			lastWriter.Play(actualCombat.preCombatReplicas[dialogueIndex].playerLine, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
+				lastWriter = Instantiate(writerPrefab, playerDialoguePosition);
+				lastWriter.Play(actualCombat.preCombatReplicas[dialogueIndex].playerLine, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
+			}
 
 			lastWriterPlayer = lastWriter;
 		}
@@ -229,15 +253,23 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			if(lastWriterEnemy != null)
 				Destroy(lastWriterEnemy.gameObject);
 
-			if(dialogueIndex > actualCombat.preCombatReplicas.Count - 1 || string.IsNullOrEmpty(actualCombat.preCombatReplicas[dialogueIndex].enemyLine))
+			if(actualCombat.alreadyLost)
 			{
-				actualPhase = Phase.KATANA;
-				Destroy(lastWriter.gameObject);
-				return;
+				lastWriter = Instantiate(writerPrefab, enemyDialoguePosition);
+				lastWriter.Play(actualCombat.preCombatReturnReplica, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
 			}
+			else
+			{
+				if(dialogueIndex > actualCombat.preCombatReplicas.Count - 1 || string.IsNullOrEmpty(actualCombat.preCombatReplicas[dialogueIndex].enemyLine))
+				{
+					actualPhase = Phase.KATANA;
+					Destroy(lastWriter.gameObject);
+					return;
+				}
 
-			lastWriter = Instantiate(writerPrefab, enemyDialoguePosition);
-			lastWriter.Play(actualCombat.preCombatReplicas[dialogueIndex].enemyLine, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
+				lastWriter = Instantiate(writerPrefab, enemyDialoguePosition);
+				lastWriter.Play(actualCombat.preCombatReplicas[dialogueIndex].enemyLine, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
+			}
 
 			dialogueIndex++;
 
@@ -272,11 +304,18 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			});
 
 			if(string.IsNullOrEmpty(punchline.line))
-				temp.transform.GetChild(1).GetChild(0).GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = punchline.subCategory.ToString();
+				temp.transform.GetChild(2).GetChild(0).GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = punchline.subCategory.ToString();
 			else
-				temp.transform.GetChild(1).GetChild(0).GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = punchline.line;
+				temp.transform.GetChild(2).GetChild(0).GetChild(0).GetComponentInChildren<TextMeshProUGUI>().text = punchline.line;
 
-			temp.targetGraphic.color = GameData.GetColorFromCategory(GameData.GetCategoryFromSubCategory(punchline.subCategory));
+			Color categoryColor = GameData.GetColorFromCategory(GameData.GetCategoryFromSubCategory(punchline.subCategory));
+
+			ColorBlock colors = temp.colors;
+			colors.normalColor = Skinning.GetSkin(SkinTag.PICTO);
+			colors.pressedColor = categoryColor;
+			colors.highlightedColor = categoryColor / 1.3f;
+			temp.colors = colors;
+
 			temp.GetComponent<Animator>().Play("Open");
 		}
 	}
@@ -299,7 +338,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 		if(actualPhase == Phase.EFFECT_FINAL)
 		{
-			if(isFinisher)
+			if(isGoodFinisher)
 			{
 				suicideIndex = 1;
 				suicideTimer = 0;
@@ -308,9 +347,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				return;
 			}
 			else
-			{
 				Invoke("ShowGameOver", 0.15f);
-			}
 		}
 		else // if(actualPhase == Phase.EFFECT_GENERAL)
 		{
@@ -325,7 +362,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		effectAnimator.Play("Empty");
 
-		katanaSlider.value = 0;
+		katanaSlider.slider.value = 0;
 		actualPhase = Phase.KATANA;
 
 		SetCanvasInterractable(true);
@@ -335,10 +372,15 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		effectAnimator.Play("Empty");
 
-		actualPhase = Phase.PLAYER_SUICIDE;
-
 		lastWriter = Instantiate(writerPrefab, enemyDialoguePosition);
-		lastWriter.Play(actualCombat.playerLoseResponse, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
+
+		if(actualPhase == Phase.EFFECT_GENERAL)
+			lastWriter.Play(actualCombat.playerLoseResponse, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
+
+		if(actualPhase == Phase.EFFECT_FINAL)
+			lastWriter.Play(actualCombat.playerFinisherLoseResponse, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
+
+		actualPhase = Phase.PLAYER_SUICIDE;
 	}
 
 	void AttackEffect()
@@ -347,13 +389,13 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		{
 			case Phase.EFFECT_GENERAL:
 				KanjiFinisherAnimator.Play("Hide");
-				KanjiGeneralAnimator.Play("Show");
+				KanjiGeneralAnimator.Play("ShowAttack");
 
 				generalAttack.text = selectedPunchline.line;
 				break;
 
 			case Phase.EFFECT_FINAL:
-				KanjiFinisherAnimator.Play("Show");
+				KanjiFinisherAnimator.Play("ShowAttack");
 				KanjiGeneralAnimator.Play("Hide");
 
 				finisherAttack.text = selectedFinisher;
@@ -372,11 +414,14 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 		if(takesDamage)
 		{
+			Invoke("GeneralAttackGood", 2.25f);
 			Invoke("TakeDamageAnimation", 4.45f);
 			enemyHealth.Remove(selectedPunchline.subCategory);
 		}
+		else
+			Invoke("GeneralAttackFail", 2.25f);
 
-		if(isFinisher)
+		if(isGoodFinisher)
 			Invoke("TakeDamageAnimation", 4.45f);
 	}
 
@@ -386,12 +431,30 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		enemyGraph.sprite = actualCombat.enemySprites[0];
 	}
 
+	void GeneralAttackGood()
+	{
+		KanjiGeneralAnimator.Play("GoodAttack");
+	}
+
+	void GeneralAttackFail()
+	{
+		KanjiGeneralAnimator.Play("BadAttack");
+	}
+
 	void EnemySuicideAnimation()
 	{
+		actualPhase = Phase.SUICIDE;
+
+		if(lastWriter == null)
+		{
+			lastWriter = Instantiate(writerPrefab, enemyDialoguePosition);
+			lastWriter.Play(actualCombat.playerWinResponse, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
+
+			return;
+		}
+
 		effectAnimator.Play("Empty");
 		enemyAnimator.enabled = false;
-
-		actualPhase = Phase.SUICIDE;
 
 		enemyGraph.sprite = actualCombat.enemySprites[suicideIndex];
 
@@ -426,6 +489,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				break;
 		}
 
+		bloodShed.GetComponent<AnimationSystemUI>().PlayClip("Play");
 		Invoke("FadeToBlack", 2);
 	}
 
@@ -448,12 +512,13 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 	void MoveToConsequences()
 	{
-		toConsequences.Invoke();
+		toConsequencesWin.Invoke();
 	}
 
 	void GameOver()
 	{
-		restart.Invoke();
+		actualCombat.alreadyLost = true;
+		toConsequencesLost.Invoke();
 	}
 
 	void SetCanvasInterractable(bool state)
@@ -472,7 +537,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			List<Punchline> temp = gamePunchlines.allPunchlines.Find(item => { return item.category == category; }).punchlines;
 			button.onClick.AddListener(() => showCallback.Invoke(temp));
 
-			button.GetComponent<Image>().color = GameData.GetColorFromCategory(category);
+			button.targetGraphic.color = GameData.GetColorFromCategory(category);
 		}
 	}
 }

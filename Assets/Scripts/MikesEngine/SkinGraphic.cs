@@ -1,38 +1,43 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 [DisallowMultipleComponent]
 public class SkinGraphic : MonoBehaviour
 {
-    public SkinTag skin_tag;
+	public SkinTag skin_tag;
 
-    Graphic graphic { get { return GetComponent<Graphic>(); } }
+	Graphic graphic { get { return GetComponent<Graphic>(); } }
+	TextMeshProUGUI graphicText { get { return GetComponent<TextMeshProUGUI>(); } }
 
-    bool is_skinned;
+	bool is_skinned;
 
-    void Awake()
-    {
-        is_skinned = false;
-    }
+	void Awake()
+	{
+		is_skinned = false;
+	}
 
-    void Update()
-    {
-        if(!is_skinned && Skinning.IsReady())
-        {
-            Skin();
-            Skinning.Register(this);
-        }
-    }
+	void Update()
+	{
+		if(!is_skinned && Skinning.IsReady())
+		{
+			Skin();
+			Skinning.Register(this);
+		}
+	}
 
-    public void Skin()
-    {
-        is_skinned = true;
+	public void Skin()
+	{
+		is_skinned = true;
 
-        graphic.color = Skinning.GetSkin(skin_tag);
-    }
+		if(graphicText != null)
+			graphicText.color = Skinning.GetSkin(skin_tag);
+		else
+			graphic.color = Skinning.GetSkin(skin_tag);
+	}
 
-    void OnDestroy()
-    {
-        Skinning.Resign(this);
-    }
+	void OnDestroy()
+	{
+		Skinning.Resign(this);
+	}
 }

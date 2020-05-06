@@ -627,7 +627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acb1710b107048249a9379013400d8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTesting: 1
+  isTesting: 0
   isGameOver: 0
   combatIndex: 2
   consequencesManager: {fileID: 1432354653}

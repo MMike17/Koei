@@ -12,7 +12,7 @@ public class ShogunPopup : Popup
 	public float clueKnobSpawnPadding;
 	public float clueKnobMinDistance, clueDisplayDelay;
 	public int positionComputingLimit, goodGameThreshold;
-	public Color normalPath, validatedPath, wrongPath;
+	public SkinTag normalPath, validatedPath, wrongPath;
 	public KeyCode skip;
 
 	[Header("Assing in Inspector")]
@@ -160,10 +160,8 @@ public class ShogunPopup : Popup
 		foreach (ClueKnob knob in spawnedKnobs)
 		{
 			// checks distance between vector and previous knob
-			if(Vector3.Distance(knob.GetComponent<RectTransform>().anchoredPosition, newPosition) < clueKnobMinDistance)
-			{
+			if(Vector3.Distance(knob.transform.localPosition, newPosition) < clueKnobMinDistance)
 				shouldRestart = true;
-			}
 		}
 
 		// calls method again in a recursive way to get a new random vector
@@ -385,9 +383,7 @@ public class ShogunPopup : Popup
 			lineCounter.text = selectionPath.Count + " / 3";
 		}
 		else
-		{
 			lineCounter.gameObject.SetActive(false);
-		}
 	}
 
 	// ends previous path if there is one and spawns a new one

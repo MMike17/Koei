@@ -33,16 +33,16 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 	State state;
 	Color normalColor, validatedColor, wrongColor;
 
-	public void Init(Transform start, Color normal, Color validated, Color wrong, SubCategory startClue = SubCategory.EMPTY)
+	public void Init(Transform start, SkinTag normal, SkinTag validated, SkinTag wrong, SubCategory startClue = SubCategory.EMPTY)
 	{
 		this.start = start;
 
 		this.startClue = startClue;
 		endClue = SubCategory.EMPTY;
 
-		normalColor = normal;
-		validatedColor = validated;
-		wrongColor = wrong;
+		normalColor = Skinning.GetSkin(normal);
+		validatedColor = Skinning.GetSkin(validated);
+		wrongColor = Skinning.GetSkin(wrong);
 
 		initializableInterface.InitInternal();
 	}

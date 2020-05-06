@@ -81,6 +81,8 @@ public class GameManager : MonoBehaviour, IDebugable
 		{
 			eventSystem.SetSelectedGameObject(null);
 		}
+
+		Debug.Log(debuguableInterface.debugLabel + " Skinning is ready : " + Skinning.IsReady());
 	}
 
 	void Init()
@@ -120,7 +122,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	void InitTitlePanel()
 	{
 		Skinning.ResetSkin(selectedSkin);
-		
+
 		if(titleManager == null)
 		{
 			Debug.LogError(debuguableInterface.debugLabel + "TitleManager component shouldn't be null. If we can't get scene references we can't do anything.");
@@ -145,7 +147,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	void InitShogunPanel()
 	{
 		Skinning.ResetSkin(selectedSkin);
-		
+
 		if(shogunManager == null)
 		{
 			Debug.LogError(debuguableInterface.debugLabel + "ShogunManager component shouldn't be null. If we can't get scene references we can't do anything.");
@@ -158,7 +160,6 @@ public class GameManager : MonoBehaviour, IDebugable
 		);
 
 		GeneralDialogue selected = gameData.shogunDialogues.Find(item => { return item.assignedEnemy == actualEnemy; });
-
 		selected.Init();
 
 		popupManager.GetPopupFromType<ShogunPopup>().SpecificInit(
@@ -182,7 +183,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	void InitFightPanel()
 	{
 		Skinning.ResetSkin(selectedSkin);
-		
+
 		if(fightManager == null)
 		{
 			Debug.LogError(debuguableInterface.debugLabel + "FightManager component shouldn't be null. If we can't get scene references we can't do anything.");
@@ -190,6 +191,7 @@ public class GameManager : MonoBehaviour, IDebugable
 
 		fightManager.Init(
 			gameData.comonPunchlines,
+			gameData.shogunDialogues.Find(item => { return item.assignedEnemy == actualEnemy; }),
 			() => panelManager.JumpTo(GamePhase.CONSEQUENCES, () => { consequencesManager = FindObjectOfType<ConsequencesManager>(); actualEnemy++; }),
 			() => { panelManager.JumpTo(GamePhase.CONSEQUENCES, () => consequencesManager = FindObjectOfType<ConsequencesManager>()); gameData.gameOver = true; }
 		);
@@ -198,7 +200,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	void InitConsequencesPanel()
 	{
 		Skinning.ResetSkin(selectedSkin);
-		
+
 		if(consequencesManager == null)
 		{
 			Debug.LogError(debuguableInterface.debugLabel + "ConsequencesManager component shouldn't be null. If we can't get scene references we can't do anything.");

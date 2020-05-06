@@ -7,15 +7,19 @@ public class FightTest : MonoBehaviour
 
 	[Header("Assign in Inspector")]
 	public CombatDialogue testedDialogue;
+	public GeneralDialogue generalDialogue;
 	public FightManager fightManager;
 	public GeneralPunchlines comonPunchlines;
+	public SkinData skin;
 
 	void Awake()
 	{
 		if(!isTesting)
 			return;
 
+		Skinning.Init(skin);
+
 		fightManager.PreInit(testedDialogue);
-		fightManager.Init(comonPunchlines, () => Debug.Log("Can't go to consequences in scene test mode"), () => Debug.Log("Can't go to GameOver when in scene test mode"));
+		fightManager.Init(comonPunchlines, generalDialogue, () => Debug.Log("Can't go to consequences in scene test mode"), () => Debug.Log("Can't go to GameOver when in scene test mode"));
 	}
 }

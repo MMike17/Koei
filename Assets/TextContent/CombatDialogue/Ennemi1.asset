@@ -16,9 +16,9 @@ MonoBehaviour:
   weaknesses: 07000000090000000f000000
   tries: 5
   sceneBackgrounds:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: f4120012c1123634d92c465968b451c9, type: 3}
+  - {fileID: 21300000, guid: 061af496e493dc6409df3e6ca2c04291, type: 3}
+  - {fileID: 21300000, guid: 1581f669af94a364d9d938a6dccc2828, type: 3}
   enemySprites:
   - {fileID: 0}
   - {fileID: 0}
@@ -45,8 +45,11 @@ MonoBehaviour:
       des obsc\xE9nit\xE9s, tu va de bordels en tavernes, ronin sans but ! Tu n\u2019es
       qu\u2019une parodie de samurai sans int\xE9r\xEAt !"
     correctOne: 0
+  playerWinResponse: "Salut, je suis un test.\nBon all\xE9, je dois aller me suicider
+    !"
   playerLoseResponse: "Et c\u2019est \xE7a les \u201Cvrais\u201D samoura\xEFs ? Tu
     b\xE9gayes ! Restes mort, \xE7a vaut mieux pour tout le monde."
+  playerFinisherLoseResponse: "...bah on fais comme \xE7a du coup"
   playerWinConsequence: "Le bandit est mort et la for\xEAt retrouve son calme. Les
     troupes de Shinegawa se d\xE9ploient \xE0 la fronti\xE8re de Takeda, la guerre
     est imminente..."

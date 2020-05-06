@@ -19,12 +19,26 @@ public class CombatDialogue : ScriptableObject
 	[Space]
 	public List<Replica> preCombatReplicas;
 	[Space]
+	public string preCombatReturnReplica;
+	[Space]
 	public Finishers finisherPunchlines;
 	[Space]
 	[TextArea]
+	public string playerWinResponse;
+	[TextArea]
 	public string playerLoseResponse;
 	[TextArea]
+	public string playerFinisherLoseResponse;
+	[Space]
+	[TextArea]
 	public string playerWinConsequence;
+
+	public bool alreadyLost;
+
+	public void Init()
+	{
+		alreadyLost = false;
+	}
 
 	[Serializable]
 	public class Replica

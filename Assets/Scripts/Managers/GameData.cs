@@ -30,6 +30,8 @@ public class GameData : MonoBehaviour, IDebugable, IInitializable
 	{
 		playerClues = new List<Clue>();
 
+		combatDialogues.ForEach(item => item.Init());
+
 		initializableInterface.InitInternal();
 	}
 

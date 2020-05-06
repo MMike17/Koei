@@ -12,7 +12,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	public float dialogueSpeed;
 	public float cluesAddDelay;
 	public int highlightLength;
-	public Color playerTextColor, playerChoiceDone, playerChoiceUndone, highlightColor;
+	public SkinTag playerTextColor, playerChoiceDone, playerChoiceUndone, highlightColor;
 	public KeyCode getAllCluesKey;
 	[Space]
 	public List<ShogunCharacter> characters;
@@ -119,9 +119,11 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	void Update()
 	{
+		if(actualDialogue != null && actualDialogue.GetCharacterDialogue(Character.SHOGUN).IsDone())
+			characters.ForEach(item => item.selectionButton.interactable = true);
+
 		if(Input.GetKeyDown(getAllCluesKey) && !didCheat)
 		{
-			// findClueEvent.Invoke(actualCharacterDialogue.GetActualDialogue().clue
 			foreach (CharacterDialogue characterDialogue in actualDialogue.charactersDialogues)
 			{
 				foreach (Dialogue dialogue in characterDialogue.initialDialogues)
@@ -183,7 +185,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 				for (int i = 0; i < availableDialogues.Length; i++)
 				{
 					int j = i;
-					Color actual = availableDialogues[i].IsDone() ? playerChoiceDone : playerChoiceUndone;
+					Color actual = Skinning.GetSkin(availableDialogues[i].IsDone() ? playerChoiceDone : playerChoiceUndone);
 
 					SpawnPlayerChoice(availableDialogues[i].playerQuestion, actual, j);
 				}
@@ -202,9 +204,6 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	void ChangeCharacter(Character character)
 	{
-		if(character != Character.SHOGUN && !actualDialogue.GetCharacterDialogue(Character.SHOGUN).IsDone())
-			return;
-
 		ResetDialogue();
 
 		actualCharacter = character;
@@ -229,6 +228,10 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		spawnedText.text = line;
 		spawnedText.color = textColor;
 
+		ColorBlock colors = spawned.colors;
+		colors.pressedColor = Skinning.GetSkin(SkinTag.CONTRAST);
+		spawned.colors = colors;
+
 		spawned.onClick.AddListener(() => SelectChoice(line, index));
 
 		lastSpawnedDialogueObjects.Add(spawned.gameObject);
@@ -247,7 +250,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			lastSpawnedDialogueObjects.Clear();
 		}
 
-		SpawnPlayerLine(line, playerTextColor);
+		SpawnPlayerLine(line, Skinning.GetSkin(playerTextColor));
 
 		needsPlayerSpawn = false;
 		waitForPlayerChoice = false;
@@ -258,7 +261,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		DialogueWriter spawned = Instantiate(playerTextPrefab, dialogueScrollList).GetComponent<DialogueWriter>();
 
 		spawned.Reset();
-		spawned.Play(line, dialogueSpeed * 2, Mathf.RoundToInt(highlightLength * 1.5f), highlightColor, text);
+		spawned.Play(line, dialogueSpeed * 2, Mathf.RoundToInt(highlightLength * 1.5f), Skinning.GetSkin(highlightColor), text);
 
 		lastWriter = spawned;
 	}
@@ -273,7 +276,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		DialogueWriter spawned = Instantiate(characterTextPrefab, dialogueScrollList).GetComponent<DialogueWriter>();
 
-		spawned.Play(line, dialogueSpeed, highlightLength, highlightColor, text);
+		spawned.Play(line, dialogueSpeed, highlightLength, Skinning.GetSkin(highlightColor), text);
 
 		lastWriter = spawned;
 		needsPlayerSpawn = true;
@@ -342,7 +345,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	public class ShogunCharacter : IInitializable
 	{
 		public Character character;
-		public Sprite characterUnder, characterOver, characterDetail;
+		public Sprite characterClothes, characterSkin, characterDetail, characterEyes, characterOver;
 		public UICharacter UI;
 		public Button selectionButton;
 		public string name;
@@ -360,6 +363,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		public void Init(Action changeCharacter)
 		{
+			selectionButton.interactable = false;
+
 			selectionButton.onClick.RemoveAllListeners();
 			selectionButton.onClick.AddListener(() => changeCharacter.Invoke());
 

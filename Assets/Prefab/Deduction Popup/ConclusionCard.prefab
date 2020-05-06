@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 418815835432793666}
   - component: {fileID: 418815835432793676}
   - component: {fileID: 418815835432793677}
+  - component: {fileID: 1461300931793267060}
   m_Layer: 5
   m_Name: Fade
   m_TagString: Untagged
@@ -73,6 +74,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1461300931793267060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418815835432793667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba4f9a0810f3b994987dc6cd705567b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skin_tag: 7
 --- !u!1 &418815835699099773
 GameObject:
   m_ObjectHideFlags: 0
@@ -85,6 +99,7 @@ GameObject:
   - component: {fileID: 418815835699099769}
   - component: {fileID: 418815835699099774}
   - component: {fileID: 418815835699099775}
+  - component: {fileID: 8961362360226233834}
   m_Layer: 5
   m_Name: Hidden
   m_TagString: Untagged
@@ -167,6 +182,19 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &8961362360226233834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418815835699099773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba4f9a0810f3b994987dc6cd705567b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skin_tag: 7
 --- !u!1 &418815835747419840
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,8 +229,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: -5.83, y: -9.95, z: -1.5}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 7.62, y: -5.950001}
-  m_SizeDelta: {x: 21.640001, y: -33.699997}
+  m_AnchoredPosition: {x: 7, y: -5.950001}
+  m_SizeDelta: {x: 22, y: -33.699997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &418815835747419853
 CanvasRenderer:
@@ -336,6 +364,7 @@ GameObject:
   - component: {fileID: 418815835779812870}
   - component: {fileID: 418815835779812871}
   - component: {fileID: 4032031574863144179}
+  - component: {fileID: 2351733517247533712}
   m_Layer: 5
   m_Name: ConclusionCard
   m_TagString: Untagged
@@ -453,3 +482,16 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2351733517247533712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418815835779812869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba4f9a0810f3b994987dc6cd705567b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skin_tag: 0
