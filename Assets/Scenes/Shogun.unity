@@ -753,7 +753,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 215, y: -350}
+  m_AnchoredPosition: {x: 214.99994, y: -350}
   m_SizeDelta: {x: 800, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &168948255
@@ -1631,11 +1631,11 @@ MonoBehaviour:
   getAllCluesKey: 9
   characters:
   - character: 0
-    characterClothes: {fileID: 0}
-    characterSkin: {fileID: 0}
-    characterDetail: {fileID: 0}
-    characterEyes: {fileID: 0}
-    characterOver: {fileID: 0}
+    characterClothes: {fileID: 21300000, guid: a209e907f1c21ff4abb43acce159c2f2, type: 3}
+    characterSkin: {fileID: 21300000, guid: a5351816987757f47a47f03c26853cf8, type: 3}
+    characterDetail: {fileID: 21300000, guid: 87aa116a7dd143044b7b85c327a51519, type: 3}
+    characterEyes: {fileID: 21300000, guid: aab2dee6d485f9f4e891a39ffa5362eb, type: 3}
+    characterOver: {fileID: 21300000, guid: 0a577d76b13d50d479a7c8bf2282b583, type: 3}
     UI: {fileID: 431890114}
     selectionButton: {fileID: 431890113}
     name: Seigneur Shinegawa
@@ -4311,7 +4311,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: -10, y: 5, z: 3.3}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -79.99988, y: -27.00003}
+  m_AnchoredPosition: {x: -79.99994, y: -27.00003}
   m_SizeDelta: {x: -80, y: -31.999996}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1065225098
@@ -6683,8 +6683,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6971,7 +6971,6 @@ MonoBehaviour:
   lineCounter: {fileID: 223952972}
   clueDescription: {fileID: 2078246162}
   clueLineAddUp: {fileID: 1848538978}
-  debug: {fileID: 0}
   popupCharacterPortrait: {fileID: 1034888379}
   returnButton: {fileID: 2079916793}
   combatButton: {fileID: 1926900820}

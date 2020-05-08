@@ -167,5 +167,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConclusionCard Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 2351733517247533712, guid: c456d32181a87f7458b7d1e124d7c971,
+        type: 3}
+      propertyPath: skin_tag
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c456d32181a87f7458b7d1e124d7c971, type: 3}

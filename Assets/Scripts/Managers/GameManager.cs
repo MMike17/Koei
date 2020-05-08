@@ -78,11 +78,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	{
 		// enables button to skip the "selected" stage (usefull only for gamepad use)
 		if(eventSystem != null && eventSystem.currentSelectedGameObject != null)
-		{
 			eventSystem.SetSelectedGameObject(null);
-		}
-
-		Debug.Log(debuguableInterface.debugLabel + " Skinning is ready : " + Skinning.IsReady());
 	}
 
 	void Init()
