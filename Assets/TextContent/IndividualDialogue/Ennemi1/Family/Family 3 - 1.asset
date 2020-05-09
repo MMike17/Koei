@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Family 3 - 1
   m_EditorClassIdentifier: 
-  playerQuestion: "La loyaut\xE9 est le sang du samurai, ma dame."
-  characterAnswer: "Oui, loyaut\xE9, respect, biens\xE9ance, justice... Telles sont
-    les qualit\xE9s que vous prouvez par votre retour, mais combien d'hommes peuvent
-    s'en vanter ?"
+  playerQuestion: "Loyal ? J'sais m\xEAme pas ce que \xE7a veut dire !"
+  characterAnswer: "Mais si... La loyaut\xE9. Rester fid\xE8le  \xE0 ses principes,
+    \xE0 sa femme, \xE0 son ma\xEEtre. R\xE9pondre au moindre de ses d\xE9sirs et
+    \xEAtre le reste du temps un chien fid\xE8le, subir les punitions avec bonheur..."
   hasClue: 0
   clue:
     category: 2

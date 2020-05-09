@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: War 2 - 4
   m_EditorClassIdentifier: 
-  playerQuestion: "Bien s\xFBr ! D\xE9sol\xE9 !"
+  playerQuestion: "Ok ! Ok ! T'es cingl\xE9 mais ok !"
   characterAnswer: Mouais. Bref ! La guerre, c'est la guerre, et on va gagner, si
     on reste fort ! Compris, gamin ?
   hasClue: 0

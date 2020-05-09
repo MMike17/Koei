@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Money 2 - 1
   m_EditorClassIdentifier: 
-  playerQuestion: Je suis le samurai. Est-il possible de voir le forgeron de l'endroit
+  playerQuestion: Ouais, si vous voulez... Y'a moyen d'parler un armurier du coin
     ?
-  characterAnswer: "Un forgeron. Que diable feriez-vous d'un forgeron ? Vous \xEAtes
-    un spectre ! Soyez un peu raisonnable. Pouvez-vous seulement toucher les choses
-    ?"
+  characterAnswer: Un armurier ? Pourquoi faire ? Je croyais que vous ne pouviez pas
+    toucher les choses d'ici !
   hasClue: 0
   clue:
     category: 0

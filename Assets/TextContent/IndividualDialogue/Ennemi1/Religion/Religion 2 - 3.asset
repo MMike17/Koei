@@ -12,13 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Religion 2 - 3
   m_EditorClassIdentifier: 
-  playerQuestion: "C'est passionnant, ma\xEEtre Shinji ! Comment \xEAtes-vous devenu
-    pr\xEAtre par la suite ? Avec une telle \xE9ducation..."
-  characterAnswer: "Ah... Eh bien, comment dire. Disons que la vie d'Edo, les codes
-    d'Edo, ne sont pas vraiment adapt\xE9s \xE0 un jeune savant id\xE9aliste. Il y
-    a eu quelques incidents, quelques jaloux, et j'ai d\xFB quitter la grande ville.
-    Mais cela fut formateur : j'ai appris une chose tr\xE8s importante, c'est que
-    les bonnes intentions ne suffisent pas dans la vie."
+  playerQuestion: "Non mais... vous \xEAtes pr\xEAtre de quoi vous ?"
+  characterAnswer: "Mais, comme vous, je suis servant d'Uzume, notre d\xE9licieuse
+    d\xE9esse du rire, de la danse et des, hum, relations corporelles ? A ce propos,
+    que diriez-vous de communier dans la volont\xE9 de notre ma\xEEtresse ?"
   hasClue: 0
   clue:
     category: 0

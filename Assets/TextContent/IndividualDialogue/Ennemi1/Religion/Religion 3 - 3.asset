@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Religion 3 - 3
   m_EditorClassIdentifier: 
-  playerQuestion: "En effet, on ne peut que saluer cette volont\xE9 d'accueillir dignement
-    un invit\xE9."
-  characterAnswer: "Oui... M\xEAme si, h\xE9las, la maison toute enti\xE8re n'\xE9tait
-    pas anim\xE9e des m\xEAmes intentions. Ainsi, et m\xEAme si son \xE9pouse \xE9tait
-    un mod\xE8le de politesse, les servants et les samurais \xE9taient d'une vulgarit\xE9
-    !"
+  playerQuestion: "De l'huile ? J'vais faire quoi avec de l'huile ? Ca va pas m'aider
+    \xE0 le casser !"
+  characterAnswer: "Oh, tu veux faire des d\xE9g\xE2ts, je vois ? Plaisir \xE9go\xEFste
+    et dominateur, hmmm... La femme de notre shogun saura t'y aider, alors. Elle sait,
+    disons, prendre les choses en main, et presser l'affaire, hin hin hin..."
   hasClue: 0
   clue:
     category: 0

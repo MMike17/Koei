@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Money 2 - 4
   m_EditorClassIdentifier: 
-  playerQuestion: De l'encens ? Que diable ferait-il d'encens ?
-  characterAnswer: "Selon Shinji, c'\xE9tait un encens sp\xE9cial, utilisable aussi
-    bien par un pr\xEAtre que par un sorcier. Mais \xE0 mon sens, tout cela rel\xE8ve
-    d'une superstition dat\xE9e. D'ailleurs, les moines eux-m\xEAmes le savent : c'est
-    de l'esbroufe !"
+  playerQuestion: De l'encens ? C'quoi c't'histoire, il veut sentir bon ?
+  characterAnswer: "Qu'est-ce que j'en sais ? Selon Shinji, c'est un encens magique,
+    mais bon, je ne connais qu'une seule magie, et c'est celle des chiffres qui rapportent.
+    Les d\xE9mons, tout \xE7a, c'est de la connerie, je vous le dis."
   hasClue: 1
   clue:
     category: 2

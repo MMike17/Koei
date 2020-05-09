@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: Shogun 1 - 1
   m_EditorClassIdentifier: 
   playerQuestion: Test 1 - 1
-  characterAnswer: "Te revoil\xE0, samurai... Eh bien... Que puis-je pour toi ?\r"
+  characterAnswer: "Mais ? Qui \xEAtes-vous et que faites vous ici ?!"
   hasClue: 0
   clue:
     category: 0
     subCategory: 2
     giverCharacter: 0
     summary: Epstein didn't kill himself
+    deductionLine: 
   nextDialogues:
   - {fileID: 11400000, guid: d2aa3f4cc79ee0243a5006c1e014996b, type: 2}

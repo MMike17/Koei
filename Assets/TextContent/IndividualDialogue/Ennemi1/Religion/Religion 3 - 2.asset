@@ -12,14 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Religion 3 - 2
   m_EditorClassIdentifier: 
-  playerQuestion: "Takeda ? N'est-ce pas le seigneur qui poss\xE8de le domaine d'\xE0
-    c\xF4t\xE9 ?"
-  characterAnswer: "Si. Un homme riche, expansif, accueillant aussi. Vois-tu, c'\xE9tait
-    une \xE9poque peu faste pour moi, j'allais de villages en villages pour me nourrir
-    de poign\xE9es de riz re\xE7ues en \xE9change de mes conseils... Et Takeda me
-    servit un v\xE9ritable festin ! Il s'\xE9tait habill\xE9 de son plus beau kimono
-    et avait fait lustrer tous les bois de son palais en mon honneur. Un v\xE9ritable
-    h\xF4te."
+  playerQuestion: Ben, j'sais pas, un truc pour l'enfoncer, n'importe quoi
+  characterAnswer: "Oh, quand il s'agit d'enfoncer, tu parles \xE0 un v\xE9ritable
+    expert ! Il te faudra sans doute te pr\xE9parer avant, et le pr\xE9parer \xE9galement...
+    Un peu d'huile suffira de ton c\xF4t\xE9."
   hasClue: 0
   clue:
     category: 0

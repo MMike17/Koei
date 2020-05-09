@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Family 3 - 4
   m_EditorClassIdentifier: 
-  playerQuestion: "Un homme ? La for\xEAt de Takeda ? N'\xE9tait-il pas borgne, cet
-    homme ?"
-  characterAnswer: "Oui : c'\xE9tait s\xFBrement le fameux bandit. Une dizaine de
-    guerriers me prot\xE9gait, alors il n'osa rien. Mais quel monstre !  Lorsque,
-    intrigu\xE9e, je passait ma t\xEAte par la fen\xEAtre de la carriole, il se mit
-    \xE0 faire de grands geste, comme s'il \xE9tait poss\xE9d\xE9 !"
+  playerQuestion: Qu'est-ce que c'est encore que ces conneries...
+  characterAnswer: "Eh bien ? Les d\xE9mons peuvent toujours vous poss\xE9der, vous
+    savez. Tenez, le bandit de la for\xEAt, il est poss\xE9d\xE9 par un d\xE9mon,
+    tout le monde le sait. Ma m\xE8re \xE9tait poss\xE9d\xE9e par un d\xE9mon, et
+    c'est pour \xE7a qu'on l'a br\xFBl\xE9e comme sorci\xE8re. C'\xE9tait un spectacle
+    magnifique, je dois dire."
   hasClue: 1
   clue:
     category: 2

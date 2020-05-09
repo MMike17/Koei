@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: War 3 - 3
   m_EditorClassIdentifier: 
-  playerQuestion: "A ce point ? Vous \xEAtes vraiment un grand samurai !"
+  playerQuestion: "Quoi ? Mais on s'en fout de \xE7a ! Vous m'avez m\xEAme pas r\xE9pondu
+    !"
   characterAnswer: "Et c'est pour \xE7a que je n'enverrai pas mes hommes arr\xEAter
     ce bandit de la for\xEAt ! Se battre avec un ronin d\xE9g\xE9n\xE9r\xE9, fils
     de paysans... Un vrai samurai se ferait seppuku rien qu'\xE0 l'id\xE9e !"

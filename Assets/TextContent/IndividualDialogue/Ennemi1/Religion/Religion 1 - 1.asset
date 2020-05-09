@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Religion 1 - 1
   m_EditorClassIdentifier: 
-  playerQuestion: "Le pouvoir divin d'Uzume me ramena \xE0 l'existence, seigneur Shinji."
-  characterAnswer: "Uzume, dis-tu ? Ah ! Evidemment, tout cela semble effectivement
-    un tour de la d\xE9esse. Faire d'un guerrier un spectre intouchable... Cela a
-    d\xFB beaucoup la faire rire."
+  playerQuestion: "Ins\xE9r\xE9 ? Hein ?"
+  characterAnswer: "Ins\xE9r\xE9, introduit... comme tu veux. Tu a p\xE9n\xE9tr\xE9
+    notre univers avec beaucoup de vigueur, si je puis me permettre. Du point de vue
+    de l'expert, c'est assez incroyable. Je dirais m\xEAme plus : \xE7a troue le...
+    enfin bref."
   hasClue: 0
   clue:
     category: 0

@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Money 1 - 2
   m_EditorClassIdentifier: 
-  playerQuestion: "Effectivement, ma\xEEtre Masuda. Je viens pour vos conseils."
-  characterAnswer: "Mes conseils, mes conseils... Qu'en feriez-vous ? Vous devez pacifier
-    la fronti\xE8re. Allez plut\xF4t voir Fumito, ou Shinji, que voulez-vous qu'un
-    intendant vous dise ? Ah, et appelez-moi Junichi, je vous prie."
+  playerQuestion: "Quoi ? J'peux \xEAtre pay\xE9 ? J'pensais que j'avais pas le choix
+    moi !"
+  characterAnswer: "Non, bien s\xFBr que non, on ne va pas vous payer. Imb\xE9cile.
+    Qu'est-ce que je peux faire pour vous ? D\xE9p\xEAchez-vous, vous allez devoir
+    finir par me rembourser le temps perdu, l\xE0."
   hasClue: 0
   clue:
     category: 0

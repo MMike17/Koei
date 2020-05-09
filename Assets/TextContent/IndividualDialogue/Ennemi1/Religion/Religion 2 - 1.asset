@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Religion 2 - 1
   m_EditorClassIdentifier: 
-  playerQuestion: "C'est donc vous, Shinji l'Errant ? Votre r\xE9putation vous pr\xE9c\xE8de
-    !"
-  characterAnswer: "l'Errant... Voil\xE0 des ann\xE9es que je n'ai pas entendu cela
-    ! Quelle \xE9trange chose, ces surnoms que les gens vous donnent. Un temps, on
-    m'appela l'Erudit, sais-tu ? Et je m\xE9ritais bien plus ce titre que \"l'Errant\",
-    crois moi."
+  playerQuestion: "Du coup, vous \xEAtes le pr\xEAtre ?"
+  characterAnswer: "Effectivement, je suis un pr\xEAtre... C'est moi qui officie aupr\xE8s
+    de la femme de... aupr\xE8s du seigneur pour lui attirer la faveur des dieux.
+    Cela passe par divers rituels et pri\xE8res jaculatoires."
   hasClue: 0
   clue:
     category: 0

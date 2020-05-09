@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Religion 2 - 4
   m_EditorClassIdentifier: 
-  playerQuestion: "Cela dut \xEAtre une rude le\xE7on. Et vous dev\xEEntes l'Errant
-    apr\xE8s cet \xE9pisode ?"
-  characterAnswer: "Non, pas encore. D'abord, je fus le Casse-T\xEAtes. Mais c'est
-    une autre histoire, et je ne la raconterais pas \xE0 n'importe qui ! Et puis,
-    le pass\xE9 est le pass\xE9, ne le remuons pas trop. Je te pose des questions
-    sur ton pass\xE9, moi ? Hein ? "
+  playerQuestion: Ne me touchez pas ! D'ailleurs, vous pouvez pas, et c'est tant mieux.
+  characterAnswer: "Quel dommage. Je devrais soulager ma vigoureuse... conscience
+    dans une pri\xE8re p\xE9nitente, je suppose. Heureusement, ma\xEEtresse Minako
+    sera heureuse d'y participer, ce ne sera donc pas un plai... une pri\xE8re solitaire
+    !"
   hasClue: 0
   clue:
     category: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: War 2 - 1
   m_EditorClassIdentifier: 
-  playerQuestion: Comment se porte les forces de notre seigneur ?
+  playerQuestion: Ca va comment la guerre sinon ?
   characterAnswer: "Comme il faut ! Les guerriers sont r\xE9gl\xE9s, nerveux, pr\xEAts
     \xE0 en d\xE9coudre, de vraies machines \xE0 tuer ! On va relativement gagner
     contre Takeda, si tu veux mon avis !"

@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Shogun 1 - 4
   m_EditorClassIdentifier: 
-  playerQuestion: "Uzume la kami, en me ramenant \xE0 l'existence, m'a enseign\xE9
-    un moyen de vaincre vos ennemis. Permettez-moi de vous le prouver !"
-  characterAnswer: "Tu peux vaincre mes ennemis, dis-tu, sans les toucher ? Je ne
-    sais si je dois te punir de ta pr\xE9somption ou te croire..."
+  playerQuestion: "Ah ! Nan, nan, j'suis s\xE9rieux. Regardez, v'pouvez pas m'toucher."
+  characterAnswer: "C'est \xE9trangement vrai ! Et bien... Si vous voulez m'aider,
+    je pense avoir une t\xE2che \xE0 la hauteur de vos, hum... capacit\xE9s."
   hasClue: 0
   clue:
     category: 0
     subCategory: 0
     giverCharacter: 0
     summary: 
+    deductionLine: 
   nextDialogues:
   - {fileID: 11400000, guid: 54012a176d4f1014bbff56a548e32f56, type: 2}

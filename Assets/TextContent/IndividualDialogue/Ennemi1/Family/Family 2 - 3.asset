@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Family 2 - 3
   m_EditorClassIdentifier: 
-  playerQuestion: "Si vous le dites. Je crains que les samurais ne s'int\xE9ressent
-    que peu aux fleurs."
-  characterAnswer: "Hum ! Apprenez que si un samurai de basse extraction comme vous
-    peut se permettre d'ignorer l'ikebana, l'art des fleurs, un v\xE9ritable seigneur
-    ne saurait se permettre d'en \xEAtre un simple novice. C'est ce qui fait leur
-    noblesse."
+  playerQuestion: "Mais vous \xEAtes compl\xE9tement tar\xE9e en fait !"
+  characterAnswer: "Hum ! Je reste la femme du shogun, je vous signale. Je vous conseille
+    de tenir votre langue, dis donc. Et puis qui n'appr\xE9cie pas une bonne s\xE9ance
+    de torture, hmmm ?\r\n"
   hasClue: 0
   clue:
     category: 0

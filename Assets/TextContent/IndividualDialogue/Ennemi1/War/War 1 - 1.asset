@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: War 1 - 1
   m_EditorClassIdentifier: 
-  playerQuestion: "Le seigneur Shinegawa m'a charg\xE9 de r\xE9tablir l'ordre \xE0
-    la fronti\xE8re, et..."
-  characterAnswer: "Et tu veux savoir comment on peut faire face. Et bien c'est simple
-    : on ne peut pas. La fronti\xE8re est infest\xE9e de bandits, on ne peut pas y
-    lancer convenablement une bataille. Ce serait ridicule."
+  playerQuestion: "Ouais, faut que je mette de l'ordre dans la for\xEAt. N'avez pas
+    des soldats pour faire \xE7a ?"
+  characterAnswer: "Oui mais c'est simple : on ne peut pas. La fronti\xE8re est infest\xE9e
+    de bandits, on ne peut pas y lancer convenablement une bataille. Ce serait ridicule."
   hasClue: 0
   clue:
     category: 0

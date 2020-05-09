@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: War 3 - 2
   m_EditorClassIdentifier: 
-  playerQuestion: "Dignit\xE9 ? La loyaut\xE9 ne passe-t-elle pas avant tout ?"
+  playerQuestion: "J'connais pas c'mot, l\xE0... Loyaut\xE9. Et honneur. Et dignit\xE9
+    aussi en fait."
   characterAnswer: "La loyaut\xE9 c'est bien, c'est m\xEAme tr\xE8s bien, mais il
-    faut savoir rester digne. Je ne partirai jamais au combat si mon armure \xE9tait
-    mal ajust\xE9e, par exemple. Seigneur ! Ce serait... d\xE9shonorant."
+    faut savoir rester digne et honorable. Je ne partirai jamais au combat si mon
+    armure \xE9tait mal ajust\xE9e, par exemple. Seigneur ! Ce serait... d\xE9shonorant."
   hasClue: 0
   clue:
     category: 0

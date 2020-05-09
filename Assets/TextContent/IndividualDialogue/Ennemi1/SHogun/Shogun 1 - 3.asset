@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Shogun 1 - 3
   m_EditorClassIdentifier: 
-  playerQuestion: "M\xEAme dans la mort, je peux vous \xEAtre utile, ma\xEEtre."
-  characterAnswer: "Hum... Un samurai incapable de se battre ne m'est pas d'une grande
-    aide. Mais tu semble avoir une id\xE9e. Je t'\xE9coute."
+  playerQuestion: Une quoi ?
+  characterAnswer: "Une... boutade. Une gal\xE9jade. Une \"blague\", pourriez-vous
+    dire."
   hasClue: 0
   clue:
     category: 0
     subCategory: 0
     giverCharacter: 0
     summary: 
+    deductionLine: 
   nextDialogues:
   - {fileID: 11400000, guid: d47b445d592269240827bee2bc7a4e4a, type: 2}

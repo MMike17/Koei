@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Family 2 - 2
   m_EditorClassIdentifier: 
-  playerQuestion: "Po\xE9tique, ma dame ? Que voulez-vous dire ?"
-  characterAnswer: "Enfin, oui ! Imaginez, samurai : moi et votre seigneur, marchant
-    ensemble au milieu des cerisiers en fleurs, tous deux un peu timides, n'osant
-    pas vraiment se parler... Et l\xE0, il se penche et m'offre un tsubaki, la fleur
-    de l'amour ! N'est-ce pas d'une po\xE9sie infinie ?"
+  playerQuestion: "Po\xE9tique ? Ah, romantique, vous voulez dire. Ouais, promenade
+    en amoureux, tout \xE7a..."
+  characterAnswer: "Enfin, oui ! Imaginez donc : moi et votre seigneur, marchant ensemble
+    au milieu des cadavres de la derni\xE8re bataille, se d\xE9composant lentement...
+    Et l\xE0, il se penche et m'offre le cr\xE2ne d'un de ses ennemis ! N'est-ce pas
+    d'une po\xE9sie infinie ?"
   hasClue: 0
   clue:
     category: 0

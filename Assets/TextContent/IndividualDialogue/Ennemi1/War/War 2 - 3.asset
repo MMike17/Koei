@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: War 2 - 3
   m_EditorClassIdentifier: 
-  playerQuestion: "Seigneur Ueda, un homme s\xFBr de lui et de sa loyaut\xE9 peut
-    affronter une arm\xE9e seul. Gardez la foi."
+  playerQuestion: "Eh, j'croyais que les samurais ils s'battaient jusqu'\xE0 la mort.
+    Tu te chies dessus ?"
   characterAnswer: "Ne m'insultes pas, samurai. Jusqu'\xE0 ma mort je lutterai aux
     c\xF4t\xE9s de Shinegawa, dussais-je affronter tout les samurais du Japon avec
     un \xE9ventail pour seule arme."

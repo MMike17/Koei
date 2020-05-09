@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Religion 3 - 4
   m_EditorClassIdentifier: 
-  playerQuestion: "Impossible. Un samurai ne d\xE9shonorerait jamais son ma\xEEtre
-    en se montrant odieux dans sa maison."
-  characterAnswer: "Eh bien, si. L'un d'eux, notamment, celui qu'ils appelaient Masuda,
-    \xE9tait une v\xE9ritable brute, qui criait des obsc\xE9nit\xE9s presque en permanence.
-    Mal \xE9lev\xE9, incapable de se tenir. Je crois bien que c'est lui qui a fini
-    bandit, d'ailleurs."
+  playerQuestion: "Mais qu'est-ce que tu racontes, bordel ? Je veux un truc pour lui
+    briser le moral, le d\xE9primer quoi ! Une insulte, chaipas !"
+  characterAnswer: "Oh, nous nous sommes visiblement mal compris. Eh bien, euh, que
+    dire ? Ah, si. C'est quelqu'un de tr\xE8s vulgaire, qui ne sait pas se tenir dans
+    une cour noble. Et je sais qu'il en souffre, donc tu pourra le faire souffrir
+    avec \xE9galement. \r"
   hasClue: 1
   clue:
     category: 1

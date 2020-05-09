@@ -12,14 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Religion 1 - 4
   m_EditorClassIdentifier: 
-  playerQuestion: "Un tel manque \xE0 l'\xE9tiquette, et chez son seigneur en plus
-    ! Est-ce possible ?"
-  characterAnswer: "Et tu ne sais pas tout. Je pourrais t'en raconter, des choses...
-    A en faire fr\xE9mir le plus noble des daimyo ! Lors de mon retour, j'ai m\xEAme
-    omis d'en faire part au seigneur, car sa femme \xE9tait pr\xE9sente. La fille
-    de Takeda, Hideki, celle qui reste enferm\xE9e toute la journ\xE9e... Elle a \xE9t\xE9
-    d\xE9shonor\xE9e ! Alors, je ne sais pas par qui. Mais tu imagine bien, avec un
-    cochon pareil..."
+  playerQuestion: "Ouais, alors que toi, t'es juste un vieux cochon. Et \xE7a veut
+    dire quoi, concupiscence ?!"
+  characterAnswer: "Mais, mais non ! Ne soyez pas \xE9troit... d'esprit. Ne nous comparez
+    pas. Cet homme-l\xE0, il a sailli, euh, assailli la fille de son seigneur ! Et
+    sans m\xEAme s'en cacher ! C'est pour \xE7a qu'il est borgne, d'ailleurs. Mais
+    comme je dis toujours : mieux vaut borgne que cornu ! Hein ? Hein ? Hum. Pas grave."
   hasClue: 1
   clue:
     category: 1

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: War 3 - 1
   m_EditorClassIdentifier: 
-  playerQuestion: "Seigneur Ueda, comment puis-je \xEAtre un meilleur samurai ?"
+  playerQuestion: "Donc toi t'es un vrai samurai. On fait comment pour \xEAtre comme
+    \xE7a ?"
   characterAnswer: "C'est pas compliqu\xE9 : loyaut\xE9, honneur, et surtout dignit\xE9."
   hasClue: 0
   clue:

@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Family 1 - 4
   m_EditorClassIdentifier: 
-  playerQuestion: "Dame Minako, votre inqui\xE8tude pour moi m'honore. Je ne d\xE9cevrai
-    pas votre confiance."
-  characterAnswer: "Allez donc, samurai ! N'h\xE9sitez pas \xE0 parler de ce bandit
-    a Shinji, notre pr\xEAtre. Il dit avoir visit\xE9 le chateau du seigneur Takeda
-    \xE0 l'\xE9poque o\xF9 ce voleur \xE9tait encore samurai, et il en saura certainement
-    plus que moi. Et souvenez-vous : prudence !"
+  playerQuestion: "D'accord. Ok. Euh... J'suis pas s\xFBr d'en arriver l\xE0."
+  characterAnswer: "Quel dommage ! \"Un bon b\xFBcher \xE9gaye la journ\xE9e\", disais
+    toujours ma m\xE8re. Je me souviens, elle \xE9tait si enjou\xE9e \xE0 l'id\xE9e
+    de torturer les sorciers du domaine... Ah, souvenirs. Bonne chance quand m\xEAme."
   hasClue: 0
   clue:
     category: 0

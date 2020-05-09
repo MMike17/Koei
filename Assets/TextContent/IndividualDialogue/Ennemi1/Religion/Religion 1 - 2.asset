@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Religion 1 - 2
   m_EditorClassIdentifier: 
-  playerQuestion: "Saint homme, j'ai besoin de vos conseils quand \xE0 ma mission."
-  characterAnswer: "Ne me sers pas du \"Saint homme\", jeune imb\xE9cile ! Quand on
-    a v\xE9cu aussi longtemps que moi, on ne prend pas ces mots \xE0 la l\xE9g\xE8re,
-    tu peux me croire. Quand \xE0 ta mission, je ne saurais trop te recommander de
-    faire vite. L'existence d'un homme comme ce bandit de la for\xEAt est insupportable
-    pour tout homme d'honneur.\n"
+  playerQuestion: "Vous \xEAtes tar\xE9, vous aussi, c'est \xE7a ?"
+  characterAnswer: "Non, non, bien s\xFBr que non ! Je suis pr\xEAtre, et cela veut
+    dire verg-virginit\xE9. Enfin, puret\xE9 virginale. Je ne v\xE9n\xE8re que les
+    beaux saints, bien entendu. Nul trace de v\xE9n\xE9ration d\xE9moniaque en ce
+    temple, je vous assure."
   hasClue: 0
   clue:
     category: 1

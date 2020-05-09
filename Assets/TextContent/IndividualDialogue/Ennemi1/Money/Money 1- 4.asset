@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Money 1- 4
   m_EditorClassIdentifier: 
-  playerQuestion: Ne pouvez-vous m'aider davantage, Junichi ?
-  characterAnswer: "Oui, attendez... Depuis que le seigneur m'a nomm\xE9 intendant,
-    je r\xE9cup\xE8re des informations sur tous les trafics du domaine et... AH-AH
-    ! Une prostitu\xE9e du village d'a c\xF4t\xE9 t\xE9moigne ici avoir re\xE7u la
-    visite d'un borgne se pr\xE9sentant sous le nom de Maeda. Vous \xEAtes content
-    ? Maintenant laissez-moi, j'ai du travail."
+  playerQuestion: "C'pas d\xE9j\xE0 \xE9norme, 31% ?"
+  characterAnswer: "C'est path\xE9tique ! On pouvait esp\xE9rer au moins 35% ! Bon,
+    heureusement, il consomme tellement dans les bordels du coin que leurs contributions
+    sont 89% plus \xE9lev\xE9es depuis... Mais il provoque un manque \xE0 gagner !
+    Trouvez-le et emp\xEAchez-le de piller ! Qu'il nous rapporte, oui, mais pas qu'il
+    nous appauvrisse !"
   hasClue: 1
   clue:
     category: 1

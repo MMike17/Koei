@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Family 3 - 2
   m_EditorClassIdentifier: 
-  playerQuestion: Que voulez-vous dire ?
-  characterAnswer: "Eh bien, except\xE9s les samurais, les seigneurs et les moines,
-    il me semble que le genre masculin ne soit fait que de paysans rustres, sans \xE9ducation,
-    sans aucune forme de contr\xF4le sur eux-m\xEAme."
+  playerQuestion: Euh... Quoi ?
+  characterAnswer: "Mais si, vous comprenez tr\xE8s bien. C'est ce qu'on attend de
+    vous, apr\xE8s tout. Un samurai qui n'ob\xE9it pas, ce n'est pas un samurai.\r\n"
   hasClue: 0
   clue:
     category: 0

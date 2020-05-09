@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: War 3 - 4
   m_EditorClassIdentifier: 
-  playerQuestion: "Et c'est l\xE0 que j'entre en jeu..."
-  characterAnswer: "Exactement ! Tu es d\xE9j\xE0 mort dans le d\xE9shonneur, donc
-    peu t'importe encore plus de d\xE9shonneur ! "
+  playerQuestion: "Ok, vous ne m'\xE9coutez pas. Eh bien, je m'en fous, l\xE0 !"
+  characterAnswer: "Hmm, tu disais ? Enfin, peu importe : va t'occuper de \xE7a et
+    bonne chance."
   hasClue: 0
   clue:
     category: 0

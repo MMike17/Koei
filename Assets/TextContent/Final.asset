@@ -16,68 +16,67 @@ MonoBehaviour:
   - category: 0
     punchlines:
     - subCategory: 1
-      line: "Toi, un guerrier ? Tu ne sais qu\u2019errer dans une for\xEAt et d\xE9trousser
-        d\u2019inoffensifs marchands !"
+      line: "Ah, mais j\u2019vois pourquoi tu pille que des pauvres ! Tu te chie trop
+        dessus pour voler des riches !"
     - subCategory: 2
-      line: "\rUn samourai doit savoir diriger des arm\xE9es. Mais toi tu ne sais
-        m\xEAme pas diriger ton sabre.\r\n"
+      line: "Dans c\u2019te bazar, n\u2019importe quel gars avec une \xE9p\xE9e pourrait
+        se faire des couilles en or ! Mais non, toi tu reste coinc\xE9 dans ta for\xEAt
+        comme un d\xE9bile !"
     - subCategory: 3
-      line: "Un samurai sans ma\xEEtre n\u2019a pas de loyaut\xE9. Comment pourrais-tu
-        te d\xE9signer samurai sans cette qualit\xE9 primordiale ?!"
+      line: "La rue, c\u2019est l\u2019sang mec. Si t\u2019es pas foutu de suivre
+        ton gang, t\u2019es vraiment qu\u2019une petite merde."
     - subCategory: 4
-      line: Tes seules richesses proviennent des saccages que tu commets sans remords,
-        bandit !
+      line: "T\u2019es le genre de connard qui va braquer les vieilles mamies ! T\u2019as
+        aucun honneur !"
     - subCategory: 5
-      line: "Un samurai prot\xE8ge la maison de son ma\xEEtre, il ne pille pas celle
-        de son rival ! Tu es indigne de ce titre, d\xE9mon !\r"
+      line: "Donc l\xE0, pendant qu\u2019tu fais le d\xE9bile dans c\u2019te for\xEAt,
+        ta maison elle es pas ferm\xE9e \xE0 cl\xE9 ? Mais t\u2019es compl\xE8tement
+        con !"
   - category: 1
     punchlines:
     - subCategory: 6
-      line: "Tous les humbles paysans de ce domaine \xE9l\xE8vent tes enfants sans
-        le savoir !"
+      line: "Toi t\u2019as des gosses ? J\u2019imagine m\xEAme pas la t\xEAte des
+        horreurs !"
     - subCategory: 7
-      line: "Quel honneur peut-on attendre d\u2019un fils de paysans qui se croit
-        samurai ?\r\n"
+      line: "T\u2019es vraiment qu\u2019un gros, sale, fils de pute."
     - subCategory: 8
-      line: "Aucune femme du Japon, m\xEAme sous la menace d\u2019un sabre, n\u2019acceptera
-        jamais de te prendre pour \xE9poux, bandit !"
+      line: "Nan mais sors de ta for\xEAt et va te trouver une meuf, gars !"
     - subCategory: 9
-      line: "Il n\u2019est aucune perversion dont tu ne sois un expert, d\xE9mon libidineux
-        !"
+      line: "Tu couche tellement dans tous les coins qu\u2019tu sert de livre sur
+        les MST !"
     - subCategory: 10
-      line: "Tu traites les femmes comme tu traites ton sabre ! Avec m\xE9pris et
-        d\xE9dain !"
+      line: "Merde, quand on a une meuf, on la trompe pas, \xE7a s\u2019fait pas."
   - category: 2
     punchlines:
     - subCategory: 11
-      line: "Ta pr\xE9sence en notre monde offense tous les \xEAtres c\xE9lestes,
-        d\xE9mon sans dieu !"
+      line: "Mais en fait tu crois pas en dieu ?! Mais t\u2019es qu\u2019un putain
+        d\u2019h\xE9r\xE9tique, c\u2019est \xE7a !"
     - subCategory: 12
-      line: "Ton or maudit, pris par violence, devrait revenir aux temples pour tenter
-        de racheter ton \xE2me !"
+      line: "H\xE9, les pr\xEAtres, ils bouffent comment selon toi ? Ben ouais d\xE9bile,
+        si tu paye pas les \xE9glises, ils vont crever de faim !"
     - subCategory: 13
-      line: "Le moine de ton village ne conna\xEEt m\xEAme pas ton visage tant la
-        pri\xE8re t\u2019est inconnue !"
+      line: "T'es qu\u2019un h\xE9r\xE9tique et il faut purger ce monde de ton existence
+        sacril\xE8ge !"
     - subCategory: 14
-      line: "Aucun homme n\u2019a moins de respect que toi pour les dieux ! Ne crains-tu
-        donc pas la col\xE8re du ciel?!"
+      line: "D\xE9j\xE0 tu crois en rien, mais en plus t\u2019est pas foutu de laisser
+        les autres prier tranquilles !"
     - subCategory: 15
-      line: "Comment peux-tu parler, toi qui \xE0 offert ton \xE2me et ton sabre aux
-        forces d\xE9moniaques ?"
+      line: "T\u2019es un genre de sataniste, c\u2019est \xE7a ? T\u2019as tellement
+        pas de couilles que tu t\u2019prosterne devant des ch\xE8vres!"
   - category: 3
     punchlines:
     - subCategory: 16
-      line: "Aucune surprise dans tes vols, bandit : ton armure, ton sabre, tu n\u2019as
-        pu les acheter qu\u2019en t\u2019endettant !"
+      line: "Ah ! Mec, t'a pas pu rembourser ton banquier ou quoi ? T\u2019es presque
+        \xE0 poil l\xE0 !"
     - subCategory: 17
-      line: "Tout ce que tu poss\xE8des est en ruines. Une pierre \xE0 aiguiser pour
-        ton sabre ne co\xFBte pourtant que quelques pi\xE8ces !"
+      line: "Mec t\u2019es pauvre. Faut qu\u2019t\u2019apprenne \xE0 g\xE9rer un peu
+        l\u2019argent que tu voles, t\u2019sais."
     - subCategory: 18
-      line: "Alors que tes v\xEAtements sont rapi\xE9c\xE9s et que tu cr\xE8ve de
-        faim, tu cours les bordels comme un d\xE9mon enrag\xE9, imb\xE9cile !"
+      line: "Mec ! Tu cr\xE8ve la dalle, l\xE0 ! Arr\xEAte de te payer des putes,
+        c\u2019est trop con !"
     - subCategory: 19
-      line: "Quelle sorte d\u2019imp\xF4t paye un brigand dans ton genre ? Une taxe
-        sur la traitrise ? Sur l\u2019infamie ?\r\n"
+      line: "Tu payes pas d\u2019imp\xF4ts ?! S\xE9rieux ?! Et les h\xF4pitaux et
+        tout, qui c\u2019est qui va les payer, d\xE9bile ?!"
     - subCategory: 20
-      line: "Avoue, d\xE9mon ! Quel intendant, quel domestique as-tu soudoy\xE9 pour
-        continuer ton pillage malfaisant ?"
+      line: "Alors c\u2019est quoi ta combine ? Tu payes les keufs pour qu\u2019ils
+        te foutent la paix ?"

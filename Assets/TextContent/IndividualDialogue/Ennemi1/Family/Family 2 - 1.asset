@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Family 2 - 1
   m_EditorClassIdentifier: 
-  playerQuestion: "Que savez-vous sur les for\xEAts qui bordent la fronti\xE8re du
-    domaine de notre seigneur, ma dame ?"
+  playerQuestion: "Hey, la for\xEAt, vous connaissez ? Para\xEEt qu'il faut que j'y
+    aille."
   characterAnswer: "Oh, je me souviens bien de ces bois ! Lorsque le seigneur Shinegawa
     m'a \xE9pous\xE9e, il m'a fait visiter son domaine, et notamment cette fronti\xE8re
     avec Takeda... C'\xE9tait si po\xE9tique."

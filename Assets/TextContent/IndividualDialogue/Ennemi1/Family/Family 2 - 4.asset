@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Family 2 - 4
   m_EditorClassIdentifier: 
-  playerQuestion: "Je ne suis qu'un simple guerrier, ma dame. Ce n'est pas mon r\xF4le
-    d'apprendre \xE0 composer les bouquets."
-  characterAnswer: "En effet. Laissez donc cet art \xE0 mieux n\xE9 que vous, n'est-ce
-    pas ? Il serait mals\xE9ant de briser les devoirs qui sont associ\xE9s \xE0 votre
-    condition, samurai. Apr\xE8s tout, ne sont-ce pas ces conventions qui maintiennent
-    notre soci\xE9t\xE9 en place ?"
+  playerQuestion: "Heu... Moi, d\xE9ja."
+  characterAnswer: "Allons, mon enfant. Cela ne vous excite pas d'imaginer votre chair
+    tordue par une exquise douleur, votre sang qui coule sur le sol, les d\xE9licieuses
+    br\xFBlures qui vous am\xE8nent vers des sommets de jouissance... Oh, rien que
+    d'imaginer... Broooouh ! J'en suis toute \xE9moustill\xE9e. Il vous fallait autre
+    chose ?"
   hasClue: 0
   clue:
     category: 0

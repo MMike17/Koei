@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Family 3 - 3
   m_EditorClassIdentifier: 
-  playerQuestion: "Voyons, ma dame ! M\xEAme le plus pauvre des serfs sait se tenir
-    en soci\xE9t\xE9, tout de m\xEAme."
-  characterAnswer: "Ah oui ? Eh bien, d\xE9trompez-vous ! Je ne manque pas d'exemples,
-    figurez-vous. Tenez, voulez-vous une histoire ? Alors que je rentrais d'une visite
-    \xE0 ma tante, mon escorte croisa un homme, \xE0 la lisi\xE8re de la for\xEAt
-    qui marque la fronti\xE8re du domaine Takeda."
+  playerQuestion: "Alors, d\xE9j\xE0, je suis pas un samurai, moi."
+  characterAnswer: "Oh mais arr\xEAtez de faire l'imb\xE9cile. Vous servez mon mari,
+    c'est tout comme. Restez silencieux, voil\xE0. Ne succombez pas aux forces d\xE9moniaques
+    qui voudraient vous voir faire n'importe quoi."
   hasClue: 0
   clue:
     category: 0

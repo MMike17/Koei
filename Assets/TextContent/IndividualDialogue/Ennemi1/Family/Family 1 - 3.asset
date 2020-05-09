@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Family 1 - 3
   m_EditorClassIdentifier: 
-  playerQuestion: "Un sorcier ? Que pourrait-il face \xE0 un spectre loyal ?"
-  characterAnswer: "Vous plaisantez, samurai, mais vous ne devriez pas. En-dehors
-    de ce ch\xE2teau r\xF4dent des cr\xE9atures mal\xE9fiques, et si ce bandit est
-    un sorcier, soyez s\xFBr qu'il pourra vous faire du mal ! Mais la bravoure et
-    la loyaut\xE9 sont les remparts du samurai, n'est-ce pas ?"
+  playerQuestion: "Le.. le br\xFBler vif ?"
+  characterAnswer: "Oh, oui. Vous le mettez sur des fagots, vous y mettez le feu,
+    et vous regardez la chair roussir, vous \xE9coutez les cris de douleur, vous sentez
+    l'odeur de viande cuite... Ca a le go\xFBt de poulet.\r\n\r\nM'a-t-on dit, \xE9videmment."
   hasClue: 0
   clue:
     category: 0

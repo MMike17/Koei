@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: War 1 - 2
   m_EditorClassIdentifier: 
-  playerQuestion: "Oui, le seigneur m'a parl\xE9 de l'un d'entre eux, un borgne."
+  playerQuestion: "Des brigands.. Ah ouais ! Le shogun m'a parl\xE9 d'un borgne."
   characterAnswer: "Ah, lui. Je l'ai crois\xE9 une fois. C'est \xE0 peine un guerrier,
     presque un paysan. Son katana \xE9tait si mal entretenu qu'il ne trancherait m\xEAme
     pas une feuille ! Alors, une gorge..."

@@ -12,17 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Family 1 - 1
   m_EditorClassIdentifier: 
-  playerQuestion: "Notre seigneur vous a-t-il inform\xE9 de la mission qu'il m'a confi\xE9
-    ?"
-  characterAnswer: "Pas dans les d\xE9tails. Vous savez, que ferait une femme comme
-    moi de ces informations ? Mais, si vous d\xE9sirez me confier ces d\xE9tails,
-    je vous aiderais dans la mesure du possible."
+  playerQuestion: Ouais... Ok. Euh, moi j'suis juste en mission, en fait.
+  characterAnswer: "En mission ? Oh, comme c'est excitant ! Vous devez chasser un
+    monstre ? Massacrer une arm\xE9e ? Torturer un tra\xEEtre ?! "
   hasClue: 0
   clue:
     category: 2
     subCategory: 15
     giverCharacter: 1
-    summary: "La rumeur le pr\xE9sente comme un sorcier..."
+    summary: 
     deductionLine: 
   nextDialogues:
   - {fileID: 11400000, guid: 8b25a6c1ec00a7c49b83933359839641, type: 2}

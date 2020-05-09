@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Money 2 - 2
   m_EditorClassIdentifier: 
-  playerQuestion: "Non, je le crains... J'avais oubli\xE9 ce d\xE9tail."
-  characterAnswer: "Ce n'est pas grave. De toute mani\xE8re, le forgeron n'aurait
-    s\xFBrement pas pu vous aider, il est bien trop occup\xE9 \xE0 forger les nouveaux
-    sabres que Fumito lui a command\xE9."
+  playerQuestion: Ah oui... Merde, je voulais un sabre, moi.
+  characterAnswer: "Un sabre ?! Vous savez combien \xE7a co\xFBte, un sabre ? Vous
+    n'avez pas d'argent, je vous rappelle. Et ne comptez pas sur nous pour vous l'offrir
+    ! Ceux de nos samurais co\xFBtent d\xE9j\xE0 bien assez cher comme \xE7a."
   hasClue: 0
   clue:
     category: 0

@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Shogun 1- 6
   m_EditorClassIdentifier: 
-  playerQuestion: "Je ne vous d\xE9cevrai pas, seigneur !"
-  characterAnswer: "Je l'esp\xE8re. Ah, je te pr\xE9viens \xE0 l'avance : un bandit
-    r\xF4de dans ces parages. Un quelconque ronin, borgne... Selon les rumeurs, c'est
-    son seigneur qui lui a enlev\xE9 un oeil. Enfin, mes conseillers en savent plus
-    que moi. Je ne me pr\xE9occupe pas de ce genre de chiens."
+  playerQuestion: "Ok, on fait comme \xE7a. Et arr\xEAtez avec vos mots compliqu\xE9s,
+    l\xE0."
+  characterAnswer: "Ce sont des mots tout \xE0 fait simples, que j'emploie pour que
+    tu me comprenne, jeune homme."
   hasClue: 0
   clue:
     category: 0
     subCategory: 0
     giverCharacter: 0
     summary: 
+    deductionLine: 
   nextDialogues: []

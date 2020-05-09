@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: War 1 - 4
   m_EditorClassIdentifier: 
-  playerQuestion: "Un tel homme ne saurait \xEAtre un samurai !"
+  playerQuestion: Et ce mec c'est un samurai ? Eh ben.
   characterAnswer: "Mais ce n'est pas un samurai ! Un samurai est un parangon de noblesse
     et de loyaut\xE9 : bref, son exact inverse."
   hasClue: 0

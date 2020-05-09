@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Religion 3 - 1
   m_EditorClassIdentifier: 
-  playerQuestion: "Ma\xEEtre, que savez-vous des ennemis du seigneur Shinegawa ?"
-  characterAnswer: "Les ennemis de Shinegawa... Eh bien, diff\xE9rencions d\xE9j\xE0
-    les ennemis et les opposants. A proprement parler, notre seigneur n'a pas d'ennemis.
-    En revanche, le nombre de gens qui s'opposent \xE0 ses vis\xE9es unificatrices
-    est cons\xE9quent. M\xEAme si Takeda est un ennemi."
+  playerQuestion: "Tu sais quelque chose sur le bandit d'la for\xEAt ?"
+  characterAnswer: "Je le connais, oui... J'ai eu l'occasion, alors qu'on m'introduisais
+    \xE0 la cour de Takeda, de lui parler, quand il \xE9tait encore \xE0 son service.
+    Que veux-tu savoir sur lui ?"
   hasClue: 0
   clue:
     category: 0

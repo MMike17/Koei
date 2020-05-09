@@ -28,7 +28,7 @@ MonoBehaviour:
     cardObject: {fileID: 0}
   charactersDialogues:
   - character: 0
-    firstLine: "Te revoil\xE0, samurai... Eh bien... Que puis-je pour toi ?\r"
+    firstLine: "Mais ? Qui \xEAtes-vous et que faites vous ici ?!"
     initialDialogues:
     - {fileID: 11400000, guid: d2aa3f4cc79ee0243a5006c1e014996b, type: 2}
     indexesPath: 00000000000000000000000000000000
@@ -42,10 +42,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: c374d896ba573824493b84f6b5262e07, type: 2}
     indexesPath: 
   - character: 2
-    firstLine: "Hum ! C'est toi le \"spectre\" revenu \xE0 la vie par la gr\xE2ce
-      d'Uzume ? Permet-moi d'en douter un peu ! Le seigneur veut bien y croire, mais
-      moi... Laisse-moi toucher.\nGrands dieux ! Tu es vraiment un fant\xF4me ! C'est
-      incroyable."
+    firstLine: "Vous voil\xE0 donc, le vigoureux guerrier qui fut ins\xE9r\xE9 en
+      ce monde par la d\xE9esse..."
     initialDialogues:
     - {fileID: 11400000, guid: ea7f4c37a3d52484bbda498ca11391cd, type: 2}
     - {fileID: 11400000, guid: 1010a27ac5f51ea4bbd2be4c41e54142, type: 2}
@@ -60,8 +58,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: bc124e32b80d7ce43aa814f40abb21e1, type: 2}
     indexesPath: 
   - character: 4
-    firstLine: "Vous \xEAtes le samurai revenu \xE0 la vie,  n'est-ce pas ? Que voulez-vous
-      ?"
+    firstLine: C'est toi le serviteur du futur ? Il te faut quelque chose ?
     initialDialogues:
     - {fileID: 11400000, guid: 777009fb5b510c9418b528108bcba312, type: 2}
     - {fileID: 11400000, guid: 079f6e1ecc9d3cd4e863b0f47d79c762, type: 2}
