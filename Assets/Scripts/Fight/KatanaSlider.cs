@@ -6,6 +6,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Slider))]
 public class KatanaSlider : MonoBehaviour, IPointerUpHandler
 {
+	[Header("Settings")]
 	public float slideDuration;
 
 	public Slider slider => GetComponent<Slider>();

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using static GameManager;
 
 // manager for game panels
@@ -11,12 +10,11 @@ public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 {
 	[Header("Settings")]
 	public float fadeDuration;
-	public float spinnerSpeed, alphaComparisonThreshold;
+	public float alphaComparisonThreshold;
 
 	[Header("Assign in Inspector")]
 	public List<GamePanel> panels;
 	[Space]
-	public Transform fadeSpinner;
 	public CanvasGroup fadePanel;
 	public TransitionEventsManager eventsManager;
 
@@ -89,15 +87,6 @@ public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 		StartCoroutine(ChageScene(panel.sceneBuildIndex));
 
 		nextPanel = newPanel;
-	}
-
-	void Update()
-	{
-		// spins spinner if vivisble
-		if(fadePanel.alpha > 0)
-		{
-			fadeSpinner.Rotate(0, 0, Time.deltaTime * spinnerSpeed);
-		}
 	}
 
 	// main coroutine for scene changing

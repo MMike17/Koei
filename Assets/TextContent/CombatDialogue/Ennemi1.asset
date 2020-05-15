@@ -45,7 +45,7 @@ MonoBehaviour:
       des obsc\xE9nit\xE9s, tu va de bordels en tavernes, ronin sans but ! Tu n\u2019es
       qu\u2019une parodie de samurai sans int\xE9r\xEAt !"
     correctOne: 0
-  playerWinResponse: "Nooon ! J'pourrais vivre avec ce d\xE9shonneur. Mieux vaut mourir
+  playerWinResponse: "Nooon ! J'pourrais pas vivre avec ce d\xE9shonneur. Mieux vaut mourir
     comme un vrai samourai !"
   playerLoseResponse: "Et c\u2019est \xE7a les \u201Cvrais\u201D samoura\xEFs ? Tu
     b\xE9gayes ! Restes mort, \xE7a vaut mieux pour tout le monde."

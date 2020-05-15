@@ -24,7 +24,9 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	public Image[] backgrounds;
 	[Space]
 	public Image enemyGraph;
+	public Image bigEnemyGraph;
 	public KatanaSlider katanaSlider;
+	public GongSlider gongSlider;
 	[Space]
 	public List<CategoryButton> categoryButtons;
 	[Space]
@@ -54,6 +56,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		INTRO,
 		DIALOGUE,
 		KATANA,
+		GONG,
 		CHOICE_GENERAL,
 		EFFECT_GENERAL,
 		CHOICE_FINAL,
@@ -82,6 +85,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 		enemyHealth = new List<SubCategory>(actualCombat.weaknesses);
 		enemyGraph.sprite = actualCombat.enemySprites[4 + enemyHealth.Count];
+		bigEnemyGraph.sprite = enemyGraph.sprite;
 
 		actualPhase = Phase.INTRO;
 		camera.backgroundColor = Skinning.GetSkin(SkinTag.PICTO);
@@ -100,6 +104,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		toConsequencesLost = toConsequencesLostCallback;
 
 		katanaSlider.gameObject.SetActive(false);
+		gongSlider.Init(StartFinalPunchlines);
 
 		categoryButtons.ForEach(item => item.Init(ShowPunchlines, gamePunchlines));
 
@@ -174,13 +179,14 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 				if(katanaSlider.slider.value == 1)
 				{
-					if(enemyHealth.Count == 0)
-						actualPhase = Phase.CHOICE_FINAL;
-					else
-						actualPhase = Phase.CHOICE_GENERAL;
+					actualPhase = Phase.CHOICE_GENERAL;
 
 					canvasAnimator.Play("PanUp");
 				}
+				break;
+
+			case Phase.GONG:
+				gongSlider.gameObject.SetActive(true);
 				break;
 
 			case Phase.CHOICE_GENERAL:
@@ -196,7 +202,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				katanaSlider.gameObject.SetActive(false);
 				break;
 			case Phase.EFFECT_FINAL:
-				katanaSlider.gameObject.SetActive(false);
+				gongSlider.gameObject.SetActive(false);
 				break;
 
 			case Phase.PLAYER_SUICIDE:
@@ -320,6 +326,13 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		}
 	}
 
+	void StartFinalPunchlines()
+	{
+		actualPhase = Phase.CHOICE_FINAL;
+
+		canvasAnimator.Play("PanUp");
+	}
+
 	void ShowAttackLines()
 	{
 		effectAnimator.Play("OpenLines");
@@ -335,6 +348,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		effectAnimator.Play("CloseLines");
 
 		enemyGraph.sprite = actualCombat.enemySprites[4 + enemyHealth.Count];
+		bigEnemyGraph.sprite = enemyGraph.sprite;
 
 		if(actualPhase == Phase.EFFECT_FINAL)
 		{
@@ -343,7 +357,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				suicideIndex = 1;
 				suicideTimer = 0;
 
-				Invoke("EnemySuicideAnimation", 1);
+				Invoke("EnemySuicideAnimation", 0.15f);
 				return;
 			}
 			else
@@ -351,10 +365,15 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		}
 		else // if(actualPhase == Phase.EFFECT_GENERAL)
 		{
-			if(triesCount >= actualCombat.tries && enemyHealth.Count != 0)
-				Invoke("ShowGameOver", 0.15f);
+			if(enemyHealth.Count > 0)
+			{
+				if(triesCount >= actualCombat.tries)
+					Invoke("ShowGameOver", 0.15f);
+				else
+					Invoke("StartKatanaAgain", 0.15f);
+			}
 			else
-				Invoke("StartKatanaAgain", 0.15f);
+				Invoke("StartGong", 0.15f);
 		}
 	}
 
@@ -364,6 +383,16 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 		katanaSlider.slider.value = 0;
 		actualPhase = Phase.KATANA;
+
+		SetCanvasInterractable(true);
+	}
+
+	void StartGong()
+	{
+		effectAnimator.Play("Empty");
+
+		gongSlider.slider.value = gongSlider.slider.minValue;
+		actualPhase = Phase.GONG;
 
 		SetCanvasInterractable(true);
 	}
@@ -392,6 +421,25 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				KanjiGeneralAnimator.Play("ShowAttack");
 
 				generalAttack.text = selectedPunchline.line;
+
+				Invoke("HideAttackLines", 4.45f + 1.10f);
+
+				bool takesDamage = false;
+
+				foreach (SubCategory subCategory in enemyHealth)
+				{
+					if(selectedPunchline.subCategory == subCategory)
+						takesDamage = true;
+				}
+
+				if(takesDamage)
+				{
+					Invoke("GeneralAttackGood", 2.25f);
+					Invoke("TakeDamageAnimation", 4.45f);
+					enemyHealth.Remove(selectedPunchline.subCategory);
+				}
+				else
+					Invoke("GeneralAttackFail", 2.25f);
 				break;
 
 			case Phase.EFFECT_FINAL:
@@ -399,36 +447,20 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				KanjiGeneralAnimator.Play("Hide");
 
 				finisherAttack.text = selectedFinisher;
+
+				Invoke("HideAttackLines", 11.10f + 0.5f);
+
+				if(isGoodFinisher)
+					Invoke("TakeDamageAnimation", 11.10f);
 				break;
 		}
-
-		Invoke("HideAttackLines", 4.45f + 1);
-
-		bool takesDamage = false;
-
-		foreach (SubCategory subCategory in enemyHealth)
-		{
-			if(selectedPunchline.subCategory == subCategory)
-				takesDamage = true;
-		}
-
-		if(takesDamage)
-		{
-			Invoke("GeneralAttackGood", 2.25f);
-			Invoke("TakeDamageAnimation", 4.45f);
-			enemyHealth.Remove(selectedPunchline.subCategory);
-		}
-		else
-			Invoke("GeneralAttackFail", 2.25f);
-
-		if(isGoodFinisher)
-			Invoke("TakeDamageAnimation", 4.45f);
 	}
 
 	void TakeDamageAnimation()
 	{
 		enemyAnimator.Play("TakeDamage");
 		enemyGraph.sprite = actualCombat.enemySprites[0];
+		bigEnemyGraph.sprite = enemyGraph.sprite;
 	}
 
 	void GeneralAttackGood()
@@ -457,6 +489,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		enemyAnimator.enabled = false;
 
 		enemyGraph.sprite = actualCombat.enemySprites[suicideIndex];
+		bigEnemyGraph.sprite = enemyGraph.sprite;
 
 		if(suicideIndex == 2)
 			PlayBloodShed();
