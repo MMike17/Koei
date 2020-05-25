@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static GameData;
 
 // main manager script of the game
 // everything should flow from here but not flow back to here
@@ -58,7 +59,7 @@ public class GameManager : MonoBehaviour, IDebugable
 		HIROO // 6
 	}
 
-	void Awake()
+	void Start()
 	{
 		// makes sure there is only one GameManager instance and init is not done twice
 		if(Get == this)
@@ -90,6 +91,9 @@ public class GameManager : MonoBehaviour, IDebugable
 		// makes object persistant so that they don't get destroyed on scene unloading
 		DontDestroyOnLoad(persistantContainer);
 
+		// initializes all text content
+		gameData.Init();
+
 		// initializes all managers
 		panelManager.Init(() =>
 		{
@@ -98,10 +102,12 @@ public class GameManager : MonoBehaviour, IDebugable
 			// gets refs to popups and closes them without cool effect (as if it was never here)
 			popupManager.GetAllScenePopups();
 			popupManager.ForceCancelPop();
+
+			audioManager.FadeMusicIn();
 		});
 
-		popupManager.Init();
-		audioManager.Init();
+		popupManager.Init(audioManager.FadePopupMusicIn, audioManager.FadePopupMusicOut);
+		audioManager.Init(panelManager.fadeDuration, popupManager.fadeDuration, () => { return panelManager.nextPanel; }, () => { return panelManager.actualPanel; }, () => { return popupManager.actualPopup; });
 
 		PlugPanelEvents();
 		PlugPopupEvents();
@@ -129,9 +135,13 @@ public class GameManager : MonoBehaviour, IDebugable
 			() => panelManager.JumpTo(GamePhase.SHOGUN, () =>
 			{
 				shogunManager = FindObjectOfType<ShogunManager>();
-				shogunManager.PreInit();
+				shogunManager.PreInit(
+					GameState.NORMAL,
+					gameData.enemyContent.Find(item => { return item.enemy == actualEnemy; }).shogunDialogue,
+					AddClueToPlayer
+				);
 
-				audioManager.PlayMusic(GamePhase.SHOGUN);
+				audioManager.FadeMusicOut();
 			}),
 			() => Application.Quit()
 		);
@@ -150,30 +160,37 @@ public class GameManager : MonoBehaviour, IDebugable
 			return;
 		}
 
-		shogunManager.Init(
-			() => popupManager.Pop(GamePopup.SHOGUN_DEDUCTION),
-			AddClueToPlayer
-		);
+		shogunManager.Init(() => popupManager.Pop(GamePopup.SHOGUN_DEDUCTION));
 
-		GeneralDialogue selected = gameData.shogunDialogues.Find(item => { return item.assignedEnemy == actualEnemy; });
-		selected.Init();
+		EnemyBundle bundle = gameData.enemyContent.Find(item => { return item.enemy == actualEnemy; });
+
+		GeneralDialogue selectedGeneral = bundle.shogunDialogue;
+		selectedGeneral.Init();
+
+		CombatDialogue selectedCombat = bundle.combatDialogue;
 
 		popupManager.GetPopupFromType<ShogunPopup>().SpecificInit(
-			selected.GetAllClues(),
-			selected.unlockableConclusions,
+			selectedGeneral.GetAllClues(),
+			selectedGeneral.unlockableConclusions,
 			shogunManager.characters,
 			() => popupManager.CancelPop(),
-			() => panelManager.JumpTo(GamePhase.FIGHT, () =>
+			() =>
 			{
-				fightManager = FindObjectOfType<FightManager>();
-				fightManager.PreInit(gameData.combatDialogues.Find(item => { return item.enemy == actualEnemy; }));
+				audioManager.FadeMusicOut();
 
-				audioManager.PlayMusic(GamePhase.FIGHT);
-			})
+				panelManager.JumpTo(GamePhase.FIGHT, () =>
+				{
+					fightManager = FindObjectOfType<FightManager>();
+					fightManager.PreInit(selectedCombat);
+				});
+			},
+			selectedCombat.actualState
 		);
 
-		gameData.ResetPlayerClues();
-		shogunManager.StartDialogue(selected);
+		if(selectedCombat.actualState == GameState.NORMAL)
+			gameData.ResetPlayerClues();
+
+		shogunManager.StartDialogue(selectedGeneral);
 	}
 
 	void InitFightPanel()
@@ -185,11 +202,28 @@ public class GameManager : MonoBehaviour, IDebugable
 			Debug.LogError(debuguableInterface.debugLabel + "FightManager component shouldn't be null. If we can't get scene references we can't do anything.");
 		}
 
+		EnemyBundle bundle = gameData.enemyContent.Find(item => { return item.enemy == actualEnemy; });
+		CombatDialogue selectedCombat = bundle.combatDialogue;
+
 		fightManager.Init(
-			gameData.comonPunchlines,
-			gameData.shogunDialogues.Find(item => { return item.assignedEnemy == actualEnemy; }),
-			() => panelManager.JumpTo(GamePhase.CONSEQUENCES, () => { consequencesManager = FindObjectOfType<ConsequencesManager>(); actualEnemy++; }),
-			() => { panelManager.JumpTo(GamePhase.CONSEQUENCES, () => consequencesManager = FindObjectOfType<ConsequencesManager>()); gameData.gameOver = true; }
+			bundle.punchlines,
+			bundle.shogunDialogue,
+			() =>
+			{
+				panelManager.JumpTo(GamePhase.CONSEQUENCES, () =>
+				{
+					consequencesManager = FindObjectOfType<ConsequencesManager>();
+					actualEnemy++;
+				});
+
+				audioManager.FadeMusicOut();
+			},
+			() =>
+			{
+				panelManager.JumpTo(GamePhase.CONSEQUENCES, () => consequencesManager = FindObjectOfType<ConsequencesManager>());
+
+				audioManager.FadeMusicOut();
+			}
 		);
 	}
 
@@ -202,15 +236,24 @@ public class GameManager : MonoBehaviour, IDebugable
 			Debug.LogError(debuguableInterface.debugLabel + "ConsequencesManager component shouldn't be null. If we can't get scene references we can't do anything.");
 		}
 
+		EnemyBundle bundle = gameData.enemyContent.Find(item => { return item.enemy == actualEnemy; });
+		CombatDialogue selectedCombat = bundle.combatDialogue;
+
 		consequencesManager.Init(
-			gameData.gameOver,
+			selectedCombat.actualState,
 			(int) actualEnemy,
 			() => panelManager.JumpTo(GamePhase.SHOGUN, () =>
 			{
 				shogunManager = FindObjectOfType<ShogunManager>();
-				shogunManager.PreInit();
+				shogunManager.PreInit(
+					selectedCombat.actualState,
+					bundle.shogunDialogue,
+					AddClueToPlayer
+				);
+
+				audioManager.FadeMusicOut();
 			}),
-			gameData.gameOver?null : gameData.combatDialogues[(int) actualEnemy - 1].playerWinConsequence
+			selectedCombat.actualState != GameState.NORMAL ? null : bundle.combatDialogue.playerWinConsequence
 		);
 	}
 

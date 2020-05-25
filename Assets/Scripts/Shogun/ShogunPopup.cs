@@ -35,10 +35,10 @@ public class ShogunPopup : Popup
 	int positionComputingStep, lineTries;
 	bool isSettingPath, didFeedback;
 
-	public void SpecificInit(List<Clue> clueList, List<Conclusion> unlockableConclusions, List<ShogunCharacter> characters, Action returnCallback, Action combatCallback)
+	public void SpecificInit(List<Clue> clueList, List<Conclusion> unlockableConclusions, List<ShogunCharacter> characters, Action returnCallback, Action combatCallback, GameData.GameState actualState)
 	{
 		SpawnKnobs(clueList, characters);
-		SpawnConclusions(unlockableConclusions);
+		SpawnConclusions(unlockableConclusions, actualState);
 
 		returnButton.onClick.AddListener(() => { returnCallback.Invoke(); SetStateCursor(false); });
 		combatButton.onClick.AddListener(() =>
@@ -66,7 +66,7 @@ public class ShogunPopup : Popup
 		ResetPopup();
 	}
 
-	void SpawnConclusions(List<Conclusion> unlockableConclusions)
+	void SpawnConclusions(List<Conclusion> unlockableConclusions, GameData.GameState state)
 	{
 		conclusionsToUnlock = new List<Conclusion>();
 
@@ -75,7 +75,11 @@ public class ShogunPopup : Popup
 			ConclusionCard spawned = Instantiate(cardPrefab, cardList);
 
 			spawned.Init(conclusion);
-			spawned.HideCard();
+
+			if(state == GameData.GameState.GAME_OVER_FINISHER)
+				spawned.ShowCard();
+			else
+				spawned.HideCard();
 
 			conclusionsToUnlock.Add(new Conclusion(conclusion.category, conclusion.correctedSubCategory, spawned));
 		}
@@ -137,9 +141,7 @@ public class ShogunPopup : Popup
 			{
 				// shows clue only if unlocked
 				if(!spawned.isLocked)
-				{
 					ShowClue(clueDetail, character);
-				}
 			});
 		}
 	}
@@ -290,13 +292,9 @@ public class ShogunPopup : Popup
 				List<SubCategory> pathCheck = CheckFullPath(isPathFinished);
 
 				if(isPathFinished)
-				{
 					CheckConclusionUnlock(pathCheck);
-				}
 				else
-				{
 					Debug.Log(debugableInterface.debugLabel + "Interrupted selection path");
-				}
 
 				ResetPopup();
 			}
@@ -366,15 +364,11 @@ public class ShogunPopup : Popup
 					clueLineAddUp.text += ", " + selectedClues[1].deductionLine;
 
 					if(selectedClues.Count > 2)
-					{
 						clueLineAddUp.text += " et " + selectedClues[2].deductionLine + " donc...";
-					}
 				}
 			}
 			else
-			{
 				clueLineAddUp.text = string.Empty;
-			}
 		}
 
 		if(selectionPath.Count > 0 && isSettingPath)
@@ -391,9 +385,7 @@ public class ShogunPopup : Popup
 	{
 		// ends previous path
 		if(selectionPath.Count > 0 && endPrevious != null)
-		{
 			selectionPath[selectionPath.Count - 1].SetEnd(endPrevious, start.GetSubCategory());
-		}
 
 		// spawn new path
 		Path spawned = Instantiate(pathPrefab, clueKnobSpawnZone);
@@ -417,13 +409,9 @@ public class ShogunPopup : Popup
 			ClueKnob knob = spawnedKnobs.Find(item => { return item.CompareClue(clue); });
 
 			if(knob == null)
-			{
 				Debug.LogError(debugableInterface.debugLabel + "Couldn't find a ClueKnob with clue " + clue.ToString() + " (ClueKnob probably haven't been initialized properly)");
-			}
 			else
-			{
 				knob.Unlock();
-			}
 		}
 	}
 
@@ -457,9 +445,7 @@ public class ShogunPopup : Popup
 		{
 			// compares first subCategory to all subCategories
 			if(pathSubCategories[0] != subCategory)
-			{
 				unlockCard = false;
-			}
 		}
 
 		// unlocks card
@@ -468,14 +454,9 @@ public class ShogunPopup : Popup
 			Conclusion unlock = conclusionsToUnlock.Find(item => { return item.correctedSubCategory == pathSubCategories[0]; });
 
 			if(unlock == null)
-			{
 				Debug.LogError(debugableInterface.debugLabel + "Could't find card to unlock with SubCategory " + pathSubCategories[0].ToString() + " (this will create errors later)");
-			}
-			else
-			{
-				// adds card to player data
+			else // adds card to player data
 				unlock.cardObject.ShowCard();
-			}
 		}
 
 		// checks for good feedback

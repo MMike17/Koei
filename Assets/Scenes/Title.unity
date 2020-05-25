@@ -195,13 +195,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ac352eeb205504893062b999a36ef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatDialogues:
-  - {fileID: 11400000, guid: 60d78bcd064987c4c9565276c8fe7a3a, type: 2}
-  comonPunchlines: {fileID: 11400000, guid: ef2795dd924a37143a9de9d9b00487f4, type: 2}
-  shogunDialogues:
-  - {fileID: 11400000, guid: 612960c92b6a8c04b80a1afb52f6c23f, type: 2}
+  enemyContent:
+  - enemy: 0
+    combatDialogue: {fileID: 11400000, guid: 60d78bcd064987c4c9565276c8fe7a3a, type: 2}
+    punchlines: {fileID: 11400000, guid: ef2795dd924a37143a9de9d9b00487f4, type: 2}
+    shogunDialogue: {fileID: 11400000, guid: 612960c92b6a8c04b80a1afb52f6c23f, type: 2}
   playerClues: []
-  gameOver: 0
 --- !u!4 &147448545
 Transform:
   m_ObjectHideFlags: 0
@@ -264,9 +263,16 @@ MonoBehaviour:
   panelMusics:
   - phase: 1
     source: {fileID: 976495977}
+    maxVolume: 0.5
   - phase: 2
     source: {fileID: 1415750211}
-  popupMusics: []
+    maxVolume: 1
+  popupMusics:
+  - popup: 2
+    highFilter: {fileID: 976495978}
+    maxHighFilter: 1000
+    lowFilter: {fileID: 976495979}
+    maxLowFilter: 3000
 --- !u!1 &187158432
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,9 +558,9 @@ MonoBehaviour:
   - category: 0
     color: {r: 1, g: 0, b: 0, a: 1}
   - category: 1
-    color: {r: 1, g: 0.39999998, b: 0.5992928, a: 1}
+    color: {r: 1, g: 0.6, b: 0.7322834, a: 1}
   - category: 2
-    color: {r: 0.6652496, g: 0.17999998, b: 0.9, a: 1}
+    color: {r: 0.8, g: 0.08000002, b: 0.8, a: 1}
   - category: 3
     color: {r: 1, g: 0.7006536, b: 0.10196078, a: 1}
   - category: 4
@@ -1368,6 +1374,8 @@ GameObject:
   m_Component:
   - component: {fileID: 976495976}
   - component: {fileID: 976495977}
+  - component: {fileID: 976495978}
+  - component: {fileID: 976495979}
   m_Layer: 0
   m_Name: Shogun
   m_TagString: Untagged
@@ -1399,7 +1407,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 65273b2a7929e2c4d8ece6989c587a83, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 65f6afb878d446a4bb40152fced3f436, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
@@ -1476,6 +1484,41 @@ AudioSource:
     - serializedVersion: 3
       time: 0
       value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!165 &976495978
+AudioHighPassFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976495975}
+  m_Enabled: 1
+  m_CutoffFrequency: 5000
+  m_HighpassResonanceQ: 1
+--- !u!169 &976495979
+AudioLowPassFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976495975}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_LowpassResonanceQ: 1
+  lowpassLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.22692133
       inSlope: 0
       outSlope: 0
       tangentMode: 0

@@ -6,6 +6,63 @@ using UnityEngine;
 public class GeneralPunchlines : ScriptableObject
 {
 	public List<CategoryPunchlines> allPunchlines;
+	[Space]
+	[TextArea]
+	public List<string> enemyDamageReaction;
+	[Space]
+	[TextArea]
+	public List<string> enemyFailReaction;
+
+	public int lastDamageIndex { get; set; }
+	public int lastFailIndex { get; set; }
+
+	public void Init()
+	{
+		lastDamageIndex = UnityEngine.Random.Range(0, enemyDamageReaction.Count - 1);
+		lastFailIndex = UnityEngine.Random.Range(0, enemyFailReaction.Count - 1);
+	}
+
+	public string GetRandomDamageReaction()
+	{
+		Debug.LogWarning("<b>Last damage index : " + lastDamageIndex + "</b>");
+		lastDamageIndex = GetDamageIndex();
+		Debug.LogWarning("<b>New damage index : " + lastDamageIndex + "</b>");
+
+		return enemyDamageReaction[lastDamageIndex];
+	}
+
+	int GetDamageIndex()
+	{
+		int index = UnityEngine.Random.Range(0, enemyDamageReaction.Count - 1);
+
+		if(enemyDamageReaction.Count > 1 && index == lastDamageIndex)
+			return GetDamageIndex();
+
+		Debug.LogWarning("Last damage index : " + lastDamageIndex + " / new index : " + index);
+
+		return index;
+	}
+
+	public string GetRandomFailReaction()
+	{
+		Debug.LogWarning("<b>Last fail index : " + lastFailIndex + "</b>");
+		lastFailIndex = GetFailIndex();
+		Debug.LogWarning("<b>New fail index : " + lastFailIndex + "</b>");
+
+		return enemyFailReaction[lastFailIndex];
+	}
+
+	int GetFailIndex()
+	{
+		int index = UnityEngine.Random.Range(0, enemyFailReaction.Count - 1);
+
+		if(enemyFailReaction.Count > 1 && index == lastFailIndex)
+			return GetFailIndex();
+
+		Debug.LogWarning("Last fail index : " + lastFailIndex + " / new index : " + index);
+
+		return index;
+	}
 
 	public bool IsValid()
 	{

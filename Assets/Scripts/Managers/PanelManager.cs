@@ -100,6 +100,7 @@ public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 
 		// gets ref of new scene
 		onLoadingDone.Invoke();
+		Debug.Log(debugableInterface.debugLabel + "Called specific transition method");
 
 		// calls generic action (generally gets popup refs and init specific popup)
 		genericSceneAction.Invoke();
@@ -110,6 +111,7 @@ public class PanelManager : MonoBehaviour, IDebugable, IInitializable
 		// calls transition event
 		eventsManager.CallPhaseActions(nextPanel);
 
+		// sets actualPanel
 		actualPanel = nextPanel;
 		inTransition = false;
 		yield break;

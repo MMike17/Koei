@@ -42,22 +42,38 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	Color characterTextColor;
 	DialogueWriter lastWriter;
 	List<GameObject> lastSpawnedDialogueObjects;
+	GameData.GameState actualState;
 	float cluesAddTimer;
 	bool needsPlayerSpawn, waitForPlayerChoice, cluesOpen, didCheat;
 
-	public void PreInit()
+	public void PreInit(GameData.GameState targetState, GeneralDialogue dialogue, Func<Clue, bool> findClue)
 	{
-		characterPortrait.Hide();
+		findClueEvent = findClue;
 
+		characterPortrait.Hide();
 		characters.ForEach(item => item.Init(() => ChangeCharacter(item.character)));
+
+		if(targetState != GameData.GameState.NORMAL)
+		{
+			// unlocks all clues
+			foreach (Clue clue in dialogue.GetAllClues())
+			{
+				findClue.Invoke(clue);
+				AddClueToList(clue, true);
+			}
+
+			// forces shogun dialogue done
+			dialogue.charactersDialogues.Find(item => { return item.character == Character.SHOGUN; }).ForceSetAsDone();
+		}
+
+		actualState = targetState;
 	}
 
 	// receives actions from GameManager
-	public void Init(Action openDeductionPopup, Func<Clue, bool> findClue)
+	public void Init(Action openDeductionPopup)
 	{
 		lastSpawnedDialogueObjects = new List<GameObject>();
 
-		findClueEvent = findClue;
 		cluesOpen = false;
 		didCheat = false;
 		cluesAddTimer = 0;
@@ -66,6 +82,9 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		openDeductionButton.onClick.AddListener(() => openDeductionPopup.Invoke());
 
 		cluesPanelButton.onClick.AddListener(OpenCloseClues);
+
+		if(actualState != GameData.GameState.NORMAL)
+			openDeductionPopup.Invoke();
 
 		initializableInterface.InitInternal();
 	}
@@ -79,7 +98,6 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		}
 
 		actualDialogue = dialogue;
-		actualDialogue.Init();
 
 		characterPortrait.Show();
 		ChangeCharacter(Character.SHOGUN);
@@ -124,11 +142,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		if(Input.GetKeyDown(getAllCluesKey) && !didCheat)
 		{
-			foreach (CharacterDialogue characterDialogue in actualDialogue.charactersDialogues)
-			{
-				foreach (Dialogue dialogue in characterDialogue.initialDialogues)
-					GetCluesRecursive(dialogue);
-			}
+			foreach (Clue clue in actualDialogue.GetAllClues().FindAll(item => { return item.giverCharacter == actualCharacter; }))
+				findClueEvent.Invoke(clue);
 
 			didCheat = true;
 		}
@@ -301,7 +316,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		return selected;
 	}
 
-	void AddClueToList(Clue clue)
+	void AddClueToList(Clue clue, bool cancelAnimation = false)
 	{
 		GameObject spawnedClue = Instantiate(cluePrefab, cluesScrollList);
 		spawnedClue.transform.SetAsLastSibling();
@@ -312,8 +327,11 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		cluesAddTimer = cluesAddDelay;
 
-		cluesPanelAnim.Play("Open");
-		cluesOpen = true;
+		if(!cancelAnimation)
+		{
+			cluesPanelAnim.Play("Open");
+			cluesOpen = true;
+		}
 	}
 
 	void OpenCloseClues()
@@ -326,18 +344,6 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		{
 			cluesAddTimer = 0;
 			cluesPanelAnim.Play("Close");
-		}
-	}
-
-	void GetCluesRecursive(Dialogue dialogue)
-	{
-		if(dialogue.hasClue)
-			findClueEvent.Invoke(dialogue.clue);
-
-		if(dialogue.nextDialogues != null && dialogue.nextDialogues.Length > 0)
-		{
-			foreach (Dialogue nextDialogue in dialogue.nextDialogues)
-				GetCluesRecursive(nextDialogue);
 		}
 	}
 

@@ -22,12 +22,15 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 	bool IInitializable.initializedInternal { get; set; }
 
 	List<PopupEventSubscription> popupsSubscriptions;
-	// list gets updated at each scene opening
 	List<Popup> scenePopups;
+	Action FadeMusicIn, FadeMusicOut;
 
-	public void Init()
+	public void Init(Action fadeMusicIn, Action fadeMusicOut)
 	{
 		actualPopup = GamePopup.EMPTY;
+
+		FadeMusicIn = fadeMusicIn;
+		FadeMusicOut = fadeMusicOut;
 
 		popupsSubscriptions = new List<PopupEventSubscription>();
 
@@ -76,6 +79,7 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 			{
 				selected.Activate(this);
 				actualPopup = popup;
+				FadeMusicIn.Invoke();
 			}
 		}
 	}
@@ -90,6 +94,8 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 		}
 
 		scenePopups.ForEach(popup => popup.Deactivate(this));
+
+		FadeMusicOut.Invoke();
 	}
 
 	// force cancels all popups

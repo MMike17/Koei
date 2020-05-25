@@ -1,22 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameManager;
 using static GeneralDialogue;
 
 // class representing global game data
 public class GameData : MonoBehaviour, IDebugable, IInitializable
 {
 	[Header("Assign in Inspector")]
-	public List<CombatDialogue> combatDialogues;
-	[Space]
-	public GeneralPunchlines comonPunchlines;
-	[Space]
-	public List<GeneralDialogue> shogunDialogues;
+	public List<EnemyBundle> enemyContent;
 
 	[Header("Debug")]
 	public List<Clue> playerClues;
 
 	public bool initialized => initializableInterface.initializedInternal;
+
+	public enum GameState
+	{
+		NORMAL,
+		GAME_OVER_GENERAL,
+		GAME_OVER_FINISHER
+	}
 
 	IInitializable initializableInterface => (IInitializable) this;
 	IDebugable debugableInterface => (IDebugable) this;
@@ -24,13 +28,11 @@ public class GameData : MonoBehaviour, IDebugable, IInitializable
 	bool IInitializable.initializedInternal { get; set; }
 	string IDebugable.debugLabel => "<b>[GameData] : </b>";
 
-	public bool gameOver;
-
 	public void Init()
 	{
 		playerClues = new List<Clue>();
 
-		combatDialogues.ForEach(item => item.Init());
+		enemyContent.ForEach(item => item.Init());
 
 		initializableInterface.InitInternal();
 	}
@@ -154,5 +156,20 @@ public class GameData : MonoBehaviour, IDebugable, IInitializable
 	public static Color GetColorFromCategory(Category category)
 	{
 		return GameManager.Get.colors.Find(item => { return item.category == category; }).color;
+	}
+
+	[Serializable]
+	public class EnemyBundle
+	{
+		public Enemy enemy;
+		public CombatDialogue combatDialogue;
+		public GeneralPunchlines punchlines;
+		public GeneralDialogue shogunDialogue;
+
+		public void Init()
+		{
+			combatDialogue.Init();
+			punchlines.Init();
+		}
 	}
 }

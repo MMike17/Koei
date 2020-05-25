@@ -74,7 +74,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	string selectedFinisher;
 	float preCombatTimer, suicideTimer;
 	int dialogueIndex, triesCount, suicideIndex;
-	bool isPlayer, writerIsCommanded, isGoodFinisher;
+	bool isPlayer, writerIsCommanded, isGoodFinisher, gotToFinisher, invokedTransition, destructionAsked;
 
 	public void PreInit(CombatDialogue actualCombat)
 	{
@@ -142,6 +142,9 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 		triesCount = 0;
 		isGoodFinisher = false;
+		gotToFinisher = false;
+		invokedTransition = false;
+		destructionAsked = false;
 
 		Debug.Log(debugableInterface.debugLabel + "Initializing done");
 	}
@@ -183,30 +186,74 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 					canvasAnimator.Play("PanUp");
 				}
+
+				if(Input.GetKeyDown(skip))
+					enemyHealth.Clear();
+
+				if(lastWriter != null && lastWriter.isDone && !destructionAsked)
+				{
+					Destroy(lastWriter.gameObject, preCombatReplicaDelay * 2);
+					destructionAsked = true;
+				}
 				break;
 
 			case Phase.GONG:
 				gongSlider.gameObject.SetActive(true);
+
+				if(lastWriter != null && lastWriter.isDone && !destructionAsked)
+				{
+					Destroy(lastWriter.gameObject, preCombatReplicaDelay * 2);
+					destructionAsked = true;
+				}
 				break;
 
 			case Phase.CHOICE_GENERAL:
 				generalPunchlinePanel.SetActive(true);
 				finisherPunchlinePanel.SetActive(false);
+
+				if(Input.GetKeyDown(skip))
+					triesCount = actualCombat.tries;
+
+				if(lastWriter != null && lastWriter.isDone && !destructionAsked)
+				{
+					Destroy(lastWriter.gameObject, preCombatReplicaDelay * 2);
+					destructionAsked = true;
+				}
 				break;
 			case Phase.CHOICE_FINAL:
 				generalPunchlinePanel.SetActive(false);
 				finisherPunchlinePanel.SetActive(true);
+
+				if(lastWriter != null && lastWriter.isDone && !destructionAsked)
+				{
+					Destroy(lastWriter.gameObject, preCombatReplicaDelay * 2);
+					destructionAsked = true;
+				}
 				break;
 
 			case Phase.EFFECT_GENERAL:
 				katanaSlider.gameObject.SetActive(false);
+				destructionAsked = false;
+
+				if(lastWriter != null && lastWriter.isDone && !destructionAsked)
+				{
+					Destroy(lastWriter.gameObject, preCombatReplicaDelay * 2);
+					destructionAsked = true;
+				}
 				break;
 			case Phase.EFFECT_FINAL:
 				gongSlider.gameObject.SetActive(false);
+				destructionAsked = false;
+
+				if(lastWriter != null && lastWriter.isDone && !destructionAsked)
+				{
+					Destroy(lastWriter.gameObject, preCombatReplicaDelay * 2);
+					destructionAsked = true;
+				}
 				break;
 
 			case Phase.PLAYER_SUICIDE:
-				if(lastWriter.isDone)
+				if(lastWriter.isDone && !invokedTransition)
 					Invoke("PlayerSuicideAnimation", preCombatReplicaDelay);
 				break;
 			case Phase.SUICIDE:
@@ -221,7 +268,10 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		actualPhase = Phase.DIALOGUE;
 		dialogueIndex = 0;
 
-		isPlayer = !string.IsNullOrWhiteSpace(actualCombat.preCombatReplicas[0].playerLine);
+		if(actualCombat.actualState != GameData.GameState.NORMAL)
+			isPlayer = false;
+		else
+			isPlayer = !string.IsNullOrWhiteSpace(actualCombat.preCombatReplicas[0].playerLine);
 
 		SpawnNextPreDialogue();
 	}
@@ -233,10 +283,15 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			if(lastWriterPlayer != null)
 				Destroy(lastWriterPlayer.gameObject);
 
-			if(actualCombat.alreadyLost)
+			if(actualCombat.actualState != GameData.GameState.NORMAL)
 			{
-				actualPhase = Phase.KATANA;
-				Destroy(lastWriter.gameObject);
+				if(actualCombat.actualState == GameData.GameState.GAME_OVER_FINISHER)
+					actualPhase = Phase.GONG;
+				else
+					actualPhase = Phase.KATANA;
+
+				if(lastWriter != null)
+					Destroy(lastWriter.gameObject);
 				return;
 			}
 			else
@@ -259,7 +314,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			if(lastWriterEnemy != null)
 				Destroy(lastWriterEnemy.gameObject);
 
-			if(actualCombat.alreadyLost)
+			if(actualCombat.actualState != GameData.GameState.NORMAL)
 			{
 				lastWriter = Instantiate(writerPrefab, enemyDialoguePosition);
 				lastWriter.Play(actualCombat.preCombatReturnReplica, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
@@ -391,8 +446,9 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		effectAnimator.Play("Empty");
 
-		gongSlider.slider.value = gongSlider.slider.minValue;
+		gongSlider.SetInitialValue();
 		actualPhase = Phase.GONG;
+		gotToFinisher = true;
 
 		SetCanvasInterractable(true);
 	}
@@ -439,7 +495,10 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 					enemyHealth.Remove(selectedPunchline.subCategory);
 				}
 				else
+				{
 					Invoke("GeneralAttackFail", 2.25f);
+					Invoke("SpawnFailReaction", 4.45f + 1.15f);
+				}
 				break;
 
 			case Phase.EFFECT_FINAL:
@@ -461,6 +520,25 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		enemyAnimator.Play("TakeDamage");
 		enemyGraph.sprite = actualCombat.enemySprites[0];
 		bigEnemyGraph.sprite = enemyGraph.sprite;
+
+		Invoke("SpawnDamageReaction", 1.10f);
+	}
+
+	void SpawnAttackReaction(string reaction)
+	{
+		lastWriter = Instantiate(writerPrefab, enemyDialoguePosition);
+
+		lastWriter.Play(reaction, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
+	}
+
+	void SpawnDamageReaction()
+	{
+		SpawnAttackReaction(gamePunchlines.GetRandomDamageReaction());
+	}
+
+	void SpawnFailReaction()
+	{
+		SpawnAttackReaction(gamePunchlines.GetRandomFailReaction());
 	}
 
 	void GeneralAttackGood()
@@ -506,6 +584,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		playerAnimator.Play("Suicide");
 
 		Invoke("PlayBloodShed", 1);
+
+		invokedTransition = true;
 	}
 
 	void PlayBloodShed()
@@ -535,7 +615,10 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		switch(actualPhase)
 		{
 			case Phase.PLAYER_SUICIDE:
-				Invoke("GameOver", 2);
+				if(gotToFinisher)
+					Invoke("GameOverFinisher", 2);
+				else
+					Invoke("GameOverGeneral", 2);
 				break;
 			case Phase.SUICIDE:
 				Invoke("MoveToConsequences", 2);
@@ -548,9 +631,15 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		toConsequencesWin.Invoke();
 	}
 
-	void GameOver()
+	void GameOverGeneral()
 	{
-		actualCombat.alreadyLost = true;
+		actualCombat.actualState = GameData.GameState.GAME_OVER_GENERAL;
+		toConsequencesLost.Invoke();
+	}
+
+	void GameOverFinisher()
+	{
+		actualCombat.actualState = GameData.GameState.GAME_OVER_FINISHER;
 		toConsequencesLost.Invoke();
 	}
 

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameData;
 
+// class used for the whole Fight phase
 [CreateAssetMenu(fileName = "Combat Dialogue", menuName = "Koei/Combat Dialogue")]
 public class CombatDialogue : ScriptableObject
 {
@@ -19,6 +21,7 @@ public class CombatDialogue : ScriptableObject
 	[Space]
 	public List<Replica> preCombatReplicas;
 	[Space]
+	[TextArea]
 	public string preCombatReturnReplica;
 	[Space]
 	public Finishers finisherPunchlines;
@@ -33,11 +36,11 @@ public class CombatDialogue : ScriptableObject
 	[TextArea]
 	public string playerWinConsequence;
 
-	public bool alreadyLost;
+	public GameState actualState { get; set; }
 
 	public void Init()
 	{
-		alreadyLost = false;
+		actualState = GameState.NORMAL;
 	}
 
 	[Serializable]

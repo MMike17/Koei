@@ -1649,11 +1649,11 @@ MonoBehaviour:
     selectionButton: {fileID: 287522933}
     name: Dame Minako
   - character: 2
-    characterClothes: {fileID: 0}
-    characterSkin: {fileID: 0}
-    characterDetail: {fileID: 0}
-    characterEyes: {fileID: 0}
-    characterOver: {fileID: 21300000, guid: f6bce305b5e7b134f804742c8e1e2db6, type: 3}
+    characterClothes: {fileID: 21300000, guid: d82bcd275c113754e992fc8f7ca2a887, type: 3}
+    characterSkin: {fileID: 21300000, guid: a8ec53dcdbec46a4b871eae4c9fa1c8b, type: 3}
+    characterDetail: {fileID: 21300000, guid: 061f4286d7adcf74ab0b785fedced4b2, type: 3}
+    characterEyes: {fileID: 21300000, guid: 4a27d302931a3534199ae7f244bea832, type: 3}
+    characterOver: {fileID: 21300000, guid: 5feb5b41949de114798ea59c2e3c4324, type: 3}
     UI: {fileID: 1194667003}
     selectionButton: {fileID: 1194667002}
     name: "Ma\xEEtre Mikami"
@@ -6501,8 +6501,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3cd64a493c96cac4f81d4d156ddc826c, type: 2}
+  m_sharedMaterial: {fileID: -6981232170768808811, guid: 3cd64a493c96cac4f81d4d156ddc826c,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

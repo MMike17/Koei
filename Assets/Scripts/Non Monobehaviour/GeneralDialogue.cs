@@ -214,6 +214,12 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 			return dialogueInPath;
 		}
 
+		public void ForceSetAsDone()
+		{
+			foreach (Dialogue dialogue in initialDialogues)
+				SetDialogueDoneRecursive(dialogue);
+		}
+
 		public bool IsDone()
 		{
 			foreach (Dialogue dialogue in initialDialogues)
@@ -223,6 +229,17 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 			}
 
 			return true;
+		}
+
+		void SetDialogueDoneRecursive(Dialogue dialogue)
+		{
+			dialogue.SetAsDone();
+
+			if(dialogue.nextDialogues != null && dialogue.nextDialogues.Length > 0)
+			{
+				foreach (Dialogue next in dialogue.nextDialogues)
+					SetDialogueDoneRecursive(next);
+			}
 		}
 
 		bool CheckDialogueRecursive(Dialogue dialogue)

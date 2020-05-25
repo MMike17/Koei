@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-// script used for 
 public class TitleManager : MonoBehaviour, IDebugable, IInitializable
 {
 	[Header("Title")]

@@ -33,7 +33,8 @@ MonoBehaviour:
     enemyLine: "Et toi, t'es quoi ? Un fant\xF4me d\xE9bile ?"
   - playerLine: "Nope ! J'suis celui qui va te p\xE9ter la gueule !"
     enemyLine: Ah ouais ? Je t'attends !
-  preCombatReturnReplica: 
+  preCombatReturnReplica: "Encore toi ?\nTu vaut pas l'temps que \xE7a me prends de
+    t'\xE9craser sous mes sandalles !"
   finisherPunchlines:
     finishers:
     - "Tu es n\xE9 dans la boue et elle accueille tes \xE9bats pervers ! Tu n\u2019es
@@ -45,12 +46,11 @@ MonoBehaviour:
       des obsc\xE9nit\xE9s, tu va de bordels en tavernes, ronin sans but ! Tu n\u2019es
       qu\u2019une parodie de samurai sans int\xE9r\xEAt !"
     correctOne: 0
-  playerWinResponse: "Nooon ! J'pourrais pas vivre avec ce d\xE9shonneur. Mieux vaut mourir
-    comme un vrai samourai !"
+  playerWinResponse: "Nooon ! J'pourrais pas vivre avec ce d\xE9shonneur. Mieux vaut
+    mourir comme un vrai samourai !"
   playerLoseResponse: "Et c\u2019est \xE7a les \u201Cvrais\u201D samoura\xEFs ? Tu
     b\xE9gayes ! Restes mort, \xE7a vaut mieux pour tout le monde."
   playerFinisherLoseResponse: "... non, c'est nul \xE7a. Ton insulte vaut rien."
   playerWinConsequence: "Le bandit est mort et la for\xEAt retrouve son calme. Les
     troupes de Shinegawa se d\xE9ploient \xE0 la fronti\xE8re de Takeda, la guerre
     est imminente..."
-  alreadyLost: 0

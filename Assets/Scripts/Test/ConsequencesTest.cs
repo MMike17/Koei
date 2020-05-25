@@ -6,7 +6,7 @@ public class ConsequencesTest : MonoBehaviour
 {
 	[Header("Settings")]
 	public bool isTesting = false;
-	public bool isGameOver;
+	public GameData.GameState testState;
 	public int combatIndex;
 
 	[Header("Assign in Inspector")]
@@ -16,7 +16,7 @@ public class ConsequencesTest : MonoBehaviour
 	{
 		if(isTesting)
 		{
-			consequencesManager.Init(isGameOver, combatIndex, () => { Debug.Log("Can't go to shogun scene while in testing mode"); });
+			consequencesManager.Init(testState, combatIndex, () => { Debug.Log("Can't go to shogun scene while in testing mode"); });
 		}
 	}
 }
