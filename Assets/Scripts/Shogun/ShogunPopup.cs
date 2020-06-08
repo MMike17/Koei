@@ -420,9 +420,9 @@ public class ShogunPopup : Popup
 		// deselect all knobs
 		spawnedKnobs.ForEach(item => item.DeselectKnob());
 
+		// destroys last path (if finished it's linked to end knob, if not it's interrupted)
 		if(selectionPath[selectionPath.Count - 1].end == null || selectionPath[selectionPath.Count - 1].end == endPath)
 		{
-			// destroys last path (if finished it's linked to end knob, if not it's interrupted)
 			Destroy(selectionPath[selectionPath.Count - 1].gameObject);
 			selectionPath.RemoveAt(selectionPath.Count - 1);
 		}
@@ -456,7 +456,10 @@ public class ShogunPopup : Popup
 			if(unlock == null)
 				Debug.LogError(debugableInterface.debugLabel + "Could't find card to unlock with SubCategory " + pathSubCategories[0].ToString() + " (this will create errors later)");
 			else // adds card to player data
+			{
 				unlock.cardObject.ShowCard();
+				selectionPath.ForEach(item => item.SetColor(GameData.GetColorFromCategory(unlock.category)));
+			}
 		}
 
 		// checks for good feedback

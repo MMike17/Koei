@@ -16,7 +16,7 @@ public class ConsequencesTest : MonoBehaviour
 	{
 		if(isTesting)
 		{
-			consequencesManager.Init(testState, combatIndex, () => { Debug.Log("Can't go to shogun scene while in testing mode"); });
+			consequencesManager.Init(testState, combatIndex, () => { Debug.Log("Can't go to shogun scene while in testing mode"); }, () => { Debug.Log("Can't advance enemy phase while in testing mode"); });
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 
 public class ConsequencesManager : MonoBehaviour, IDebugable, IInitializable
@@ -20,11 +21,16 @@ public class ConsequencesManager : MonoBehaviour, IDebugable, IInitializable
 	int combatIndex;
 	bool isStarted, mapShow;
 
-	public void Init(GameData.GameState state, int combatIndex, Action toShogunCallback, string textToShow = null)
+	public void Init(GameData.GameState state, int combatIndex, Action toShogunCallback, Action advanceEnemy, string textToShow = null)
 	{
 		if(state == GameData.GameState.NORMAL && !string.IsNullOrEmpty(textToShow))
+		{
 			writer.line = textToShow;
+			advanceEnemy.Invoke();
+		}
 
+		writer.GetComponent<TextMeshProUGUI>().color = Skinning.GetSkin(SkinTag.PICTO);
+		writer.highlightColor = Skinning.GetSkin(SkinTag.CONTRAST);
 		writer.Play();
 
 		isStarted = false;
@@ -57,7 +63,7 @@ public class ConsequencesManager : MonoBehaviour, IDebugable, IInitializable
 
 	void AdvanceMap()
 	{
-		canvas.Play("Show" + combatIndex);
+		canvas.Play("Show" + (combatIndex + 1));
 	}
 
 	void IInitializable.InitInternal()

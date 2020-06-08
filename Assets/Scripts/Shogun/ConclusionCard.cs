@@ -4,7 +4,6 @@ using UnityEngine;
 public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 {
 	[Header("Assign in Inspector")]
-	public GameObject hidden;
 	public TextMeshProUGUI comment;
 	public Animator animator;
 
@@ -19,6 +18,8 @@ public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 	string IDebugable.debugLabel => "<b>[DesignedCard] : </b>";
 	bool IInitializable.initializedInternal { get; set; }
 
+	bool unlocked;
+
 	public void Init(Conclusion data)
 	{
 		conclusion = data;
@@ -27,8 +28,6 @@ public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 		comment.color = GameData.GetColorFromCategory(data.category);
 
 		initializableInterface.InitInternal();
-
-		ShowCard();
 	}
 
 	void IInitializable.InitInternal()
@@ -46,7 +45,8 @@ public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 			return;
 		}
 
-		hidden.SetActive(true);
+		animator.Play("Idle");
+		unlocked = false;
 	}
 
 	public void ShowCard()
@@ -57,14 +57,15 @@ public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 			return;
 		}
 
-		hidden.SetActive(false);
+		animator.Play("Unlock");
+		unlocked = true;
 	}
 
 	public bool IsUnlocked(bool playAnim = false)
 	{
-		if(hidden.activeSelf && playAnim)
+		if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Unlock") && playAnim)
 			animator.Play("Locked");
 
-		return !hidden.activeSelf;
+		return unlocked;
 	}
 }

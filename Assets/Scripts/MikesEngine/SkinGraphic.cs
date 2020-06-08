@@ -30,6 +30,13 @@ public class SkinGraphic : MonoBehaviour
 	{
 		is_skinned = true;
 
+		if(graphicText == null && graphic == null)
+		{
+			Debug.LogError("<b>[" + GetType() + "] : </b>" + "Doesn't have attached graphic component", gameObject);
+			Destroy(this);
+			return;
+		}
+
 		if(graphicText != null)
 			graphicText.color = Skinning.GetSkin(skin_tag);
 		else

@@ -12,15 +12,25 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	public float dialogueSpeed;
 	public float cluesAddDelay;
 	public int highlightLength;
-	public SkinTag playerTextColor, playerChoiceDone, playerChoiceUndone, highlightColor;
-	public KeyCode getAllCluesKey;
+	[Space]
+	public SkinTag playerTextColor;
+	public SkinTag playerHighlightColor;
+	[Space]
+	public SkinTag playerChoiceDone;
+	public SkinTag playerChoiceUndone, playerChoiceHighlightColor;
+	[Space]
+	public SkinTag characterHighlightColor;
 	[Space]
 	public List<ShogunCharacter> characters;
+	[Space]
+	public KeyCode debug;
+	public KeyCode unlockAllClues;
 
 	[Header("Assing in Inspector")]
 	public Button openDeductionButton;
 	public Button cluesPanelButton;
 	public RectTransform dialogueScrollList, cluesScrollList;
+	public Scrollbar dialogueScroll;
 	public GameObject characterTextPrefab, playerChoicePrefab, playerTextPrefab, cluePrefab;
 	public UICharacter characterPortrait;
 	public TextMeshProUGUI characterName;
@@ -53,6 +63,12 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		characterPortrait.Hide();
 		characters.ForEach(item => item.Init(() => ChangeCharacter(item.character)));
 
+		ColorBlock block = dialogueScroll.colors;
+		block.normalColor = Skinning.GetSkin(SkinTag.SECONDARY_ELEMENT);
+		block.highlightedColor = Skinning.GetSkin(SkinTag.SECONDARY_WINDOW);
+		block.pressedColor = Skinning.GetSkin(SkinTag.CONTRAST);
+		dialogueScroll.colors = block;
+
 		if(targetState != GameData.GameState.NORMAL)
 		{
 			// unlocks all clues
@@ -77,6 +93,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		cluesOpen = false;
 		didCheat = false;
 		cluesAddTimer = 0;
+
+		openDeductionPopup += () => AudioManager.PlaySound("Button");
 
 		// plug in buttons
 		openDeductionButton.onClick.AddListener(() => openDeductionPopup.Invoke());
@@ -111,17 +129,13 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			GameObject[] toDestroy = lastSpawnedDialogueObjects.ToArray();
 
 			for (int i = 0; i < toDestroy.Length; i++)
-			{
 				Destroy(toDestroy[i]);
-			}
 
 			lastSpawnedDialogueObjects.Clear();
 		}
 
 		foreach (Transform child in dialogueScrollList)
-		{
 			Destroy(child.gameObject);
-		}
 
 		lastWriter = null;
 		waitForPlayerChoice = false;
@@ -138,12 +152,21 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	void Update()
 	{
 		if(actualDialogue != null && actualDialogue.GetCharacterDialogue(Character.SHOGUN).IsDone())
-			characters.ForEach(item => item.selectionButton.interactable = true);
+			characters.ForEach(item =>
+			{
+				if(item.character != actualCharacter)
+					item.selectionButton.interactable = true;
+			});
 
-		if(Input.GetKeyDown(getAllCluesKey) && !didCheat)
+		if(Input.GetKeyDown(unlockAllClues) && !didCheat)
 		{
-			foreach (Clue clue in actualDialogue.GetAllClues().FindAll(item => { return item.giverCharacter == actualCharacter; }))
-				findClueEvent.Invoke(clue);
+			foreach (Clue clue in actualDialogue.GetAllClues())
+			{
+				if(findClueEvent.Invoke(clue))
+					AddClueToList(clue);
+			}
+
+			Debug.Log(debugableInterface.debugLabel + "Unlocked all clues");
 
 			didCheat = true;
 		}
@@ -158,6 +181,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 				cluesOpen = false;
 
 				cluesPanelAnim.Play("Close");
+				AudioManager.PlaySound("CluesPanel");
 			}
 		}
 
@@ -193,9 +217,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 					}
 				}
 				else
-				{
 					availableDialogues = actualCharacterDialogue.initialDialogues.ToArray();
-				}
 
 				for (int i = 0; i < availableDialogues.Length; i++)
 				{
@@ -206,11 +228,9 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 				}
 			}
 			else // previous line was player line
-			{
 				SpawnCharacterLine(actualCharacterDialogue.GetActualDialogue().characterAnswer, characterTextColor);
-			}
 		}
-		else if(Input.GetMouseButtonDown(0))
+		else if(Input.GetKey(debug))
 		{
 			if(lastWriter != null)
 				lastWriter.Finish();
@@ -239,13 +259,15 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		Button spawned = Instantiate(playerChoicePrefab, dialogueScrollList).GetComponent<Button>();
 
+		ColorBlock block = spawned.colors;
+		block.normalColor = textColor;
+		block.highlightedColor = Skinning.GetSkin(playerChoiceHighlightColor);
+		block.pressedColor = Skinning.GetSkin(SkinTag.CONTRAST);
+		spawned.colors = block;
+
 		TextMeshProUGUI spawnedText = spawned.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 		spawnedText.text = line;
-		spawnedText.color = textColor;
-
-		ColorBlock colors = spawned.colors;
-		colors.pressedColor = Skinning.GetSkin(SkinTag.CONTRAST);
-		spawned.colors = colors;
+		spawnedText.color = Color.white;
 
 		spawned.onClick.AddListener(() => SelectChoice(line, index));
 
@@ -276,7 +298,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		DialogueWriter spawned = Instantiate(playerTextPrefab, dialogueScrollList).GetComponent<DialogueWriter>();
 
 		spawned.Reset();
-		spawned.Play(line, dialogueSpeed * 2, Mathf.RoundToInt(highlightLength * 1.5f), Skinning.GetSkin(highlightColor), text);
+		spawned.Play(line, dialogueSpeed * 2, Mathf.RoundToInt(highlightLength * 1.5f), Skinning.GetSkin(playerHighlightColor), text);
 
 		lastWriter = spawned;
 	}
@@ -291,7 +313,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		DialogueWriter spawned = Instantiate(characterTextPrefab, dialogueScrollList).GetComponent<DialogueWriter>();
 
-		spawned.Play(line, dialogueSpeed, highlightLength, Skinning.GetSkin(highlightColor), text);
+		spawned.Play(line, dialogueSpeed, highlightLength, Skinning.GetSkin(characterHighlightColor), text);
 
 		lastWriter = spawned;
 		needsPlayerSpawn = true;
@@ -331,6 +353,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		{
 			cluesPanelAnim.Play("Open");
 			cluesOpen = true;
+			AudioManager.PlaySound("CluesPanel");
 		}
 	}
 
@@ -345,6 +368,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			cluesAddTimer = 0;
 			cluesPanelAnim.Play("Close");
 		}
+
+		AudioManager.PlaySound("CluesPanel");
 	}
 
 	[Serializable]
@@ -372,7 +397,12 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			selectionButton.interactable = false;
 
 			selectionButton.onClick.RemoveAllListeners();
-			selectionButton.onClick.AddListener(() => changeCharacter.Invoke());
+			selectionButton.onClick.AddListener(() =>
+			{
+				changeCharacter.Invoke();
+				UI.SwitchState();
+				AudioManager.PlaySound("Button");
+			});
 
 			UI.SetCharacterPortrait(this, selectionButton);
 

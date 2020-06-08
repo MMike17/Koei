@@ -4,7 +4,15 @@ using static ShogunManager;
 
 public class UICharacter : MonoBehaviour
 {
-	public Image clothes, skin, detail, eyes, over;
+	[Header("Settings")]
+	public SkinTag normalTag;
+	public SkinTag disabledTag;
+
+	[Header("Assing in Inspector")]
+	public Image clothes;
+	public Image skin, detail, eyes, over;
+
+	Button selfButton;
 
 	public void SetCharacterPortrait(ShogunCharacter shogunCharacter, Button button = null)
 	{
@@ -16,9 +24,12 @@ public class UICharacter : MonoBehaviour
 
 		if(button != null)
 		{
+			selfButton = button;
+
 			ColorBlock block = button.colors;
+			block.normalColor = Skinning.GetSkin(normalTag);
 			block.highlightedColor = GameData.GetColorFromCharacter(shogunCharacter.character);
-			block.disabledColor = Skinning.GetSkin(SkinTag.BACKGROUND);
+			block.disabledColor = Skinning.GetSkin(disabledTag);
 			button.colors = block;
 		}
 
@@ -41,5 +52,10 @@ public class UICharacter : MonoBehaviour
 		detail.enabled = true;
 		eyes.enabled = true;
 		over.enabled = true;
+	}
+
+	public void SwitchState()
+	{
+		selfButton.interactable = !selfButton.interactable;
 	}
 }

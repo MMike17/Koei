@@ -24,9 +24,7 @@ public class GeneralPunchlines : ScriptableObject
 
 	public string GetRandomDamageReaction()
 	{
-		Debug.LogWarning("<b>Last damage index : " + lastDamageIndex + "</b>");
 		lastDamageIndex = GetDamageIndex();
-		Debug.LogWarning("<b>New damage index : " + lastDamageIndex + "</b>");
 
 		return enemyDamageReaction[lastDamageIndex];
 	}
@@ -38,16 +36,12 @@ public class GeneralPunchlines : ScriptableObject
 		if(enemyDamageReaction.Count > 1 && index == lastDamageIndex)
 			return GetDamageIndex();
 
-		Debug.LogWarning("Last damage index : " + lastDamageIndex + " / new index : " + index);
-
 		return index;
 	}
 
 	public string GetRandomFailReaction()
 	{
-		Debug.LogWarning("<b>Last fail index : " + lastFailIndex + "</b>");
 		lastFailIndex = GetFailIndex();
-		Debug.LogWarning("<b>New fail index : " + lastFailIndex + "</b>");
 
 		return enemyFailReaction[lastFailIndex];
 	}
@@ -58,8 +52,6 @@ public class GeneralPunchlines : ScriptableObject
 
 		if(enemyFailReaction.Count > 1 && index == lastFailIndex)
 			return GetFailIndex();
-
-		Debug.LogWarning("Last fail index : " + lastFailIndex + " / new index : " + index);
 
 		return index;
 	}

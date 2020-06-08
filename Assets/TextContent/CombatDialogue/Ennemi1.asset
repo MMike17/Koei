@@ -16,9 +16,9 @@ MonoBehaviour:
   weaknesses: 07000000090000000f000000
   tries: 5
   sceneBackgrounds:
-  - {fileID: 21300000, guid: f4120012c1123634d92c465968b451c9, type: 3}
-  - {fileID: 21300000, guid: 061af496e493dc6409df3e6ca2c04291, type: 3}
-  - {fileID: 21300000, guid: 1581f669af94a364d9d938a6dccc2828, type: 3}
+  - {fileID: 21300000, guid: 006f6711b58e4454fae44ec509b35546, type: 3}
+  - {fileID: 21300000, guid: 6f0c817b796a6e6479a6672dc6dd1b8c, type: 3}
+  - {fileID: 21300000, guid: fc2e3cec8c4d1cb4f9609a87b33e0f96, type: 3}
   enemySprites:
   - {fileID: 0}
   - {fileID: 0}

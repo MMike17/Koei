@@ -22,7 +22,6 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 	public bool initialized => initializableInterface.initializedInternal;
 
 	RectTransform rectTransform => GetComponent<RectTransform>();
-	Image pathColor => GetComponent<Image>();
 
 	IDebugable debuguableInterface => (IDebugable) this;
 	IInitializable initializableInterface => (IInitializable) this;
@@ -136,13 +135,13 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 		switch(state)
 		{
 			case State.NORMAL:
-				pathColor.color = normalColor;
+				SetColor(normalColor);
 				break;
 			case State.VALIDATED:
-				pathColor.color = validatedColor;
+				SetColor(validatedColor);
 				break;
 			case State.WRONG:
-				pathColor.color = wrongColor;
+				SetColor(wrongColor);
 				break;
 		}
 	}
@@ -156,5 +155,12 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 		}
 
 		return start == knob || end == knob;
+	}
+
+	public void SetColor(Color color)
+	{
+		Image pathColor = GetComponent<Image>();
+
+		pathColor.color = color;
 	}
 }

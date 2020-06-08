@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using static GameData;
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	public List<CategoryColor> colors = new List<CategoryColor>(4);
 	[Space]
 	public SkinData selectedSkin;
+	public TMP_FontAsset projectFont;
 
 	[Header("Assign in Inspector")]
 	public GameObject persistantContainer;
@@ -22,6 +24,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	public EventSystem eventSystem;
 	public GameData gameData;
 	public TitleManager titleManager;
+	public AudioProjectManager audioProjectManager;
 	public AudioManager audioManager;
 
 	[Header("Debug")]
@@ -31,7 +34,7 @@ public class GameManager : MonoBehaviour, IDebugable
 
 	IDebugable debuguableInterface => (IDebugable) this;
 
-	string IDebugable.debugLabel => "<b>[GameManager] : </b>";
+	string IDebugable.debugLabel => "<b>[" + GetType() + "] : </b>";
 
 	Enemy actualEnemy;
 
@@ -103,11 +106,18 @@ public class GameManager : MonoBehaviour, IDebugable
 			popupManager.GetAllScenePopups();
 			popupManager.ForceCancelPop();
 
-			audioManager.FadeMusicIn();
+			audioProjectManager.FadeMusicIn();
+
+			foreach (TextMeshProUGUI text in Resources.FindObjectsOfTypeAll<TextMeshProUGUI>())
+			{
+				if(!text.font.name.Contains("Outline"))
+					text.font = projectFont;
+			}
 		});
 
-		popupManager.Init(audioManager.FadePopupMusicIn, audioManager.FadePopupMusicOut);
-		audioManager.Init(panelManager.fadeDuration, popupManager.fadeDuration, () => { return panelManager.nextPanel; }, () => { return panelManager.actualPanel; }, () => { return popupManager.actualPopup; });
+		audioManager.Init();
+		audioProjectManager.Init(panelManager.fadeDuration, popupManager.fadeDuration, () => { return panelManager.nextPanel; }, () => { return panelManager.actualPanel; }, () => { return popupManager.actualPopup; });
+		popupManager.Init(audioProjectManager.FadePopupMusicIn, audioProjectManager.FadePopupMusicOut);
 
 		PlugPanelEvents();
 		PlugPopupEvents();
@@ -118,6 +128,9 @@ public class GameManager : MonoBehaviour, IDebugable
 		InitTitlePanel();
 
 		Skinning.Init(selectedSkin);
+
+		foreach (TextMeshProUGUI text in Resources.FindObjectsOfTypeAll<TextMeshProUGUI>())
+			text.font = projectFont;
 	}
 
 	// called when we get to the title panel
@@ -141,7 +154,7 @@ public class GameManager : MonoBehaviour, IDebugable
 					AddClueToPlayer
 				);
 
-				audioManager.FadeMusicOut();
+				audioProjectManager.FadeMusicOut();
 			}),
 			() => Application.Quit()
 		);
@@ -176,7 +189,7 @@ public class GameManager : MonoBehaviour, IDebugable
 			() => popupManager.CancelPop(),
 			() =>
 			{
-				audioManager.FadeMusicOut();
+				audioProjectManager.FadeMusicOut();
 
 				panelManager.JumpTo(GamePhase.FIGHT, () =>
 				{
@@ -210,19 +223,15 @@ public class GameManager : MonoBehaviour, IDebugable
 			bundle.shogunDialogue,
 			() =>
 			{
-				panelManager.JumpTo(GamePhase.CONSEQUENCES, () =>
-				{
-					consequencesManager = FindObjectOfType<ConsequencesManager>();
-					actualEnemy++;
-				});
+				panelManager.JumpTo(GamePhase.CONSEQUENCES, () => consequencesManager = FindObjectOfType<ConsequencesManager>());
 
-				audioManager.FadeMusicOut();
+				audioProjectManager.FadeMusicOut();
 			},
 			() =>
 			{
 				panelManager.JumpTo(GamePhase.CONSEQUENCES, () => consequencesManager = FindObjectOfType<ConsequencesManager>());
 
-				audioManager.FadeMusicOut();
+				audioProjectManager.FadeMusicOut();
 			}
 		);
 	}
@@ -251,8 +260,9 @@ public class GameManager : MonoBehaviour, IDebugable
 					AddClueToPlayer
 				);
 
-				audioManager.FadeMusicOut();
+				audioProjectManager.FadeMusicOut();
 			}),
+			() => actualEnemy++,
 			selectedCombat.actualState != GameState.NORMAL ? null : bundle.combatDialogue.playerWinConsequence
 		);
 	}

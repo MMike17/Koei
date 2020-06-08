@@ -71,9 +71,7 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 			List<CharacterDialogue> selected = charactersDialogues.FindAll(item => { return item.character == character; });
 
 			if(selected.Count != 1)
-			{
 				isValid = false;
-			}
 		}
 
 		return isValid;
@@ -86,9 +84,7 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 
 		// resets slots with all characters
 		foreach (Character character in Enum.GetValues(typeof(Character)))
-		{
 			charactersDialogues.Add(new CharacterDialogue(character));
-		}
 	}
 
 	public List<Clue> GetAllClues()
@@ -103,9 +99,7 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 				foreach (Clue clue in GetClue(dialogue))
 				{
 					if(!result.Contains(clue))
-					{
 						result.Add(clue);
-					}
 				}
 			}
 		}
@@ -118,14 +112,10 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 		List<Clue> result = new List<Clue>();
 
 		foreach (Dialogue nextDialogue in dialogue.nextDialogues)
-		{
 			result.AddRange(GetClue(nextDialogue));
-		}
 
 		if(dialogue.hasClue)
-		{
 			result.Add(dialogue.clue);
-		}
 
 		return result;
 	}
@@ -183,9 +173,7 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 
 			// calls method to reset on all next dialogues
 			foreach (Dialogue nextDialogue in dialogue.nextDialogues)
-			{
 				InitDialogue(nextDialogue);
-			}
 		}
 
 		void IInitializable.InitInternal()
@@ -207,9 +195,7 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 
 			// gets the right dialogue in the arborescence
 			for (int i = 1; i < indexesPath.Count; i++)
-			{
 				dialogueInPath = dialogueInPath.nextDialogues[indexesPath[i]];
-			}
 
 			return dialogueInPath;
 		}
@@ -251,9 +237,7 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 				foreach (Dialogue nextDialogue in dialogue.nextDialogues)
 				{
 					if(!CheckDialogueRecursive(nextDialogue))
-					{
 						return false;
-					}
 				}
 
 				return true;

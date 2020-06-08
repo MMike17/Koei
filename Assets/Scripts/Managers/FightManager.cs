@@ -11,7 +11,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	[Header("Settings")]
 	public float preCombatReplicaDelay;
 	public float preCombatWriterSpeed, suicideDelay;
-	public int preCombatWriterTrailLength;
+	public int preCombatWriterTrailLength, backgroundSvalue, backgroundVvalue;
 	public Color preCombatWriterColor, preCombatWriterHighlight;
 	public KeyCode skip;
 
@@ -79,7 +79,11 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	public void PreInit(CombatDialogue actualCombat)
 	{
 		for (int i = 0; i < backgrounds.Length; i++)
+		{
 			backgrounds[i].sprite = actualCombat.sceneBackgrounds[i];
+			backgrounds[i].color = ColorTools.LerpColorValues(Skinning.GetSkin(backgrounds[i].GetComponent<SkinGraphic>().skin_tag), ColorTools.Value.SV, new int[2] { backgroundSvalue, backgroundVvalue });
+			backgrounds[i].GetComponent<SkinGraphic>().enabled = false;
+		}
 
 		this.actualCombat = actualCombat;
 
@@ -200,11 +204,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			case Phase.GONG:
 				gongSlider.gameObject.SetActive(true);
 
-				if(lastWriter != null && lastWriter.isDone && !destructionAsked)
-				{
-					Destroy(lastWriter.gameObject, preCombatReplicaDelay * 2);
-					destructionAsked = true;
-				}
+				if(lastWriter != null)
+					Destroy(lastWriter.gameObject);
 				break;
 
 			case Phase.CHOICE_GENERAL:
@@ -214,42 +215,24 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				if(Input.GetKeyDown(skip))
 					triesCount = actualCombat.tries;
 
-				if(lastWriter != null && lastWriter.isDone && !destructionAsked)
-				{
-					Destroy(lastWriter.gameObject, preCombatReplicaDelay * 2);
-					destructionAsked = true;
-				}
+				if(lastWriter != null)
+					Destroy(lastWriter.gameObject);
 				break;
 			case Phase.CHOICE_FINAL:
 				generalPunchlinePanel.SetActive(false);
 				finisherPunchlinePanel.SetActive(true);
 
-				if(lastWriter != null && lastWriter.isDone && !destructionAsked)
-				{
-					Destroy(lastWriter.gameObject, preCombatReplicaDelay * 2);
-					destructionAsked = true;
-				}
+				if(lastWriter != null)
+					Destroy(lastWriter.gameObject);
 				break;
 
 			case Phase.EFFECT_GENERAL:
 				katanaSlider.gameObject.SetActive(false);
 				destructionAsked = false;
-
-				if(lastWriter != null && lastWriter.isDone && !destructionAsked)
-				{
-					Destroy(lastWriter.gameObject, preCombatReplicaDelay * 2);
-					destructionAsked = true;
-				}
 				break;
 			case Phase.EFFECT_FINAL:
 				gongSlider.gameObject.SetActive(false);
 				destructionAsked = false;
-
-				if(lastWriter != null && lastWriter.isDone && !destructionAsked)
-				{
-					Destroy(lastWriter.gameObject, preCombatReplicaDelay * 2);
-					destructionAsked = true;
-				}
 				break;
 
 			case Phase.PLAYER_SUICIDE:
@@ -521,7 +504,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		enemyGraph.sprite = actualCombat.enemySprites[0];
 		bigEnemyGraph.sprite = enemyGraph.sprite;
 
-		Invoke("SpawnDamageReaction", 1.10f);
+		if(actualPhase == Phase.EFFECT_GENERAL)
+			Invoke("SpawnDamageReaction", 1.10f);
 	}
 
 	void SpawnAttackReaction(string reaction)
