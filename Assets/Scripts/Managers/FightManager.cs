@@ -74,7 +74,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	string selectedFinisher;
 	float preCombatTimer, suicideTimer;
 	int dialogueIndex, triesCount, suicideIndex;
-	bool isPlayer, writerIsCommanded, isGoodFinisher, gotToFinisher, invokedTransition, destructionAsked;
+	bool isPlayer, writerIsCommanded, isGoodFinisher, gotToFinisher, invokedTransition, destructionAsked, isStartingGameOver;
 
 	public void PreInit(CombatDialogue actualCombat)
 	{
@@ -149,6 +149,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		gotToFinisher = false;
 		invokedTransition = false;
 		destructionAsked = false;
+		isStartingGameOver = false;
 
 		Debug.Log(debugableInterface.debugLabel + "Initializing done");
 	}
@@ -399,14 +400,20 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				return;
 			}
 			else
+			{
+				isStartingGameOver = true;
 				Invoke("ShowGameOver", 0.15f);
+			}
 		}
 		else // if(actualPhase == Phase.EFFECT_GENERAL)
 		{
 			if(enemyHealth.Count > 0)
 			{
 				if(triesCount >= actualCombat.tries)
+				{
+					isStartingGameOver = true;
 					Invoke("ShowGameOver", 0.15f);
+				}
 				else
 					Invoke("StartKatanaAgain", 0.15f);
 			}
@@ -522,7 +529,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 	void SpawnFailReaction()
 	{
-		SpawnAttackReaction(gamePunchlines.GetRandomFailReaction());
+		if(!isStartingGameOver)
+			SpawnAttackReaction(gamePunchlines.GetRandomFailReaction());
 	}
 
 	void GeneralAttackGood()
