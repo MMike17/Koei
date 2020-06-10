@@ -28,6 +28,7 @@ public class GongSlider : MonoBehaviour
 
 	void OnDrawGizmos()
 	{
+#if UNITY_EDITOR
 		bool selection = Selection.Contains(gameObject) ? true : Selection.Contains(slidingRect.gameObject) ? true : Selection.Contains(graphic.gameObject) ? true : false;
 
 		if(!selection)
@@ -55,6 +56,7 @@ public class GongSlider : MonoBehaviour
 
 		if(handle != null && slidingRect != null && graphic != null)
 			Update();
+#endif
 	}
 
 	public void Init(Action callback)
