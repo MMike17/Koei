@@ -16,6 +16,12 @@ public class CombatDialogue : ScriptableObject
 	[Space]
 	public Sprite[] sceneBackgrounds = new Sprite[3];
 	[Space]
+	[Header("7 = HP 3")]
+	[Header("6 = HP 2")]
+	[Header("5 = HP 1")]
+	[Header("4 = HP 0")]
+	[Header("1/2/3 = suicide")]
+	[Header("0 = damage")]
 	// 0 = damage / 1-2-3 = suicide / 4 = HP 0 / 5 = HP 1 / 6 = HP 2 / 7 = HP 3
 	public Sprite[] enemySprites;
 	[Space]
