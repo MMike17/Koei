@@ -158,8 +158,6 @@ public class GameManager : MonoBehaviour, IDebugable
 			}),
 			() => Application.Quit()
 		);
-
-		popupManager.GetPopupFromType<SettingsPopup>().SpecificInit();
 	}
 
 	// called when we get to the shogun panel

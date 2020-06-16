@@ -158,6 +158,17 @@ public class GameData : MonoBehaviour, IDebugable, IInitializable
 		return GameManager.Get.colors.Find(item => { return item.category == category; }).color;
 	}
 
+	public static Color LerpColorHSV(Color color, float newHue = 0, float newSaturation = 0, float newValue = 0)
+	{
+		Color.RGBToHSV(color, out float h, out float s, out float v);
+
+		h += newHue;
+		s += newSaturation;
+		v += newValue;
+
+		return Color.HSVToRGB(h, s, v);
+	}
+
 	[Serializable]
 	public class EnemyBundle
 	{

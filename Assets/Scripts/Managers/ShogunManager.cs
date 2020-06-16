@@ -313,7 +313,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		DialogueWriter spawned = Instantiate(characterTextPrefab, dialogueScrollList).GetComponent<DialogueWriter>();
 
-		spawned.Play(line, dialogueSpeed, highlightLength, Skinning.GetSkin(characterHighlightColor), text);
+		spawned.Play(line, dialogueSpeed, highlightLength, Skinning.GetSkin(characterHighlightColor), GameData.LerpColorHSV(text, 0, 0.1f, -0.3f));
 
 		lastWriter = spawned;
 		needsPlayerSpawn = true;

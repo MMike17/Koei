@@ -16,7 +16,7 @@ public class CombatDialogue : ScriptableObject
 	[Space]
 	public Sprite[] sceneBackgrounds = new Sprite[3];
 	[Space]
-	// 0 = damage / 1-2-3 = suicide / 4+ = HP (0 to full)
+	// 0 = damage / 1-2-3 = suicide / 4 = HP 0 / 5 = HP 1 / 6 = HP 2 / 7 = HP 3
 	public Sprite[] enemySprites;
 	[Space]
 	public List<Replica> preCombatReplicas;
