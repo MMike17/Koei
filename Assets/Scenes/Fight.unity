@@ -4721,7 +4721,7 @@ MonoBehaviour:
   m_fontSizeMin: 0
   m_fontSizeMax: 200
   m_fontStyle: 1
-  m_textAlignment: 4097
+  m_textAlignment: 4098
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -5780,7 +5780,7 @@ MonoBehaviour:
   m_fontSizeMin: 0
   m_fontSizeMax: 200
   m_fontStyle: 1
-  m_textAlignment: 4097
+  m_textAlignment: 4098
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -10314,7 +10314,7 @@ MonoBehaviour:
   m_fontSizeMin: 0
   m_fontSizeMax: 200
   m_fontStyle: 1
-  m_textAlignment: 4097
+  m_textAlignment: 4098
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -11016,7 +11016,7 @@ MonoBehaviour:
   m_fontSizeMin: 0
   m_fontSizeMax: 200
   m_fontStyle: 1
-  m_textAlignment: 4097
+  m_textAlignment: 4098
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0

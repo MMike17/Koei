@@ -20,10 +20,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6f0c817b796a6e6479a6672dc6dd1b8c, type: 3}
   - {fileID: 21300000, guid: fc2e3cec8c4d1cb4f9609a87b33e0f96, type: 3}
   enemySprites:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: 44a055fc7bd7c4148a0672a6c359aa20, type: 3}
+  - {fileID: 21300000, guid: 9ab02b01d1a2b20459e846f7d87e0652, type: 3}
+  - {fileID: 21300000, guid: ae76ded0ae6c468448e39f1f5a4e586f, type: 3}
+  - {fileID: 21300000, guid: ae21bb324a7829c408ef7d107a9da8c4, type: 3}
   - {fileID: 21300000, guid: 899b67e76f0596249bb12210b93c4783, type: 3}
   - {fileID: 21300000, guid: 34e922ab0b6389a43a7fc608da07ee86, type: 3}
   - {fileID: 21300000, guid: aa52e282f861f964a906efd768dadbc3, type: 3}

@@ -22,7 +22,6 @@ public class CombatDialogue : ScriptableObject
 	[Header("4 = HP 0")]
 	[Header("1/2/3 = suicide")]
 	[Header("0 = damage")]
-	// 0 = damage / 1-2-3 = suicide / 4 = HP 0 / 5 = HP 1 / 6 = HP 2 / 7 = HP 3
 	public Sprite[] enemySprites;
 	[Space]
 	public List<Replica> preCombatReplicas;

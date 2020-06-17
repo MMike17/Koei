@@ -74,7 +74,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	string selectedFinisher;
 	float preCombatTimer, suicideTimer;
 	int dialogueIndex, triesCount, suicideIndex;
-	bool isPlayer, writerIsCommanded, isGoodFinisher, gotToFinisher, invokedTransition, destructionAsked, isStartingGameOver;
+	bool isPlayer, writerIsCommanded, isGoodFinisher, gotToFinisher, invokedTransition, destructionAsked, isStartingGameOver, suicideStarted;
 
 	public void PreInit(CombatDialogue actualCombat)
 	{
@@ -241,8 +241,11 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 					Invoke("PlayerSuicideAnimation", preCombatReplicaDelay);
 				break;
 			case Phase.SUICIDE:
-				if(lastWriter.isDone)
+				if(lastWriter.isDone && !suicideStarted)
+				{
 					EnemySuicideAnimation();
+					suicideStarted = true;
+				}
 				break;
 		}
 	}
@@ -561,14 +564,13 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		enemyGraph.sprite = actualCombat.enemySprites[suicideIndex];
 		bigEnemyGraph.sprite = enemyGraph.sprite;
 
-		if(suicideIndex == 2)
-			PlayBloodShed();
-
 		if(suicideIndex != 3)
 		{
 			Invoke("EnemySuicideAnimation", suicideDelay);
 			suicideIndex++;
 		}
+		else
+			PlayBloodShed();
 	}
 
 	void PlayerSuicideAnimation()
