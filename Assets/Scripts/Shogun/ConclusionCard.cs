@@ -49,7 +49,7 @@ public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 		unlocked = false;
 	}
 
-	public void ShowCard()
+	public void ShowCard(bool playSound = true)
 	{
 		if(!initialized)
 		{
@@ -58,6 +58,10 @@ public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 		}
 
 		animator.Play("Unlock");
+
+		if(playSound)
+			AudioManager.PlaySound("Swish");
+
 		unlocked = true;
 	}
 

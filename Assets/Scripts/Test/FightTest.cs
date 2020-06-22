@@ -21,6 +21,7 @@ public class FightTest : MonoBehaviour
 
 		fightManager.PreInit(testedDialogue);
 		fightManager.Init(
+			true,
 			comonPunchlines,
 			generalDialogue,
 			() => Debug.Log("Can't go to consequences in scene test mode"),

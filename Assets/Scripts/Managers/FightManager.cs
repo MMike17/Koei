@@ -74,7 +74,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	string selectedFinisher;
 	float preCombatTimer, suicideTimer;
 	int dialogueIndex, triesCount, suicideIndex;
-	bool isPlayer, writerIsCommanded, isGoodFinisher, gotToFinisher, invokedTransition, destructionAsked, isStartingGameOver, suicideStarted;
+	bool isPlayer, writerIsCommanded, isGoodFinisher, gotToFinisher, invokedTransition, destructionAsked, isStartingGameOver, suicideStarted, useCheats;
 
 	public void PreInit(CombatDialogue actualCombat)
 	{
@@ -98,9 +98,11 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		Invoke("StartDialogue", 3);
 	}
 
-	public void Init(GeneralPunchlines punchlines, GeneralDialogue dialogue, Action toConsequencesWinCallback, Action toConsequencesLostCallback)
+	public void Init(bool useCheats, GeneralPunchlines punchlines, GeneralDialogue dialogue, Action toConsequencesWinCallback, Action toConsequencesLostCallback)
 	{
 		initializableInterface.InitInternal();
+
+		this.useCheats = useCheats;
 
 		gamePunchlines = punchlines;
 
@@ -116,7 +118,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		{
 			ConclusionCard spawned = Instantiate(conclusionPrefab, conclusionScroll);
 			spawned.Init(conclusion);
-			spawned.ShowCard();
+			spawned.ShowCard(false);
 		}
 
 		for (int i = 0; i < finisherPunchlineButtons.Length; i++)
@@ -167,7 +169,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		switch(actualPhase)
 		{
 			case Phase.DIALOGUE:
-				if(Input.GetKeyDown(skip))
+				if(Input.GetKeyDown(skip) && useCheats)
 				{
 					actualPhase = Phase.KATANA;
 					Destroy(lastWriter.gameObject);
@@ -192,7 +194,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 					canvasAnimator.Play("PanUp");
 				}
 
-				if(Input.GetKeyDown(skip))
+				if(Input.GetKeyDown(skip) && useCheats)
 					enemyHealth.Clear();
 
 				if(lastWriter != null && lastWriter.isDone && !destructionAsked)
@@ -213,7 +215,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				generalPunchlinePanel.SetActive(true);
 				finisherPunchlinePanel.SetActive(false);
 
-				if(Input.GetKeyDown(skip))
+				if(Input.GetKeyDown(skip) && useCheats)
 					triesCount = actualCombat.tries;
 
 				if(lastWriter != null)
@@ -291,6 +293,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				}
 
 				lastWriter = Instantiate(writerPrefab, playerDialoguePosition);
+
+				lastWriter.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
 				lastWriter.Play(actualCombat.preCombatReplicas[dialogueIndex].playerLine, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
 			}
 
@@ -304,6 +308,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			if(actualCombat.actualState != GameData.GameState.NORMAL)
 			{
 				lastWriter = Instantiate(writerPrefab, enemyDialoguePosition);
+
+				lastWriter.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
 				lastWriter.Play(actualCombat.preCombatReturnReplica, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
 			}
 			else
@@ -316,6 +322,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				}
 
 				lastWriter = Instantiate(writerPrefab, enemyDialoguePosition);
+
+				lastWriter.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
 				lastWriter.Play(actualCombat.preCombatReplicas[dialogueIndex].enemyLine, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
 			}
 
@@ -451,6 +459,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		effectAnimator.Play("Empty");
 
 		lastWriter = Instantiate(writerPrefab, enemyDialoguePosition);
+		lastWriter.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
 
 		if(actualPhase == Phase.EFFECT_GENERAL)
 			lastWriter.Play(actualCombat.playerLoseResponse, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
@@ -522,6 +531,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		lastWriter = Instantiate(writerPrefab, enemyDialoguePosition);
 
+		lastWriter.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
 		lastWriter.Play(reaction, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
 	}
 
@@ -553,6 +563,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		if(lastWriter == null)
 		{
 			lastWriter = Instantiate(writerPrefab, enemyDialoguePosition);
+
+			lastWriter.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
 			lastWriter.Play(actualCombat.playerWinResponse, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
 
 			return;

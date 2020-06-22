@@ -6,11 +6,11 @@ public class UICharacter : MonoBehaviour
 {
 	[Header("Settings")]
 	public SkinTag normalTag;
-	public SkinTag disabledTag;
 
 	[Header("Assing in Inspector")]
 	public Image clothes;
 	public Image skin, detail, eyes, over;
+	public Image[] greyedOut;
 
 	Button selfButton;
 
@@ -29,11 +29,12 @@ public class UICharacter : MonoBehaviour
 			ColorBlock block = button.colors;
 			block.normalColor = Skinning.GetSkin(normalTag);
 			block.highlightedColor = GameData.GetColorFromCharacter(shogunCharacter.character);
-			block.disabledColor = Skinning.GetSkin(disabledTag);
+			block.disabledColor = Skinning.GetSkin(normalTag);
 			button.colors = block;
 		}
 
 		Show();
+		Grey(false);
 	}
 
 	public void Hide()
@@ -52,6 +53,15 @@ public class UICharacter : MonoBehaviour
 		detail.enabled = true;
 		eyes.enabled = true;
 		over.enabled = true;
+	}
+
+	public void Grey(bool state)
+	{
+		if(greyedOut == null)
+			return;
+
+		foreach (Image image in greyedOut)
+			image.enabled = state;
 	}
 
 	public void SwitchState()

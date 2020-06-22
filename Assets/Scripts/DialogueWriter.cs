@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(TextMeshProUGUI))]
@@ -17,16 +18,13 @@ public class DialogueWriter : MonoBehaviour
 	public bool isDone => string.IsNullOrEmpty(line) || writingIndex - trailLength > line.Length;
 	public float timeBeforeEnd => 1 / writingSpeed * line.Length;
 
-	TextMeshProUGUI textComponent;
+	TextMeshProUGUI textComponent => GetComponent<TextMeshProUGUI>();
+
+	Action<bool> setSound;
 	Color[] trailColors;
 	int writingIndex;
 	float timer;
 	bool start;
-
-	void Awake()
-	{
-		textComponent = GetComponent<TextMeshProUGUI>();
-	}
 
 	void Update()
 	{
@@ -34,7 +32,7 @@ public class DialogueWriter : MonoBehaviour
 		{
 			if(string.IsNullOrEmpty(line))
 			{
-				Debug.LogError("line to write is empty", gameObject);
+				Debug.LogError("Line to write is empty", gameObject);
 				return;
 			}
 
@@ -43,6 +41,7 @@ public class DialogueWriter : MonoBehaviour
 			if(writingIndex - trailLength > line.Length)
 			{
 				textComponent.text = line;
+				setSound.Invoke(false);
 				return;
 			}
 			else
@@ -92,6 +91,7 @@ public class DialogueWriter : MonoBehaviour
 		timer = 0;
 
 		ComputeColors();
+		setSound.Invoke(true);
 
 		start = true;
 	}
@@ -144,9 +144,22 @@ public class DialogueWriter : MonoBehaviour
 		writingIndex = line.Length + trailLength;
 	}
 
+	public void SetAudio(Action activate, Action deactivate)
+	{
+		setSound = (bool state) =>
+		{
+			if(state)
+			{
+				if(activate != null)
+					activate.Invoke();
+			}
+			else if(deactivate != null)
+				deactivate.Invoke();
+		};
+	}
+
 	void ComputeColors()
 	{
-		Awake();
 		trailColors = new Color[trailLength];
 
 		for (int i = 0; i < trailLength; i++)

@@ -28,13 +28,14 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	[Header("Assing in Inspector")]
 	public Button openDeductionButton;
-	public Button cluesPanelButton;
+	public Button cluesPanelButton, cluesPanelShadowButton;
 	public RectTransform dialogueScrollList, cluesScrollList;
 	public Scrollbar dialogueScroll;
 	public GameObject characterTextPrefab, playerChoicePrefab, playerTextPrefab, cluePrefab;
 	public UICharacter characterPortrait;
 	public TextMeshProUGUI characterName;
 	public Animator cluesPanelAnim;
+	public Image dialogueScrollDetail, background;
 
 	IDebugable debugableInterface => (IDebugable) this;
 	IInitializable initializableInterface => (IInitializable) this;
@@ -54,11 +55,13 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	List<GameObject> lastSpawnedDialogueObjects;
 	GameData.GameState actualState;
 	float cluesAddTimer;
-	bool needsPlayerSpawn, waitForPlayerChoice, cluesOpen, didCheat;
+	bool needsPlayerSpawn, waitForPlayerChoice, cluesOpen, didCheat, useCheats;
 
 	public void PreInit(GameData.GameState targetState, GeneralDialogue dialogue, Func<Clue, bool> findClue)
 	{
 		findClueEvent = findClue;
+
+		background.color = ColorTools.LerpColorValues(Skinning.GetSkin(SkinTag.PICTO), ColorTools.Value.SV, new int[2] { 8, 10 });
 
 		characterPortrait.Hide();
 		characters.ForEach(item => item.Init(() => ChangeCharacter(item.character)));
@@ -68,6 +71,12 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		block.highlightedColor = Skinning.GetSkin(SkinTag.SECONDARY_WINDOW);
 		block.pressedColor = Skinning.GetSkin(SkinTag.CONTRAST);
 		dialogueScroll.colors = block;
+
+		block = cluesPanelButton.colors;
+		block.normalColor = Skinning.GetSkin(SkinTag.PRIMARY_ELEMENT);
+		block.highlightedColor = Skinning.GetSkin(SkinTag.PRIMARY_WINDOW);
+		block.pressedColor = Skinning.GetSkin(SkinTag.CONTRAST);
+		cluesPanelButton.colors = block;
 
 		if(targetState != GameData.GameState.NORMAL)
 		{
@@ -86,10 +95,11 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	}
 
 	// receives actions from GameManager
-	public void Init(Action openDeductionPopup)
+	public void Init(bool useCheats, Action openDeductionPopup)
 	{
 		lastSpawnedDialogueObjects = new List<GameObject>();
 
+		this.useCheats = useCheats;
 		cluesOpen = false;
 		didCheat = false;
 		cluesAddTimer = 0;
@@ -97,9 +107,14 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		openDeductionPopup += () => AudioManager.PlaySound("Button");
 
 		// plug in buttons
-		openDeductionButton.onClick.AddListener(() => openDeductionPopup.Invoke());
+		openDeductionButton.onClick.AddListener(() =>
+		{
+			openDeductionPopup.Invoke();
+			OpenCloseClues();
+		});
 
 		cluesPanelButton.onClick.AddListener(OpenCloseClues);
+		cluesPanelShadowButton.onClick.AddListener(OpenCloseClues);
 
 		if(actualState != GameData.GameState.NORMAL)
 			openDeductionPopup.Invoke();
@@ -119,6 +134,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		characterPortrait.Show();
 		ChangeCharacter(Character.SHOGUN);
+
+		characters.ForEach(item => item.UI.Grey(true));
 	}
 
 	public void ResetDialogue()
@@ -155,10 +172,13 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			characters.ForEach(item =>
 			{
 				if(item.character != actualCharacter)
+				{
 					item.selectionButton.interactable = true;
+					item.UI.Grey(false);
+				}
 			});
 
-		if(Input.GetKeyDown(unlockAllClues) && !didCheat)
+		if(Input.GetKeyDown(unlockAllClues) && !didCheat && useCheats)
 		{
 			foreach (Clue clue in actualDialogue.GetAllClues())
 			{
@@ -230,7 +250,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			else // previous line was player line
 				SpawnCharacterLine(actualCharacterDialogue.GetActualDialogue().characterAnswer, characterTextColor);
 		}
-		else if(Input.GetKey(debug))
+		else if(Input.GetKey(debug) && useCheats)
 		{
 			if(lastWriter != null)
 				lastWriter.Finish();
@@ -241,6 +261,14 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		ResetDialogue();
 
+		characters.ForEach(item =>
+		{
+			if(item.character == character)
+				item.UI.Grey(true);
+			else
+				item.UI.Grey(false);
+		});
+
 		actualCharacter = character;
 		actualCharacterDialogue = actualDialogue.GetCharacterDialogue(actualCharacter);
 
@@ -248,6 +276,12 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		characterName.text = GetCharacter(actualCharacter).name;
 		characterName.color = GameData.GetColorFromCharacter(actualCharacter);
+
+		dialogueScrollDetail.color = GameData.GetColorFromCharacter(actualCharacter);
+
+		ColorBlock colors = dialogueScroll.colors;
+		colors.pressedColor = GameData.GetColorFromCharacter(actualCharacter);
+		dialogueScroll.colors = colors;
 
 		waitForPlayerChoice = false;
 		characterTextColor = GameData.GetColorFromCharacter(character);
@@ -298,6 +332,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		DialogueWriter spawned = Instantiate(playerTextPrefab, dialogueScrollList).GetComponent<DialogueWriter>();
 
 		spawned.Reset();
+		spawned.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
 		spawned.Play(line, dialogueSpeed * 2, Mathf.RoundToInt(highlightLength * 1.5f), Skinning.GetSkin(playerHighlightColor), text);
 
 		lastWriter = spawned;
@@ -313,6 +348,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		DialogueWriter spawned = Instantiate(characterTextPrefab, dialogueScrollList).GetComponent<DialogueWriter>();
 
+		spawned.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
 		spawned.Play(line, dialogueSpeed, highlightLength, Skinning.GetSkin(characterHighlightColor), GameData.LerpColorHSV(text, 0, 0.1f, -0.3f));
 
 		lastWriter = spawned;

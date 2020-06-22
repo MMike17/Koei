@@ -33,14 +33,16 @@ public class ShogunPopup : Popup
 	ClueKnob previouslyHoveredKnob;
 	float clueDisplayTimer;
 	int positionComputingStep, lineTries;
-	bool isSettingPath, didFeedback;
+	bool isSettingPath, didFeedback, useCheats;
 
-	public void SpecificInit(List<Clue> clueList, List<Conclusion> unlockableConclusions, List<ShogunCharacter> characters, Action returnCallback, Action combatCallback, GameData.GameState actualState)
+	public void SpecificInit(bool useCheats, List<Clue> clueList, List<Conclusion> unlockableConclusions, List<ShogunCharacter> characters, Action returnCallback, Action combatCallback, GameData.GameState actualState)
 	{
+		this.useCheats = useCheats;
+
 		SpawnKnobs(clueList, characters);
 		SpawnConclusions(unlockableConclusions, actualState);
 
-		returnButton.onClick.AddListener(() => { returnCallback.Invoke(); SetStateCursor(false); });
+		returnButton.onClick.AddListener(() => { returnCallback.Invoke(); SetStateCursor(false); AudioManager.PlaySound("Button"); });
 		combatButton.onClick.AddListener(() =>
 		{
 			bool can = true;
@@ -52,7 +54,15 @@ public class ShogunPopup : Popup
 			}
 
 			if(can)
+			{
 				combatCallback.Invoke();
+				AudioManager.PlaySound("Button");
+			}
+			else
+			{
+				// should play bad sound
+				// AudioManager.PlaySound("Button");
+			}
 		});
 
 		selectionPath = new List<Path>();
@@ -418,7 +428,7 @@ public class ShogunPopup : Popup
 	List<SubCategory> CheckFullPath(bool isFinished)
 	{
 		// deselect all knobs
-		spawnedKnobs.ForEach(item => item.DeselectKnob());
+		spawnedKnobs.ForEach(item => item.DeselectKnob(false));
 
 		// destroys last path (if finished it's linked to end knob, if not it's interrupted)
 		if(selectionPath[selectionPath.Count - 1].end == null || selectionPath[selectionPath.Count - 1].end == endPath)

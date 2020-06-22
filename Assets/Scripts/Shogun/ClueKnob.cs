@@ -64,10 +64,12 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 		selected.SetActive(isSelected);
 		unlocked.SetActive(!isSelected);
 
+		AudioManager.PlaySound("Knob");
+
 		Debug.Log(debuguableInterface.debugLabel + (isSelected? "Selected knob": "Unselected knob"));
 	}
 
-	public void DeselectKnob()
+	public void DeselectKnob(bool playSound = true)
 	{
 		if(!initialized)
 		{
@@ -79,6 +81,9 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 
 		selected.SetActive(false);
 		unlocked.SetActive(!isLocked);
+
+		if(playSound)
+			AudioManager.PlaySound("Knob");
 
 		Debug.Log(debuguableInterface.debugLabel + "Unselected knob");
 	}

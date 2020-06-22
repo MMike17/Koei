@@ -8,7 +8,7 @@ using static GameData;
 // everything should flow from here but not flow back to here
 public class GameManager : MonoBehaviour, IDebugable
 {
-	// static reference to the class, used for testing or emergency
+	// static reference to the class, used for testing or gross stitching
 	public static GameManager Get;
 
 	[Header("Settings")]
@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour, IDebugable
 	[Space]
 	public SkinData selectedSkin;
 	public TMP_FontAsset projectFont;
+	public List<TMP_FontAsset> fontToIgnore;
+	[Space]
+	public bool useCheats;
 
 	[Header("Assign in Inspector")]
 	public GameObject persistantContainer;
@@ -28,6 +31,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	public AudioManager audioManager;
 
 	[Header("Debug")]
+	public IntroManager introManager;
 	public ShogunManager shogunManager;
 	public FightManager fightManager;
 	public ConsequencesManager consequencesManager;
@@ -42,6 +46,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	public enum GamePhase
 	{
 		TITLE,
+		INTRO,
 		SHOGUN,
 		FIGHT,
 		CONSEQUENCES
@@ -110,7 +115,7 @@ public class GameManager : MonoBehaviour, IDebugable
 
 			foreach (TextMeshProUGUI text in Resources.FindObjectsOfTypeAll<TextMeshProUGUI>())
 			{
-				if(!text.font.name.Contains("Outline"))
+				if(!fontToIgnore.Contains(text.font))
 					text.font = projectFont;
 			}
 		});
@@ -127,10 +132,15 @@ public class GameManager : MonoBehaviour, IDebugable
 		popupManager.ForceCancelPop();
 		InitTitlePanel();
 
+		audioProjectManager.FadeMusicIn();
+
 		Skinning.Init(selectedSkin);
 
 		foreach (TextMeshProUGUI text in Resources.FindObjectsOfTypeAll<TextMeshProUGUI>())
-			text.font = projectFont;
+		{
+			if(!fontToIgnore.Contains(text.font))
+				text.font = projectFont;
+		}
 	}
 
 	// called when we get to the title panel
@@ -145,6 +155,28 @@ public class GameManager : MonoBehaviour, IDebugable
 		}
 
 		titleManager.Init(
+			() => panelManager.JumpTo(GamePhase.INTRO, () =>
+			{
+				introManager = FindObjectOfType<IntroManager>();
+				audioProjectManager.FadeMusicOut();
+			}),
+			() => Application.Quit()
+		);
+	}
+
+	// called when we get to the intro panel
+	void InitIntroPanel()
+	{
+		Skinning.ResetSkin(selectedSkin);
+
+		if(introManager == null)
+		{
+			Debug.LogError(debuguableInterface.debugLabel + "IntroManager component shouldn't be null. If we can't get scene references we can't do anything.");
+			return;
+		}
+
+		introManager.Init(
+			useCheats,
 			() => panelManager.JumpTo(GamePhase.SHOGUN, () =>
 			{
 				shogunManager = FindObjectOfType<ShogunManager>();
@@ -155,9 +187,7 @@ public class GameManager : MonoBehaviour, IDebugable
 				);
 
 				audioProjectManager.FadeMusicOut();
-			}),
-			() => Application.Quit()
-		);
+			}));
 	}
 
 	// called when we get to the shogun panel
@@ -171,7 +201,7 @@ public class GameManager : MonoBehaviour, IDebugable
 			return;
 		}
 
-		shogunManager.Init(() => popupManager.Pop(GamePopup.SHOGUN_DEDUCTION));
+		shogunManager.Init(useCheats, () => popupManager.Pop(GamePopup.SHOGUN_DEDUCTION));
 
 		EnemyBundle bundle = gameData.enemyContent.Find(item => { return item.enemy == actualEnemy; });
 
@@ -181,6 +211,7 @@ public class GameManager : MonoBehaviour, IDebugable
 		CombatDialogue selectedCombat = bundle.combatDialogue;
 
 		popupManager.GetPopupFromType<ShogunPopup>().SpecificInit(
+			useCheats,
 			selectedGeneral.GetAllClues(),
 			selectedGeneral.unlockableConclusions,
 			shogunManager.characters,
@@ -217,6 +248,7 @@ public class GameManager : MonoBehaviour, IDebugable
 		CombatDialogue selectedCombat = bundle.combatDialogue;
 
 		fightManager.Init(
+			useCheats,
 			bundle.punchlines,
 			bundle.shogunDialogue,
 			() =>
@@ -274,6 +306,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	// subscribe events to panel EventManager here
 	void PlugPanelEvents()
 	{
+		panelManager.eventsManager.AddPhaseAction(GamePhase.INTRO, InitIntroPanel);
 		panelManager.eventsManager.AddPhaseAction(GamePhase.TITLE, InitTitlePanel);
 		panelManager.eventsManager.AddPhaseAction(GamePhase.SHOGUN, InitShogunPanel);
 		panelManager.eventsManager.AddPhaseAction(GamePhase.FIGHT, InitFightPanel);

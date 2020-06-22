@@ -31,6 +31,7 @@ public class ConsequencesManager : MonoBehaviour, IDebugable, IInitializable
 
 		writer.GetComponent<TextMeshProUGUI>().color = Skinning.GetSkin(SkinTag.PICTO);
 		writer.highlightColor = Skinning.GetSkin(SkinTag.CONTRAST);
+		writer.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
 		writer.Play();
 
 		isStarted = false;

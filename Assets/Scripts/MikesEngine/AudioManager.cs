@@ -77,13 +77,16 @@ public class AudioManager : MonoBehaviour
 	/// <param name="clip_name">name of the SoundClip you want to play</param>
 	/// <param name="point">position you want to spawn the prefab to (Vector3.zero by default)</param>
 	/// <param name="destroy_on_done">sets wether the prefab should be destroyed when done playing</param>
-	public static void PlaySound(string clip_name, bool destroy_on_done = false, Vector3 point = default(Vector3))
+	public static void PlaySound(string clip_name, Action callback = null, bool destroy_on_done = false, Vector3 point = default(Vector3))
 	{
 		SoundClip selected_sound = AudioManager.instance.FindClipByName(clip_name);
 
 		if(selected_sound == null)
 		{
 			Debug.LogError("<b>[" + AudioManager.instance.GetType() + "] : </b>Couldn't find SoundClip with name \"" + clip_name + "\"");
+
+			if(callback != null)
+				callback.Invoke();
 			return;
 		}
 
@@ -113,7 +116,7 @@ public class AudioManager : MonoBehaviour
 		}
 
 		selected_sound.attachedSource = selected_from_pool;
-		selected_sound.SetupSource(selected_from_pool, point);
+		selected_sound.SetupSource(selected_from_pool, point, callback);
 
 		AudioManager.instance.pool.Add(new SoundClip(selected_sound));
 		selected_sound.attachedSource.Play();
@@ -123,7 +126,22 @@ public class AudioManager : MonoBehaviour
 	/// <param name="clip_name">name of the SoundClip you want to play</param>
 	public static void PlaySound(string clip_name)
 	{
-		AudioManager.PlaySound(clip_name, false, default(Vector3));
+		AudioManager.PlaySound(clip_name, null, false, default(Vector3));
+	}
+
+	/// <summary>Calls ShootSound with default parameters (for UI buttons). Doesn't require object ref</summary>
+	/// <param name="clip_name">name of the SoundClip you want to play</param>
+	public static void StopSound(string clip_name)
+	{
+		int index = AudioManager.instance.pool.FindIndex((item) => { return item.GetName() == clip_name; });
+
+		if(index >= 0)
+		{
+			AudioManager.instance.pool[index].Finish();
+			AudioManager.instance.pool[index].Stop();
+		}
+		else
+			Debug.LogError("<b>[" + AudioManager.instance.GetType() + "] : </b>Couldn't find active source with name \"" + clip_name + "\"");
 	}
 
 	SoundClip FindClipByName(string name)
@@ -159,6 +177,8 @@ public class AudioManager : MonoBehaviour
 		public bool destroyOnDone { get; private set; }
 		public AudioSource attachedSource { get; set; }
 
+		Action doneCallback;
+
 		public SoundClip(SoundClip model)
 		{
 			name = model.name;
@@ -172,15 +192,20 @@ public class AudioManager : MonoBehaviour
 			model.donePlaying = false;
 		}
 
-		public void SetupSource(AudioSource source, Vector3 point)
+		public void SetupSource(AudioSource source, Vector3 point, Action callback)
 		{
 			AudioSource sound_source = source;
 			attachedSource = source;
+
 			sound_source.clip = clip;
 			sound_source.volume = volume;
 			sound_source.spatialBlend = preset.dMode == AudioPreset.Spacialisation.TwoD?0 : 1;
 			sound_source.spatialize = preset.dMode == AudioPreset.Spacialisation.ThreeD;
+
 			donePlaying = false;
+
+			if(callback != null)
+				doneCallback = callback;
 
 			switch(preset.lifeMode)
 			{
@@ -205,7 +230,10 @@ public class AudioManager : MonoBehaviour
 
 		public float GetClipLength()
 		{
-			return clip.length;
+			if(clip != null)
+				return clip.length;
+			else
+				return 0;
 		}
 
 		public void SetTarget(Transform target)
@@ -221,7 +249,7 @@ public class AudioManager : MonoBehaviour
 
 		public void CheckDone()
 		{
-			if(!attachedSource.loop && attachedSource.time >= GetClipLength())
+			if(attachedSource == null || attachedSource != null && !attachedSource.loop && attachedSource.time >= GetClipLength())
 				donePlaying = true;
 		}
 
@@ -230,6 +258,17 @@ public class AudioManager : MonoBehaviour
 			if(attachedSource != null)
 				Destroy(attachedSource.gameObject);
 		}
-	}
 
+		public void Stop()
+		{
+			if(attachedSource != null)
+				attachedSource.Stop();
+		}
+
+		public void Finish()
+		{
+			if(doneCallback != null)
+				doneCallback.Invoke();
+		}
+	}
 }
