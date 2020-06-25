@@ -732,9 +732,8 @@ MonoBehaviour:
   projectFont: {fileID: 11400000, guid: 06e7a96ff91b341498ff4e597c646069, type: 2}
   fontToIgnore:
   - {fileID: 11400000, guid: 1591976efcca7c74d94395f502009443, type: 2}
-  - {fileID: 11400000, guid: 2f7a8d3573ab1db40930ccbc157ba862, type: 2}
   - {fileID: 11400000, guid: 70a07034b7163ff458a4068307a8aff5, type: 2}
-  useCheats: 0
+  useCheats: 1
   persistantContainer: {fileID: 2139341956}
   panelManager: {fileID: 1301627171}
   popupManager: {fileID: 112819161}

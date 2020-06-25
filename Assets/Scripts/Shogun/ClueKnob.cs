@@ -9,6 +9,7 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 	public GameObject locked;
 	public GameObject unlocked, selected;
 	public SkinGraphic lockedKanji, unlockedBack, selectedBack;
+	public CanvasGroup alphaChange;
 
 	IDebugable debuguableInterface => (IDebugable) this;
 	IInitializable initializableInterface => (IInitializable) this;
@@ -65,6 +66,7 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 		unlocked.SetActive(!isSelected);
 
 		AudioManager.PlaySound("Knob");
+		alphaChange.alpha = 1;
 
 		Debug.Log(debuguableInterface.debugLabel + (isSelected? "Selected knob": "Unselected knob"));
 	}
@@ -86,6 +88,17 @@ public class ClueKnob : MonoBehaviour, IInitializable, IDebugable
 			AudioManager.PlaySound("Knob");
 
 		Debug.Log(debuguableInterface.debugLabel + "Unselected knob");
+	}
+
+	public void SetKnobAlpha(float alpha)
+	{
+		if(!initialized)
+		{
+			Debug.LogError(debuguableInterface.debugLabel + "Not initialized");
+			return;
+		}
+
+		alphaChange.alpha = alpha;
 	}
 
 	public void Unlock()

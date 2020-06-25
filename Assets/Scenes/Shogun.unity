@@ -350,7 +350,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 1443246959}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
@@ -1564,9 +1564,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0791f60332f10b84396d70d821437e4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueSpeed: 30
-  cluesAddDelay: 5
-  highlightLength: 20
+  dialogueSpeed: 40
+  cluesAddDelay: 4
+  highlightLength: 30
   playerTextColor: 0
   playerHighlightColor: 8
   playerChoiceDone: 2
@@ -4113,7 +4113,7 @@ GameObject:
   - component: {fileID: 1002841159}
   m_Layer: 5
   m_Name: EndPath
-  m_TagString: EndPath
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6626,6 +6626,8 @@ GameObject:
   - component: {fileID: 1405195061}
   - component: {fileID: 1405195063}
   - component: {fileID: 1405195062}
+  - component: {fileID: 1405195065}
+  - component: {fileID: 1405195064}
   m_Layer: 5
   m_Name: Scroll
   m_TagString: Untagged
@@ -6691,6 +6693,42 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!114 &1405195064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405195060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1405195065
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405195060}
+  m_CullTransparentMesh: 0
 --- !u!1 &1419350457
 GameObject:
   m_ObjectHideFlags: 0
@@ -6748,7 +6786,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 10
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 1701435764}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1485312229}
@@ -8872,7 +8910,8 @@ MonoBehaviour:
   panel: {fileID: 1891534099}
   clueKnobSpawnPadding: 90
   clueKnobMinDistance: 150
-  clueDisplayDelay: 1
+  clueDisplayDelay: 0.5
+  unselectedAlpha: 0.7
   positionComputingLimit: 10
   goodGameThreshold: 7
   normalPath: 1
@@ -9452,6 +9491,8 @@ GameObject:
   - component: {fileID: 2018979690}
   - component: {fileID: 2018979691}
   - component: {fileID: 2018979692}
+  - component: {fileID: 2018979694}
+  - component: {fileID: 2018979693}
   m_Layer: 5
   m_Name: Scroll
   m_TagString: Untagged
@@ -9517,6 +9558,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &2018979693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018979689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2018979694
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018979689}
+  m_CullTransparentMesh: 0
 --- !u!1 &2078246160
 GameObject:
   m_ObjectHideFlags: 0

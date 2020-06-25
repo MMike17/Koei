@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7816841442075427472, guid: c456d32181a87f7458b7d1e124d7c971,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9072079791130912288, guid: c456d32181a87f7458b7d1e124d7c971,
         type: 3}
       propertyPath: m_Name
@@ -120,12 +125,12 @@ PrefabInstance:
     - target: {fileID: 9072079792744715790, guid: c456d32181a87f7458b7d1e124d7c971,
         type: 3}
       propertyPath: m_fontSize
-      value: 35
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 9072079792744715790, guid: c456d32181a87f7458b7d1e124d7c971,
         type: 3}
       propertyPath: m_fontSizeBase
-      value: 35
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 9072079792744715791, guid: c456d32181a87f7458b7d1e124d7c971,
         type: 3}

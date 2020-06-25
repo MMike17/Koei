@@ -587,9 +587,9 @@ MonoBehaviour:
   playerHighlight: 5
   deityText: 8
   deityHighlight: 7
-  playerSpeed: 30
-  deitySpeed: 20
-  lineDelay: 1
+  playerSpeed: 20
+  deitySpeed: 10
+  lineDelay: 1.5
   playerTrail: 15
   deityTrail: 20
   isTesting: 0

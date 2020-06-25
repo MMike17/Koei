@@ -274,6 +274,7 @@ GameObject:
   - component: {fileID: 5588633241759400276}
   - component: {fileID: 5588633241759400277}
   - component: {fileID: 4886969095475283083}
+  - component: {fileID: 208018588677697554}
   m_Layer: 5
   m_Name: ClueKnob
   m_TagString: Untagged
@@ -321,6 +322,7 @@ MonoBehaviour:
   lockedKanji: {fileID: 4459377998396038971}
   unlockedBack: {fileID: 4220204559575836692}
   selectedBack: {fileID: 2871825789248157246}
+  alphaChange: {fileID: 208018588677697554}
 --- !u!114 &4886969095475283083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,6 +366,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!225 &208018588677697554
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5588633241759400279}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5588633242410552728
 GameObject:
   m_ObjectHideFlags: 0

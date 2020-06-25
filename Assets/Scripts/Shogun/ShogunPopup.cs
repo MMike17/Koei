@@ -11,6 +11,8 @@ public class ShogunPopup : Popup
 	[Header("Settings")]
 	public float clueKnobSpawnPadding;
 	public float clueKnobMinDistance, clueDisplayDelay;
+	[Range(0, 1)]
+	public float unselectedAlpha;
 	public int positionComputingLimit, goodGameThreshold;
 	public SkinTag normalPath, validatedPath, wrongPath;
 	public KeyCode skip;
@@ -215,6 +217,7 @@ public class ShogunPopup : Popup
 
 		foreach (GameObject ui in eventData.hovered)
 		{
+			// show cursor inside area
 			if(ui == clueKnobSpawnZone.gameObject)
 			{
 				SetStateCursor(true);
@@ -223,12 +226,14 @@ public class ShogunPopup : Popup
 
 			ClueKnob local = ui.GetComponent<ClueKnob>();
 
+			// increment info bubble timer for display
 			if(local != null)
 			{
 				clueDisplayTimer += Time.deltaTime;
 				selected = local;
 			}
 
+			// blocks info bubble with goddes feedback
 			if(ui.CompareTag("Block") && ui.GetComponent<CanvasGroup>().blocksRaycasts)
 			{
 				clueDisplayTimer = 0;
@@ -238,6 +243,7 @@ public class ShogunPopup : Popup
 			}
 		}
 
+		// shows clue info bubble
 		if(selected != null)
 		{
 			if(clueDisplayTimer >= clueDisplayDelay)
@@ -266,6 +272,8 @@ public class ShogunPopup : Popup
 					// spawns first path
 					SpawnNewPath(knob);
 
+					selectedClues.Clear();
+
 					selectedClues.Add(knob.GetClue());
 					knob.SelectForPath();
 
@@ -278,26 +286,28 @@ public class ShogunPopup : Popup
 		// if we are drawing line (prevents miscalls when we're not in pannel)
 		if(isSettingPath)
 		{
+			// change unselected clue knobs alpha
+			List<ClueKnob> selectedKnobs = GetAllSelectedKnobs();
+
+			spawnedKnobs.ForEach(item => item.SetKnobAlpha(unselectedAlpha));
+			selectedKnobs.ForEach(item => item.SetKnobAlpha(1));
+
 			// stops path if mouse click is stopped
 			if(!Input.GetMouseButton(0))
 			{
 				isSettingPath = false;
-				selectedClues.Clear();
 
 				bool isPathFinished = false;
 
-				// detect if lifted above endPath object
-				eventData.hovered.ForEach(item =>
+				// detects if ended line
+				if(selectedClues.Count == 3)
 				{
-					if(item.CompareTag("EndPath") && selectionPath.Count == 3)
-					{
-						// there is no clue on last knob
-						selectionPath[selectionPath.Count - 1].UpdatePath(true, endPath.localPosition);
+					// there is no clue on last knob
+					selectionPath[selectionPath.Count - 1].UpdatePath(true, endPath.localPosition);
 
-						isPathFinished = true;
-						Debug.Log(debugableInterface.debugLabel + "Finished selection path");
-					}
-				});
+					isPathFinished = true;
+					Debug.Log(debugableInterface.debugLabel + "Finished selection path");
+				}
 
 				List<SubCategory> pathCheck = CheckFullPath(isPathFinished);
 
@@ -428,7 +438,7 @@ public class ShogunPopup : Popup
 	List<SubCategory> CheckFullPath(bool isFinished)
 	{
 		// deselect all knobs
-		spawnedKnobs.ForEach(item => item.DeselectKnob(false));
+		spawnedKnobs.ForEach(item => { item.DeselectKnob(false); item.SetKnobAlpha(1); });
 
 		// destroys last path (if finished it's linked to end knob, if not it's interrupted)
 		if(selectionPath[selectionPath.Count - 1].end == null || selectionPath[selectionPath.Count - 1].end == endPath)
@@ -444,6 +454,22 @@ public class ShogunPopup : Popup
 		lineTries++;
 
 		return pathSubCategories;
+	}
+
+	List<ClueKnob> GetAllSelectedKnobs()
+	{
+		List<ClueKnob> result = new List<ClueKnob>();
+
+		spawnedKnobs.ForEach(knob =>
+		{
+			selectedClues.ForEach(clue =>
+			{
+				if(knob.GetClue() == clue)
+					result.Add(knob);
+			});
+		});
+
+		return result;
 	}
 
 	void CheckConclusionUnlock(List<SubCategory> pathSubCategories)

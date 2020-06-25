@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using static GeneralPunchlines;
 
 public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 {
@@ -71,5 +72,10 @@ public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 			animator.Play("Locked");
 
 		return unlocked;
+	}
+
+	public bool IsCorrelated(Punchline punchline)
+	{
+		return punchline.subCategory == conclusion.correctedSubCategory;
 	}
 }

@@ -243,14 +243,18 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 				{
 					int j = i;
 					Color actual = Skinning.GetSkin(availableDialogues[i].IsDone() ? playerChoiceDone : playerChoiceUndone);
+					string line = availableDialogues[i].playerQuestion;
 
-					SpawnPlayerChoice(availableDialogues[i].playerQuestion, actual, j);
+					if(availableDialogues[i].IsDone())
+						line = "<s>" + line + "</s>";
+
+					SpawnPlayerChoice(line, availableDialogues[i].playerQuestion, actual, j);
 				}
 			}
 			else // previous line was player line
 				SpawnCharacterLine(actualCharacterDialogue.GetActualDialogue().characterAnswer, characterTextColor);
 		}
-		else if(Input.GetKey(debug) && useCheats)
+		else if(Input.GetMouseButtonDown(0))
 		{
 			if(lastWriter != null)
 				lastWriter.Finish();
@@ -289,7 +293,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		SpawnCharacterLine(actualCharacterDialogue.firstLine, characterTextColor);
 	}
 
-	void SpawnPlayerChoice(string line, Color textColor, int index)
+	void SpawnPlayerChoice(string selectionLine, string displayLine, Color textColor, int index)
 	{
 		Button spawned = Instantiate(playerChoicePrefab, dialogueScrollList).GetComponent<Button>();
 
@@ -300,10 +304,10 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		spawned.colors = block;
 
 		TextMeshProUGUI spawnedText = spawned.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-		spawnedText.text = line;
+		spawnedText.text = selectionLine;
 		spawnedText.color = Color.white;
 
-		spawned.onClick.AddListener(() => SelectChoice(line, index));
+		spawned.onClick.AddListener(() => SelectChoice(displayLine, index));
 
 		lastSpawnedDialogueObjects.Add(spawned.gameObject);
 
