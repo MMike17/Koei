@@ -943,15 +943,32 @@ MonoBehaviour:
   isTesting: 0
   debug: 9
   dialogues:
-  - playerLine: Hey salut, je suis le personnage principal, ce texte est un place
-      holder.
-    deityLine: "Bonjour mon enfant, je suis la d\xE9esse Musum\xE9.\nJe suis moi aussi
-      un placeholder."
-  - playerLine: "L\xE0 je suis sens\xE9 me demander ce qu'il se passe ici et pourquoi
-      je suis l\xE0"
-    deityLine: "Et l\xE0 je suis sens\xE9 lui r\xE9pondre que je l'ai invoqu\xE9 depuis
-      le japon contemporain et envoy\xE9 dans le pass\xE9 pour aider le bon shogun
-      \xE0 devenir empereur du japon"
+  - playerLine: 
+    deityLine: "Salutations, noble enfant d'Edo ! Je ne saurai trop m'excuser d'ainsi
+      p\xE9n\xE9trer tes r\xEAves, mais les dieux t'ont choisi pour une grande mission,
+      qui apportera gloire et honneur sur ta famille."
+  - playerLine: "Hein ? C'est quoi c'bordel ? J'ai fum\xE9 quoi, encore ?"
+    deityLine: "Point de raison de s'inqui\xE9ter, mon enfant. Nous ne te voulons
+      aucun mal. Je suis Uzume, la d\xE9esse du rire et de la danse, et tu es b\xE9ni
+      par la volont\xE9 divine, choisi pour r\xE9\xE9crire le destin de ton pays."
+  - playerLine: "Nan... Nan, vous \xEAtes une hallucination. J'suis juste un p'tit
+      yakuza, moi, pas un h\xE9ros b\xE9ni ou j'sais pas quoi."
+    deityLine: "Si si, je t'assure. Tu as toute la force requise en toi, et tu d\xE9fends
+      souvent l'honneur de ta famille d'adoption, fusse-t-elle compos\xE9e de fieff\xE9s
+      brigands. Heureusement, tes nouveaux suzerains sont de grands seigneurs digne
+      d'\xE9loges et confront\xE9s \xE0 de v\xE9ritables mauvais \xEAtres.\r\n"
+  - playerLine: Mais de quoi tu causes, bordel ? Des seigneurs ? Genre, le premier
+      ministre ?
+    deityLine: "Oh, et puis merde. Tant pis pour le d\xE9corum. Voil\xE0 l'topo :
+      je m'ennuie comme un rat mort dans le ciel, du coup je vais t'envoyer au Moyen-\xC2ge
+      pour que tu serve un shogun et que tu te tape contre des samurais. L'\xE9clate,
+      non ?\r\n"
+  - playerLine: "Hein ? Que dalle ! J'veux rester au 21e si\xE8cle, moi ! Trouves-toi
+      un autre pigeon !"
+    deityLine: "Nan mais t'as pas l'choix en fait. Et tiens, bonus, t'aura pas le
+      droit de toucher les choses l\xE0-bas ! Bonne chance !"
+  - playerLine: Nan ! J'suis pas d'accord ! Vous avez pas l'droiiiiiiit....
+    deityLine: "J'suis une d\xE9esse, je fais ce que je veux. On va bien se marrer."
   - playerLine: Bon jeu !
     deityLine: 
   actualWriter: {fileID: 2036786338}
@@ -1222,8 +1239,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 70
-  m_fontSizeBase: 70
+  m_fontSize: 65
+  m_fontSizeBase: 65
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
