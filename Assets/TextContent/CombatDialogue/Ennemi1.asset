@@ -37,20 +37,18 @@ MonoBehaviour:
     de t'\xE9craser sous mes sandales !"
   finisherPunchlines:
     finishers:
-    - "Tu es n\xE9 dans la boue et elle accueille tes \xE9bats pervers ! Tu n\u2019es
-      que la preuve vivante qu\u2019un paysan ne pourra jamais devenir un samurai,
-      retourne donc \xE0 la fange d\u2019o\xF9 viens ton p\xE8re !\r\n"
-    - "N\xE9 de sorciers et sorcier toi-m\xEAme, tu n\u2019es pas digne de parcourir
-      cette terre ! Un d\xE9mon reste un d\xE9mon toute sa vie !"
-    - "Regarde-toi ! Tu es habill\xE9 de haillons et ta langue ne sait que prononcer
-      des obsc\xE9nit\xE9s, tu va de bordels en tavernes, ronin sans but ! Tu n\u2019es
-      qu\u2019une parodie de samurai sans int\xE9r\xEAt !"
+    - "Mec, arr\xEAte. T'es un fils de p\xE9quenauds, tu voles des trucs, tu couche
+      dans tous les sens... Et tu t'prend pour un putain de samurai ? Que dalle !\n"
+    - "Tu fais du oui-ja, t'encules des ch\xE8vres  et tu danse a poil dans la for\xEAt...
+      Faut vraiment que j'continue ?"
+    - "T'as couch\xE9 avec la moiti\xE9 du Japon, merde ! La seule raison qui fait
+      que t'arrive \xE0 la lever, c'est que tes MST s'battent entre elles !"
     correctOne: 0
-  playerWinResponse: "Nooon ! Je pourrais pas vivre avec ce d\xE9shonneur. Mieux vaut
-    mourir comme un vrai samourai !"
+  playerWinResponse: "Nooon ! C'est vrai... A d\xE9faut de vivre comme un samurai,
+    je mourrais comme un samurai !"
   playerLoseResponse: "Et c\u2019est \xE7a les \u201Cvrais\u201D samoura\xEFs ? Tu
     b\xE9gayes ! Restes mort, \xE7a vaut mieux pour tout le monde."
   playerFinisherLoseResponse: "... non, c'est nul \xE7a. Ton insulte vaut rien."
   playerWinConsequence: "Le bandit est mort et la for\xEAt retrouve son calme. Les
-    troupes de Shinegawa se d\xE9ploient \xE0 la fronti\xE8re de Takeda, la guerre
-    est imminente..."
+    troupes de Shinegawa se d\xE9ploient \xE0 la fronti\xE8re de Takeda, et le destin
+    du Japon est d\xE9j\xE0 chang\xE9 \xE0 jamais..."

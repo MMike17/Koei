@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerQuestion: Ouais, si vous voulez... Y'a moyen d'parler un armurier du coin
     ?
-  characterAnswer: Un armurier ? Pourquoi faire ? Je croyais que vous ne pouviez pas
-    toucher les choses d'ici !
+  characterAnswer: Un armurier ? Pourquoi faire ? Le shogun m'a dit que vous ne pouviez
+    pas toucher les objets !
   hasClue: 0
   clue:
     category: 0

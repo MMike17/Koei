@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: War 1 - 3
   m_EditorClassIdentifier: 
-  playerQuestion: "Il avait une arme p\xE9t\xE9e ? C'est d\xE9bile, \xE7a."
+  playerQuestion: "Il avait une arme cass\xE9e ? C'est d\xE9bile, \xE7a."
   characterAnswer: "Scandaleux, hein ? Et on voyait beaucoup plus son corps que n\xE9cessaire,
     si tu vois ce que je veut dire. Impossible de tuer dignement ce brigand."
   hasClue: 1

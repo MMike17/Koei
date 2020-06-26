@@ -15,7 +15,7 @@ MonoBehaviour:
   playerQuestion: "Ok, on fait comme \xE7a. Et arr\xEAtez avec vos mots compliqu\xE9s,
     l\xE0."
   characterAnswer: "Ce sont des mots tout \xE0 fait simples, que j'emploie pour que
-    tu me comprenne, jeune homme."
+    tu me comprenne, jeune homme. Un peu de respect."
   hasClue: 0
   clue:
     category: 0

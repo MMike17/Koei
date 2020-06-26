@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Shogun 1 - 5
   m_EditorClassIdentifier: 
-  playerQuestion: "Ok. C'est quoi ? Et d\xE9p\xEAchez-vous, p't'\xEAtre que j'vais
-    pouvoir rentrer chez wam."
-  characterAnswer: "Oui, c'est cela. Ecoutez, hum, j'ai un bandit, dans la for\xEAt
-    qui marque la fronti\xE8re avec mon rival, Takeda. Si vous pouviez vous en occuper,
-    je serais reconnaissant. Mes conseillers et ma femme pourront vous en parler plus
-    avant."
+  playerQuestion: "Ok. C'est quoi ? Et d\xE9p\xEAchez-vous, histoire que j'rentre
+    chez moi."
+  characterAnswer: "Oui, c'est cela. Ecoutez, hum, j'ai un bandit, un borgne, dans
+    la for\xEAt qui marque la fronti\xE8re avec mon rival, Takeda. Si vous pouviez
+    vous en occuper, je serais reconnaissant. Mes conseillers et ma femme pourront
+    vous en parler plus avant."
   hasClue: 0
   clue:
     category: 0

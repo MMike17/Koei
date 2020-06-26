@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Shogun 1 - 2
   m_EditorClassIdentifier: 
-  playerQuestion: "Yo. Alors en fait c'compliqu\xE9, mais en gros j'viens du futur
-    pour vous aider."
+  playerQuestion: "Yo. Pff... Bon, c'est compliqu\xE9 mais en gros j'viens du futur
+    pour vous aider, parce que \xE7a fait marrer une d\xE9esse."
   characterAnswer: "Du futur ? Pour m'aider ? Ah, je vois, c'est une boutade, c'est
     \xE7a ?"
   hasClue: 0

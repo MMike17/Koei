@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Shogun 1 - 4
   m_EditorClassIdentifier: 
   playerQuestion: "Ah ! Nan, nan, j'suis s\xE9rieux. Regardez, v'pouvez pas m'toucher."
-  characterAnswer: "C'est \xE9trangement vrai ! Et bien... Si vous voulez m'aider,
+  characterAnswer: "Effectivement. Hmm. Etrange. Et vous dites qu'une d\xE9esse vous
+    envoie ? Eh bien, un cadeau est un cadeau, je suppose. Si vous voulez m'aider,
     je pense avoir une t\xE2che \xE0 la hauteur de vos, hum... capacit\xE9s."
   hasClue: 0
   clue:

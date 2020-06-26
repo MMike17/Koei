@@ -15,8 +15,7 @@ MonoBehaviour:
   playerQuestion: "Ins\xE9r\xE9 ? Hein ?"
   characterAnswer: "Ins\xE9r\xE9, introduit... comme tu veux. Tu a p\xE9n\xE9tr\xE9
     notre univers avec beaucoup de vigueur, si je puis me permettre. Du point de vue
-    de l'expert, c'est assez incroyable. Je dirais m\xEAme plus : \xE7a troue le...
-    enfin bref."
+    de l'expert, c'est assez incroyable."
   hasClue: 0
   clue:
     category: 0

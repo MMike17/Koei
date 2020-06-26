@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: War 2 - 2
   m_EditorClassIdentifier: 
-  playerQuestion: "T'as pas l'air d'en \xEAtre s\xFBr."
+  playerQuestion: "Vous avez pas l'air d'en \xEAtre s\xFBr."
   characterAnswer: "Oh, parce que la guerre, tu sais, c'est un peu comme-ci, comme-\xE7a,
     on m\xE8ne une bataille, on envoie tout le monde, il y en a un quart qui revient,
     bref, c'est un art exigeant.\r\n"

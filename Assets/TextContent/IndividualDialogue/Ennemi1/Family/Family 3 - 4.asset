@@ -16,8 +16,7 @@ MonoBehaviour:
   characterAnswer: "Eh bien ? Les d\xE9mons peuvent toujours vous poss\xE9der, vous
     savez. Tenez, le bandit de la for\xEAt, il est poss\xE9d\xE9 par un d\xE9mon,
     tout le monde le sait. Ma m\xE8re \xE9tait poss\xE9d\xE9e par un d\xE9mon, et
-    c'est pour \xE7a qu'on l'a br\xFBl\xE9e comme sorci\xE8re. C'\xE9tait un spectacle
-    magnifique, je dois dire."
+    c'est pour \xE7a qu'on l'a br\xFBl\xE9e comme sorci\xE8re. "
   hasClue: 1
   clue:
     category: 2
