@@ -1,11 +1,16 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using static GeneralPunchlines;
 
 public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 {
+	[Header("Settings")]
+	public bool scrollColor;
+
 	[Header("Assign in Inspector")]
 	public TextMeshProUGUI comment;
+	public Image detail;
 	public Animator animator;
 
 	[Header("Debug")]
@@ -26,7 +31,14 @@ public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 		conclusion = data;
 
 		comment.text = data.comment;
-		comment.color = GameData.GetColorFromCategory(data.category);
+
+		if(scrollColor)
+		{
+			comment.color = Skinning.GetSkin(SkinTag.BACKGROUND);
+			detail.color = GameData.GetColorFromCategory(data.category);
+		}
+		else
+			comment.color = GameData.GetColorFromCategory(data.category);
 
 		initializableInterface.InitInternal();
 	}

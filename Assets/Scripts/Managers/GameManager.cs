@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	public ShogunManager shogunManager;
 	public FightManager fightManager;
 	public ConsequencesManager consequencesManager;
+	public EndManager endManager;
 
 	IDebugable debuguableInterface => (IDebugable) this;
 
@@ -49,7 +50,8 @@ public class GameManager : MonoBehaviour, IDebugable
 		INTRO,
 		SHOGUN,
 		FIGHT,
-		CONSEQUENCES
+		CONSEQUENCES,
+		END
 	}
 
 	// enum for game popup
@@ -281,20 +283,26 @@ public class GameManager : MonoBehaviour, IDebugable
 		consequencesManager.Init(
 			selectedCombat.actualState,
 			(int) actualEnemy,
-			() => panelManager.JumpTo(GamePhase.SHOGUN, () =>
+			() => panelManager.JumpTo(GamePhase.END, () =>
 			{
-				shogunManager = FindObjectOfType<ShogunManager>();
-				shogunManager.PreInit(
-					selectedCombat.actualState,
-					bundle.shogunDialogue,
-					AddClueToPlayer
-				);
-
+				endManager = FindObjectOfType<EndManager>();
 				audioProjectManager.FadeMusicOut();
 			}),
 			() => actualEnemy++,
 			selectedCombat.actualState != GameState.NORMAL ? null : bundle.combatDialogue.playerWinConsequence
 		);
+	}
+
+	void InitEnd()
+	{
+		Skinning.ResetSkin(selectedSkin);
+
+		if(endManager == null)
+		{
+			Debug.LogError(debuguableInterface.debugLabel + "EndManager component shouldn't be null. If we can't get scene references we can't do anything.");
+		}
+
+		endManager.Init();
 	}
 
 	// gets called every time we pop deduction popup
@@ -311,6 +319,7 @@ public class GameManager : MonoBehaviour, IDebugable
 		panelManager.eventsManager.AddPhaseAction(GamePhase.SHOGUN, InitShogunPanel);
 		panelManager.eventsManager.AddPhaseAction(GamePhase.FIGHT, InitFightPanel);
 		panelManager.eventsManager.AddPhaseAction(GamePhase.CONSEQUENCES, InitConsequencesPanel);
+		panelManager.eventsManager.AddPhaseAction(GamePhase.END, InitEnd);
 	}
 
 	// subscribe events to popup EventManager here

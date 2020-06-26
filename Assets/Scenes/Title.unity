@@ -746,6 +746,7 @@ MonoBehaviour:
   shogunManager: {fileID: 0}
   fightManager: {fileID: 0}
   consequencesManager: {fileID: 0}
+  endManager: {fileID: 0}
 --- !u!4 &289867285
 Transform:
   m_ObjectHideFlags: 0
@@ -2923,6 +2924,8 @@ MonoBehaviour:
     sceneBuildIndex: 3
   - phase: 4
     sceneBuildIndex: 4
+  - phase: 5
+    sceneBuildIndex: 5
   fadePanel: {fileID: 683411134}
   eventsManager: {fileID: 1001704027}
   actualPanel: 0

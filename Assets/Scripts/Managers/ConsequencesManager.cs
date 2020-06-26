@@ -29,10 +29,12 @@ public class ConsequencesManager : MonoBehaviour, IDebugable, IInitializable
 			advanceEnemy.Invoke();
 		}
 
-		writer.GetComponent<TextMeshProUGUI>().color = Skinning.GetSkin(SkinTag.PICTO);
-		writer.highlightColor = Skinning.GetSkin(SkinTag.CONTRAST);
+		writer.GetComponent<TextMeshProUGUI>().color = Skinning.GetSkin(SkinTag.VALIDATE);
+		writer.highlightColor = Skinning.GetSkin(SkinTag.DELETE);
 		writer.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
 		writer.Play();
+
+		canvas.Play("Deity");
 
 		isStarted = false;
 		mapShow = false;

@@ -17,7 +17,7 @@ MonoBehaviour:
   - name: Play
     start_index: 0
     end_index: 4
-    frame_rate: 6
+    frame_rate: 8
     loop: 1
   bank:
   - {fileID: 21300000, guid: cd3aee5596468ab40b7b722603cc34da, type: 3}

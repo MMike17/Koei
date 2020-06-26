@@ -125,7 +125,6 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		{
 			ConclusionCard spawned = Instantiate(conclusionPrefab, conclusionScroll);
 			spawned.Init(conclusion);
-			spawned.ShowCard(false);
 
 			spawnedConclusions.Add(spawned);
 		}
@@ -238,6 +237,14 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				gongSlider.gameObject.SetActive(true);
 				enemyDialoguePosition.gameObject.SetActive(false);
 
+				if(!enemyAnimator.GetCurrentAnimatorStateInfo(0).IsName("TakeDamage"))
+				{
+					enemyGraph.sprite = actualCombat.enemySprites[4 + enemyHealth.Count];
+
+					if(!playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("TakeDamage"))
+						playerGraph.sprite = playerSprites[0];
+				}
+
 				if(lastWriter != null)
 					Destroy(lastWriter.gameObject);
 				break;
@@ -276,8 +283,20 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 					Invoke("PlayerSuicideAnimation", preCombatReplicaDelay);
 				break;
 			case Phase.SUICIDE:
-				if(lastWriter.isDone && !suicideStarted)
+				if(!lastWriter.isDone)
 				{
+					if(!enemyAnimator.GetCurrentAnimatorStateInfo(0).IsName("TakeDamage"))
+					{
+						enemyGraph.sprite = actualCombat.enemySprites[4 + enemyHealth.Count];
+
+						if(!playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("TakeDamage"))
+							playerGraph.sprite = playerSprites[0];
+					}
+				}
+				else if(!suicideStarted)
+				{
+					playerGraph.sprite = playerSprites[0];
+
 					EnemySuicideAnimation();
 					suicideStarted = true;
 				}
@@ -445,6 +464,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			temp.colors = colors;
 
 			temp.interactable = !usedPunchlines.Contains(punchline);
+			temp.transform.GetChild(0).GetComponent<Image>().color = temp.interactable ? Skinning.GetSkin(SkinTag.SECONDARY_ELEMENT) : Skinning.GetSkin(SkinTag.SECONDARY_WINDOW);
 
 			temp.GetComponent<Animator>().Play("Open");
 		}
@@ -534,6 +554,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		playerGraph.sprite = playerSprites[0];
 
 		enemyDialoguePosition.gameObject.SetActive(true);
+
 		lastWriter = Instantiate(writerPrefab, enemyDialoguePosition.GetChild(1));
 		lastWriter.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
 
@@ -699,8 +720,6 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 	void FadeToBlack()
 	{
-		// bloodShed.gameObject.SetActive(false);
-
 		effectAnimator.Play("Fade");
 
 		switch(actualPhase)

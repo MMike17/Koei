@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Consequences.unity
     guid: df36d8156b194a84e92a3469a8e39cfc
+  - enabled: 1
+    path: Assets/Scenes/End.unity
+    guid: 46deae2e4622c6d4482e284341f2b213
   m_configObjects: {}
