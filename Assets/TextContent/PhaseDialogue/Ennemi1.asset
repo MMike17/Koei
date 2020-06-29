@@ -26,8 +26,9 @@ MonoBehaviour:
     subCategory: 15
     comment: "Il est plong\xE9 dans la magie noire !"
     cardObject: {fileID: 0}
-  goodDeityFeedback: Hey, pas mal !
-  badDeityFeedback: "Nan, \xE7a fait aucun sens. T'es mauvais."
+  goodDeityFeedback: "Hey, t'es moins d\xE9bile que je l'imaginais ! Pas mal !"
+  badDeityFeedback: "Bon, t'es bien d\xE9bile, mais c'est suffisant. Et en plus c'est
+    marrant !"
   charactersDialogues:
   - character: 0
     firstLine: "Mais ? Qui \xEAtes-vous et que faites vous ici ?!"
