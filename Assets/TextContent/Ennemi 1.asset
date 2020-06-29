@@ -83,6 +83,9 @@ MonoBehaviour:
   - "Guh ! Arr\xEAte avec tes coups bas !"
   - "Je t'interdis de dire \xE7a !"
   enemyFailReaction:
-  - Heu...okay
-  - Boouuuuh !
-  - "Ma grand-m\xE8re clashe mieux que toi !"
+  - Heu...okay. J'ai pas compris.
+  - "Nan mais... je m'en fiche de \xE7a."
+  - Quoi ? Mais pas du tout !
+  - "Ah, c'\xE9tait cens\xE9 \xEAtre une insulte ?"
+  - "C'est pas tr\xE8s impressionant, dis donc..."
+  - "Ma grand-m\xE8re est plus \xE9loquente !"
