@@ -26,8 +26,8 @@ MonoBehaviour:
     subCategory: 15
     comment: "Il est plong\xE9 dans la magie noire !"
     cardObject: {fileID: 0}
-  goodDeityFeedback: Nice
-  badDeityFeedback: Mbof...
+  goodDeityFeedback: Hey, pas mal !
+  badDeityFeedback: "Nan, \xE7a fait aucun sens. T'es mauvais."
   charactersDialogues:
   - character: 0
     firstLine: "Mais ? Qui \xEAtes-vous et que faites vous ici ?!"
@@ -68,7 +68,7 @@ MonoBehaviour:
     indexesPath: 
   shogunReturnDialogues:
     character: 0
-    firstLine: "Qu'est-ce qu'il fout l\xE0 celui l\xE0...?"
+    firstLine: "Mais ?! Je vous croyais parti pour tuer le bandit de la for\xEAt."
     initialDialogues:
     - {fileID: 11400000, guid: 784be34ed7515a940aae1874a9d0a458, type: 2}
     indexesPath: 

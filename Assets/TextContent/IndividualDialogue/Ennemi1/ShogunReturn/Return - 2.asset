@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
-  m_Name: Return
+  m_Name: Return - 2
   m_EditorClassIdentifier: 
-  playerQuestion: "Ouais, bon, j'me suis plant\xE9."
-  characterAnswer: "C'\xE9tait pr\xE9visible. Eh bien, r\xE9essayez."
+  playerQuestion: "Ben ouais, mais j'ai d\xE9j\xE0 rat\xE9, quoi..."
+  characterAnswer: "Oh, mais d\xE9gourdissez-vous un peu ! Allez rediscuter avec mes
+    conseillers, quelque chose vous a peut-\xEAtre \xE9chapp\xE9, je ne sais pas,
+    moi !"
   hasClue: 0
   clue:
     category: 0
@@ -21,5 +23,4 @@ MonoBehaviour:
     giverCharacter: 0
     summary: 
     deductionLine: 
-  nextDialogues:
-  - {fileID: 11400000, guid: 1d05ea8244f1faf49a31cb3cef8580ad, type: 2}
+  nextDialogues: []

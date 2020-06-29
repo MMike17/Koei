@@ -51,7 +51,7 @@ MonoBehaviour:
   playerWinConsequence: "Le bandit est mort et la for\xEAt retrouve son calme. Les
     troupes de Shinegawa se d\xE9ploient \xE0 la fronti\xE8re de Takeda, et le destin
     du Japon est d\xE9j\xE0 chang\xE9 \xE0 jamais..."
-  playerLoseGeneralConsequence: T'es tellement mauvais que je vais remonter le temps...juste
-    pour toi
-  playerLoseFinalConsequence: "Bon t'es mauvais, mais t'y est presque. T'as probablement
-    rat\xE9 quelque chose, je te renvoie chez Shigeru."
+  playerLoseGeneralConsequence: Ouah, t'es trop mauvais, c'est chaud. Allez, retente,
+    c'est marrant.
+  playerLoseFinalConsequence: "Et, rat\xE9. Ah ah ah ! Mais t'y \xE9tais presque.
+    Retourne chez le shogun, sans doute que t'as loup\xE9 un truc auparavant. "

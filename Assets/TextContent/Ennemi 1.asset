@@ -77,11 +77,11 @@ MonoBehaviour:
         te foutent la paix ?"
   enemyDamageReaction:
   - "Arg esp\xE8ce de...!"
-  - Noooon...pas le visage
-  - NANI ?
-  - 'What the fuck did you just fucking say about me
-
-    You little bitch ?'
+  - "Noooon...pas \xE7a !"
+  - "C'\xE9tait un coup en tra\xEEtre !"
+  - "Raah, arr\xEAte ! C'est trop..."
+  - "Guh ! Arr\xEAte avec tes coups bas !"
+  - "Je t'interdis de dire \xE7a !"
   enemyFailReaction:
   - Heu...okay
   - Boouuuuh !
