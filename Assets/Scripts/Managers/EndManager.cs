@@ -17,7 +17,7 @@ public class EndManager : MonoBehaviour, IInitializable, IDebugable
 	public void Init()
 	{
 		writer.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
-		writer.Play("Fin de la démo\n\n\n\n\n\n\nMerci d'avoir joué", Skinning.GetSkin(SkinTag.CONTRAST));
+		writer.Play("Fin de la démo\n\n\n\n\n\n\nMerci d'avoir joué", Skinning.GetSkin(SkinTag.DELETE));
 
 		initializableInterface.InitInternal();
 	}

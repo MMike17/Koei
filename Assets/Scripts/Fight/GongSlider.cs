@@ -71,6 +71,8 @@ public class GongSlider : MonoBehaviour
 
 		this.callback = callback;
 
+		handle.Init();
+
 		gameObject.SetActive(false);
 	}
 
@@ -107,6 +109,8 @@ public class GongSlider : MonoBehaviour
 		{
 			graphic.rotation = Quaternion.Euler(0, 0, maxAngle);
 			graphic.position = rightAnchor;
+
+			handle.BlockEffect();
 
 			if(previousValue < value && callback != null)
 			{

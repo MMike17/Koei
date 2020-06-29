@@ -12,7 +12,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	public float preCombatReplicaDelay;
 	public float preCombatWriterSpeed, suicideDelay;
 	public int preCombatWriterTrailLength, backgroundSvalue, backgroundVvalue;
-	public Color preCombatWriterColor, preCombatWriterHighlight;
+	public SkinTag preCombatPlayerColor, preCombatPlayerHighlight, preCombatEnnemyColor, preCombatEnnemyHighlight;
+	public TMP_FontAsset streetFont;
 	public KeyCode skip;
 	// 0 => Idle / 1 => attack / 2 => damage
 	[Space]
@@ -75,6 +76,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	List<Punchline> usedPunchlines;
 	List<ConclusionCard> spawnedConclusions;
 	List<Animator> lifePoints;
+	TMP_FontAsset normalFont;
 	Action toConsequences;
 	string selectedFinisher;
 	float preCombatTimer, suicideTimer;
@@ -83,6 +85,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 	public void PreInit(CombatDialogue actualCombat)
 	{
+		// assign backgrounds
 		for (int i = 0; i < backgrounds.Length; i++)
 		{
 			backgrounds[i].sprite = actualCombat.sceneBackgrounds[i];
@@ -109,6 +112,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 	public void Init(bool useCheats, GeneralPunchlines punchlines, GeneralDialogue dialogue, Action toConsequencesCallback)
 	{
+		normalFont = FindObjectOfType<TextMeshProUGUI>().font;
 		initializableInterface.InitInternal();
 
 		this.useCheats = useCheats;
@@ -120,6 +124,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 		lifePoints = new List<Animator>();
 
+		// spawns life points
 		for (int i = 0; i < actualCombat.tries; i++)
 		{
 			Animator spawned = null;
@@ -132,21 +137,26 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			lifePoints.Add(spawned);
 		}
 
-		categoryButtons.ForEach(item => item.Init(ShowPunchlines, gamePunchlines));
+		categoryButtons.ForEach(item => item.Init(ShowPunchlines, gamePunchlines, streetFont));
 
 		spawnedConclusions = new List<ConclusionCard>();
 
+		// spawns conclusions
 		foreach (Conclusion conclusion in dialogue.unlockableConclusions)
 		{
 			ConclusionCard spawned = Instantiate(conclusionPrefab, conclusionScroll);
 			spawned.Init(conclusion);
 
+			spawned.comment.font = streetFont;
+
 			spawnedConclusions.Add(spawned);
 		}
 
+		// finisher buttons
 		for (int i = 0; i < finisherPunchlineButtons.Length; i++)
 		{
 			finisherPunchlineButtons[i].transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().text = actualCombat.finisherPunchlines.finishers[i];
+			finisherPunchlineButtons[i].transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>().font = streetFont;
 
 			int j = i;
 
@@ -379,8 +389,9 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				playerDialoguePosition.gameObject.SetActive(true);
 				lastWriter = Instantiate(writerPrefab, playerDialoguePosition.GetChild(1));
 
+				lastWriter.GetComponent<TextMeshProUGUI>().font = streetFont;
 				lastWriter.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
-				lastWriter.Play(actualCombat.preCombatReplicas[dialogueIndex].playerLine, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
+				lastWriter.Play(actualCombat.preCombatReplicas[dialogueIndex].playerLine, preCombatWriterSpeed, preCombatWriterTrailLength, Skinning.GetSkin(preCombatPlayerHighlight), Skinning.GetSkin(preCombatPlayerColor));
 			}
 
 			lastWriterPlayer = lastWriter;
@@ -398,8 +409,9 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				enemyDialoguePosition.gameObject.SetActive(true);
 				lastWriter = Instantiate(writerPrefab, enemyDialoguePosition.GetChild(1));
 
+				lastWriter.GetComponent<TextMeshProUGUI>().font = normalFont;
 				lastWriter.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
-				lastWriter.Play(actualCombat.preCombatReturnReplica, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
+				lastWriter.Play(actualCombat.preCombatReturnReplica, preCombatWriterSpeed, preCombatWriterTrailLength, Skinning.GetSkin(preCombatEnnemyHighlight), Skinning.GetSkin(preCombatEnnemyColor));
 			}
 			else
 			{
@@ -417,8 +429,9 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				enemyDialoguePosition.gameObject.SetActive(true);
 				lastWriter = Instantiate(writerPrefab, enemyDialoguePosition.GetChild(1));
 
+				lastWriter.GetComponent<TextMeshProUGUI>().font = normalFont;
 				lastWriter.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
-				lastWriter.Play(actualCombat.preCombatReplicas[dialogueIndex].enemyLine, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
+				lastWriter.Play(actualCombat.preCombatReplicas[dialogueIndex].enemyLine, preCombatWriterSpeed, preCombatWriterTrailLength, Skinning.GetSkin(preCombatEnnemyHighlight), Skinning.GetSkin(preCombatEnnemyColor));
 			}
 
 			dialogueIndex++;
@@ -442,11 +455,6 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			{
 				usedPunchlines.Add(punchline);
 				selectedPunchline = punchline;
-
-				int index = actualCombat.tries - triesCount - 1;
-
-				if(index >= 0)
-					lifePoints[actualCombat.tries - triesCount - 1].Play("Break");
 
 				triesCount++;
 				actualPhase = Phase.EFFECT_GENERAL;
@@ -491,6 +499,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			temp.interactable = !usedPunchlines.Contains(punchline);
 			temp.transform.GetChild(0).GetComponent<Image>().color = temp.interactable ? Skinning.GetSkin(SkinTag.SECONDARY_ELEMENT) : Skinning.GetSkin(SkinTag.SECONDARY_WINDOW);
 
+			temp.transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().font = streetFont;
 			temp.GetComponent<Animator>().Play("Open");
 		}
 	}
@@ -553,6 +562,11 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 	void StartKatanaAgain()
 	{
+		int index = actualCombat.tries - triesCount;
+
+		if(index >= 0)
+			lifePoints[actualCombat.tries - triesCount].Play("Break");
+
 		effectAnimator.Play("Empty");
 
 		katanaSlider.slider.value = 0;
@@ -563,6 +577,11 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 	void StartGong()
 	{
+		int index = actualCombat.tries - triesCount;
+
+		if(index >= 0)
+			lifePoints[actualCombat.tries - triesCount].Play("Break");
+
 		effectAnimator.Play("Empty");
 
 		gongSlider.SetInitialValue();
@@ -581,13 +600,14 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		enemyDialoguePosition.gameObject.SetActive(true);
 
 		lastWriter = Instantiate(writerPrefab, enemyDialoguePosition.GetChild(1));
+		lastWriter.GetComponent<TextMeshProUGUI>().font = normalFont;
 		lastWriter.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
 
 		if(actualPhase == Phase.EFFECT_GENERAL)
-			lastWriter.Play(actualCombat.playerLoseResponse, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
+			lastWriter.Play(actualCombat.playerLoseResponse, preCombatWriterSpeed, preCombatWriterTrailLength, Skinning.GetSkin(preCombatEnnemyHighlight), Skinning.GetSkin(preCombatEnnemyColor));
 
 		if(actualPhase == Phase.EFFECT_FINAL)
-			lastWriter.Play(actualCombat.playerFinisherLoseResponse, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
+			lastWriter.Play(actualCombat.playerFinisherLoseResponse, preCombatWriterSpeed, preCombatWriterTrailLength, Skinning.GetSkin(preCombatEnnemyHighlight), Skinning.GetSkin(preCombatEnnemyColor));
 
 		actualPhase = Phase.PLAYER_SUICIDE;
 		playerTargetIndex = 0;
@@ -601,6 +621,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				KanjiFinisherAnimator.Play("Hide");
 				KanjiGeneralAnimator.Play("ShowAttack");
 
+				generalAttack.font = streetFont;
 				generalAttack.text = selectedPunchline.line;
 
 				Invoke("HideAttackLines", 4.45f);
@@ -631,6 +652,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				KanjiFinisherAnimator.Play("ShowAttack");
 				KanjiGeneralAnimator.Play("Hide");
 
+				finisherAttack.font = streetFont;
 				finisherAttack.text = selectedFinisher;
 
 				Invoke("HideAttackLines", 11.10f);
@@ -663,8 +685,9 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		enemyDialoguePosition.gameObject.SetActive(true);
 		lastWriter = Instantiate(writerPrefab, enemyDialoguePosition.GetChild(1));
 
+		lastWriter.GetComponent<TextMeshProUGUI>().font = normalFont;
 		lastWriter.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
-		lastWriter.Play(reaction, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
+		lastWriter.Play(reaction, preCombatWriterSpeed, preCombatWriterTrailLength, Skinning.GetSkin(preCombatEnnemyHighlight), Skinning.GetSkin(preCombatEnnemyColor));
 	}
 
 	void SpawnDamageReaction()
@@ -697,8 +720,9 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			enemyDialoguePosition.gameObject.SetActive(true);
 			lastWriter = Instantiate(writerPrefab, enemyDialoguePosition.GetChild(1));
 
+			lastWriter.GetComponent<TextMeshProUGUI>().font = normalFont;
 			lastWriter.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
-			lastWriter.Play(actualCombat.playerWinResponse, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
+			lastWriter.Play(actualCombat.playerWinResponse, preCombatWriterSpeed, preCombatWriterTrailLength, Skinning.GetSkin(preCombatEnnemyHighlight), Skinning.GetSkin(preCombatEnnemyColor));
 
 			return;
 		}
@@ -797,11 +821,12 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		public Category category;
 		public Button button;
 
-		public void Init(Action<List<Punchline>> showCallback, GeneralPunchlines gamePunchlines)
+		public void Init(Action<List<Punchline>> showCallback, GeneralPunchlines gamePunchlines, TMP_FontAsset streetAsset)
 		{
 			List<Punchline> temp = gamePunchlines.allPunchlines.Find(item => { return item.category == category; }).punchlines;
 			button.onClick.AddListener(() => showCallback.Invoke(temp));
 
+			button.transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().font = streetAsset;
 			button.targetGraphic.color = GameData.GetColorFromCategory(category);
 		}
 	}

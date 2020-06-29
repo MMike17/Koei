@@ -145,6 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56c6e1487a2fbe148870fd1229750f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
   tutos:
   - Cliquez pour faire avancer les tutoriels
   scrollPrefab: {fileID: 96874687126867767, guid: a9433da72e0b9d74b8e2bdf7ebdeb108,

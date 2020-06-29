@@ -941,6 +941,8 @@ MonoBehaviour:
   playerTrail: 15
   deityTrail: 20
   isTesting: 0
+  deityFont: {fileID: 11400000, guid: 06e7a96ff91b341498ff4e597c646069, type: 2}
+  playerFont: {fileID: 11400000, guid: f1251f84258ea9649867714dd301749c, type: 2}
   debug: 9
   dialogues:
   - playerLine: 

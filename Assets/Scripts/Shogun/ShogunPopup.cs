@@ -15,6 +15,7 @@ public class ShogunPopup : Popup
 	public float unselectedAlpha;
 	public int positionComputingLimit, goodGameThreshold;
 	public SkinTag normalPath, validatedPath, wrongPath;
+	public TMP_FontAsset streetFont;
 	public KeyCode skip;
 
 	[Header("Assing in Inspector")]
@@ -84,6 +85,12 @@ public class ShogunPopup : Popup
 		inFeedback = false;
 		clueDisplayTimer = 0;
 		lineTries = 0;
+
+		foreach (TextMeshProUGUI child in transform.GetChildrenOfType<TextMeshProUGUI>())
+		{
+			if(child != deityWritter.GetComponent<TextMeshProUGUI>())
+				child.font = streetFont;
+		}
 
 		ResetPopup();
 	}

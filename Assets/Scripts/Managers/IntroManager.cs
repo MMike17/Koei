@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 
 // class managing gameplay of intro panel
@@ -10,6 +11,7 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 	public float playerSpeed, deitySpeed, lineDelay;
 	public int playerTrail, deityTrail;
 	public bool isTesting;
+	public TMP_FontAsset deityFont, playerFont;
 	public KeyCode debug;
 	[Space]
 	public IntroDialogue[] dialogues;
@@ -115,6 +117,8 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 		actualWriter.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
 		actualWriter.Play(dialogues[actualDialogue].playerLine, playerSpeed, playerTrail, Skinning.GetSkin(playerHighlight), Skinning.GetSkin(playerText));
 
+		actualWriter.GetComponent<TextMeshProUGUI>().font = playerFont;
+
 		isPlayerNext = false;
 		spawnAsked = false;
 
@@ -139,6 +143,8 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 
 		actualWriter.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
 		actualWriter.Play(dialogues[actualDialogue].deityLine, deitySpeed, deityTrail, Skinning.GetSkin(deityHighlight), Skinning.GetSkin(deityText));
+
+		actualWriter.GetComponent<TextMeshProUGUI>().font = deityFont;
 
 		spawnAsked = false;
 		isPlayerNext = true;

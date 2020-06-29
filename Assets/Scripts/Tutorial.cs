@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class Tutorial : MonoBehaviour, IDebugable, IInitializable
 {
 	[Header("Settings")]
+	public KeyCode debug;
+	[Space]
 	[TextArea]
 	public string[] tutos;
 	[Header("Assign in Inspector")]
@@ -86,6 +88,12 @@ public class Tutorial : MonoBehaviour, IDebugable, IInitializable
 
 				StartAnimation(scrolls[actualScroll]);
 			}
+		}
+
+		if(Input.GetKeyDown(debug))
+		{
+			panel.Play("Fade");
+			Invoke("StartGame", 0.5f);
 		}
 	}
 

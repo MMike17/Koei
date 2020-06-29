@@ -75,6 +75,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		block.normalColor = Skinning.GetSkin(SkinTag.PRIMARY_ELEMENT);
 		block.highlightedColor = Skinning.GetSkin(SkinTag.PRIMARY_WINDOW);
 		block.pressedColor = Skinning.GetSkin(SkinTag.CONTRAST);
+		block.disabledColor = block.normalColor;
 		cluesPanelButton.colors = block;
 
 		// when you come back to shogun after defeat
@@ -104,6 +105,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		openDeductionPopup += () => AudioManager.PlaySound("Button");
 
 		// plug in buttons
+		cluesPanelButton.interactable = false;
 		openDeductionButton.onClick.AddListener(() =>
 		{
 			openDeductionPopup.Invoke();
@@ -127,6 +129,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			return;
 		}
 
+		cluesPanelButton.interactable = true;
 		actualDialogue = dialogue;
 
 		characterPortrait.Show();

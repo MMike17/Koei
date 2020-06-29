@@ -144,8 +144,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: '-'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f1251f84258ea9649867714dd301749c, type: 2}
+  m_sharedMaterial: {fileID: 7287000594072178827, guid: f1251f84258ea9649867714dd301749c,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -283,8 +284,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 79.32001, y: 0}
-  m_SizeDelta: {x: 64.9, y: 0}
+  m_AnchoredPosition: {x: 74.41, y: 0}
+  m_SizeDelta: {x: 44.02, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8801110370275845393
 CanvasRenderer:
@@ -314,8 +315,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Clue
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f1251f84258ea9649867714dd301749c, type: 2}
+  m_sharedMaterial: {fileID: 7287000594072178827, guid: f1251f84258ea9649867714dd301749c,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

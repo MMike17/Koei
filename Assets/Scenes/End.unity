@@ -545,8 +545,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab5e5e89ac8c07a4eabee7b15a5460ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  writingSpeed: 10
-  trailLength: 10
+  writingSpeed: 15
+  trailLength: 20
   highlightColor: {r: 0, g: 0, b: 0, a: 0}
   line: 
 --- !u!114 &2139201504

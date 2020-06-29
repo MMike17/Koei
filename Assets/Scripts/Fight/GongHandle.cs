@@ -10,9 +10,17 @@ public class GongHandle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
 	public bool selected { get; private set; }
 
+	bool blockEffect;
+
+	public void Init()
+	{
+		blockEffect = false;
+	}
+
 	public void OnPointerDown(PointerEventData eventData)
 	{
-		animator.Play("Idle");
+		if(!blockEffect)
+			animator.Play("Idle");
 
 		if(gameObject.activeInHierarchy)
 			selected = true;
@@ -20,9 +28,15 @@ public class GongHandle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
 	public void OnPointerUp(PointerEventData eventData)
 	{
-		animator.Play("Fade");
+		if(!blockEffect)
+			animator.Play("Fade");
 
 		if(gameObject.activeInHierarchy)
 			selected = false;
+	}
+
+	public void BlockEffect()
+	{
+		blockEffect = true;
 	}
 }
