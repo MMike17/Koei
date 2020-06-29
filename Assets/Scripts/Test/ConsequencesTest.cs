@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ConsequencesTest : MonoBehaviour
 {
@@ -16,7 +14,7 @@ public class ConsequencesTest : MonoBehaviour
 	{
 		if(isTesting)
 		{
-			consequencesManager.Init(testState, combatIndex, () => { Debug.Log("Can't go to shogun scene while in testing mode"); }, () => { Debug.Log("Can't advance enemy phase while in testing mode"); });
+			consequencesManager.Init(testState, combatIndex, () => { Debug.Log("Can't go to shogun scene while in testing mode"); }, () => { Debug.Log("Can't go to end scene while in testing mode"); }, () => { Debug.Log("Can't go to fight scene while in testing mode"); }, () => { Debug.Log("Can't advance enemy phase while in testing mode"); }, "nope");
 		}
 	}
 }

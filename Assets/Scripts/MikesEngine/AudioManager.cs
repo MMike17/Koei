@@ -56,6 +56,8 @@ public class AudioManager : MonoBehaviour
 
 			if(entry.donePlaying)
 			{
+				entry.Finish();
+
 				if(pool.Count - forceDelete > maxSoundEmitters || entry.destroyOnDone)
 				{
 					forceDelete++;
@@ -249,7 +251,7 @@ public class AudioManager : MonoBehaviour
 
 		public void CheckDone()
 		{
-			if(attachedSource == null || attachedSource != null && !attachedSource.loop && attachedSource.time >= GetClipLength())
+			if(attachedSource == null || (attachedSource != null && !attachedSource.loop && attachedSource.time >= GetClipLength()))
 				donePlaying = true;
 		}
 

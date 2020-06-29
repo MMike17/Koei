@@ -16,23 +16,19 @@ public class ConsequencesManager : MonoBehaviour, IDebugable, IInitializable
 	bool IInitializable.initializedInternal { get; set; }
 	string IDebugable.debugLabel => "<b>[TitleManager] : </b>";
 
-	Action toShogun;
+	Action toShogun, toFight, toEnd;
 	GameData.GameState actualState;
 	int combatIndex;
 	bool isStarted, mapShow;
 
-	public void Init(GameData.GameState state, int combatIndex, Action toShogunCallback, Action advanceEnemy, string textToShow = null)
+	public void Init(GameData.GameState state, int combatIndex, Action toEndCallback, Action toShogunCallback, Action toFightCallback, Action advanceEnemy, string textToShow)
 	{
-		if(state == GameData.GameState.NORMAL && !string.IsNullOrEmpty(textToShow))
-		{
-			writer.line = textToShow;
+		if(state == GameData.GameState.NORMAL)
 			advanceEnemy.Invoke();
-		}
 
 		writer.GetComponent<TextMeshProUGUI>().color = Skinning.GetSkin(SkinTag.VALIDATE);
-		writer.highlightColor = Skinning.GetSkin(SkinTag.DELETE);
 		writer.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
-		writer.Play();
+		writer.Play(textToShow, Skinning.GetSkin(SkinTag.DELETE));
 
 		canvas.Play("Deity");
 
@@ -40,6 +36,9 @@ public class ConsequencesManager : MonoBehaviour, IDebugable, IInitializable
 		mapShow = false;
 		actualState = state;
 		this.combatIndex = combatIndex;
+
+		toEnd = toEndCallback;
+		toFight = toFightCallback;
 		toShogun = toShogunCallback;
 
 		initializableInterface.InitInternal();
@@ -60,7 +59,20 @@ public class ConsequencesManager : MonoBehaviour, IDebugable, IInitializable
 				}
 			}
 			else if(Input.GetMouseButtonDown(0))
-				toShogun.Invoke();
+			{
+				switch(actualState)
+				{
+					case GameData.GameState.NORMAL:
+						toEnd.Invoke();
+						break;
+					case GameData.GameState.GAME_OVER_GENERAL:
+						toFight.Invoke();
+						break;
+					case GameData.GameState.GAME_OVER_FINISHER:
+						toShogun.Invoke();
+						break;
+				}
+			}
 		}
 	}
 

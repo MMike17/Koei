@@ -10,10 +10,19 @@ public class KatanaSlider : MonoBehaviour, IPointerUpHandler
 	public float slideDuration;
 
 	public Slider slider => GetComponent<Slider>();
+	public Animator animator => GetComponent<Animator>();
 
 	public void OnPointerUp(PointerEventData eventData)
 	{
-		StartCoroutine(Move());
+		if(slider.value > 0.1f)
+			StartCoroutine(Move());
+		else
+			animator.Play("Fade");
+	}
+
+	void Awake()
+	{
+		slider.onValueChanged.AddListener((float value) => animator.Play("Idle"));
 	}
 
 	IEnumerator Move()

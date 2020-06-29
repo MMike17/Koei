@@ -10,8 +10,13 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 	public Enemy assignedEnemy;
 	[Header("Conclusions")]
 	public List<Conclusion> unlockableConclusions;
+	[Space]
+	[TextArea]
+	public string goodDeityFeedback, badDeityFeedback;
 	[Header("Dialogue")]
 	public List<CharacterDialogue> charactersDialogues;
+	[Space]
+	public CharacterDialogue shogunReturnDialogues;
 
 	public bool initialized => initializableInterface.initializedInternal;
 
@@ -33,6 +38,8 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 	public void Init()
 	{
 		charactersDialogues.ForEach(item => item.Init());
+
+		shogunReturnDialogues.Init();
 
 		initializableInterface.InitInternal();
 	}
@@ -189,12 +196,12 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 			GetActualDialogue().SetAsDone();
 		}
 
-		public Dialogue GetActualDialogue()
+		public Dialogue GetActualDialogue(int offset = 0)
 		{
 			Dialogue dialogueInPath = initialDialogues[indexesPath[0]];
 
 			// gets the right dialogue in the arborescence
-			for (int i = 1; i < indexesPath.Count; i++)
+			for (int i = 1; i < indexesPath.Count - offset; i++)
 				dialogueInPath = dialogueInPath.nextDialogues[indexesPath[i]];
 
 			return dialogueInPath;

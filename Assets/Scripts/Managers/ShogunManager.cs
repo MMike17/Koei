@@ -23,7 +23,6 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	[Space]
 	public List<ShogunCharacter> characters;
 	[Space]
-	public KeyCode debug;
 	public KeyCode unlockAllClues;
 
 	[Header("Assing in Inspector")]
@@ -78,6 +77,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		block.pressedColor = Skinning.GetSkin(SkinTag.CONTRAST);
 		cluesPanelButton.colors = block;
 
+		// when you come back to shogun after defeat
 		if(targetState != GameData.GameState.NORMAL)
 		{
 			// unlocks all clues
@@ -86,9 +86,6 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 				findClue.Invoke(clue);
 				AddClueToList(clue, true);
 			}
-
-			// forces shogun dialogue done
-			dialogue.charactersDialogues.Find(item => { return item.character == Character.SHOGUN; }).ForceSetAsDone();
 		}
 
 		actualState = targetState;
@@ -216,39 +213,50 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			// previous line was a character line
 			if(needsPlayerSpawn)
 			{
-				Dialogue[] availableDialogues;
-
-				if(actualCharacterDialogue.indexesPath.Count > 0)
 				{
-					// adds clue to player clue list if there was one
-					if(actualCharacterDialogue.GetActualDialogue().hasClue)
-					{
-						if(findClueEvent.Invoke(actualCharacterDialogue.GetActualDialogue().clue))
-							AddClueToList(actualCharacterDialogue.GetActualDialogue().clue);
-					}
+					CharacterDialogue selected = actualDialogue.charactersDialogues.Find(item => { return item.character == Character.SHOGUN; });
 
-					availableDialogues = actualCharacterDialogue.GetActualDialogue().nextDialogues;
-
-					// resets indexes path if branch can't go any further
-					if(availableDialogues == null || availableDialogues.Length == 0)
-					{
-						actualCharacterDialogue.indexesPath = new List<int>();
-						return;
-					}
+					if(actualDialogue.shogunReturnDialogues.IsDone() && !selected.IsDone())
+						actualDialogue.charactersDialogues.Find(item => { return item.character == Character.SHOGUN; }).ForceSetAsDone();
 				}
-				else
-					availableDialogues = actualCharacterDialogue.initialDialogues.ToArray();
 
-				for (int i = 0; i < availableDialogues.Length; i++)
+				if(Input.GetMouseButtonDown(0))
 				{
-					int j = i;
-					Color actual = Skinning.GetSkin(availableDialogues[i].IsDone() ? playerChoiceDone : playerChoiceUndone);
-					string line = availableDialogues[i].playerQuestion;
+					Dialogue[] availableDialogues;
 
-					if(availableDialogues[i].IsDone())
-						line = "<s>" + line + "</s>";
+					// if we are not at beginning of dialogue
+					if(actualCharacterDialogue.indexesPath.Count > 0)
+					{
+						// adds clue to player clue list if there was one
+						if(actualCharacterDialogue.indexesPath.Count > 1 && actualCharacterDialogue.GetActualDialogue().hasClue)
+						{
+							if(findClueEvent.Invoke(actualCharacterDialogue.GetActualDialogue().clue))
+								AddClueToList(actualCharacterDialogue.GetActualDialogue().clue);
+						}
 
-					SpawnPlayerChoice(line, availableDialogues[i].playerQuestion, actual, j);
+						availableDialogues = actualCharacterDialogue.GetActualDialogue().nextDialogues;
+
+						// resets indexes path if branch can't go any further
+						if(availableDialogues == null || availableDialogues.Length == 0)
+						{
+							actualCharacterDialogue.indexesPath = new List<int>();
+							return;
+						}
+					}
+					else
+						availableDialogues = actualCharacterDialogue.initialDialogues.ToArray();
+
+					for (int i = 0; i < availableDialogues.Length; i++)
+					{
+						int j = i;
+						Color actual = Skinning.GetSkin(availableDialogues[i].IsDone() ? playerChoiceDone : playerChoiceUndone);
+						string line = availableDialogues[i].playerQuestion;
+
+						if(availableDialogues[i].IsDone())
+							line = "<s>" + line + "</s>";
+
+						SpawnPlayerChoice(line, availableDialogues[i].playerQuestion, actual, j);
+					}
 				}
 			}
 			else // previous line was player line
@@ -274,7 +282,12 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		});
 
 		actualCharacter = character;
-		actualCharacterDialogue = actualDialogue.GetCharacterDialogue(actualCharacter);
+
+		// select shogun return when needed
+		if(actualState != GameData.GameState.NORMAL && character == Character.SHOGUN)
+			actualCharacterDialogue = actualDialogue.shogunReturnDialogues;
+		else // select normal in other cases
+			actualCharacterDialogue = actualDialogue.GetCharacterDialogue(actualCharacter);
 
 		characterPortrait.SetCharacterPortrait(GetCharacter(actualCharacter));
 

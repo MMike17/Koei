@@ -38,9 +38,9 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	public Button[] finisherPunchlineButtons;
 	[Space]
 	public ConclusionCard conclusionPrefab;
-	public Transform punchlineScroll, conclusionScroll;
+	public Transform punchlineScroll, conclusionScroll, triesTopHolder, triesBottomHolder;
 	public TextMeshProUGUI generalAttack, finisherAttack;
-	public GameObject generalPunchlinePanel, finisherPunchlinePanel;
+	public GameObject generalPunchlinePanel, finisherPunchlinePanel, lifePrefab;
 
 	[Header("Debug")]
 	public CombatDialogue actualCombat;
@@ -74,10 +74,11 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	List<SubCategory> enemyHealth;
 	List<Punchline> usedPunchlines;
 	List<ConclusionCard> spawnedConclusions;
-	Action toConsequencesWin, toConsequencesLost;
+	List<Animator> lifePoints;
+	Action toConsequences;
 	string selectedFinisher;
 	float preCombatTimer, suicideTimer;
-	int dialogueIndex, triesCount, suicideIndex;
+	int dialogueIndex, triesCount, suicideIndex, playerTargetIndex;
 	bool isPlayer, writerIsCommanded, isGoodFinisher, gotToFinisher, invokedTransition, destructionAsked, isStartingGameOver, suicideStarted, useCheats;
 
 	public void PreInit(CombatDialogue actualCombat)
@@ -99,23 +100,37 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 		actualPhase = Phase.INTRO;
 
-		canvasAnimator.Play("Intro");
-		Invoke("StartDialogue", 3);
+		if(actualCombat.actualState == GameData.GameState.GAME_OVER_FINISHER)
+		{
+			enemyHealth.Clear();
+			enemyGraph.sprite = actualCombat.enemySprites[4];
+		}
 	}
 
-	public void Init(bool useCheats, GeneralPunchlines punchlines, GeneralDialogue dialogue, Action toConsequencesWinCallback, Action toConsequencesLostCallback)
+	public void Init(bool useCheats, GeneralPunchlines punchlines, GeneralDialogue dialogue, Action toConsequencesCallback)
 	{
 		initializableInterface.InitInternal();
 
 		this.useCheats = useCheats;
-
 		gamePunchlines = punchlines;
-
-		toConsequencesWin = toConsequencesWinCallback;
-		toConsequencesLost = toConsequencesLostCallback;
+		toConsequences = toConsequencesCallback;
 
 		katanaSlider.gameObject.SetActive(false);
 		gongSlider.Init(StartFinalPunchlines);
+
+		lifePoints = new List<Animator>();
+
+		for (int i = 0; i < actualCombat.tries; i++)
+		{
+			Animator spawned = null;
+
+			if(triesTopHolder.childCount < 3)
+				spawned = Instantiate(lifePrefab, triesTopHolder).GetComponent<Animator>();
+			else
+				spawned = Instantiate(lifePrefab, triesBottomHolder).GetComponent<Animator>();
+
+			lifePoints.Add(spawned);
+		}
 
 		categoryButtons.ForEach(item => item.Init(ShowPunchlines, gamePunchlines));
 
@@ -162,6 +177,9 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		isStartingGameOver = false;
 
 		usedPunchlines = new List<Punchline>();
+
+		canvasAnimator.Play("Intro");
+		Invoke("StartDialogue", 3);
 
 		Debug.Log(debugableInterface.debugLabel + "Initializing done");
 	}
@@ -279,6 +297,11 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				break;
 
 			case Phase.PLAYER_SUICIDE:
+				if(!playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("TakeDamage"))
+					playerGraph.sprite = playerSprites[playerTargetIndex];
+				else
+					playerGraph.sprite = playerSprites[2];
+
 				if(lastWriter.isDone && !invokedTransition)
 					Invoke("PlayerSuicideAnimation", preCombatReplicaDelay);
 				break;
@@ -309,7 +332,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		actualPhase = Phase.DIALOGUE;
 		dialogueIndex = 0;
 
-		if(actualCombat.actualState != GameData.GameState.NORMAL)
+		if(actualCombat.actualState == GameData.GameState.GAME_OVER_FINISHER)
 			isPlayer = false;
 		else
 			isPlayer = !string.IsNullOrWhiteSpace(actualCombat.preCombatReplicas[0].playerLine);
@@ -327,12 +350,9 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				Destroy(lastWriterPlayer.gameObject);
 			}
 
-			if(actualCombat.actualState != GameData.GameState.NORMAL)
+			if(actualCombat.actualState == GameData.GameState.GAME_OVER_FINISHER)
 			{
-				if(actualCombat.actualState == GameData.GameState.GAME_OVER_FINISHER)
-					actualPhase = Phase.GONG;
-				else
-					actualPhase = Phase.KATANA;
+				actualPhase = Phase.GONG;
 
 				if(lastWriter != null)
 				{
@@ -373,7 +393,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				Destroy(lastWriterEnemy.gameObject);
 			}
 
-			if(actualCombat.actualState != GameData.GameState.NORMAL)
+			if(actualCombat.actualState == GameData.GameState.GAME_OVER_FINISHER)
 			{
 				enemyDialoguePosition.gameObject.SetActive(true);
 				lastWriter = Instantiate(writerPrefab, enemyDialoguePosition.GetChild(1));
@@ -422,6 +442,11 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			{
 				usedPunchlines.Add(punchline);
 				selectedPunchline = punchline;
+
+				int index = actualCombat.tries - triesCount - 1;
+
+				if(index >= 0)
+					lifePoints[actualCombat.tries - triesCount - 1].Play("Break");
 
 				triesCount++;
 				actualPhase = Phase.EFFECT_GENERAL;
@@ -565,6 +590,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			lastWriter.Play(actualCombat.playerFinisherLoseResponse, preCombatWriterSpeed, preCombatWriterTrailLength, preCombatWriterHighlight, preCombatWriterColor);
 
 		actualPhase = Phase.PLAYER_SUICIDE;
+		playerTargetIndex = 0;
 	}
 
 	void AttackEffect()
@@ -704,8 +730,15 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		switch(actualPhase)
 		{
 			case Phase.PLAYER_SUICIDE:
-				playerGraph.sprite = playerSprites[2];
+				playerTargetIndex = 2;
 				playerAnimator.enabled = false;
+
+				foreach (Animator anim in lifePoints)
+				{
+					if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Break"))
+						anim.Play("Break");
+				}
+
 				bloodShed.Play("Idle");
 				break;
 			case Phase.SUICIDE:
@@ -738,19 +771,19 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 	void MoveToConsequences()
 	{
-		toConsequencesWin.Invoke();
+		toConsequences.Invoke();
 	}
 
 	void GameOverGeneral()
 	{
 		actualCombat.actualState = GameData.GameState.GAME_OVER_GENERAL;
-		toConsequencesLost.Invoke();
+		MoveToConsequences();
 	}
 
 	void GameOverFinisher()
 	{
 		actualCombat.actualState = GameData.GameState.GAME_OVER_FINISHER;
-		toConsequencesLost.Invoke();
+		MoveToConsequences();
 	}
 
 	void SetCanvasInterractable(bool state)

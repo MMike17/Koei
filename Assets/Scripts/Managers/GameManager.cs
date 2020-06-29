@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour, IDebugable
 	public FightManager fightManager;
 	public ConsequencesManager consequencesManager;
 	public EndManager endManager;
+	public Tutorial actualTutorial;
 
 	IDebugable debuguableInterface => (IDebugable) this;
 
@@ -108,6 +109,7 @@ public class GameManager : MonoBehaviour, IDebugable
 		panelManager.Init(() =>
 		{
 			eventSystem = FindObjectOfType<EventSystem>();
+			actualTutorial = FindObjectOfType<Tutorial>();
 
 			// gets refs to popups and closes them without cool effect (as if it was never here)
 			popupManager.GetAllScenePopups();
@@ -217,6 +219,8 @@ public class GameManager : MonoBehaviour, IDebugable
 			selectedGeneral.GetAllClues(),
 			selectedGeneral.unlockableConclusions,
 			shogunManager.characters,
+			selectedGeneral.goodDeityFeedback,
+			selectedGeneral.badDeityFeedback,
 			() => popupManager.CancelPop(),
 			() =>
 			{
@@ -234,7 +238,7 @@ public class GameManager : MonoBehaviour, IDebugable
 		if(selectedCombat.actualState == GameState.NORMAL)
 			gameData.ResetPlayerClues();
 
-		shogunManager.StartDialogue(selectedGeneral);
+		actualTutorial.Init(() => shogunManager.StartDialogue(selectedGeneral));
 	}
 
 	void InitFightPanel()
@@ -249,23 +253,20 @@ public class GameManager : MonoBehaviour, IDebugable
 		EnemyBundle bundle = gameData.enemyContent.Find(item => { return item.enemy == actualEnemy; });
 		CombatDialogue selectedCombat = bundle.combatDialogue;
 
-		fightManager.Init(
-			useCheats,
-			bundle.punchlines,
-			bundle.shogunDialogue,
-			() =>
-			{
-				panelManager.JumpTo(GamePhase.CONSEQUENCES, () => consequencesManager = FindObjectOfType<ConsequencesManager>());
+		actualTutorial.Init(() =>
+		{
+			fightManager.Init(
+				useCheats,
+				bundle.punchlines,
+				bundle.shogunDialogue,
+				() =>
+				{
+					panelManager.JumpTo(GamePhase.CONSEQUENCES, () => consequencesManager = FindObjectOfType<ConsequencesManager>());
 
-				audioProjectManager.FadeMusicOut();
-			},
-			() =>
-			{
-				panelManager.JumpTo(GamePhase.CONSEQUENCES, () => consequencesManager = FindObjectOfType<ConsequencesManager>());
-
-				audioProjectManager.FadeMusicOut();
-			}
-		);
+					audioProjectManager.FadeMusicOut();
+				}
+			);
+		});
 	}
 
 	void InitConsequencesPanel()
@@ -280,6 +281,21 @@ public class GameManager : MonoBehaviour, IDebugable
 		EnemyBundle bundle = gameData.enemyContent.Find(item => { return item.enemy == actualEnemy; });
 		CombatDialogue selectedCombat = bundle.combatDialogue;
 
+		string textToShow = string.Empty;
+
+		switch(selectedCombat.actualState)
+		{
+			case GameData.GameState.NORMAL:
+				textToShow = bundle.combatDialogue.playerWinConsequence;
+				break;
+			case GameData.GameState.GAME_OVER_GENERAL:
+				textToShow = bundle.combatDialogue.playerLoseGeneralConsequence;
+				break;
+			case GameData.GameState.GAME_OVER_FINISHER:
+				textToShow = bundle.combatDialogue.playerLoseFinalConsequence;
+				break;
+		}
+
 		consequencesManager.Init(
 			selectedCombat.actualState,
 			(int) actualEnemy,
@@ -288,8 +304,24 @@ public class GameManager : MonoBehaviour, IDebugable
 				endManager = FindObjectOfType<EndManager>();
 				audioProjectManager.FadeMusicOut();
 			}),
+			() => panelManager.JumpTo(GamePhase.SHOGUN, () =>
+			{
+				shogunManager = FindObjectOfType<ShogunManager>();
+				shogunManager.PreInit(
+					selectedCombat.actualState,
+					gameData.enemyContent.Find(item => { return item.enemy == actualEnemy; }).shogunDialogue,
+					AddClueToPlayer
+				);
+
+				audioProjectManager.FadeMusicOut();
+			}),
+			() => panelManager.JumpTo(GamePhase.FIGHT, () =>
+			{
+				fightManager = FindObjectOfType<FightManager>();
+				fightManager.PreInit(selectedCombat);
+			}),
 			() => actualEnemy++,
-			selectedCombat.actualState != GameState.NORMAL ? null : bundle.combatDialogue.playerWinConsequence
+			textToShow
 		);
 	}
 
@@ -314,8 +346,8 @@ public class GameManager : MonoBehaviour, IDebugable
 	// subscribe events to panel EventManager here
 	void PlugPanelEvents()
 	{
-		panelManager.eventsManager.AddPhaseAction(GamePhase.INTRO, InitIntroPanel);
 		panelManager.eventsManager.AddPhaseAction(GamePhase.TITLE, InitTitlePanel);
+		panelManager.eventsManager.AddPhaseAction(GamePhase.INTRO, InitIntroPanel);
 		panelManager.eventsManager.AddPhaseAction(GamePhase.SHOGUN, InitShogunPanel);
 		panelManager.eventsManager.AddPhaseAction(GamePhase.FIGHT, InitFightPanel);
 		panelManager.eventsManager.AddPhaseAction(GamePhase.CONSEQUENCES, InitConsequencesPanel);

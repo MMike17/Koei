@@ -55,7 +55,7 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 
 		toShogunCallback = toShogun;
 
-		AudioManager.PlaySound("Intro rewind", StartDialogue);
+		AudioManager.PlaySound("should be \"Intro rewind\"", StartDialogue);
 
 		initializableInterface.InitInternal();
 	}
@@ -71,7 +71,12 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		blockInput = false;
 
-		SpawnPlayerLine();
+		Debug.Log(debugableInterface.debugLabel + "ma bite");
+
+		if(string.IsNullOrEmpty(dialogues[0].playerLine))
+			SpawnDeityLine();
+		else
+			SpawnPlayerLine();
 	}
 
 	void Update()

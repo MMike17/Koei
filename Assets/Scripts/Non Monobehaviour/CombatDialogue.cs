@@ -39,7 +39,7 @@ public class CombatDialogue : ScriptableObject
 	public string playerFinisherLoseResponse;
 	[Space]
 	[TextArea]
-	public string playerWinConsequence;
+	public string playerWinConsequence, playerLoseGeneralConsequence, playerLoseFinalConsequence;
 
 	public GameState actualState { get; set; }
 

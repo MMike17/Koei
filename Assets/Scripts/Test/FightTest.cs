@@ -24,8 +24,7 @@ public class FightTest : MonoBehaviour
 			true,
 			comonPunchlines,
 			generalDialogue,
-			() => Debug.Log("Can't go to consequences in scene test mode"),
-			() => Debug.Log("Can't go to GameOver when in scene test mode")
+			() => Debug.Log("Can't go to consequences in scene test mode")
 		);
 	}
 }

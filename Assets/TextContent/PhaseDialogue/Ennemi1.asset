@@ -26,12 +26,14 @@ MonoBehaviour:
     subCategory: 15
     comment: "Il est plong\xE9 dans la magie noire !"
     cardObject: {fileID: 0}
+  goodDeityFeedback: Nice
+  badDeityFeedback: Mbof...
   charactersDialogues:
   - character: 0
     firstLine: "Mais ? Qui \xEAtes-vous et que faites vous ici ?!"
     initialDialogues:
     - {fileID: 11400000, guid: d2aa3f4cc79ee0243a5006c1e014996b, type: 2}
-    indexesPath: 00000000000000000000000000000000
+    indexesPath: 
   - character: 1
     firstLine: "Bonjour ! Vous \xEAtes l'homme du futur, n'est-ce pas ? Je suis tr\xE8s
       heureuse que vous soyez aussi loyal envers mon \xE9poux ! Combien de samurais
@@ -63,4 +65,10 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 777009fb5b510c9418b528108bcba312, type: 2}
     - {fileID: 11400000, guid: 079f6e1ecc9d3cd4e863b0f47d79c762, type: 2}
     - {fileID: 11400000, guid: b7990b0588dd51741b6a77823a52d938, type: 2}
+    indexesPath: 
+  shogunReturnDialogues:
+    character: 0
+    firstLine: "Qu'est-ce qu'il fout l\xE0 celui l\xE0...?"
+    initialDialogues:
+    - {fileID: 11400000, guid: 784be34ed7515a940aae1874a9d0a458, type: 2}
     indexesPath: 

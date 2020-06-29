@@ -936,7 +936,7 @@ MonoBehaviour:
   deityText: 8
   deityHighlight: 7
   playerSpeed: 20
-  deitySpeed: 10
+  deitySpeed: 15
   lineDelay: 1.5
   playerTrail: 15
   deityTrail: 20
@@ -969,8 +969,6 @@ MonoBehaviour:
       droit de toucher les choses l\xE0-bas ! Bonne chance !"
   - playerLine: Nan ! J'suis pas d'accord ! Vous avez pas l'droiiiiiiit....
     deityLine: "J'suis une d\xE9esse, je fais ce que je veux. On va bien se marrer."
-  - playerLine: Bon jeu !
-    deityLine: 
   actualWriter: {fileID: 2036786338}
   deityAnim: {fileID: 1198675358}
   test: {fileID: 11400000, guid: 74ade7416ed8e674bb73896b08340b0e, type: 2}

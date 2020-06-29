@@ -17,7 +17,6 @@ MonoBehaviour:
   tries: 6
   sceneBackgrounds:
   - {fileID: 21300000, guid: 006f6711b58e4454fae44ec509b35546, type: 3}
-  - {fileID: 21300000, guid: 6f0c817b796a6e6479a6672dc6dd1b8c, type: 3}
   - {fileID: 21300000, guid: fc2e3cec8c4d1cb4f9609a87b33e0f96, type: 3}
   enemySprites:
   - {fileID: 21300000, guid: 44a055fc7bd7c4148a0672a6c359aa20, type: 3}
@@ -52,3 +51,7 @@ MonoBehaviour:
   playerWinConsequence: "Le bandit est mort et la for\xEAt retrouve son calme. Les
     troupes de Shinegawa se d\xE9ploient \xE0 la fronti\xE8re de Takeda, et le destin
     du Japon est d\xE9j\xE0 chang\xE9 \xE0 jamais..."
+  playerLoseGeneralConsequence: T'es tellement mauvais que je vais remonter le temps...juste
+    pour toi
+  playerLoseFinalConsequence: "Bon t'es mauvais, mais t'y est presque. T'as probablement
+    rat\xE9 quelque chose, je te renvoie chez Shigeru."

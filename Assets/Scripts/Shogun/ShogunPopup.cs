@@ -27,22 +27,30 @@ public class ShogunPopup : Popup
 	public Button returnButton, combatButton;
 	public GraphicRaycaster raycaster;
 	public Animator anim;
+	public DialogueWriter deityWritter;
 
 	List<Conclusion> conclusionsToUnlock;
 	List<Path> selectionPath;
 	List<ClueKnob> spawnedKnobs;
 	List<Clue> selectedClues;
 	ClueKnob previouslyHoveredKnob;
+	Action toCombat;
+	string goodDeityFeedbcak, badDeityFeedback;
 	float clueDisplayTimer;
 	int positionComputingStep, lineTries;
-	bool isSettingPath, didFeedback, useCheats;
+	bool isSettingPath, inFeedback, useCheats;
 
-	public void SpecificInit(bool useCheats, List<Clue> clueList, List<Conclusion> unlockableConclusions, List<ShogunCharacter> characters, Action returnCallback, Action combatCallback, GameData.GameState actualState)
+	public void SpecificInit(bool useCheats, List<Clue> clueList, List<Conclusion> unlockableConclusions, List<ShogunCharacter> characters, string goodFeedback, string badFeedback, Action returnCallback, Action combatCallback, GameData.GameState actualState)
 	{
 		this.useCheats = useCheats;
+		toCombat = combatCallback;
+		goodDeityFeedbcak = goodFeedback;
+		badDeityFeedback = badFeedback;
 
 		SpawnKnobs(clueList, characters);
 		SpawnConclusions(unlockableConclusions, actualState);
+
+		deityWritter.SetAudio(() => AudioManager.PlaySound("Writter"), () => AudioManager.StopSound("Writter"));
 
 		returnButton.onClick.AddListener(() => { returnCallback.Invoke(); SetStateCursor(false); AudioManager.PlaySound("Button"); });
 		combatButton.onClick.AddListener(() =>
@@ -57,8 +65,10 @@ public class ShogunPopup : Popup
 
 			if(can)
 			{
-				combatCallback.Invoke();
-				AudioManager.PlaySound("Button");
+				anim.Play("GoodFeedback");
+				SetStateCursor(false);
+
+				Invoke(lineTries <= goodGameThreshold ? "StartGoodFeedback" : "StartBadFeedback", 2.55f);
 			}
 			else
 			{
@@ -71,7 +81,7 @@ public class ShogunPopup : Popup
 		selectedClues = new List<Clue>();
 
 		isSettingPath = false;
-		didFeedback = false;
+		inFeedback = false;
 		clueDisplayTimer = 0;
 		lineTries = 0;
 
@@ -211,6 +221,22 @@ public class ShogunPopup : Popup
 		SetStateCursor(false);
 
 		ClueKnob selected = null;
+
+		if(inFeedback)
+		{
+			if(Input.GetMouseButtonDown(0))
+			{
+				if(!deityWritter.isDone)
+					deityWritter.Finish();
+				else
+				{
+					toCombat.Invoke();
+					AudioManager.PlaySound("Button");
+				}
+			}
+
+			return;
+		}
 
 		if(Input.GetKeyDown(skip))
 			conclusionsToUnlock.ForEach(item => item.cardObject.ShowCard());
@@ -499,21 +525,8 @@ public class ShogunPopup : Popup
 		}
 
 		// checks for good feedback
-		bool completed = true;
-
 		foreach (Conclusion conclusion in conclusionsToUnlock)
-		{
-			if(!conclusion.IsUnlocked())
-				completed = false;
-		}
-
-		if(completed && !didFeedback && lineTries <= goodGameThreshold)
-		{
-			anim.Play("GoodFeedback");
-			SetStateCursor(false);
-
-			didFeedback = true;
-		}
+			conclusion.IsUnlocked();
 	}
 
 	Vector2 RealMousePosition()
@@ -535,6 +548,18 @@ public class ShogunPopup : Popup
 			return ui.localPosition;
 		else
 			return (Vector2) ui.localPosition + RecursiveTotalOffset(ui.parent.GetComponent<RectTransform>());
+	}
+
+	void StartGoodFeedback()
+	{
+		inFeedback = true;
+		deityWritter.Play(goodDeityFeedbcak);
+	}
+
+	void StartBadFeedback()
+	{
+		inFeedback = true;
+		deityWritter.Play(badDeityFeedback);
 	}
 
 	void SetStateCursor(bool state)
