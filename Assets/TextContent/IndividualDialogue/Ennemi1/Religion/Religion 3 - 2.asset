@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Religion 3 - 2
   m_EditorClassIdentifier: 
   playerQuestion: Ben, j'sais pas, un truc pour l'enfoncer, n'importe quoi
-  characterAnswer: "Oh, quand il s'agit d'enfoncer, tu parles \xE0 un v\xE9ritable
-    expert ! Il te faudra sans doute te pr\xE9parer avant, et le pr\xE9parer \xE9galement...
-    Un peu d'huile suffira de ton c\xF4t\xE9."
+  characterAnswer: "Oh, quand il s'agit d'enfoncer, vous parlez \xE0 un v\xE9ritable
+    expert ! Il vous faudra sans doute vous pr\xE9parer avant, et le pr\xE9parer \xE9galement...
+    Un peu d'huile suffira de votre c\xF4t\xE9."
   hasClue: 0
   clue:
     category: 0

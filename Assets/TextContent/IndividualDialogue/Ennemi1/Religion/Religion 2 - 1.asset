@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerQuestion: "Du coup, vous \xEAtes le pr\xEAtre ?"
   characterAnswer: "Effectivement, je suis un pr\xEAtre... C'est moi qui officie aupr\xE8s
-    de la femme de... aupr\xE8s du seigneur pour lui attirer la faveur des dieux.
+    de la femme du... aupr\xE8s du seigneur pour lui attirer la faveur des dieux.
     Cela passe par divers rituels et pri\xE8res jaculatoires."
   hasClue: 0
   clue:

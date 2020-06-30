@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Family 1 - 2
   m_EditorClassIdentifier: 
   playerQuestion: Euh... nan. Je dois trouver un bandit borgne.
-  characterAnswer: "Oh, c'est... d\xE9cevant. Mais attendez, un borgne ? Oh mais je
-    le connais ! Oui, c'est ce d\xE9g\xE9n\xE9r\xE9 qui fait des incantations de sorcier
+  characterAnswer: "Oh, c'est... d\xE9cevant. Mais attendez, un borgne ? Mais je le
+    connais ! Oui, c'est ce d\xE9g\xE9n\xE9r\xE9 qui fait des incantations de sorcier
     : n'h\xE9sitez pas \xE0 le br\xFBler vif dans d'atroces souffrances."
   hasClue: 1
   clue:

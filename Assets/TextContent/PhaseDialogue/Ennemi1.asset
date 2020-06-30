@@ -20,11 +20,11 @@ MonoBehaviour:
     cardObject: {fileID: 0}
   - category: 1
     subCategory: 7
-    comment: C'est un paysan et pas un samourai !
+    comment: C'est un fils de paysans, pas un samurai !
     cardObject: {fileID: 0}
   - category: 2
     subCategory: 15
-    comment: "Il est plong\xE9 dans la magie noire !"
+    comment: "On le dit plong\xE9 dans la magie noire !"
     cardObject: {fileID: 0}
   goodDeityFeedback: "Hey, t'es moins d\xE9bile que je l'imaginais ! Pas mal !"
   badDeityFeedback: "Bon, t'es bien d\xE9bile, mais c'est suffisant. Et en plus c'est

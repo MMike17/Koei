@@ -15,7 +15,7 @@ MonoBehaviour:
   playerQuestion: Hey, calmos. J'veux juste savoir si tu sais des trucs sur le bandit.
   characterAnswer: "Le bandit... Ah oui, lui. Vous savez combien il nous co\xFBte
     ?! Il vole des biens de temps en temps, et \xE7a commence \xE0 faire beaucoup
-    ! Les revenus des commercants n'ont augment\xE9s que de 31% cette ann\xE9e, \xE0
+    ! Les revenus des commercants n'ont augment\xE9 que de 31% cette ann\xE9e, \xE0
     cause de lui !\r"
   hasClue: 0
   clue:

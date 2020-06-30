@@ -15,7 +15,7 @@ MonoBehaviour:
   playerQuestion: "Tu sais quelque chose sur le bandit d'la for\xEAt ?"
   characterAnswer: "Je le connais, oui... J'ai eu l'occasion, alors qu'on m'introduisais
     \xE0 la cour de Takeda, de lui parler, quand il \xE9tait encore \xE0 son service.
-    Que veux-tu savoir sur lui ?"
+    Que voulez-vous savoir de lui ?"
   hasClue: 0
   clue:
     category: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: War 3 - 4
   m_EditorClassIdentifier: 
   playerQuestion: "Ok, vous ne m'\xE9coutez pas. Eh bien, je m'en fous, l\xE0 !"
-  characterAnswer: "Hmm, tu disais ? Enfin, peu importe : va t'occuper de \xE7a et
+  characterAnswer: "Hmm, tu disais ? Enfin, peu importe : vas t'occuper de \xE7a et
     bonne chance."
   hasClue: 0
   clue:
