@@ -155,8 +155,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -200, y: -209.425}
-  m_SizeDelta: {x: 270, y: 394.85}
+  m_AnchoredPosition: {x: -474, y: -436}
+  m_SizeDelta: {x: 900, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &32768617
 MonoBehaviour:
@@ -176,7 +176,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Test de texte
+  m_text: "Des fois il y a des textes qui sont trop proches les uns des autres du
+    genre les doubles TT ou les Td c'est gal\xE8re, les TO aussi"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f1251f84258ea9649867714dd301749c, type: 2}
   m_sharedMaterial: {fileID: 7287000594072178827, guid: f1251f84258ea9649867714dd301749c,
@@ -214,7 +215,7 @@ MonoBehaviour:
   m_fontStyle: 0
   m_textAlignment: 258
   m_characterSpacing: 0
-  m_wordSpacing: 0
+  m_wordSpacing: 5
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
@@ -222,7 +223,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 120
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -246,12 +247,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 32768617}
-    characterCount: 13
+    characterCount: 128
     spriteCount: 0
-    spaceCount: 2
-    wordCount: 3
+    spaceCount: 27
+    wordCount: 28
     linkCount: 0
-    lineCount: 1
+    lineCount: 3
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
@@ -1548,7 +1549,7 @@ PrefabInstance:
     - target: {fileID: 5768105917564092849, guid: d98ad94baabcf394c987f6018941a3cb,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 528
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 5768105917564092849, guid: d98ad94baabcf394c987f6018941a3cb,
         type: 3}

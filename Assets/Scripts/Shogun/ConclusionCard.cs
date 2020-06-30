@@ -34,11 +34,11 @@ public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 
 		if(scrollColor)
 		{
-			comment.color = Skinning.GetSkin(SkinTag.BACKGROUND);
+			if(detail.GetComponent<SkinGraphic>() != null)
+				detail.GetComponent<SkinGraphic>().enabled = false;
+
 			detail.color = GameData.GetColorFromCategory(data.category);
 		}
-		else
-			comment.color = GameData.GetColorFromCategory(data.category);
 
 		initializableInterface.InitInternal();
 	}

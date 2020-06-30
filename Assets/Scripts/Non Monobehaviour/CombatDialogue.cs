@@ -11,7 +11,7 @@ public class CombatDialogue : ScriptableObject
 	[Space]
 	public List<SubCategory> weaknesses;
 	[Space]
-	public int tries;
+	public int allowedErrors;
 
 	[Space]
 	public Sprite[] sceneBackgrounds = new Sprite[3];

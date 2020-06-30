@@ -655,6 +655,7 @@ GameObject:
   - component: {fileID: 9072079792744715791}
   - component: {fileID: 9072079792744715789}
   - component: {fileID: 9072079792744715790}
+  - component: {fileID: 4590364497765530520}
   m_Layer: 5
   m_Name: Comment
   m_TagString: Untagged
@@ -678,7 +679,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -2.7}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2.8400006, y: -2.6049972}
+  m_AnchoredPosition: {x: -2.8399963, y: -2.6049957}
   m_SizeDelta: {x: -43.48, y: -40.389996}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9072079792744715789
@@ -799,6 +800,19 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4590364497765530520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9072079792744715784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba4f9a0810f3b994987dc6cd705567b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skin_tag: 6
 --- !u!1 &9072079792926760846
 GameObject:
   m_ObjectHideFlags: 0

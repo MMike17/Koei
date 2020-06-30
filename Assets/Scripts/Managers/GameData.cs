@@ -13,13 +13,17 @@ public class GameData : MonoBehaviour, IDebugable, IInitializable
 	[Header("Debug")]
 	public List<Clue> playerClues;
 
+	public static bool shogunTutorialDone, fightTutorialDone;
+
 	public bool initialized => initializableInterface.initializedInternal;
 
 	public enum GameState
 	{
 		NORMAL,
 		GAME_OVER_GENERAL,
-		GAME_OVER_FINISHER
+		GAME_OVER_FINISHER,
+		RETURN_GENERAL,
+		RETURN_FINISHER
 	}
 
 	IInitializable initializableInterface => (IInitializable) this;
@@ -33,6 +37,9 @@ public class GameData : MonoBehaviour, IDebugable, IInitializable
 		playerClues = new List<Clue>();
 
 		enemyContent.ForEach(item => item.Init());
+
+		shogunTutorialDone = false;
+		fightTutorialDone = false;
 
 		initializableInterface.InitInternal();
 	}

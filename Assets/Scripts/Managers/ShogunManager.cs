@@ -30,7 +30,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	public Button cluesPanelButton, cluesPanelShadowButton;
 	public RectTransform dialogueScrollList, cluesScrollList;
 	public Scrollbar dialogueScroll;
-	public GameObject characterTextPrefab, playerChoicePrefab, playerTextPrefab, cluePrefab;
+	public GameObject characterTextPrefab, playerChoicePrefab, cluePrefab;
 	public UICharacter characterPortrait;
 	public TextMeshProUGUI characterName;
 	public Animator cluesPanelAnim;
@@ -114,9 +114,6 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		cluesPanelButton.onClick.AddListener(OpenCloseClues);
 		cluesPanelShadowButton.onClick.AddListener(OpenCloseClues);
-
-		if(actualState != GameData.GameState.NORMAL)
-			openDeductionPopup.Invoke();
 
 		initializableInterface.InitInternal();
 	}
@@ -334,28 +331,19 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		actualCharacterDialogue.MoveToDialogue(index);
 
-		// deletes all previously spawned texts
-		if(lastSpawnedDialogueObjects.Count > 0)
+		// deletes all previously spawned texts except selected one
+		for (int i = 0; i < lastSpawnedDialogueObjects.Count; i++)
 		{
-			lastSpawnedDialogueObjects.ForEach(item => Destroy(item));
-			lastSpawnedDialogueObjects.Clear();
+			if(i != index)
+				Destroy(lastSpawnedDialogueObjects[i]);
+			else
+				lastSpawnedDialogueObjects[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = Skinning.GetSkin(playerTextColor);
 		}
 
-		SpawnPlayerLine(line, Skinning.GetSkin(playerTextColor));
+		lastSpawnedDialogueObjects.Clear();
 
 		needsPlayerSpawn = false;
 		waitForPlayerChoice = false;
-	}
-
-	void SpawnPlayerLine(string line, Color text)
-	{
-		DialogueWriter spawned = Instantiate(playerTextPrefab, dialogueScrollList).GetComponent<DialogueWriter>();
-
-		spawned.Reset();
-		spawned.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
-		spawned.Play(line, dialogueSpeed * 2, Mathf.RoundToInt(highlightLength * 1.5f), Skinning.GetSkin(playerHighlightColor), text);
-
-		lastWriter = spawned;
 	}
 
 	void SpawnCharacterLine(string line, Color text)

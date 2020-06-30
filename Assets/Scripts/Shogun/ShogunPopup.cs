@@ -14,7 +14,7 @@ public class ShogunPopup : Popup
 	[Range(0, 1)]
 	public float unselectedAlpha;
 	public int positionComputingLimit, goodGameThreshold;
-	public SkinTag normalPath, validatedPath, wrongPath;
+	public SkinTag normalPath, validatedPath, wrongPath, oldPath;
 	public TMP_FontAsset streetFont;
 	public KeyCode skip;
 
@@ -31,7 +31,7 @@ public class ShogunPopup : Popup
 	public DialogueWriter deityWritter;
 
 	List<Conclusion> conclusionsToUnlock;
-	List<Path> selectionPath;
+	List<Path> selectionPath, persistentPath;
 	List<ClueKnob> spawnedKnobs;
 	List<Clue> selectedClues;
 	ClueKnob previouslyHoveredKnob;
@@ -39,7 +39,7 @@ public class ShogunPopup : Popup
 	string goodDeityFeedbcak, badDeityFeedback;
 	float clueDisplayTimer;
 	int positionComputingStep, lineTries;
-	bool isSettingPath, inFeedback, useCheats;
+	bool isSettingPath, inFeedback, useCheats, lastLineGood;
 
 	public void SpecificInit(bool useCheats, List<Clue> clueList, List<Conclusion> unlockableConclusions, List<ShogunCharacter> characters, string goodFeedback, string badFeedback, Action returnCallback, Action combatCallback, GameData.GameState actualState)
 	{
@@ -66,10 +66,18 @@ public class ShogunPopup : Popup
 
 			if(can)
 			{
-				anim.Play("GoodFeedback");
 				SetStateCursor(false);
 
-				Invoke(lineTries <= goodGameThreshold ? "StartGoodFeedback" : "StartBadFeedback", 2.55f);
+				if(actualState == GameData.GameState.NORMAL)
+				{
+					Invoke(lineTries <= goodGameThreshold ? "StartGoodFeedback" : "StartBadFeedback", 2.55f);
+					anim.Play("GoodFeedback");
+				}
+				else
+				{
+					toCombat.Invoke();
+					AudioManager.PlaySound("Button");
+				}
 			}
 			else
 			{
@@ -79,6 +87,7 @@ public class ShogunPopup : Popup
 		});
 
 		selectionPath = new List<Path>();
+		persistentPath = new List<Path>();
 		selectedClues = new List<Clue>();
 
 		isSettingPath = false;
@@ -89,7 +98,10 @@ public class ShogunPopup : Popup
 		foreach (TextMeshProUGUI child in transform.GetChildrenOfType<TextMeshProUGUI>())
 		{
 			if(child != deityWritter.GetComponent<TextMeshProUGUI>())
+			{
 				child.font = streetFont;
+				child.wordSpacing = 5;
+			}
 		}
 
 		ResetPopup();
@@ -292,14 +304,28 @@ public class ShogunPopup : Popup
 		if(Input.GetMouseButtonDown(0))
 		{
 			// detect if pressed above clue knob
-			eventData.hovered.ForEach(item =>
+			eventData.hovered.ForEach(eventObject =>
 			{
-				ClueKnob knob = item.GetComponent<ClueKnob>();
+				ClueKnob knob = eventObject.GetComponent<ClueKnob>();
 
 				if(knob != null && !knob.isLocked)
 				{
 					// deletes previous selection path
-					selectionPath.ForEach(path => Destroy(path.gameObject));
+					selectionPath.ForEach(path =>
+					{
+						Path check = persistentPath.Find(item => { return item.Compare(path); });
+
+						if(check == null && path.GetState() == Path.State.VALIDATED && lastLineGood)
+						{
+							persistentPath.Add(path);
+							path.SetOld();
+						}
+						else
+							Destroy(path.gameObject);
+					});
+
+					persistentPath.ForEach(item => item.transform.SetAsFirstSibling());
+
 					selectionPath.Clear();
 
 					// spawns first path
@@ -337,6 +363,7 @@ public class ShogunPopup : Popup
 				{
 					// there is no clue on last knob
 					selectionPath[selectionPath.Count - 1].UpdatePath(true, endPath.localPosition);
+					persistentPath.ForEach(item => item.transform.SetAsFirstSibling());
 
 					isPathFinished = true;
 					Debug.Log(debugableInterface.debugLabel + "Finished selection path");
@@ -397,12 +424,14 @@ public class ShogunPopup : Popup
 					else
 					{
 						selectionPath[selectionPath.Count - 1].UpdatePath(true, RealMousePosition());
+						persistentPath.ForEach(item => item.transform.SetAsFirstSibling());
 					}
 				}
 				else // if we are not above knob
 				{
 					// sticks end of path on mouse
 					selectionPath[selectionPath.Count - 1].UpdatePath(true, RealMousePosition());
+					persistentPath.ForEach(item => item.transform.SetAsFirstSibling());
 				}
 
 				previouslyHoveredKnob = knob;
@@ -442,7 +471,7 @@ public class ShogunPopup : Popup
 
 		// spawn new path
 		Path spawned = Instantiate(pathPrefab, clueKnobSpawnZone);
-		spawned.Init(start.transform, normalPath, validatedPath, wrongPath, start.GetSubCategory());
+		spawned.Init(start.transform, normalPath, validatedPath, wrongPath, oldPath, start.GetSubCategory());
 		selectionPath.Add(spawned);
 	}
 
@@ -525,15 +554,14 @@ public class ShogunPopup : Popup
 			if(unlock == null)
 				Debug.LogError(debugableInterface.debugLabel + "Could't find card to unlock with SubCategory " + pathSubCategories[0].ToString() + " (this will create errors later)");
 			else // adds card to player data
-			{
 				unlock.cardObject.ShowCard();
-				selectionPath.ForEach(item => item.SetColor(GameData.GetColorFromCategory(unlock.category)));
-			}
 		}
 
 		// checks for good feedback
 		foreach (Conclusion conclusion in conclusionsToUnlock)
 			conclusion.IsUnlocked();
+
+		lastLineGood = unlockCard;
 	}
 
 	Vector2 RealMousePosition()

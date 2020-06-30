@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Tutorial : MonoBehaviour, IDebugable, IInitializable
 {
 	[Header("Settings")]
+	public GameManager.GamePhase phase;
 	public KeyCode debug;
 	[Space]
 	[TextArea]
@@ -54,7 +55,13 @@ public class Tutorial : MonoBehaviour, IDebugable, IInitializable
 			scrolls.Add(scrollAnimator);
 		}
 
-		StartAnimation(scrolls[0]);
+		if(ShouldSkip())
+		{
+			panel.Play("Fade");
+			Invoke("StartGame", 0.5f);
+		}
+		else
+			StartAnimation(scrolls[0]);
 
 		initializableInterface.InitInternal();
 	}
@@ -97,10 +104,33 @@ public class Tutorial : MonoBehaviour, IDebugable, IInitializable
 		}
 	}
 
+	bool ShouldSkip()
+	{
+		switch(phase)
+		{
+			case GameManager.GamePhase.SHOGUN:
+				return GameData.shogunTutorialDone;
+			case GameManager.GamePhase.FIGHT:
+				return GameData.fightTutorialDone;
+		}
+
+		return false;
+	}
+
 	void StartGame()
 	{
 		startGame.Invoke();
 		enabled = false;
+
+		switch(phase)
+		{
+			case GameManager.GamePhase.SHOGUN:
+				GameData.shogunTutorialDone = true;
+				break;
+			case GameManager.GamePhase.FIGHT:
+				GameData.fightTutorialDone = true;
+				break;
+		}
 	}
 
 	void StartAnimation(Animator anim)

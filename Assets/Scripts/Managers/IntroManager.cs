@@ -57,7 +57,7 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 
 		toShogunCallback = toShogun;
 
-		AudioManager.PlaySound("should be \"Intro rewind\"", StartDialogue);
+		AudioManager.PlaySound("ConclusionSuccess", StartDialogue);
 
 		initializableInterface.InitInternal();
 	}
@@ -73,7 +73,7 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		blockInput = false;
 
-		Debug.Log(debugableInterface.debugLabel + "ma bite");
+		Debug.Log(debugableInterface.debugLabel + "J'ai commencé le dialogue");
 
 		if(string.IsNullOrEmpty(dialogues[0].playerLine))
 			SpawnDeityLine();
@@ -118,6 +118,7 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 		actualWriter.Play(dialogues[actualDialogue].playerLine, playerSpeed, playerTrail, Skinning.GetSkin(playerHighlight), Skinning.GetSkin(playerText));
 
 		actualWriter.GetComponent<TextMeshProUGUI>().font = playerFont;
+		actualWriter.GetComponent<TextMeshProUGUI>().wordSpacing = 5;
 
 		isPlayerNext = false;
 		spawnAsked = false;
@@ -145,6 +146,7 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 		actualWriter.Play(dialogues[actualDialogue].deityLine, deitySpeed, deityTrail, Skinning.GetSkin(deityHighlight), Skinning.GetSkin(deityText));
 
 		actualWriter.GetComponent<TextMeshProUGUI>().font = deityFont;
+		actualWriter.GetComponent<TextMeshProUGUI>().wordSpacing = 0;
 
 		spawnAsked = false;
 		isPlayerNext = true;

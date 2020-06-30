@@ -16,7 +16,8 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 	{
 		NORMAL,
 		VALIDATED,
-		WRONG
+		WRONG,
+		OLD
 	}
 
 	public bool initialized => initializableInterface.initializedInternal;
@@ -30,9 +31,9 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 	string IDebugable.debugLabel => "<b>[Path] : </b>";
 
 	State state;
-	Color normalColor, validatedColor, wrongColor;
+	Color normalColor, validatedColor, wrongColor, oldColor;
 
-	public void Init(Transform start, SkinTag normal, SkinTag validated, SkinTag wrong, SubCategory startClue = SubCategory.EMPTY)
+	public void Init(Transform start, SkinTag normal, SkinTag validated, SkinTag wrong, SkinTag old, SubCategory startClue = SubCategory.EMPTY)
 	{
 		this.start = start;
 
@@ -42,6 +43,7 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 		normalColor = Skinning.GetSkin(normal);
 		validatedColor = Skinning.GetSkin(validated);
 		wrongColor = Skinning.GetSkin(wrong);
+		oldColor = Skinning.GetSkin(old);
 
 		initializableInterface.InitInternal();
 	}
@@ -143,6 +145,9 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 			case State.WRONG:
 				SetColor(wrongColor);
 				break;
+			case State.OLD:
+				SetColor(oldColor);
+				break;
 		}
 	}
 
@@ -162,5 +167,21 @@ public class Path : MonoBehaviour, IInitializable, IDebugable
 		Image pathColor = GetComponent<Image>();
 
 		pathColor.color = color;
+	}
+
+	public bool Compare(Path other)
+	{
+		return ContainsKnob(other.start) && ContainsKnob(other.end);
+	}
+
+	public void SetOld()
+	{
+		state = State.OLD;
+		SetColorFromState();
+	}
+
+	public State GetState()
+	{
+		return state;
 	}
 }

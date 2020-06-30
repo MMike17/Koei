@@ -23,7 +23,7 @@ public class ConsequencesManager : MonoBehaviour, IDebugable, IInitializable
 
 	public void Init(GameData.GameState state, int combatIndex, Action toEndCallback, Action toShogunCallback, Action toFightCallback, Action advanceEnemy, string textToShow)
 	{
-		if(state == GameData.GameState.NORMAL)
+		if(state != GameData.GameState.GAME_OVER_GENERAL && state != GameData.GameState.GAME_OVER_FINISHER)
 			advanceEnemy.Invoke();
 
 		writer.GetComponent<TextMeshProUGUI>().color = Skinning.GetSkin(SkinTag.VALIDATE);
@@ -44,6 +44,12 @@ public class ConsequencesManager : MonoBehaviour, IDebugable, IInitializable
 		initializableInterface.InitInternal();
 	}
 
+	void IInitializable.InitInternal()
+	{
+		initializableInterface.initializedInternal = true;
+		Debug.Log(debuguableInterface.debugLabel + "Initializing done");
+	}
+
 	void Update()
 	{
 		if(writer.isDone)
@@ -52,7 +58,7 @@ public class ConsequencesManager : MonoBehaviour, IDebugable, IInitializable
 			{
 				isStarted = true;
 
-				if(actualState == GameData.GameState.NORMAL)
+				if(actualState != GameData.GameState.GAME_OVER_GENERAL && actualState != GameData.GameState.GAME_OVER_FINISHER)
 				{
 					canvas.Play("Fade");
 					Invoke("AdvanceMap", 3);
@@ -62,14 +68,14 @@ public class ConsequencesManager : MonoBehaviour, IDebugable, IInitializable
 			{
 				switch(actualState)
 				{
-					case GameData.GameState.NORMAL:
-						toEnd.Invoke();
-						break;
 					case GameData.GameState.GAME_OVER_GENERAL:
 						toFight.Invoke();
 						break;
 					case GameData.GameState.GAME_OVER_FINISHER:
 						toShogun.Invoke();
+						break;
+					default:
+						toEnd.Invoke();
 						break;
 				}
 			}
@@ -79,11 +85,5 @@ public class ConsequencesManager : MonoBehaviour, IDebugable, IInitializable
 	void AdvanceMap()
 	{
 		canvas.Play("Show" + (combatIndex + 1));
-	}
-
-	void IInitializable.InitInternal()
-	{
-		initializableInterface.initializedInternal = true;
-		Debug.Log(debuguableInterface.debugLabel + "Initializing done");
 	}
 }

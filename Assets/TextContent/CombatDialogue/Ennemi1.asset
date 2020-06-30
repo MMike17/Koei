@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: 0
   weaknesses: 07000000090000000f000000
-  tries: 6
+  allowedErrors: 3
   sceneBackgrounds:
   - {fileID: 21300000, guid: 006f6711b58e4454fae44ec509b35546, type: 3}
   - {fileID: 21300000, guid: fc2e3cec8c4d1cb4f9609a87b33e0f96, type: 3}

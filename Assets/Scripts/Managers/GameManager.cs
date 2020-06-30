@@ -117,11 +117,7 @@ public class GameManager : MonoBehaviour, IDebugable
 
 			audioProjectManager.FadeMusicIn();
 
-			foreach (TextMeshProUGUI text in Resources.FindObjectsOfTypeAll<TextMeshProUGUI>())
-			{
-				if(!fontToIgnore.Contains(text.font))
-					text.font = projectFont;
-			}
+			SetAllTextFont();
 		});
 
 		audioManager.Init();
@@ -139,12 +135,7 @@ public class GameManager : MonoBehaviour, IDebugable
 		audioProjectManager.FadeMusicIn();
 
 		Skinning.Init(selectedSkin);
-
-		foreach (TextMeshProUGUI text in Resources.FindObjectsOfTypeAll<TextMeshProUGUI>())
-		{
-			if(!fontToIgnore.Contains(text.font))
-				text.font = projectFont;
-		}
+		SetAllTextFont();
 	}
 
 	// called when we get to the title panel
@@ -285,14 +276,14 @@ public class GameManager : MonoBehaviour, IDebugable
 
 		switch(selectedCombat.actualState)
 		{
-			case GameData.GameState.NORMAL:
-				textToShow = bundle.combatDialogue.playerWinConsequence;
-				break;
 			case GameData.GameState.GAME_OVER_GENERAL:
 				textToShow = bundle.combatDialogue.playerLoseGeneralConsequence;
 				break;
 			case GameData.GameState.GAME_OVER_FINISHER:
 				textToShow = bundle.combatDialogue.playerLoseFinalConsequence;
+				break;
+			default:
+				textToShow = bundle.combatDialogue.playerWinConsequence;
 				break;
 		}
 
@@ -363,5 +354,14 @@ public class GameManager : MonoBehaviour, IDebugable
 	bool AddClueToPlayer(Clue clue)
 	{
 		return gameData.FindClue(clue);
+	}
+
+	void SetAllTextFont()
+	{
+		foreach (TextMeshProUGUI text in Resources.FindObjectsOfTypeAll<TextMeshProUGUI>())
+		{
+			if(!fontToIgnore.Contains(text.font))
+				text.font = projectFont;
+		}
 	}
 }
