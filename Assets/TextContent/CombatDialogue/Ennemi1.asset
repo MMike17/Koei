@@ -36,12 +36,13 @@ MonoBehaviour:
     de t'\xE9craser sous mes sandales !"
   finisherPunchlines:
     finishers:
-    - "Mec, arr\xEAte. T'es un fils de p\xE9quenauds, tu voles des trucs, tu couche
-      dans tous les sens... Et tu t'prend pour un putain de samurai ? Que dalle !\n"
-    - "Tu fais du oui-ja, t'encules des ch\xE8vres  et tu danse a poil dans la for\xEAt...
-      Faut vraiment que j'continue ?"
+    - "Mec, arr\xEAte. T'es un fils de p\xE9quenauds, tu voles des trucs, tu couches
+      dans tous les sens... Et tu t'prends pour un putain de samurai ? Que dalle !\n"
+    - "T'invoques des d\xE9mons, tu sacrifies des ch\xE8vres... C'est pass\xE9 d'mode,
+      les gothiques, mon gars."
     - "T'as couch\xE9 avec la moiti\xE9 du Japon, merde ! La seule raison qui fait
-      que t'arrive \xE0 la lever, c'est que tes MST s'battent entre elles !"
+      que t'arrives ecnore \xE0 la lever, c'est que tes MST s'battent entre elles
+      !"
     correctOne: 0
   playerWinResponse: "Nooon ! C'est vrai... A d\xE9faut de vivre comme un samurai,
     je mourrais comme un samurai !"

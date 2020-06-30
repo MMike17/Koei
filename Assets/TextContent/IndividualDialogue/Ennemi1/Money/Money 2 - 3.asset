@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Money 2 - 3
   m_EditorClassIdentifier: 
-  playerQuestion: Quoi, vous les faitent tous ici ? Y'a pas moyen de les acheter autre
-    part ?
+  playerQuestion: Quoi, vous les fabriquez tous ici ? Y'a pas moyen de les acheter
+    autre part ?
   characterAnswer: "Au prix que \xE7a co\xFBte ?! Sans compter qu'une partie de ce
     qui passe se fait d\xE9rober par le bandit de la for\xEAt ! Tenez, pas plus tard
     qu'hier, il a vol\xE9 de l'encens qu'avait command\xE9 le pr\xEAtre ! Un encens

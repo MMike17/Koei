@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerQuestion: "De l'huile ? J'vais faire quoi avec de l'huile ? Ca va pas m'aider
     \xE0 le casser !"
-  characterAnswer: "Oh, tu veux faire des d\xE9g\xE2ts, je vois ? Plaisir \xE9go\xEFste
-    et dominateur, hmmm... La femme de notre shogun saura t'y aider, alors. Elle sait,
-    disons, prendre les choses en main, et presser l'affaire, hin hin hin..."
+  characterAnswer: "Oh, vous voulez faire des d\xE9g\xE2ts, je vois ? Plaisir \xE9go\xEFste
+    et dominateur, hmmm... La femme de notre shogun saura  vous y aider, alors. Elle
+    sait, disons, prendre les choses en main, et presser l'affaire, hin hin hin..."
   hasClue: 0
   clue:
     category: 0

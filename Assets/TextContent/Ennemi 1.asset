@@ -16,11 +16,10 @@ MonoBehaviour:
   - category: 0
     punchlines:
     - subCategory: 1
-      line: "Ah, mais j\u2019vois pourquoi tu pilles que des pauvres ! Tu te chies
-        trop dessus pour voler des riches !"
+      line: "Tu restes dans la for\xEAt parce que t'as les foies ! Tapette !"
     - subCategory: 2
-      line: "Tu restes coinc\xE9 dans ta for\xEAt comme un d\xE9bile alors qu\u2019tu
-        devrais aller diriger des arm\xE9es !"
+      line: "Tu restes coinc\xE9 dans ta for\xEAt alors qu\u2019tu devrais aller diriger
+        des arm\xE9es !"
     - subCategory: 3
       line: "Si t\u2019es pas fid\xE8le \xE0 ta rue, t\u2019es vraiment qu\u2019une
         petite merde."
@@ -28,8 +27,8 @@ MonoBehaviour:
       line: "T\u2019es le genre de connard qui va braquer les vieilles dames ! T\u2019as
         aucun honneur !"
     - subCategory: 5
-      line: "Pendant qu\u2019tu fais le d\xE9bile dans c\u2019te for\xEAt, ta maison
-        se fait piller ? Mais t\u2019es compl\xE8tement con !"
+      line: "Pendant qu\u2019tu fais le d\xE9bile, ta maison reste ouverte ? Mais
+        t\u2019es compl\xE8tement con !"
   - category: 1
     punchlines:
     - subCategory: 6
@@ -40,8 +39,8 @@ MonoBehaviour:
     - subCategory: 8
       line: "Nan mais sors de ta for\xEAt et va te trouver une gonzesse !"
     - subCategory: 9
-      line: "Tu te tape tellement n'importe qui qu\u2019tu sert de livre sur les MST
-        !"
+      line: "Tu te tapes tellement n'importe qui qu\u2019tu sers de livre sur les
+        MST !"
     - subCategory: 10
       line: "Tu trompes ta femme ? Mais t\u2019es qu'un gros chien en fait !"
   - category: 2
@@ -56,8 +55,7 @@ MonoBehaviour:
     - subCategory: 14
       line: "Laisses les autres croire tranquille, salopard d\u2019ath\xE9e !"
     - subCategory: 15
-      line: "T\u2019as tellement pas de couilles que tu t\u2019prosternes devant des
-        ch\xE8vres !"
+      line: "T\u2019es un \xE9mo ? Les d\xE9mons, la magie noire, c'est \xE7a !"
   - category: 3
     punchlines:
     - subCategory: 16
@@ -79,8 +77,8 @@ MonoBehaviour:
   - "Arg esp\xE8ce de...!"
   - "Noooon...pas \xE7a !"
   - "C'\xE9tait un coup en tra\xEEtre !"
-  - "Raah, arr\xEAte ! C'est trop..."
-  - "Guh ! Arr\xEAte avec tes coups bas !"
+  - "Raah, arr\xEAtes ! C'est trop..."
+  - "Guh ! Arr\xEAtes avec tes coups bas !"
   - "Je t'interdis de dire \xE7a !"
   enemyFailReaction:
   - Heu...okay. J'ai pas compris.
