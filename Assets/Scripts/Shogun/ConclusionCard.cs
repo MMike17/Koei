@@ -81,7 +81,10 @@ public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 	public bool IsUnlocked(bool playAnim = false)
 	{
 		if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Unlock") && playAnim)
+		{
 			animator.Play("Locked");
+			AudioManager.PlaySound("ConclusionFail");
+		}
 
 		return unlocked;
 	}

@@ -58,3 +58,5 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+/Assets/TextContent/punchlines.txt
+/Assets/TextContent/punchlines.txt.meta

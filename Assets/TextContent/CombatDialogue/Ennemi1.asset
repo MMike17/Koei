@@ -30,8 +30,10 @@ MonoBehaviour:
   preCombatReplicas:
   - playerLine: Yo ! C'est toi, Maeda l'bandit ?
     enemyLine: "Et toi, t'es quoi ? Un fant\xF4me d\xE9bile ?"
-  - playerLine: "Nope ! J'suis celui qui va te p\xE9ter la gueule !"
-    enemyLine: Ah ouais ? Je t'attends !
+  - playerLine: "J'suis celui qui viens mettre fin \xE0 ton existance !"
+    enemyLine: "Ha ! Pour \xE7a faudrait que tu puisse me toucher !"
+  - playerLine: Ah si j'le pouvais j'te casserai les genoux !
+    enemyLine: Ah ouais ? Viens ! Je t'attends !
   preCombatReturnReplica: "Encore toi ?\nTu ne vaux pas le temps que \xE7a me prends
     de t'\xE9craser sous mes sandales !"
   finisherPunchlines:

@@ -206,8 +206,7 @@ public class AudioManager : MonoBehaviour
 
 			donePlaying = false;
 
-			if(callback != null)
-				doneCallback = callback;
+			doneCallback = callback;
 
 			switch(preset.lifeMode)
 			{

@@ -1,6 +1,7 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 // class managing gameplay of intro panel
 public class IntroManager : MonoBehaviour, IDebugable, IInitializable
@@ -8,7 +9,7 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 	[Header("Settings")]
 	public SkinTag playerText;
 	public SkinTag playerHighlight, deityText, deityHighlight;
-	public float playerSpeed, deitySpeed, lineDelay;
+	public float playerSpeed, deitySpeed;
 	public int playerTrail, deityTrail;
 	public bool isTesting;
 	public TMP_FontAsset deityFont, playerFont;
@@ -18,7 +19,7 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 
 	[Header("Assign in Inspector")]
 	public DialogueWriter actualWriter;
-	public Animator deityAnim;
+	public Animator deityAnim, mouseIcon;
 	public SkinData test;
 
 	IDebugable debugableInterface => (IDebugable) this;
@@ -57,7 +58,9 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 
 		toShogunCallback = toShogun;
 
-		AudioManager.PlaySound("ConclusionSuccess", StartDialogue);
+		AudioManager.PlaySound("ConclusionFail", StartDialogue);
+
+		mouseIcon.Play("Idle");
 
 		initializableInterface.InitInternal();
 	}
@@ -73,8 +76,6 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		blockInput = false;
 
-		Debug.Log(debugableInterface.debugLabel + "J'ai commencé le dialogue");
-
 		if(string.IsNullOrEmpty(dialogues[0].playerLine))
 			SpawnDeityLine();
 		else
@@ -89,14 +90,27 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 		if(!initialized || blockInput)
 			return;
 
-		if(actualWriter.isDone && !spawnAsked)
+		if(actualWriter.isDone)
 		{
-			spawnAsked = true;
+			if(mouseIcon.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+				mouseIcon.Play("Spawn");
+		}
+		else
+			mouseIcon.Play("Idle");
 
-			if(isPlayerNext)
-				Invoke("SpawnPlayerLine", lineDelay);
+		if(Input.GetMouseButtonDown(0))
+		{
+			if(actualWriter.isDone)
+			{
+				AudioManager.PlaySound("Button");
+
+				if(isPlayerNext)
+					SpawnPlayerLine();
+				else
+					SpawnDeityLine();
+			}
 			else
-				Invoke("SpawnDeityLine", lineDelay);
+				actualWriter.Finish();
 		}
 	}
 
@@ -122,8 +136,6 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 
 		isPlayerNext = false;
 		spawnAsked = false;
-
-		Debug.Log(debugableInterface.debugLabel + "spawned player");
 	}
 
 	void SpawnDeityLine()
@@ -151,13 +163,12 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 		spawnAsked = false;
 		isPlayerNext = true;
 		actualDialogue++;
-
-		Debug.Log(debugableInterface.debugLabel + "spawned deity");
 	}
 
 	void FlushWriter()
 	{
-		actualWriter.Reset();
+		if(actualWriter != null)
+			actualWriter.Reset();
 	}
 
 	[Serializable]

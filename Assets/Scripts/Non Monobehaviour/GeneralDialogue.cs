@@ -129,7 +129,7 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 
 	// class representing character's dialogues
 	[Serializable]
-	public class CharacterDialogue : IInitializable
+	public class CharacterDialogue : IInitializable, IDebugable
 	{
 		public Character character;
 		[TextArea(1, 10)]
@@ -142,8 +142,11 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 		public bool initialized => initializableInterface.initializedInternal;
 
 		IInitializable initializableInterface => (IInitializable) this;
+		IDebugable debugableInterface => (IDebugable) this;
 
 		bool IInitializable.initializedInternal { get; set; }
+
+		string IDebugable.debugLabel => "<b>[" + GetType() + "] :</b>";
 
 		public CharacterDialogue(Character character)
 		{
@@ -188,6 +191,12 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 			initializableInterface.initializedInternal = true;
 		}
 
+		// resets dialogue path when we change character
+		public void ResetDialoguePath()
+		{
+			indexesPath.Clear();
+		}
+
 		// called when player selects dialogue choice
 		public void MoveToDialogue(int selectedIndex)
 		{
@@ -196,12 +205,12 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 			GetActualDialogue().SetAsDone();
 		}
 
-		public Dialogue GetActualDialogue(int offset = 0)
+		public Dialogue GetActualDialogue()
 		{
 			Dialogue dialogueInPath = initialDialogues[indexesPath[0]];
 
 			// gets the right dialogue in the arborescence
-			for (int i = 1; i < indexesPath.Count - offset; i++)
+			for (int i = 1; i < indexesPath.Count; i++)
 				dialogueInPath = dialogueInPath.nextDialogues[indexesPath[i]];
 
 			return dialogueInPath;

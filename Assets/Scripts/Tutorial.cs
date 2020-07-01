@@ -138,5 +138,12 @@ public class Tutorial : MonoBehaviour, IDebugable, IInitializable
 		anim.gameObject.SetActive(true);
 		anim.speed = 1;
 		anim.Play("Open");
+
+		Invoke("PlaySound", 0.4f);
+	}
+
+	void PlaySound()
+	{
+		AudioManager.PlaySound("Swish");
 	}
 }

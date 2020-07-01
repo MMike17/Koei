@@ -41,20 +41,26 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	public bool initialized => initializableInterface.initializedInternal;
 
+	// for testing
+	public bool forceClick { get; set; }
+	public bool waitForPlayerChoice { get; private set; }
+	public bool cluesOpen { get; private set; }
+	public bool characterDone { get; private set; }
+	public DialogueWriter lastWriter { get; private set; }
+	public List<GameObject> lastSpawnedDialogueObjects { get; private set; }
+	public GeneralDialogue actualDialogue { get; private set; }
+	public Character actualCharacter { get; private set; }
+
 	bool IInitializable.initializedInternal { get; set; }
 	string IDebugable.debugLabel => "<b>[ShogunManager] : </b>";
 
-	GeneralDialogue actualDialogue;
 	CharacterDialogue actualCharacterDialogue;
 
 	Func<Clue, bool> findClueEvent;
-	Character actualCharacter;
 	Color characterTextColor;
-	DialogueWriter lastWriter;
-	List<GameObject> lastSpawnedDialogueObjects;
 	GameData.GameState actualState;
 	float cluesAddTimer;
-	bool needsPlayerSpawn, waitForPlayerChoice, cluesOpen, didCheat, useCheats;
+	bool needsPlayerSpawn, didCheat, useCheats;
 
 	public void PreInit(GameData.GameState targetState, GeneralDialogue dialogue, Func<Clue, bool> findClue)
 	{
@@ -100,6 +106,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		this.useCheats = useCheats;
 		cluesOpen = false;
 		didCheat = false;
+		characterDone = false;
 		cluesAddTimer = 0;
 
 		openDeductionPopup += () => AudioManager.PlaySound("Button");
@@ -165,6 +172,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	void Update()
 	{
+		// sets character grey state
 		if(actualDialogue != null && actualDialogue.GetCharacterDialogue(Character.SHOGUN).IsDone())
 			characters.ForEach(item =>
 			{
@@ -175,6 +183,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 				}
 			});
 
+		// unlock all cheat
 		if(Input.GetKeyDown(unlockAllClues) && !didCheat && useCheats)
 		{
 			foreach (Clue clue in actualDialogue.GetAllClues())
@@ -188,6 +197,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			didCheat = true;
 		}
 
+		// timer for clus panel
 		if(cluesAddTimer > 0)
 		{
 			cluesAddTimer -= Time.deltaTime;
@@ -202,26 +212,31 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			}
 		}
 
+		// when character writer is done
 		if(lastWriter != null && lastWriter.isDone)
 		{
 			// prevents update from spawning lines if we are waiting for the player to choose a dialogue line
 			if(waitForPlayerChoice)
-			{
 				return;
-			}
+
+			characterDone = true;
 
 			// previous line was a character line
 			if(needsPlayerSpawn)
 			{
 				{
+					// sets shogun dialogue done if return dialogue done
 					CharacterDialogue selected = actualDialogue.charactersDialogues.Find(item => { return item.character == Character.SHOGUN; });
 
 					if(actualDialogue.shogunReturnDialogues.IsDone() && !selected.IsDone())
 						actualDialogue.charactersDialogues.Find(item => { return item.character == Character.SHOGUN; }).ForceSetAsDone();
 				}
 
-				if(Input.GetMouseButtonDown(0))
+				// spawns next dialogues choices
+				if(Input.GetMouseButtonDown(0) || forceClick)
 				{
+					forceClick = false;
+
 					Dialogue[] availableDialogues;
 
 					// if we are not at beginning of dialogue
@@ -239,7 +254,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 						// resets indexes path if branch can't go any further
 						if(availableDialogues == null || availableDialogues.Length == 0)
 						{
-							actualCharacterDialogue.indexesPath = new List<int>();
+							actualCharacterDialogue.ResetDialoguePath();
 							return;
 						}
 					}
@@ -262,8 +277,10 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			else // previous line was player line
 				SpawnCharacterLine(actualCharacterDialogue.GetActualDialogue().characterAnswer, characterTextColor);
 		}
-		else if(Input.GetMouseButtonDown(0))
+		else if(Input.GetMouseButtonDown(0) || forceClick)
 		{
+			forceClick = false;
+
 			if(lastWriter != null)
 				lastWriter.Finish();
 		}
@@ -280,6 +297,9 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			else
 				item.UI.Grey(false);
 		});
+
+		if(actualCharacterDialogue != null)
+			actualCharacterDialogue.ResetDialoguePath();
 
 		actualCharacter = character;
 
@@ -325,6 +345,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		lastSpawnedDialogueObjects.Add(spawned.gameObject);
 
 		waitForPlayerChoice = true;
+		characterDone = false;
 	}
 
 	void SelectChoice(string line, int index)
@@ -353,6 +374,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			needsPlayerSpawn = true;
 			return;
 		}
+
+		characterDone = false;
 
 		DialogueWriter spawned = Instantiate(characterTextPrefab, dialogueScrollList).GetComponent<DialogueWriter>();
 
@@ -414,6 +437,11 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		}
 
 		AudioManager.PlaySound("CluesPanel");
+	}
+
+	public Dialogue ReturnDialogueFromLine(string line)
+	{
+		return actualCharacterDialogue.initialDialogues.Find(item => { return item.playerQuestion == line; });
 	}
 
 	[Serializable]

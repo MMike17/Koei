@@ -353,7 +353,7 @@ MonoBehaviour:
     maxVolume: 0.5
   - phase: 3
     source: {fileID: 1415750211}
-    maxVolume: 0.4
+    maxVolume: 0.3
   popupMusics:
   - popup: 2
     highFilter: {fileID: 976495978}
@@ -962,6 +962,11 @@ MonoBehaviour:
   - name: Swish
     clip: {fileID: 8300000, guid: 2843316c37e80534c8d2ed38a8747314, type: 3}
     volume: 0.8
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: ConclusionFail
+    clip: {fileID: 8300000, guid: 23be4756882356a4d90b5cbaf6705fd4, type: 3}
+    volume: 0.1
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   soundEffectModel: {fileID: 4851038735178417926, guid: 9996ec0e83e612a46b84a4a59333c3c1,
@@ -2220,7 +2225,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 65f6afb878d446a4bb40152fced3f436, type: 3}
+  m_audioClip: {fileID: 8300000, guid: fb9f7de276c63444f8ddb14729e447a8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1

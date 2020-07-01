@@ -22,7 +22,7 @@ public class ShogunPopup : Popup
 	public ClueKnob clueKnobPrefab;
 	public ConclusionCard cardPrefab;
 	public Path pathPrefab;
-	public RectTransform clueKnobSpawnZone, cardList, endPath, cursor, infoBubble;
+	public RectTransform clueKnobSpawnZone, cardList, cursor, infoBubble;
 	public TextMeshProUGUI lineCounter, clueDescription, clueLineAddUp;
 	public UICharacter popupCharacterPortrait;
 	public Button returnButton, combatButton;
@@ -362,7 +362,6 @@ public class ShogunPopup : Popup
 				if(selectedClues.Count == 3)
 				{
 					// there is no clue on last knob
-					selectionPath[selectionPath.Count - 1].UpdatePath(true, endPath.localPosition);
 					persistentPath.ForEach(item => item.transform.SetAsFirstSibling());
 
 					isPathFinished = true;
@@ -503,7 +502,7 @@ public class ShogunPopup : Popup
 		spawnedKnobs.ForEach(item => { item.DeselectKnob(false); item.SetKnobAlpha(1); });
 
 		// destroys last path (if finished it's linked to end knob, if not it's interrupted)
-		if(selectionPath[selectionPath.Count - 1].end == null || selectionPath[selectionPath.Count - 1].end == endPath)
+		if(selectionPath[selectionPath.Count - 1].end == null)
 		{
 			Destroy(selectionPath[selectionPath.Count - 1].gameObject);
 			selectionPath.RemoveAt(selectionPath.Count - 1);
@@ -560,6 +559,9 @@ public class ShogunPopup : Popup
 		// checks for good feedback
 		foreach (Conclusion conclusion in conclusionsToUnlock)
 			conclusion.IsUnlocked();
+
+		if(pathSubCategories.Contains(SubCategory.EMPTY))
+			AudioManager.PlaySound("ConclusionFail");
 
 		lastLineGood = unlockCard;
 	}

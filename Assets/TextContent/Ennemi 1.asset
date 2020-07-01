@@ -16,63 +16,65 @@ MonoBehaviour:
   - category: 0
     punchlines:
     - subCategory: 1
-      line: "Tu restes dans la for\xEAt parce que t'as les foies ! Tapette !"
+      line: "Tu t'caches dans la for\xEAt parce que t'es qu'une poulle mouill\xE9e
+        !"
     - subCategory: 2
-      line: "Tu restes coinc\xE9 dans ta for\xEAt alors qu\u2019tu devrais aller diriger
-        des arm\xE9es !"
+      line: "Elle est o\xF9 ton arm\xE9e d'la for\xEAt ? Tu domptes des \xE9cureuils
+        ?"
     - subCategory: 3
       line: "Si t\u2019es pas fid\xE8le \xE0 ta rue, t\u2019es vraiment qu\u2019une
         petite merde."
     - subCategory: 4
-      line: "T\u2019es le genre de connard qui va braquer les vieilles dames ! T\u2019as
-        aucun honneur !"
+      line: "Si j'\xE9tait aussi faible que toi, moi aussi je volerai des trucs au
+        lieu de me battre."
     - subCategory: 5
-      line: "Pendant qu\u2019tu fais le d\xE9bile, ta maison reste ouverte ? Mais
-        t\u2019es compl\xE8tement con !"
+      line: "En plus d'agresser la fille de ton seigneur tu l'as abandon\xE9e, esp\xE8ce
+        de l\xE2che !"
   - category: 1
     punchlines:
     - subCategory: 6
       line: "Toi t\u2019as des gosses ? J\u2019imagine m\xEAme pas la t\xEAte des
         horreurs !"
     - subCategory: 7
-      line: "J\u2019veux pas te faire pleurer, mais t\u2019es un fils de pute."
+      line: "Retourne cultiver le riz dans la boue, esp\xE8ce de bouzeux !"
     - subCategory: 8
-      line: "Nan mais sors de ta for\xEAt et va te trouver une gonzesse !"
+      line: "T'es tellement moche que t'es oblig\xE9 de payer des femmes pour qu'elles
+        couchent avec toi !"
     - subCategory: 9
       line: "Tu te tapes tellement n'importe qui qu\u2019tu sers de livre sur les
         MST !"
     - subCategory: 10
-      line: "Tu trompes ta femme ? Mais t\u2019es qu'un gros chien en fait !"
+      line: "M\xEAme la fille d'un seigneur \xE9tait pas assez bien pour toi ? T'es
+        vraiment un gros chien !"
   - category: 2
     punchlines:
     - subCategory: 11
-      line: "D\xE9j\xE0 que t\u2019es un connard ici-bas, mais en plus t\u2019iras
-        direct en enfer apr\xE8s !"
+      line: "Tu crois en rien, et \xE7a se voit ! T'as aucune morale !"
     - subCategory: 12
       line: "Ton pr\xEAtre, il prie pour toi, et tu le laisses crever de faim !"
     - subCategory: 13
       line: "T\u2019es un h\xE9r\xE9tique ! Un gros sale h\xE9r\xE9tique !"
     - subCategory: 14
-      line: "Laisses les autres croire tranquille, salopard d\u2019ath\xE9e !"
+      line: "T'as le droit d'\xEAtre une sous-merde, mais va pas ent\xE2cher les autres
+        avec ta connerie !"
     - subCategory: 15
-      line: "T\u2019es un \xE9mo ? Les d\xE9mons, la magie noire, c'est \xE7a !"
+      line: "Les d\xE9mons, la magie noire...c'est \xE7a ! T'es \xE9mo en fait !"
   - category: 3
     punchlines:
     - subCategory: 16
       line: "Faut rien devoir \xE0 personne, mec, c\u2019est la base. T\u2019as m\xEAme
-        pas la base.\r\n"
+        pas la base.\r"
     - subCategory: 17
-      line: "Faut que t'apprennes \xE0 g\xE9rer un peu l\u2019argent que tu voles,
-        t\u2019es toujours pauvre !"
+      line: "Tu passes ton temps \xE0 voler et pourtant t'es toujours pauvre, t'es
+        mauvais putain !"
     - subCategory: 18
-      line: "Mec ! Tu cr\xE8ves la dalle, l\xE0 ! Arr\xEAte de te payer des meufs,
-        c\u2019est trop con !\r"
+      line: "Tu te payes des putes mais pas de la bouffe ? T'es con ou tu le fait
+        expr\xE8s ?"
     - subCategory: 19
-      line: "Faut contribuer \xE0 ta rue, mec, c\u2019est la communaut\xE9. Tout l\u2019monde
-        sait \xE7a.\r\n"
+      line: "Les radins comme toi, d'o\xF9 je viens, on leur couppe la t\xEAte !"
     - subCategory: 20
-      line: "Alors c\u2019est quoi ta combine ? Tu payes les keufs pour qu\u2019ils
-        te foutent la paix ?"
+      line: "Tu payes les keufs ? Ils feraient \xE7a gratos, pour pas revoir ta sale
+        gueulle !"
   enemyDamageReaction:
   - "Arg esp\xE8ce de...!"
   - "Noooon...pas \xE7a !"
@@ -84,6 +86,6 @@ MonoBehaviour:
   - Heu...okay. J'ai pas compris.
   - "Nan mais... je m'en fiche de \xE7a."
   - Quoi ? Mais pas du tout !
-  - "Ah, c'\xE9tait cens\xE9 \xEAtre une insulte ?"
+  - "Heu...c'\xE9tait cens\xE9 \xEAtre une insulte ?"
   - "C'est pas tr\xE8s impressionant, dis donc..."
   - "Ma grand-m\xE8re est plus \xE9loquente !"
