@@ -345,7 +345,6 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		lastSpawnedDialogueObjects.Add(spawned.gameObject);
 
 		waitForPlayerChoice = true;
-		characterDone = false;
 	}
 
 	void SelectChoice(string line, int index)
@@ -375,8 +374,6 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			return;
 		}
 
-		characterDone = false;
-
 		DialogueWriter spawned = Instantiate(characterTextPrefab, dialogueScrollList).GetComponent<DialogueWriter>();
 
 		spawned.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
@@ -384,6 +381,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 		lastWriter = spawned;
 		needsPlayerSpawn = true;
+		characterDone = false;
 	}
 
 	ShogunCharacter GetCharacter(Character character)
@@ -441,7 +439,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	public Dialogue ReturnDialogueFromLine(string line)
 	{
-		return actualCharacterDialogue.initialDialogues.Find(item => { return item.playerQuestion == line; });
+		return actualCharacterDialogue.FindDialogueWithLine(line);
 	}
 
 	[Serializable]

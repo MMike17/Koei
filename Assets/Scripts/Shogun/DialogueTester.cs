@@ -7,6 +7,7 @@ using static GeneralDialogue;
 public class DialogueTester : MonoBehaviour, IDebugable
 {
 	[Header("Settings")]
+	public float inputDelay;
 	public KeyCode debug;
 
 	[Header("Assign in Inspector")]
@@ -16,17 +17,20 @@ public class DialogueTester : MonoBehaviour, IDebugable
 	public bool shogun;
 	public bool money, family, war, religion;
 
-	bool activeDebug, randomDialogue;
-
 	IDebugable debugableInterface => (IDebugable) this;
 	string IDebugable.debugLabel => "<b>[" + GetType() + "] : </b>";
 
 	string lastInvoked;
-	// bool wait;
+	bool activeDebug, randomDialogue, checkDone;
 
 	void Awake()
 	{
 		Application.logMessageReceived += GotErrorEvent;
+
+		checkDone = false;
+		activeDebug = false;
+		randomDialogue = false;
+		lastInvoked = string.Empty;
 	}
 
 	void Update()
@@ -35,13 +39,16 @@ public class DialogueTester : MonoBehaviour, IDebugable
 		UpdateBool();
 
 		if(activeDebug)
-			ActiveDebug();
+			InvokeRepeating("ActiveDebug", 0, inputDelay);
 	}
 
 	void SwitchDebug()
 	{
 		if(Input.GetKeyDown(debug))
 			activeDebug = !activeDebug;
+
+		if(!activeDebug)
+			CancelInvoke("ActiveDebug");
 	}
 
 	void ActiveDebug()
@@ -52,8 +59,8 @@ public class DialogueTester : MonoBehaviour, IDebugable
 		if(!manager.lastWriter.isDone || manager.cluesOpen)
 			manager.forceClick = true;
 
-		// selects dialogue choice
-		if(manager.waitForPlayerChoice)
+		// selects dialogue choice or changes character
+		if(manager.waitForPlayerChoice || manager.characterDone)
 			SelectObject(manager.lastSpawnedDialogueObjects);
 	}
 
@@ -68,7 +75,10 @@ public class DialogueTester : MonoBehaviour, IDebugable
 
 			Dialogue selected = manager.ReturnDialogueFromLine(text.text);
 
-			if(selected != null && !selected.IsDone())
+			// doesn't check if done when random
+			bool condition = randomDialogue ? selected != null : selected != null && !selected.IsDone();
+
+			if(condition)
 				available.Add(choice.GetComponent<Button>());
 		}
 
@@ -91,11 +101,17 @@ public class DialogueTester : MonoBehaviour, IDebugable
 		}
 		else
 		{
-			string text = choices[0].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text;
+			if(choices.Count > 0)
+			{
+				string text = string.Empty;
 
-			// must wait
-			if(text == lastInvoked)
-				return;
+				if(choices[0].transform.childCount > 0)
+					text = choices[0].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text;
+
+				// must wait
+				if(text == lastInvoked)
+					return;
+			}
 
 			// get all characters except shogun
 			List<ShogunManager.ShogunCharacter> charactersExceptShogun = new List<ShogunManager.ShogunCharacter>();
@@ -125,8 +141,12 @@ public class DialogueTester : MonoBehaviour, IDebugable
 				randomDialogue = false;
 		});
 
-		if(randomDialogue)
+		if(randomDialogue && !checkDone)
+		{
+			checkDone = true;
+
 			Debug.Log(debugableInterface.debugLabel + "No more undone dialogues to check. Starting random dialogue exploration.");
+		}
 	}
 
 	void GotErrorEvent(string message, string stackTrace, LogType type)

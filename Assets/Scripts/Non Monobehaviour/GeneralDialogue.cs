@@ -233,6 +233,38 @@ public class GeneralDialogue : ScriptableObject, IDebugable, IInitializable
 			return true;
 		}
 
+		public Dialogue FindDialogueWithLine(string line)
+		{
+			foreach (Dialogue dialogue in initialDialogues)
+			{
+				Dialogue result = FindDialogueWithLineRecursive(dialogue, line);
+
+				if(result != null)
+					return result;
+			}
+
+			return null;
+		}
+
+		Dialogue FindDialogueWithLineRecursive(Dialogue initial, string line)
+		{
+			if(initial.playerQuestion == line)
+				return initial;
+
+			if(initial.nextDialogues.Length > 0)
+			{
+				foreach (Dialogue dialogue in initial.nextDialogues)
+				{
+					Dialogue found = FindDialogueWithLineRecursive(dialogue, line);
+
+					if(found != null)
+						return found;
+				}
+			}
+
+			return null;
+		}
+
 		void SetDialogueDoneRecursive(Dialogue dialogue)
 		{
 			dialogue.SetAsDone();

@@ -196,14 +196,14 @@ public class GameManager : MonoBehaviour, IDebugable
 			return;
 		}
 
-		shogunManager.Init(useCheats, () => popupManager.Pop(GamePopup.SHOGUN_DEDUCTION));
-
 		EnemyBundle bundle = gameData.enemyContent.Find(item => { return item.enemy == actualEnemy; });
 
 		GeneralDialogue selectedGeneral = bundle.shogunDialogue;
 		selectedGeneral.Init();
 
 		CombatDialogue selectedCombat = bundle.combatDialogue;
+
+		shogunManager.Init(useCheats, () => popupManager.Pop(GamePopup.SHOGUN_DEDUCTION));
 
 		popupManager.GetPopupFromType<ShogunPopup>().SpecificInit(
 			useCheats,
