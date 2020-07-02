@@ -27,7 +27,7 @@ public class ShogunPopup : Popup
 	public UICharacter popupCharacterPortrait;
 	public Button returnButton, combatButton;
 	public GraphicRaycaster raycaster;
-	public Animator anim;
+	public Animator anim, click;
 	public DialogueWriter deityWritter;
 
 	List<Conclusion> conclusionsToUnlock;
@@ -243,6 +243,9 @@ public class ShogunPopup : Popup
 
 		if(inFeedback)
 		{
+			if(deityWritter.isDone && click.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+				click.Play("Spawn");
+
 			if(Input.GetMouseButtonDown(0))
 			{
 				if(!deityWritter.isDone)
@@ -300,8 +303,11 @@ public class ShogunPopup : Popup
 			SetStateInfoBubble(false);
 		}
 
+		// if there is a conclusion that is not yet unlocked
+		bool blockInterractions = conclusionsToUnlock.Find(item => { return !item.IsUnlocked(); }) == null;
+
 		// if first click
-		if(Input.GetMouseButtonDown(0))
+		if(Input.GetMouseButtonDown(0) && !blockInterractions)
 		{
 			// detect if pressed above clue knob
 			eventData.hovered.ForEach(eventObject =>

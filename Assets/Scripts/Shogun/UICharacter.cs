@@ -10,6 +10,8 @@ public class UICharacter : MonoBehaviour
 	[Header("Assing in Inspector")]
 	public Image clothes;
 	public Image skin, detail, eyes, over;
+	public Animator movementAnimator;
+	[Space]
 	public Image[] greyedOut;
 
 	Button selfButton;
@@ -67,5 +69,18 @@ public class UICharacter : MonoBehaviour
 	public void SwitchState()
 	{
 		selfButton.interactable = !selfButton.interactable;
+	}
+
+	public bool IsGreyed()
+	{
+		bool result = false;
+
+		foreach (Image image in greyedOut)
+		{
+			if(image.enabled)
+				result = true;
+		}
+
+		return result;
 	}
 }

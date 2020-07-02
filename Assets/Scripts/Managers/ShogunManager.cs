@@ -10,8 +10,9 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 {
 	[Header("Settings")]
 	public float dialogueSpeed;
-	public float cluesAddDelay;
+	public float cluesAddDelay, characterMoveDelay;
 	public int highlightLength;
+	public string[] characterAnimationTag;
 	[Space]
 	public SkinTag playerTextColor;
 	public SkinTag playerHighlightColor;
@@ -27,14 +28,15 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	[Header("Assing in Inspector")]
 	public Button openDeductionButton;
-	public Button cluesPanelButton, cluesPanelShadowButton;
+	public Button cluesPanelShadowButton;
 	public RectTransform dialogueScrollList, cluesScrollList;
 	public Scrollbar dialogueScroll;
-	public GameObject characterTextPrefab, playerChoicePrefab, cluePrefab;
+	public GameObject characterTextPrefab, playerChoicePrefab, cluePrefab, scrollUp, scrollDown;
 	public UICharacter characterPortrait;
 	public TextMeshProUGUI characterName;
 	public Animator cluesPanelAnim;
 	public Image dialogueScrollDetail, background;
+	public ScrollButton scrollButton;
 
 	IDebugable debugableInterface => (IDebugable) this;
 	IInitializable initializableInterface => (IInitializable) this;
@@ -59,8 +61,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	Func<Clue, bool> findClueEvent;
 	Color characterTextColor;
 	GameData.GameState actualState;
-	float cluesAddTimer;
-	bool needsPlayerSpawn, didCheat, useCheats;
+	float cluesAddTimer, characterMoveTimer;
+	bool needsPlayerSpawn, didCheat, useCheats, firstCharacterSelection;
 
 	public void PreInit(GameData.GameState targetState, GeneralDialogue dialogue, Func<Clue, bool> findClue)
 	{
@@ -77,12 +79,14 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		block.pressedColor = Skinning.GetSkin(SkinTag.CONTRAST);
 		dialogueScroll.colors = block;
 
-		block = cluesPanelButton.colors;
+		scrollButton.Init(this);
+
+		block = scrollButton.button.colors;
 		block.normalColor = Skinning.GetSkin(SkinTag.PRIMARY_ELEMENT);
 		block.highlightedColor = Skinning.GetSkin(SkinTag.PRIMARY_WINDOW);
 		block.pressedColor = Skinning.GetSkin(SkinTag.CONTRAST);
 		block.disabledColor = block.normalColor;
-		cluesPanelButton.colors = block;
+		scrollButton.button.colors = block;
 
 		// when you come back to shogun after defeat
 		if(targetState != GameData.GameState.NORMAL)
@@ -107,19 +111,21 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		cluesOpen = false;
 		didCheat = false;
 		characterDone = false;
+		firstCharacterSelection = false;
 		cluesAddTimer = 0;
+		characterMoveTimer = 0;
 
 		openDeductionPopup += () => AudioManager.PlaySound("Button");
 
 		// plug in buttons
-		cluesPanelButton.interactable = false;
+		scrollButton.button.interactable = false;
 		openDeductionButton.onClick.AddListener(() =>
 		{
 			openDeductionPopup.Invoke();
 			OpenCloseClues();
 		});
 
-		cluesPanelButton.onClick.AddListener(OpenCloseClues);
+		scrollButton.button.onClick.AddListener(OpenCloseClues);
 		cluesPanelShadowButton.onClick.AddListener(OpenCloseClues);
 
 		initializableInterface.InitInternal();
@@ -133,11 +139,13 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			return;
 		}
 
-		cluesPanelButton.interactable = true;
+		scrollButton.button.interactable = true;
 		actualDialogue = dialogue;
 
 		characterPortrait.Show();
 		ChangeCharacter(Character.SHOGUN);
+
+		firstCharacterSelection = false;
 
 		characters.ForEach(item => item.UI.Grey(true));
 	}
@@ -174,6 +182,12 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		// sets character grey state
 		if(actualDialogue != null && actualDialogue.GetCharacterDialogue(Character.SHOGUN).IsDone())
+		{
+			if(!firstCharacterSelection && !cluesPanelAnim.GetCurrentAnimatorStateInfo(0).IsName("Tutorial"))
+				cluesPanelAnim.Play("ShowTutorial");
+
+			List<UICharacter> notGreyed = new List<UICharacter>();
+
 			characters.ForEach(item =>
 			{
 				if(item.character != actualCharacter)
@@ -181,7 +195,42 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 					item.selectionButton.interactable = true;
 					item.UI.Grey(false);
 				}
+
+				if(!item.UI.IsGreyed())
+					notGreyed.Add(item.UI);
 			});
+
+			// if shogun dialogue is already done
+			if(notGreyed.Count > 1)
+				characterMoveTimer += Time.deltaTime;
+
+			if(characterMoveTimer >= characterMoveDelay)
+			{
+				characterMoveTimer = 0;
+
+				// select random character except shogun
+				List<ShogunCharacter> allButShogun = new List<ShogunCharacter>();
+
+				foreach (ShogunCharacter shogunCharacter in characters)
+				{
+					if(shogunCharacter.character != Character.SHOGUN)
+						allButShogun.Add(shogunCharacter);
+				}
+
+				int index = UnityEngine.Random.Range(0, allButShogun.Count);
+
+				// select random animation
+				int animationIndex = UnityEngine.Random.Range(0, characterAnimationTag.Length);
+
+				Debug.Log(debugableInterface.debugLabel + "Character " + allButShogun[index].character + " played animation " + characterAnimationTag[animationIndex]);
+
+				// give random animation to random character
+				allButShogun[index].UI.movementAnimator.Play(characterAnimationTag[animationIndex]);
+			}
+		}
+
+		scrollDown.SetActive(cluesScrollList.anchoredPosition.y < cluesScrollList.rect.height / 2);
+		scrollUp.SetActive(cluesScrollList.anchoredPosition.y > cluesScrollList.parent.GetComponent<RectTransform>().rect.height - (cluesScrollList.rect.height / 2));
 
 		// unlock all cheat
 		if(Input.GetKeyDown(unlockAllClues) && !didCheat && useCheats)
@@ -197,7 +246,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			didCheat = true;
 		}
 
-		// timer for clus panel
+		// timer for clues panel
 		if(cluesAddTimer > 0)
 		{
 			cluesAddTimer -= Time.deltaTime;
@@ -288,6 +337,9 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 	void ChangeCharacter(Character character)
 	{
+		firstCharacterSelection = true;
+		cluesPanelAnim.Play("Idle");
+
 		ResetDialogue();
 
 		characters.ForEach(item =>

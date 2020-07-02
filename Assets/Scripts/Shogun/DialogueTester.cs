@@ -21,15 +21,13 @@ public class DialogueTester : MonoBehaviour, IDebugable
 	string IDebugable.debugLabel => "<b>[" + GetType() + "] : </b>";
 
 	string lastInvoked;
-	bool activeDebug, randomDialogue, checkDone;
+	bool activeDebug;
 
 	void Awake()
 	{
 		Application.logMessageReceived += GotErrorEvent;
 
-		checkDone = false;
 		activeDebug = false;
-		randomDialogue = false;
 		lastInvoked = string.Empty;
 	}
 
@@ -60,7 +58,7 @@ public class DialogueTester : MonoBehaviour, IDebugable
 			manager.forceClick = true;
 
 		// selects dialogue choice or changes character
-		if(manager.waitForPlayerChoice || manager.characterDone)
+		if(manager.waitForPlayerChoice && manager.characterDone)
 			SelectObject(manager.lastSpawnedDialogueObjects);
 	}
 
@@ -76,7 +74,7 @@ public class DialogueTester : MonoBehaviour, IDebugable
 			Dialogue selected = manager.ReturnDialogueFromLine(text.text);
 
 			// doesn't check if done when random
-			bool condition = randomDialogue ? selected != null : selected != null && !selected.IsDone();
+			bool condition = selected != null && !selected.IsDone();
 
 			if(condition)
 				available.Add(choice.GetComponent<Button>());
@@ -133,7 +131,7 @@ public class DialogueTester : MonoBehaviour, IDebugable
 
 	void CheckRandomDialogue()
 	{
-		randomDialogue = true;
+		bool randomDialogue = true;
 
 		manager.actualDialogue.charactersDialogues.ForEach(item =>
 		{
@@ -141,12 +139,8 @@ public class DialogueTester : MonoBehaviour, IDebugable
 				randomDialogue = false;
 		});
 
-		if(randomDialogue && !checkDone)
-		{
-			checkDone = true;
-
-			Debug.Log(debugableInterface.debugLabel + "No more undone dialogues to check. Starting random dialogue exploration.");
-		}
+		if(randomDialogue)
+			Debug.Log(debugableInterface.debugLabel + "No more undone dialogues to check");
 	}
 
 	void GotErrorEvent(string message, string stackTrace, LogType type)

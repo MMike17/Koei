@@ -1023,6 +1023,7 @@ GameObject:
   - component: {fileID: 5768105917564092849}
   - component: {fileID: 5154563397848546647}
   - component: {fileID: 614354075208866277}
+  - component: {fileID: 911214947874718298}
   m_Layer: 5
   m_Name: CharacterPortrait
   m_TagString: Untagged
@@ -1115,12 +1116,32 @@ MonoBehaviour:
   detail: {fileID: 5970989588648227783}
   eyes: {fileID: 581667575234786587}
   over: {fileID: 7331335111071185165}
+  movementAnimator: {fileID: 911214947874718298}
   greyedOut:
   - {fileID: 8924875553473422734}
   - {fileID: 647812139909929694}
   - {fileID: 8069588739175323463}
   - {fileID: 2306954599800725621}
   - {fileID: 1225560296920843953}
+--- !u!95 &911214947874718298
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5768105917564092850}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9bdef94f52de98f40994aa625ac1c693, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5963396646528347970
 GameObject:
   m_ObjectHideFlags: 0
