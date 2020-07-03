@@ -969,10 +969,10 @@ MonoBehaviour:
       yakuza, moi, pas un h\xE9ros b\xE9ni ou j'sais pas quoi."
     deityLine: "Si si, je t'assure. Tu as toute la force requise en toi, et tu d\xE9fends
       souvent l'honneur de ta famille d'adoption, fusse-t-elle compos\xE9e de fieff\xE9s
-      brigands. Heureusement, tes nouveaux suzerains sont de grands seigneurs digne
-      d'\xE9loges et confront\xE9s \xE0 de v\xE9ritables mauvais \xEAtres.\r\n"
-  - playerLine: Mais de quoi tu causes, bordel ? Des seigneurs ? Genre, le premier
-      ministre ?
+      brigands. Heureusement, ton nouveau suzerain est un grand seigneur, un shogun,
+      honorable et pur de toute corruption."
+  - playerLine: Mais de quoi tu causes, bordel ? Un seigneur ? Genre, le premier ministre
+      ?
     deityLine: "Oh, et puis merde. Tant pis pour le d\xE9corum. Voil\xE0 l'topo :
       je m'ennuie comme un rat mort dans le ciel, du coup je vais t'envoyer au Moyen-\xC2ge
       pour que tu serve un shogun et que tu te tape contre des samurais. L'\xE9clate,
