@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Family 3 - 1
   m_EditorClassIdentifier: 
   playerQuestion: "Loyal ? J'sais m\xEAme pas ce que \xE7a veut dire !"
-  characterAnswer: "Mais si... La loyaut\xE9. Rester fid\xE8le  \xE0 ses principes,
+  characterAnswer: "Mais si... La loyaut\xE9. Rester fid\xE8le \xE0 ses principes,
     \xE0 sa femme, \xE0 son ma\xEEtre. R\xE9pondre au moindre de ses d\xE9sirs et
     \xEAtre le reste du temps un chien fid\xE8le, subir les punitions avec bonheur..."
   hasClue: 0

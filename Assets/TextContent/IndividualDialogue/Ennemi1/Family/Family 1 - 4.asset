@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Family 1 - 4
   m_EditorClassIdentifier: 
   playerQuestion: "D'accord. Ok. Euh... J'suis pas s\xFBr d'en arriver l\xE0."
-  characterAnswer: "Quel dommage ! \"Un bon b\xFBcher \xE9gaye la journ\xE9e\", disais
+  characterAnswer: "Quel dommage ! \"Un bon b\xFBcher \xE9gaye la journ\xE9e\", disait
     toujours ma m\xE8re. Je me souviens, elle \xE9tait si enjou\xE9e \xE0 l'id\xE9e
     de torturer les sorciers du domaine... Ah, souvenirs. Bonne chance quand m\xEAme."
   hasClue: 0

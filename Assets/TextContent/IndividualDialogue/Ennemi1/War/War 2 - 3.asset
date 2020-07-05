@@ -15,7 +15,7 @@ MonoBehaviour:
   playerQuestion: "Eh, j'croyais que les samurais ils s'battaient jusqu'\xE0 la mort.
     Tu te chies dessus ?"
   characterAnswer: "Ne m'insultes pas, samurai. Jusqu'\xE0 ma mort je lutterai aux
-    c\xF4t\xE9s de Shinegawa, dussais-je affronter tout les samurais du Japon avec
+    c\xF4t\xE9s de Shinegawa, duss\xE9-je affronter tout les samurais du Japon avec
     un \xE9ventail pour seule arme."
   hasClue: 0
   clue:

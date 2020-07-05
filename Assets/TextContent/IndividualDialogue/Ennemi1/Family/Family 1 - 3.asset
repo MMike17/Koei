@@ -15,7 +15,8 @@ MonoBehaviour:
   playerQuestion: "Le.. le br\xFBler vif ?"
   characterAnswer: "Oh, oui. Vous l'attachez sur des fagots, vous y mettez le feu,
     et vous regardez la chair roussir, vous \xE9coutez les cris de douleur, vous sentez
-    l'odeur de viande cuite... Ca a le go\xFBt de poulet.\r\n\r\nM'a-t-on dit, \xE9videmment."
+    l'odeur de viande cuite... \xC7a a le go\xFBt de poulet.\r\n\r\nM'a-t-on dit,
+    \xE9videmment."
   hasClue: 0
   clue:
     category: 0
