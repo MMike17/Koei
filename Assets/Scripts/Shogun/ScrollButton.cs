@@ -6,7 +6,7 @@ public class ScrollButton : MonoBehaviour, IInitializable, IDebugable
 {
 	[Header("Assign in Inspector")]
 	public Button button;
-	public Animator animator;
+	public Animator animator, click;
 
 	IInitializable initializableInterface => (IInitializable) this;
 	IDebugable debugableInterface => (IDebugable) this;
@@ -45,8 +45,16 @@ public class ScrollButton : MonoBehaviour, IInitializable, IDebugable
 		}
 
 		if(hoveredButton && !shogunManager.cluesOpen)
+		{
 			animator.Play("Open");
+
+			if(click.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+				click.Play("Spawn");
+		}
 		else
+		{
 			animator.Play("Close");
+			click.Play("Idle");
+		}
 	}
 }

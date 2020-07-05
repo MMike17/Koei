@@ -43,14 +43,27 @@ public class AudioProjectManager : MonoBehaviour, IDebugable, IInitializable
 		Debug.Log(debugableInterface.debugLabel + "Initializing done");
 	}
 
-	public void FadeMusicIn()
+	public void FadeMusicIn(int layer = 0)
 	{
-		StartCoroutine(FadePanelMusic(true));
+		StartCoroutine(FadePanelMusic(true, layer));
 	}
 
-	public void FadeMusicOut()
+	public void FadeMusicOut(int layer = 0)
 	{
-		StartCoroutine(FadePanelMusic(false));
+		StartCoroutine(FadePanelMusic(false, layer));
+	}
+
+	public void PlayPopupMusicIn()
+	{
+		PopupMusic popup = popupMusics.Find(item => { return item.popup == GetGamePopup(); });
+
+		if(popup == null)
+		{
+			Debug.LogError(debugableInterface.debugLabel + "There is no PopuMusic for popup " + GetGamePopup());
+			return;
+		}
+
+		popup.Play();
 	}
 
 	public void FadePopupMusicIn()
@@ -74,7 +87,7 @@ public class AudioProjectManager : MonoBehaviour, IDebugable, IInitializable
 		panelMusics.ForEach(item => item.Stop());
 	}
 
-	IEnumerator FadePanelMusic(bool inOut)
+	IEnumerator FadePanelMusic(bool inOut, int layer)
 	{
 		if(!initialized)
 		{
@@ -86,29 +99,30 @@ public class AudioProjectManager : MonoBehaviour, IDebugable, IInitializable
 
 		PanelMusic panel = panelMusics.Find(item => { return item.phase == current; });
 
-		if(panel == null || panel.source == null)
+		if(panel == null || !panel.IsValid())
 		{
 			Debug.LogError(debugableInterface.debugLabel + "There is no audio source for panel " + current);
 			yield break;
 		}
 
-		if(!panel.source.isPlaying)
-			panel.source.Play();
+		PanelMusic.Layer selectedLayer = panel.layers.Find(item => { return item.layerIndex == layer; });
 
-		float step = inOut ? panel.maxVolume / transitionDuration : -panel.maxVolume / transitionDuration;
+		panel.Play(layer);
 
-		while (inOut?panel.source.volume<panel.maxVolume : panel.source.volume> 0)
+		float step = inOut ? selectedLayer.maxVolume / transitionDuration : -selectedLayer.maxVolume / transitionDuration;
+
+		while (inOut?selectedLayer.source.volume<selectedLayer.maxVolume : selectedLayer.source.volume> 0)
 		{
-			panel.source.volume += step * Time.deltaTime;
+			selectedLayer.source.volume += step * Time.deltaTime;
 
 			yield return null;
 		}
 
 		if(inOut)
-			panel.source.volume = panel.maxVolume;
+			selectedLayer.source.volume = selectedLayer.maxVolume;
 		else
 		{
-			panel.source.Stop();
+			selectedLayer.source.Stop();
 
 			PopupMusic selected = popupMusics.Find(item => { return item.popup.ToString().Contains(GetActualGamePhase().ToString()); });
 
@@ -130,7 +144,7 @@ public class AudioProjectManager : MonoBehaviour, IDebugable, IInitializable
 		PanelMusic panel = panelMusics.Find(item => { return item.phase == GetActualGamePhase(); });
 		PopupMusic popup = popupMusics.Find(item => { return item.popup == GetGamePopup(); });
 
-		if(panel == null || panel.source == null)
+		if(panel == null || !panel.IsValid())
 		{
 			Debug.LogError(debugableInterface.debugLabel + "There is no audio source for panel " + GetActualGamePhase());
 			yield break;
@@ -142,29 +156,22 @@ public class AudioProjectManager : MonoBehaviour, IDebugable, IInitializable
 			yield break;
 		}
 
-		if(!panel.source.isPlaying)
-			panel.source.Play();
+		if(inOut)
+			FadeMusicOut();
+		else
+			FadeMusicIn();
 
-		float stepHigh = inOut ? popup.maxHighFilter / popupFadeDuration : -popup.maxHighFilter / popupFadeDuration;
-		float stepLow = inOut ? -popup.maxLowFilter / popupFadeDuration : popup.maxLowFilter / popupFadeDuration;
+		float step = inOut ? popup.maxVolume / transitionDuration : -popup.maxVolume / transitionDuration;
 
-		bool check = inOut?(popup.highFilter.cutoffFrequency < popup.maxHighFilter && popup.lowFilter.cutoffFrequency > popup.maxLowFilter): (popup.highFilter.cutoffFrequency > 10 && popup.lowFilter.cutoffFrequency < 22000);
-
-		while (check)
+		while (inOut?popup.source.volume<popup.maxVolume : popup.source.volume> 0)
 		{
-			popup.highFilter.cutoffFrequency += stepHigh * Time.deltaTime;
-			popup.lowFilter.cutoffFrequency += stepLow * Time.deltaTime;
-
-			check = inOut?(popup.highFilter.cutoffFrequency < popup.maxHighFilter && popup.lowFilter.cutoffFrequency > popup.maxLowFilter): (popup.highFilter.cutoffFrequency > 10 && popup.lowFilter.cutoffFrequency < 22000);
+			popup.SetVolume(popup.GetVolume() + step);
 
 			yield return null;
 		}
 
 		if(inOut)
-		{
-			popup.highFilter.cutoffFrequency = popup.maxHighFilter;
-			popup.lowFilter.cutoffFrequency = popup.maxLowFilter;
-		}
+			popup.SetVolume(popup.maxVolume);
 		else
 			popup.Init();
 
@@ -175,12 +182,85 @@ public class AudioProjectManager : MonoBehaviour, IDebugable, IInitializable
 	public class PanelMusic
 	{
 		public GamePhase phase;
+		public List<Layer> layers;
+
+		public void Init()
+		{
+			layers.ForEach(item => item.source.volume = 0);
+		}
+
+		public void SetVolume(float level, int index = 0)
+		{
+			Layer selectedLayer = layers.Find(item => { return item.layerIndex == index; });
+
+			if(selectedLayer != null)
+				selectedLayer.source.volume = level;
+			else
+				Debug.Log("Couldn't play sound of phase " + phase + " at index " + index);
+		}
+
+		public void Play(int index)
+		{
+			Layer selectedLayer = layers.Find(item => { return item.layerIndex == index; });
+
+			if(selectedLayer != null && !selectedLayer.source.isPlaying)
+				selectedLayer.source.Play();
+			else
+				Debug.Log("Couldn't play sound of phase " + phase + " at index " + index);
+		}
+
+		public void Stop(int index = 0)
+		{
+			Layer selectedLayer = layers.Find(item => { return item.layerIndex == index; });
+
+			if(selectedLayer != null)
+				selectedLayer.source.Stop();
+			else
+				Debug.Log("Couldn't play sound of phase " + phase + " at index " + index);
+		}
+
+		public bool IsValid()
+		{
+			bool hasAllSources = true;
+
+			layers.ForEach(item =>
+			{
+				if(item.source == null)
+					hasAllSources = false;
+			});
+
+			return hasAllSources;
+		}
+
+		[Serializable]
+		public class Layer
+		{
+			public int layerIndex;
+			public AudioSource source;
+			public float maxVolume;
+		}
+	}
+
+	[Serializable]
+	public class PopupMusic
+	{
+		public GamePopup popup;
 		public AudioSource source;
 		public float maxVolume;
 
 		public void Init()
 		{
 			source.volume = 0;
+		}
+
+		public float GetVolume()
+		{
+			return source.volume;
+		}
+
+		public void SetVolume(float level)
+		{
+			source.volume = level;
 		}
 
 		public void Play()
@@ -191,22 +271,6 @@ public class AudioProjectManager : MonoBehaviour, IDebugable, IInitializable
 		public void Stop()
 		{
 			source.Stop();
-		}
-	}
-
-	[Serializable]
-	public class PopupMusic
-	{
-		public GamePopup popup;
-		public AudioHighPassFilter highFilter;
-		public float maxHighFilter;
-		public AudioLowPassFilter lowFilter;
-		public float maxLowFilter;
-
-		public void Init()
-		{
-			highFilter.cutoffFrequency = 10;
-			lowFilter.cutoffFrequency = 22000;
 		}
 	}
 }

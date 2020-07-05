@@ -24,7 +24,7 @@ public class DialogueWriter : MonoBehaviour
 	Color[] trailColors;
 	int writingIndex;
 	float timer;
-	bool start;
+	bool start, stopedSound;
 
 	void Update()
 	{
@@ -41,11 +41,17 @@ public class DialogueWriter : MonoBehaviour
 			if(writingIndex - trailLength > line.Length)
 			{
 				textComponent.text = line;
-				setSound.Invoke(false);
 				return;
 			}
 			else
 			{
+				if(writingIndex > line.Length && !stopedSound)
+				{
+					setSound.Invoke(false);
+
+					stopedSound = true;
+				}
+
 				// add non highlighted chars
 				if(writingIndex - trailLength >= 0)
 				{
@@ -93,6 +99,7 @@ public class DialogueWriter : MonoBehaviour
 		ComputeColors();
 		setSound.Invoke(true);
 
+		stopedSound = false;
 		start = true;
 	}
 
@@ -133,6 +140,8 @@ public class DialogueWriter : MonoBehaviour
 	public void Reset()
 	{
 		start = false;
+		stopedSound = false;
+
 		textComponent.text = string.Empty;
 
 		writingIndex = 0;

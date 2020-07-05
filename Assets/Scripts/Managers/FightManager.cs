@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static GeneralPunchlines;
 
@@ -11,7 +12,12 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	[Header("Settings")]
 	public float preCombatReplicaDelay;
 	public float preCombatWriterSpeed, suicideDelay;
+	public Vector2 sakuraDelay;
 	public int preCombatWriterTrailLength, backgroundSvalue, backgroundVvalue;
+	[Space]
+	public string[] sakuraAnimations;
+	[Space]
+	public Color sakuraColor;
 	public SkinTag preCombatPlayerColor, preCombatPlayerHighlight, preCombatEnnemyColor, preCombatEnnemyHighlight;
 	public TMP_FontAsset streetFont;
 	public KeyCode skip;
@@ -21,14 +27,14 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 	[Header("Assign in Inspector")]
 	public Animator canvasAnimator;
-	public Animator effectAnimator, KanjiGeneralAnimator, KanjiFinisherAnimator, playerAnimator, enemyAnimator, bloodShed;
+	public Animator effectAnimator, kanjiGeneralAnimator, kanjiFinisherAnimator, playerAnimator, enemyAnimator, bloodShed, sakura;
 	public Transform playerDialoguePosition, enemyDialoguePosition;
 	public DialogueWriter writerPrefab;
 	[Space]
 	public Image[] backgrounds;
 	[Space]
 	public Image enemyGraph;
-	public Image bigEnemyGraph, playerGraph, bigPlayerGraph;
+	public Image bigEnemyGraph, playerGraph, bigPlayerGraph, attackKanji, attackScrollDetail;
 	public KatanaSlider katanaSlider;
 	public GongSlider gongSlider;
 	[Space]
@@ -39,7 +45,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	public Button[] finisherPunchlineButtons;
 	[Space]
 	public ConclusionCard conclusionPrefab;
-	public Transform punchlineScroll, conclusionScroll, triesHolder;
+	public Transform punchlineScroll, conclusionScroll, triesHolder, sakuraParent;
 	public TextMeshProUGUI generalAttack, finisherAttack;
 	public GameObject generalPunchlinePanel, finisherPunchlinePanel, lifePrefab;
 
@@ -71,15 +77,17 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	Phase actualPhase;
 	DialogueWriter lastWriter, lastWriterPlayer, lastWriterEnemy;
 	Punchline selectedPunchline;
+	Category selectedCategory;
 	GeneralPunchlines gamePunchlines;
 	List<SubCategory> enemyHealth;
 	List<Punchline> usedPunchlines;
 	List<ConclusionCard> spawnedConclusions;
 	List<Animator> lifePoints;
+	AudioProjectManager audioProjectManager;
 	TMP_FontAsset normalFont;
 	Action toConsequences;
 	string selectedFinisher;
-	float preCombatTimer, suicideTimer;
+	float preCombatTimer, suicideTimer, sakuraTimer, trueSakuraDelay;
 	int dialogueIndex, errorCount, suicideIndex, playerTargetIndex;
 	bool isPlayer, writerIsCommanded, isGoodFinisher, gotToFinisher, invokedTransition, destructionAsked, isStartingGameOver, suicideStarted, useCheats;
 
@@ -110,7 +118,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		}
 	}
 
-	public void Init(bool useCheats, GeneralPunchlines punchlines, GeneralDialogue dialogue, Action toConsequencesCallback)
+	public void Init(bool useCheats, GeneralPunchlines punchlines, GeneralDialogue dialogue, AudioProjectManager audioProject, Action toConsequencesCallback)
 	{
 		normalFont = FindObjectOfType<TextMeshProUGUI>().font;
 		initializableInterface.InitInternal();
@@ -118,6 +126,10 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		this.useCheats = useCheats;
 		gamePunchlines = punchlines;
 		toConsequences = toConsequencesCallback;
+		audioProjectManager = audioProject;
+
+		foreach (Transform child in sakuraParent)
+			child.GetComponent<Image>().color = sakuraColor;
 
 		katanaSlider.gameObject.SetActive(false);
 		gongSlider.Init(StartFinalPunchlines);
@@ -167,6 +179,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				canvasAnimator.Play("PanDown");
 				Invoke("ShowAttackLines", 1);
 
+				AudioManager.PlaySound("Button");
+
 				SetCanvasInterractable(false);
 				actualPhase = Phase.EFFECT_FINAL;
 			});
@@ -179,6 +193,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		}
 
 		errorCount = 0;
+		sakuraTimer = 0;
+		trueSakuraDelay = UnityEngine.Random.Range(sakuraDelay.x, sakuraDelay.y);
 		isGoodFinisher = false;
 		gotToFinisher = false;
 		invokedTransition = false;
@@ -188,6 +204,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		usedPunchlines = new List<Punchline>();
 
 		canvasAnimator.Play("Intro");
+		AudioManager.PlaySound("Wind");
 		Invoke("StartDialogue", 3);
 
 		Debug.Log(debugableInterface.debugLabel + "Initializing done");
@@ -209,7 +226,10 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				if(Input.GetKeyDown(skip) && useCheats)
 				{
 					actualPhase = Phase.KATANA;
+					sakuraTimer = sakuraDelay.y;
 					Destroy(lastWriter.gameObject);
+
+					AudioManager.StopSound("Writting");
 
 					playerDialoguePosition.gameObject.SetActive(false);
 					enemyDialoguePosition.gameObject.SetActive(false);
@@ -222,7 +242,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 					{
 						Invoke("SpawnNextPreDialogue", preCombatReplicaDelay * 2);
 						writerIsCommanded = true;
-						katanaSlider.slider.value = 0;
+						katanaSlider.ForceSetValue(0);
 					}
 				}
 				else if(Input.GetMouseButtonDown(0))
@@ -230,7 +250,11 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				break;
 
 			case Phase.KATANA:
-				if(katanaSlider.slider.value == 1)
+				selectedCategory = Category.EMPTY;
+
+				SakuraAnimation();
+
+				if(katanaSlider.done)
 				{
 					actualPhase = Phase.CHOICE_GENERAL;
 
@@ -266,6 +290,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				break;
 
 			case Phase.GONG:
+				SakuraAnimation();
+
 				gongSlider.gameObject.SetActive(true);
 				enemyDialoguePosition.gameObject.SetActive(false);
 
@@ -278,7 +304,11 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				}
 
 				if(lastWriter != null)
+				{
 					Destroy(lastWriter.gameObject);
+
+					AudioManager.StopSound("Writting");
+				}
 				break;
 
 			case Phase.CHOICE_GENERAL:
@@ -286,6 +316,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				finisherPunchlinePanel.SetActive(false);
 
 				enemyDialoguePosition.gameObject.SetActive(false);
+
+				AnimateCategoryButtons();
 
 				if(Input.GetKeyDown(skip) && useCheats)
 					errorCount = actualCombat.allowedErrors;
@@ -460,8 +492,55 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		writerIsCommanded = false;
 	}
 
-	void ShowPunchlines(List<Punchline> punchlines)
+	void AnimateCategoryButtons()
 	{
+		PointerEventData data = ActuallyUsefulInputModule.GetPointerEventData();
+
+		foreach (CategoryButton categoryButton in categoryButtons)
+		{
+			// button is open by default
+			string selectedAnimation = "Open";
+
+			// if button is not selectedCategory it closes
+			if(categoryButton.category != selectedCategory && selectedCategory != Category.EMPTY)
+				selectedAnimation = "Close";
+
+			// set button states
+			data.hovered.ForEach(item =>
+			{
+				// if button is hovered
+				if(item == categoryButton.button.gameObject)
+				{
+					if(selectedCategory == Category.EMPTY)
+						selectedAnimation = "Click";
+					else
+						selectedAnimation = "Open";
+
+					// if is hovered and clicked
+					if(Input.GetMouseButtonDown(0))
+						selectedAnimation = "Click";
+				}
+			});
+
+			AnimatorStateInfo animInfo = categoryButton.anim.GetCurrentAnimatorStateInfo(0);
+
+			// if didn't finish play click => skip animation transition
+			if(animInfo.IsName("Click") && animInfo.normalizedTime < animInfo.length)
+				continue;
+
+			// if current animation is not the one playing, it plays it 
+			if(!animInfo.IsName(selectedAnimation))
+				categoryButton.anim.Play(selectedAnimation);
+		}
+	}
+
+	void ShowPunchlines(List<Punchline> punchlines, Category buttonCategory)
+	{
+		selectedCategory = buttonCategory;
+
+		AudioManager.PlaySound("Button");
+		Invoke("Swish", 0.4f);
+
 		foreach (Transform transform in punchlineScroll)
 			Destroy(transform.gameObject);
 
@@ -477,6 +556,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 				canvasAnimator.Play("PanDown");
 				Invoke("ShowAttackLines", 1);
+
+				AudioManager.PlaySound("Button");
 
 				ConclusionCard selected = null;
 
@@ -525,11 +606,15 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		actualPhase = Phase.CHOICE_FINAL;
 
+		audioProjectManager.FadeMusicOut(0);
+		AudioManager.PlaySound("Gong", () => audioProjectManager.FadeMusicIn(1));
+
 		canvasAnimator.Play("PanUp");
 	}
 
 	void ShowAttackLines()
 	{
+		AudioManager.PlaySound("Swosh");
 		effectAnimator.Play("OpenLines");
 
 		playerGraph.sprite = playerSprites[1];
@@ -539,8 +624,10 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 	void HideAttackLines()
 	{
-		KanjiGeneralAnimator.Play("Hide");
-		KanjiFinisherAnimator.Play("Hide");
+		AudioManager.PlaySound("Swosh");
+
+		kanjiGeneralAnimator.Play("Hide");
+		kanjiFinisherAnimator.Play("Hide");
 
 		effectAnimator.Play("CloseLines");
 
@@ -583,7 +670,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 		effectAnimator.Play("Empty");
 
-		katanaSlider.slider.value = 0;
+		katanaSlider.ForceSetValue(0);
 		actualPhase = Phase.KATANA;
 
 		SetCanvasInterractable(true);
@@ -630,14 +717,21 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		switch(actualPhase)
 		{
 			case Phase.EFFECT_GENERAL:
-				KanjiFinisherAnimator.Play("Hide");
-				KanjiGeneralAnimator.Play("ShowAttack");
+				attackKanji.color = GameData.GetColorFromCategory(selectedCategory);
+				attackScrollDetail.color = GameData.GetColorFromCategory(selectedCategory);
+
+				kanjiFinisherAnimator.Play("Hide");
+				kanjiGeneralAnimator.Play("ShowAttack");
 
 				generalAttack.font = streetFont;
 				generalAttack.wordSpacing = 5;
 				generalAttack.text = selectedPunchline.line;
 
 				Invoke("HideAttackLines", 4.45f);
+
+				Invoke("Impact", 0.3f - 0.05f);
+				Invoke("Impact", 0.8f - 0.05f);
+				Invoke("Impact", 1.3f - 0.05f);
 
 				bool takesDamage = false;
 
@@ -663,14 +757,27 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				break;
 
 			case Phase.EFFECT_FINAL:
-				KanjiFinisherAnimator.Play("ShowAttack");
-				KanjiGeneralAnimator.Play("Hide");
+				kanjiFinisherAnimator.Play("ShowAttack");
+				kanjiGeneralAnimator.Play("Hide");
 
 				finisherAttack.font = streetFont;
 				finisherAttack.wordSpacing = 5;
 				finisherAttack.text = selectedFinisher;
 
 				Invoke("HideAttackLines", 11.10f);
+
+				Swish();
+
+				Invoke("PreImpact", 3.16f);
+				Invoke("Impact", 3.6f - 0.05f);
+
+				Invoke("PreImpact", 4f);
+				Invoke("Impact", 4.5f - 0.05f);
+
+				Invoke("PreImpact", 4.83f);
+				Invoke("Impact", 5.3f - 0.05f);
+
+				Invoke("FinisherThunderSound", 7.6f);
 
 				if(isGoodFinisher)
 					Invoke("EnnemyTakeDamage", 11.10f);
@@ -684,6 +791,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		enemyGraph.sprite = actualCombat.enemySprites[0];
 		bigEnemyGraph.sprite = enemyGraph.sprite;
 
+		AudioManager.PlaySound("Grunt");
+
 		if(actualPhase == Phase.EFFECT_GENERAL)
 			Invoke("SpawnDamageReaction", 1.10f);
 	}
@@ -692,6 +801,9 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		lifePoints[lifePoints.Count - 1].Play("Break");
 		lifePoints.RemoveAt(lifePoints.Count - 1);
+
+		AudioManager.PlaySound("LoseHP");
+		AudioManager.PlaySound("Grunt");
 
 		playerAnimator.Play("TakeDamage");
 		playerGraph.sprite = playerSprites[2];
@@ -722,12 +834,17 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 	void GeneralAttackGood()
 	{
-		KanjiGeneralAnimator.Play("GoodAttack");
+		kanjiGeneralAnimator.Play("GoodAttack");
+
+		Invoke("Swish", 1.25f);
+		Invoke("Swish", 1.83f);
 	}
 
 	void GeneralAttackFail()
 	{
-		KanjiGeneralAnimator.Play("BadAttack");
+		kanjiGeneralAnimator.Play("BadAttack");
+		BreakBadSound();
+		Invoke("Swish", 1.5f);
 	}
 
 	void EnemySuicideAnimation()
@@ -759,7 +876,11 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			suicideIndex++;
 		}
 		else
+		{
+			AudioManager.PlaySound("Sepukku");
+			AudioManager.PlaySound("Grunt");
 			PlayBloodShed();
+		}
 	}
 
 	void PlayerSuicideAnimation()
@@ -777,10 +898,21 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				playerTargetIndex = 2;
 				playerAnimator.enabled = false;
 
+				bool play = false;
+
 				foreach (Animator anim in lifePoints)
 				{
 					if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Break"))
+					{
 						anim.Play("Break");
+						play = true;
+					}
+				}
+
+				if(play)
+				{
+					AudioManager.PlaySound("Grunt");
+					AudioManager.PlaySound("LoseHP");
 				}
 
 				bloodShed.Play("Idle");
@@ -788,6 +920,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			case Phase.SUICIDE:
 				bloodShed.gameObject.SetActive(true);
 				bloodShed.Play("Enemy");
+				AudioManager.PlaySound("BloodLoop");
 				break;
 		}
 
@@ -835,16 +968,58 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 		canvasAnimator.GetComponent<CanvasGroup>().interactable = state;
 	}
 
+	void SakuraAnimation()
+	{
+		if(sakura.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+			sakuraTimer += Time.deltaTime;
+
+		if(sakuraTimer >= trueSakuraDelay)
+		{
+			AudioManager.PlaySound("Wind");
+
+			trueSakuraDelay = UnityEngine.Random.Range(sakuraDelay.x, sakuraDelay.y);
+			sakura.Play(sakuraAnimations[UnityEngine.Random.Range(0, sakuraAnimations.Length)]);
+			sakuraTimer = 0;
+		}
+	}
+
+	void Swish()
+	{
+		AudioManager.PlaySound("Swish");
+	}
+
+	void BreakBadSound()
+	{
+		AudioManager.PlaySound("AttackBreak");
+	}
+
+	void PreImpact()
+	{
+		AudioManager.PlaySound("Pre");
+	}
+
+	void Impact()
+	{
+		AudioManager.PlaySound("Impact");
+	}
+
+	void FinisherThunderSound()
+	{
+		AudioManager.PlaySound("Thunder");
+		AudioManager.PlaySound("AttackFinal");
+	}
+
 	[Serializable]
 	public class CategoryButton
 	{
 		public Category category;
 		public Button button;
+		public Animator anim;
 
-		public void Init(Action<List<Punchline>> showCallback, GeneralPunchlines gamePunchlines, TMP_FontAsset streetAsset)
+		public void Init(Action<List<Punchline>, Category> showCallback, GeneralPunchlines gamePunchlines, TMP_FontAsset streetAsset)
 		{
 			List<Punchline> temp = gamePunchlines.allPunchlines.Find(item => { return item.category == category; }).punchlines;
-			button.onClick.AddListener(() => showCallback.Invoke(temp));
+			button.onClick.AddListener(() => showCallback.Invoke(temp, category));
 
 			button.transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().font = streetAsset;
 			button.targetGraphic.color = GameData.GetColorFromCategory(category);

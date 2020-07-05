@@ -51,7 +51,7 @@ public class ShogunPopup : Popup
 		SpawnKnobs(clueList, characters);
 		SpawnConclusions(unlockableConclusions, actualState);
 
-		deityWritter.SetAudio(() => AudioManager.PlaySound("Writter"), () => AudioManager.StopSound("Writter"));
+		deityWritter.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
 
 		returnButton.onClick.AddListener(() => { returnCallback.Invoke(); SetStateCursor(false); AudioManager.PlaySound("Button"); });
 		combatButton.onClick.AddListener(() =>
@@ -72,6 +72,7 @@ public class ShogunPopup : Popup
 				{
 					Invoke(lineTries <= goodGameThreshold ? "StartGoodFeedback" : "StartBadFeedback", 2.55f);
 					anim.Play("GoodFeedback");
+					AudioManager.PlaySound("DeityDeduction");
 				}
 				else
 				{

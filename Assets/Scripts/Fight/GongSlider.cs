@@ -94,7 +94,7 @@ public class GongSlider : MonoBehaviour
 				value = 0;
 
 			if(value == 1)
-				graphic.position = Input.mousePosition;
+				graphic.position = rightAnchor;
 		}
 		else
 			graphic.position = new Vector2(value * amplitude + leftAnchor.x, slidingRect.position.y);

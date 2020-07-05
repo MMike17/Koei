@@ -1,7 +1,6 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 // class managing gameplay of intro panel
 public class IntroManager : MonoBehaviour, IDebugable, IInitializable
@@ -58,7 +57,7 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 
 		toShogunCallback = toShogun;
 
-		AudioManager.PlaySound("ConclusionFail", StartDialogue);
+		AudioManager.PlaySound("Rip", StartDialogue);
 
 		mouseIcon.Play("Idle");
 
@@ -150,7 +149,10 @@ public class IntroManager : MonoBehaviour, IDebugable, IInitializable
 		FlushWriter();
 
 		if(actualDialogue == 0)
+		{
 			deityAnim.Play("Spawn");
+			AudioManager.PlaySound("DeityIntro");
+		}
 		else
 			deityAnim.Play("Show");
 

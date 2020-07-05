@@ -73,6 +73,16 @@ public class AudioManager : MonoBehaviour
 		}
 	}
 
+	public static float GetClipLength(string clip_name)
+	{
+		SoundClip clip = AudioManager.instance.FindClipByName(clip_name);
+
+		if(clip != null)
+			return clip.GetClipLength();
+		else
+			return 0;
+	}
+
 	/// <summary>Command to spawn a prefab that will play a given sound.static Doesn't require object ref</summary>
 	/// <param name="clip_name">name of the SoundClip you want to play</param>
 	/// <param name="point">position you want to spawn the prefab to (Vector3.zero by default)</param>
@@ -126,14 +136,14 @@ public class AudioManager : MonoBehaviour
 	/// <param name="clip_name">name of the SoundClip you want to play</param>
 	public static void PlaySound(string clip_name)
 	{
-		AudioManager.PlaySound(clip_name, null, false, default(Vector3));
+		AudioManager.PlaySound(clip_name, null);
 	}
 
 	/// <summary>Calls ShootSound with default parameters (for UI buttons). Doesn't require object ref</summary>
 	/// <param name="clip_name">name of the SoundClip you want to play</param>
 	public static void StopSound(string clip_name)
 	{
-		int index = AudioManager.instance.pool.FindIndex((item) => { return item.GetName() == clip_name; });
+		int index = AudioManager.instance.pool.FindIndex((item) => { return item.GetName() == clip_name && item.attachedSource.isPlaying; });
 
 		if(index >= 0)
 		{
@@ -170,6 +180,7 @@ public class AudioManager : MonoBehaviour
 		[SerializeField] AudioClip clip;
 		[Range(0, 1)]
 		[SerializeField] float volume;
+		[SerializeField] bool loop;
 		[SerializeField] Transform attachTo;
 		[SerializeField] AudioPreset preset;
 
@@ -184,6 +195,7 @@ public class AudioManager : MonoBehaviour
 			name = model.name;
 			clip = model.clip;
 			volume = model.volume;
+			loop = model.loop;
 			attachTo = model.attachTo;
 			preset = model.preset;
 
@@ -200,6 +212,7 @@ public class AudioManager : MonoBehaviour
 			attachedSource = source;
 
 			sound_source.clip = clip;
+			sound_source.loop = loop;
 			sound_source.volume = volume;
 			sound_source.spatialBlend = preset.dMode == AudioPreset.Spacialisation.TwoD?0 : 1;
 			sound_source.spatialize = preset.dMode == AudioPreset.Spacialisation.ThreeD;

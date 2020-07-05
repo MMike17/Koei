@@ -333,6 +333,7 @@ Transform:
   - {fileID: 630562102}
   - {fileID: 976495976}
   - {fileID: 1415750210}
+  - {fileID: 1137135877}
   m_Father: {fileID: 877158088}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -350,20 +351,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelMusics:
   - phase: 2
-    source: {fileID: 976495977}
-    maxVolume: 0.5
+    layers:
+    - layerIndex: 0
+      source: {fileID: 976495977}
+      maxVolume: 0.7
   - phase: 3
-    source: {fileID: 1415750211}
-    maxVolume: 0.3
+    layers:
+    - layerIndex: 0
+      source: {fileID: 1415750211}
+      maxVolume: 0.3
+    - layerIndex: 1
+      source: {fileID: 1137135878}
+      maxVolume: 1
   - phase: 0
-    source: {fileID: 630562103}
-    maxVolume: 0.3
+    layers:
+    - layerIndex: 0
+      source: {fileID: 630562103}
+      maxVolume: 0.5
   popupMusics:
   - popup: 2
-    highFilter: {fileID: 976495978}
-    maxHighFilter: 1000
-    lowFilter: {fileID: 976495979}
-    maxLowFilter: 3000
+    source: {fileID: 1137135878}
+    maxVolume: 1
 --- !u!1 &178117746
 GameObject:
   m_ObjectHideFlags: 0
@@ -941,36 +949,145 @@ MonoBehaviour:
   - name: Button
     clip: {fileID: 8300000, guid: bd665835aebb03c45984e433b66eb0d8, type: 3}
     volume: 0.2
+    loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: CluesPanel
     clip: {fileID: 8300000, guid: 8135c6ba294e27e4fb47c3d50216b75a, type: 3}
     volume: 1
+    loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: ConclusionSuccess
     clip: {fileID: 8300000, guid: 73df94585ed3cca49beb74e43f771f1d, type: 3}
     volume: 0.5
+    loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: Writting
-    clip: {fileID: 0}
-    volume: 1
+    clip: {fileID: 8300000, guid: 129f4f93a2b0a874f96c5be87782c7d5, type: 3}
+    volume: 0.2
+    loop: 1
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: Knob
     clip: {fileID: 8300000, guid: 875671116c7368947bad298150b71b40, type: 3}
     volume: 0.5
+    loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: Swish
     clip: {fileID: 8300000, guid: 2843316c37e80534c8d2ed38a8747314, type: 3}
     volume: 0.8
+    loop: 0
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: Swosh
+    clip: {fileID: 8300000, guid: 2843316c37e80534c8d2ed38a8747314, type: 3}
+    volume: 0.8
+    loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: ConclusionFail
     clip: {fileID: 8300000, guid: 23be4756882356a4d90b5cbaf6705fd4, type: 3}
     volume: 0.1
+    loop: 0
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: Rip
+    clip: {fileID: 8300000, guid: 8bcbbd39256ef6047bfbd513a0fbd8f4, type: 3}
+    volume: 0.1
+    loop: 0
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: DrawKatana
+    clip: {fileID: 8300000, guid: 0ce08f028f5285a41b5dd754e58c243d, type: 3}
+    volume: 0.5
+    loop: 0
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: KatanaEnd
+    clip: {fileID: 8300000, guid: 158fbb1170b10604498b95698052af05, type: 3}
+    volume: 0.5
+    loop: 0
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: BloodLoop
+    clip: {fileID: 8300000, guid: 4b97d99e0e759694f8530e47e88d0d7b, type: 3}
+    volume: 0.5
+    loop: 1
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: Sepukku
+    clip: {fileID: 8300000, guid: 8a99bb334a56a8c41ae1153a35c023e5, type: 3}
+    volume: 0.5
+    loop: 0
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: AttackBreak
+    clip: {fileID: 8300000, guid: bde5dbb387f5d1c44b95f914c58e2e58, type: 3}
+    volume: 0.5
+    loop: 0
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: AttackFinal
+    clip: {fileID: 8300000, guid: 77b2bc69c7b227d44b3a3aa74e882f2b, type: 3}
+    volume: 0.5
+    loop: 0
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: Grunt
+    clip: {fileID: 8300000, guid: a3b336a023b5df04e86c809eb8307f75, type: 3}
+    volume: 0.5
+    loop: 0
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: Gong
+    clip: {fileID: 8300000, guid: c215f98ff21076d45be3e9aecbf8b2bc, type: 3}
+    volume: 1
+    loop: 0
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: Wind
+    clip: {fileID: 8300000, guid: 69a2439214f51fb4ca82d21d1fa66741, type: 3}
+    volume: 1
+    loop: 0
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: Thunder
+    clip: {fileID: 8300000, guid: ecf89dffde308814dbf9943e7fa790ce, type: 3}
+    volume: 1
+    loop: 0
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: DeityIntro
+    clip: {fileID: 8300000, guid: 55f99da77a591de4dbb3ea32ca987f64, type: 3}
+    volume: 1
+    loop: 0
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: DeityDeduction
+    clip: {fileID: 8300000, guid: 5eeea5548f08bdf41bae708c8694c08b, type: 3}
+    volume: 1
+    loop: 0
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: Impact
+    clip: {fileID: 8300000, guid: 4f0c4b37f8b196a4e9f5706df3a8d22a, type: 3}
+    volume: 1
+    loop: 0
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: LoseHP
+    clip: {fileID: 8300000, guid: c2bf9c1b55251bb4bbca767c1531299e, type: 3}
+    volume: 1
+    loop: 0
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: Pre
+    clip: {fileID: 0}
+    volume: 1
+    loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   soundEffectModel: {fileID: 4851038735178417926, guid: 9996ec0e83e612a46b84a4a59333c3c1,
@@ -1386,7 +1503,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d27c691588c894c46b9e31af7db98670, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.4
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -2323,8 +2440,6 @@ GameObject:
   m_Component:
   - component: {fileID: 976495976}
   - component: {fileID: 976495977}
-  - component: {fileID: 976495978}
-  - component: {fileID: 976495979}
   m_Layer: 0
   m_Name: Shogun
   m_TagString: Untagged
@@ -2358,7 +2473,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: fb9f7de276c63444f8ddb14729e447a8, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.1
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -2433,41 +2548,6 @@ AudioSource:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!165 &976495978
-AudioHighPassFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 976495975}
-  m_Enabled: 1
-  m_CutoffFrequency: 5000
-  m_HighpassResonanceQ: 1
---- !u!169 &976495979
-AudioLowPassFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 976495975}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_LowpassResonanceQ: 1
-  lowpassLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.22692133
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -2829,6 +2909,133 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1128030987}
   m_CullTransparentMesh: 0
+--- !u!1 &1137135876
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1137135877}
+  - component: {fileID: 1137135878}
+  m_Layer: 0
+  m_Name: MainCharacter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1137135877
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1137135876}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 159836124}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1137135878
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1137135876}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1146819838
 GameObject:
   m_ObjectHideFlags: 0
@@ -3299,7 +3506,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 4769ce1f6cbe86a4bb0004b335c5d890, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.4
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0

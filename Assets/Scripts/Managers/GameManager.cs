@@ -250,6 +250,7 @@ public class GameManager : MonoBehaviour, IDebugable
 				useCheats,
 				bundle.punchlines,
 				bundle.shogunDialogue,
+				audioProjectManager,
 				() =>
 				{
 					panelManager.JumpTo(GamePhase.CONSEQUENCES, () => consequencesManager = FindObjectOfType<ConsequencesManager>());

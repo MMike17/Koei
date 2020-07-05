@@ -61,6 +61,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	Func<Clue, bool> findClueEvent;
 	Color characterTextColor;
 	GameData.GameState actualState;
+	AudioProjectManager audioProject;
 	float cluesAddTimer, characterMoveTimer;
 	bool needsPlayerSpawn, didCheat, useCheats, firstCharacterSelection;
 
@@ -115,14 +116,13 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		cluesAddTimer = 0;
 		characterMoveTimer = 0;
 
-		openDeductionPopup += () => AudioManager.PlaySound("Button");
-
 		// plug in buttons
 		scrollButton.button.interactable = false;
 		openDeductionButton.onClick.AddListener(() =>
 		{
 			openDeductionPopup.Invoke();
 			OpenCloseClues();
+			AudioManager.PlaySound("Rip");
 		});
 
 		scrollButton.button.onClick.AddListener(OpenCloseClues);
@@ -209,23 +209,21 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 				characterMoveTimer = 0;
 
 				// select random character except shogun
-				List<ShogunCharacter> allButShogun = new List<ShogunCharacter>();
+				List<ShogunCharacter> allButShogunAndSelected = new List<ShogunCharacter>();
 
 				foreach (ShogunCharacter shogunCharacter in characters)
 				{
-					if(shogunCharacter.character != Character.SHOGUN)
-						allButShogun.Add(shogunCharacter);
+					if(shogunCharacter.character != Character.SHOGUN && shogunCharacter.character != actualCharacter)
+						allButShogunAndSelected.Add(shogunCharacter);
 				}
 
-				int index = UnityEngine.Random.Range(0, allButShogun.Count);
+				int index = UnityEngine.Random.Range(0, allButShogunAndSelected.Count);
 
 				// select random animation
 				int animationIndex = UnityEngine.Random.Range(0, characterAnimationTag.Length);
 
-				Debug.Log(debugableInterface.debugLabel + "Character " + allButShogun[index].character + " played animation " + characterAnimationTag[animationIndex]);
-
 				// give random animation to random character
-				allButShogun[index].UI.movementAnimator.Play(characterAnimationTag[animationIndex]);
+				allButShogunAndSelected[index].UI.movementAnimator.Play(characterAnimationTag[animationIndex]);
 			}
 		}
 
@@ -362,6 +360,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			actualCharacterDialogue = actualDialogue.GetCharacterDialogue(actualCharacter);
 
 		characterPortrait.SetCharacterPortrait(GetCharacter(actualCharacter));
+		characterPortrait.detail.color = GameData.GetColorFromCharacter(actualCharacter);
 
 		characterName.text = GetCharacter(actualCharacter).name;
 		characterName.color = GameData.GetColorFromCharacter(actualCharacter);
@@ -402,6 +401,8 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	void SelectChoice(string line, int index)
 	{
 		actualCharacterDialogue.MoveToDialogue(index);
+
+		AudioManager.PlaySound("Knob");
 
 		// deletes all previously spawned texts except selected one
 		for (int i = 0; i < lastSpawnedDialogueObjects.Count; i++)

@@ -21,7 +21,7 @@ public class ConclusionCard : MonoBehaviour, IInitializable, IDebugable
 	IInitializable initializableInterface => (IInitializable) this;
 	IDebugable debugableInterface => (IDebugable) this;
 
-	string IDebugable.debugLabel => "<b>[DesignedCard] : </b>";
+	string IDebugable.debugLabel => "<b>[" + GetType() + "] : </b>";
 	bool IInitializable.initializedInternal { get; set; }
 
 	bool unlocked;
