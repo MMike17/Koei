@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerQuestion: "Ok ! Ok ! T'es cingl\xE9 mais ok !"
   characterAnswer: Bref ! La guerre, c'est la guerre, et on va gagner, si on reste
-    fort ! Compris, gamin ?
+    forts ! Compris, gamin ?
   hasClue: 0
   clue:
     category: 0

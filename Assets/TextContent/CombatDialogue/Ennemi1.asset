@@ -40,17 +40,17 @@ MonoBehaviour:
   finisherPunchlines:
     finishers:
     - "Mec, arr\xEAte. T'es un fils de p\xE9quenauds, tu voles des trucs, tu couches
-      dans tous les sens... Et tu t'prends pour un putain de samurai ? Que dalle !\n"
+      dans tous les sens... Et tu t'prends pour un putain de samurai ?\n"
     - "T'invoques des d\xE9mons, tu sacrifies des ch\xE8vres... C'est pass\xE9 d'mode,
       les gothiques, mon gars."
     - "T'as couch\xE9 avec la moiti\xE9 du Japon, merde ! La seule raison qui fait
-      que t'arrives ecnore \xE0 la lever, c'est que tes MST s'battent entre elles
+      que t'arrives encore \xE0 la lever, c'est que tes MST s'battent entre elles
       !"
     correctOne: 0
   playerWinResponse: "Nooon ! C'est vrai... A d\xE9faut de vivre comme un samurai,
     je mourrais comme un samurai !"
   playerLoseResponse: "Et c\u2019est \xE7a les \u201Cvrais\u201D samoura\xEFs ? Tu
-    b\xE9gayes ! Restes mort, \xE7a vaut mieux pour tout le monde."
+    b\xE9gayes ! Reste mort, \xE7a vaut mieux pour tout le monde."
   playerFinisherLoseResponse: "... non, c'est nul \xE7a. Ton insulte vaut rien."
   playerWinConsequence: "Le bandit est mort et la for\xEAt retrouve son calme. Les
     troupes de Shinegawa se d\xE9ploient \xE0 la fronti\xE8re de Takeda, et le destin

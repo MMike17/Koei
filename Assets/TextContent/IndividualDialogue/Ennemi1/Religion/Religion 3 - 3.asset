@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e9c565562c953428057d6974fedd95, type: 3}
   m_Name: Religion 3 - 3
   m_EditorClassIdentifier: 
-  playerQuestion: "De l'huile ? J'vais faire quoi avec de l'huile ? Ca va pas m'aider
+  playerQuestion: "De l'huile ? J'vais faire quoi avec de l'huile ? \xC7a va pas m'aider
     \xE0 le casser !"
   characterAnswer: "Oh, vous voulez faire des d\xE9g\xE2ts, je vois ? Plaisir \xE9go\xEFste
     et dominateur, hmmm... La femme de notre shogun saura vous y aider, alors. Elle
