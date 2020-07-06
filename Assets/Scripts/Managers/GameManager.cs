@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour, IDebugable
 
 		audioManager.Init();
 		audioProjectManager.Init(panelManager.fadeDuration, popupManager.fadeDuration, () => { return panelManager.nextPanel; }, () => { return panelManager.actualPanel; }, () => { return popupManager.actualPopup; });
-		popupManager.Init(audioProjectManager.FadePopupMusicIn, audioProjectManager.FadePopupMusicOut);
+		popupManager.Init(audioProjectManager.FadePopupMusicOut);
 
 		PlugPanelEvents();
 		PlugPopupEvents();
@@ -203,7 +203,11 @@ public class GameManager : MonoBehaviour, IDebugable
 
 		CombatDialogue selectedCombat = bundle.combatDialogue;
 
-		shogunManager.Init(useCheats, () => popupManager.Pop(GamePopup.SHOGUN_DEDUCTION));
+		shogunManager.Init(useCheats, () =>
+		{
+			popupManager.Pop(GamePopup.SHOGUN_DEDUCTION);
+			audioProjectManager.FadeMusicOut();
+		}, audioProjectManager.FadePopupMusicIn);
 
 		popupManager.GetPopupFromType<ShogunPopup>().SpecificInit(
 			useCheats,
@@ -212,15 +216,22 @@ public class GameManager : MonoBehaviour, IDebugable
 			shogunManager.characters,
 			selectedGeneral.goodDeityFeedback,
 			selectedGeneral.badDeityFeedback,
-			() => popupManager.CancelPop(),
+			() =>
+			{
+				popupManager.CancelPop();
+				audioProjectManager.FadeMusicIn();
+			},
 			() =>
 			{
 				audioProjectManager.FadeMusicOut();
+				audioProjectManager.FadePopupMusicOut();
 
 				panelManager.JumpTo(GamePhase.FIGHT, () =>
 				{
 					fightManager = FindObjectOfType<FightManager>();
 					fightManager.PreInit(selectedCombat);
+
+					audioProjectManager.FadeMusicOut();
 				});
 			},
 			selectedCombat.actualState
@@ -255,7 +266,7 @@ public class GameManager : MonoBehaviour, IDebugable
 				{
 					panelManager.JumpTo(GamePhase.CONSEQUENCES, () => consequencesManager = FindObjectOfType<ConsequencesManager>());
 
-					audioProjectManager.FadeMusicOut();
+					audioProjectManager.FadeMusicOut(1);
 				}
 			);
 		});
@@ -311,6 +322,7 @@ public class GameManager : MonoBehaviour, IDebugable
 			{
 				fightManager = FindObjectOfType<FightManager>();
 				fightManager.PreInit(selectedCombat);
+				audioProjectManager.FadeMusicOut();
 			}),
 			() => actualEnemy++,
 			textToShow

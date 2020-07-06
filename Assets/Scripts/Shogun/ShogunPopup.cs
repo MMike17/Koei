@@ -53,7 +53,13 @@ public class ShogunPopup : Popup
 
 		deityWritter.SetAudio(() => AudioManager.PlaySound("Writting"), () => AudioManager.StopSound("Writting"));
 
-		returnButton.onClick.AddListener(() => { returnCallback.Invoke(); SetStateCursor(false); AudioManager.PlaySound("Button"); });
+		returnButton.onClick.AddListener(() =>
+		{
+			returnCallback.Invoke();
+			SetStateCursor(false);
+			AudioManager.PlaySound("Button");
+		});
+
 		combatButton.onClick.AddListener(() =>
 		{
 			bool can = true;
@@ -81,10 +87,7 @@ public class ShogunPopup : Popup
 				}
 			}
 			else
-			{
-				// should play bad sound
-				// AudioManager.PlaySound("Button");
-			}
+				AudioManager.PlaySound("ConclusionFail");
 		});
 
 		selectionPath = new List<Path>();

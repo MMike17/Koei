@@ -23,8 +23,9 @@ public class GongSlider : MonoBehaviour
 
 	float amplitude => rightAnchor.x - leftAnchor.x;
 
-	Action callback;
+	Action callback, playSound;
 	float previousValue;
+	bool invokedCallback;
 
 	void OnDrawGizmos()
 	{
@@ -59,7 +60,7 @@ public class GongSlider : MonoBehaviour
 #endif
 	}
 
-	public void Init(Action callback)
+	public void Init(Action playSound, Action callback)
 	{
 		if(slidingRect == null)
 		{
@@ -68,7 +69,9 @@ public class GongSlider : MonoBehaviour
 		}
 
 		value = 0;
+		invokedCallback = false;
 
+		this.playSound = playSound;
 		this.callback = callback;
 
 		handle.Init();
@@ -112,9 +115,12 @@ public class GongSlider : MonoBehaviour
 
 			handle.BlockEffect();
 
-			if(previousValue < value && callback != null)
+			if(previousValue < value && callback != null && !invokedCallback)
 			{
+				invokedCallback = true;
+
 				anim.Play("Sound");
+				playSound.Invoke();
 				Invoke("InvokeCallback", 1);
 			}
 		}

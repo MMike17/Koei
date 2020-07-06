@@ -962,7 +962,7 @@ MonoBehaviour:
     deityLine: "Nan mais t'as pas l'choix en fait. Et tiens, bonus, t'aura pas le
       droit de toucher les choses l\xE0-bas ! Bonne chance !"
   - playerLine: Nan ! J'suis pas d'accord ! Vous avez pas l'droiiiiiiit....
-    deityLine: "J'suis une d\xE9esse, je fais ce que je veux. On va bien se marrer."
+    deityLine: "J'suis une d\xE9esse, je fais ce que je veux.\n\nOn va bien se marrer."
   actualWriter: {fileID: 2036786338}
   deityAnim: {fileID: 1198675358}
   mouseIcon: {fileID: 227097820}

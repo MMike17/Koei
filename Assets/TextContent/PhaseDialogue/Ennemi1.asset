@@ -16,7 +16,7 @@ MonoBehaviour:
   unlockableConclusions:
   - category: 1
     subCategory: 9
-    comment: "Il est obs\xE9d\xE9 par le sexe !"
+    comment: "Il est obs\xE9d\xE9 par le cul !"
     cardObject: {fileID: 0}
   - category: 1
     subCategory: 7
@@ -24,11 +24,11 @@ MonoBehaviour:
     cardObject: {fileID: 0}
   - category: 2
     subCategory: 15
-    comment: "On le dit plong\xE9 dans la magie noire !"
+    comment: Il se prend pour un sorcier.
     cardObject: {fileID: 0}
   goodDeityFeedback: "Hey, t'es moins d\xE9bile que je l'imaginais ! Pas mal !"
   badDeityFeedback: "Bon, t'es bien d\xE9bile, mais c'est suffisant. Et en plus c'est
-    marrant !"
+    marrant de te voir gal\xE9rer !"
   charactersDialogues:
   - character: 0
     firstLine: "Mais ? Qui \xEAtes-vous et que faites vous ici ?!"

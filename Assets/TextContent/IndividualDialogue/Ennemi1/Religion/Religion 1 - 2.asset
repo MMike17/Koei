@@ -22,7 +22,7 @@ MonoBehaviour:
     category: 1
     subCategory: 9
     giverCharacter: 2
-    summary: "Il est vulgaire et ind\xE9cent."
+    summary: 
     deductionLine: 
   nextDialogues:
   - {fileID: 11400000, guid: 86b7210d3a66799409d9dbb47f9f7f55, type: 2}

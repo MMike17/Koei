@@ -1694,8 +1694,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueSpeed: 40
   cluesAddDelay: 5
-  characterMoveDelay: 5
-  highlightLength: 30
+  characterMoveDelay: 6
+  highlightLength: 20
   characterAnimationTag:
   - Breathe
   - Sneeze
@@ -6458,6 +6458,26 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6094964098437439729, guid: 6d020109d4d19784da420fd644683fd7,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094964098437439729, guid: 6d020109d4d19784da420fd644683fd7,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6094964098437439729, guid: 6d020109d4d19784da420fd644683fd7,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6469363302336774585, guid: 6d020109d4d19784da420fd644683fd7,
+        type: 3}
+      propertyPath: skin_tag
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d020109d4d19784da420fd644683fd7, type: 3}
 --- !u!224 &1128055777 stripped
@@ -9185,7 +9205,7 @@ PrefabInstance:
     - target: {fileID: 1117747121032712182, guid: 0b7e6268ba3a09e42b898f289a36d430,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1117747121032712182, guid: 0b7e6268ba3a09e42b898f289a36d430,
         type: 3}

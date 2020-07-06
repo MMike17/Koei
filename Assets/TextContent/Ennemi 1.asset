@@ -16,7 +16,8 @@ MonoBehaviour:
   - category: 0
     punchlines:
     - subCategory: 1
-      line: "Tu t'caches dans la for\xEAt parce que t'as les foies !"
+      line: "Sois un homme ! Viens te battre au lieu de te cacher dans une for\xEAt
+        !"
     - subCategory: 2
       line: "Elle est o\xF9 ton arm\xE9e d'la for\xEAt ? Tu domptes des \xE9cureuils
         ?"
@@ -24,8 +25,8 @@ MonoBehaviour:
       line: "Si t\u2019es pas fid\xE8le \xE0 ta rue, t\u2019es vraiment qu\u2019une
         petite merde."
     - subCategory: 4
-      line: "T\u2019es le genre de connard qui va braquer les vieilles dames ! T\u2019as
-        aucun honneur !"
+      line: "T'es tellement l\xE2che que tu t'attaques qu'aux enfants et aux vieilles
+        dames !"
     - subCategory: 5
       line: "Un samurai \xE7a d\xE9fend son ma\xEEtre, nan ? Du coup t'es un peu con
         de rester ici ?"
@@ -35,9 +36,10 @@ MonoBehaviour:
       line: "Toi t\u2019as des gosses ? J\u2019imagine m\xEAme pas la t\xEAte des
         horreurs !"
     - subCategory: 7
-      line: "J\u2019veux pas te faire pleurer, mais t\u2019es un fils de pute."
+      line: "Retourne cultiver du riz dans les champs, esp\xE8ce de bouseux !"
     - subCategory: 8
-      line: "Nan mais sors de ta for\xEAt et va te trouver une gonzesse !"
+      line: "Ta future femme tu vas la payer aussi ?! Enfin pour \xE7a faudrait qu'il
+        y en ai une !"
     - subCategory: 9
       line: "Tu te tapes tellement n'importe qui qu\u2019tu sers de livre sur les
         MST !"
@@ -56,7 +58,8 @@ MonoBehaviour:
       line: "T'as le droit d'\xEAtre une sous-merde, mais va pas ent\xE2cher les autres
         avec ta connerie !"
     - subCategory: 15
-      line: "T\u2019es un \xE9mo ? Les d\xE9mons, la magie noire, c'est \xE7a !"
+      line: "Les d\xE9mons, la magie noire...c'est \xE7a ! T\u2019es un \xE9mo en
+        fait !"
   - category: 3
     punchlines:
     - subCategory: 16
@@ -72,8 +75,8 @@ MonoBehaviour:
       line: "Faut contribuer \xE0 ta rue, mec, c\u2019est la communaut\xE9. Tout l\u2019monde
         sait \xE7a.\r\n"
     - subCategory: 20
-      line: "Alors c\u2019est quoi ta combine ? Tu payes les keufs pour qu\u2019ils
-        te foutent la paix ?"
+      line: Tu corromps les keufs ? Ils fermeraient les yeux gratos pour pas revoir
+        ta gueule !
   enemyDamageReaction:
   - "Arg esp\xE8ce de...!"
   - "Noooon...pas \xE7a !"

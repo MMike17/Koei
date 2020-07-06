@@ -50,7 +50,7 @@ MonoBehaviour:
   playerWinResponse: "Nooon ! C'est vrai... A d\xE9faut de vivre comme un samurai,
     je mourrais comme un samurai !"
   playerLoseResponse: "Et c\u2019est \xE7a les \u201Cvrais\u201D samoura\xEFs ? Tu
-    b\xE9gayes ! Reste mort, \xE7a vaut mieux pour tout le monde."
+    b\xE9gayes ! Retourne \xE0 ton \xE9poque, \xE7a vaut mieux pour tout le monde."
   playerFinisherLoseResponse: "... non, c'est nul \xE7a. Ton insulte vaut rien."
   playerWinConsequence: "Le bandit est mort et la for\xEAt retrouve son calme. Les
     troupes de Shinegawa se d\xE9ploient \xE0 la fronti\xE8re de Takeda, et le destin

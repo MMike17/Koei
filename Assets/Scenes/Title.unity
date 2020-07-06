@@ -354,24 +354,24 @@ MonoBehaviour:
     layers:
     - layerIndex: 0
       source: {fileID: 976495977}
-      maxVolume: 0.7
+      maxVolume: 0.6
   - phase: 3
     layers:
     - layerIndex: 0
       source: {fileID: 1415750211}
-      maxVolume: 0.3
+      maxVolume: 0.25
     - layerIndex: 1
       source: {fileID: 1137135878}
-      maxVolume: 1
+      maxVolume: 0.3
   - phase: 0
     layers:
     - layerIndex: 0
       source: {fileID: 630562103}
-      maxVolume: 0.5
+      maxVolume: 0.3
   popupMusics:
   - popup: 2
     source: {fileID: 1137135878}
-    maxVolume: 1
+    maxVolume: 0.1
 --- !u!1 &178117746
 GameObject:
   m_ObjectHideFlags: 0
@@ -746,7 +746,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1591976efcca7c74d94395f502009443, type: 2}
   - {fileID: 11400000, guid: 70a07034b7163ff458a4068307a8aff5, type: 2}
   - {fileID: 11400000, guid: f1251f84258ea9649867714dd301749c, type: 2}
-  useCheats: 1
+  useCheats: 0
   persistantContainer: {fileID: 2139341956}
   panelManager: {fileID: 1301627171}
   popupManager: {fileID: 112819161}
@@ -948,13 +948,13 @@ MonoBehaviour:
   clips:
   - name: Button
     clip: {fileID: 8300000, guid: bd665835aebb03c45984e433b66eb0d8, type: 3}
-    volume: 0.2
+    volume: 0.1
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: CluesPanel
     clip: {fileID: 8300000, guid: 8135c6ba294e27e4fb47c3d50216b75a, type: 3}
-    volume: 1
+    volume: 0.6
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
@@ -966,73 +966,73 @@ MonoBehaviour:
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: Writting
     clip: {fileID: 8300000, guid: 129f4f93a2b0a874f96c5be87782c7d5, type: 3}
-    volume: 0.2
+    volume: 0.1
     loop: 1
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: Knob
     clip: {fileID: 8300000, guid: 875671116c7368947bad298150b71b40, type: 3}
-    volume: 0.5
+    volume: 0.1
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: Swish
     clip: {fileID: 8300000, guid: 2843316c37e80534c8d2ed38a8747314, type: 3}
-    volume: 0.8
+    volume: 0.6
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: Swosh
-    clip: {fileID: 8300000, guid: 2843316c37e80534c8d2ed38a8747314, type: 3}
+    clip: {fileID: 8300000, guid: e30f812c99e0377499ed6ce67dd2c275, type: 3}
     volume: 0.8
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: ConclusionFail
     clip: {fileID: 8300000, guid: 23be4756882356a4d90b5cbaf6705fd4, type: 3}
-    volume: 0.1
+    volume: 0.05
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: Rip
     clip: {fileID: 8300000, guid: 8bcbbd39256ef6047bfbd513a0fbd8f4, type: 3}
-    volume: 0.1
+    volume: 0.15
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: DrawKatana
     clip: {fileID: 8300000, guid: 0ce08f028f5285a41b5dd754e58c243d, type: 3}
-    volume: 0.5
+    volume: 0.1
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: KatanaEnd
-    clip: {fileID: 8300000, guid: 158fbb1170b10604498b95698052af05, type: 3}
-    volume: 0.5
+    clip: {fileID: 8300000, guid: f5144f58f79f53f4ca6f48e7033d8bde, type: 3}
+    volume: 0.2
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: BloodLoop
     clip: {fileID: 8300000, guid: 4b97d99e0e759694f8530e47e88d0d7b, type: 3}
-    volume: 0.5
+    volume: 0.3
     loop: 1
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: Sepukku
     clip: {fileID: 8300000, guid: 8a99bb334a56a8c41ae1153a35c023e5, type: 3}
-    volume: 0.5
+    volume: 0.6
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: AttackBreak
     clip: {fileID: 8300000, guid: bde5dbb387f5d1c44b95f914c58e2e58, type: 3}
-    volume: 0.5
+    volume: 0.6
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: AttackFinal
     clip: {fileID: 8300000, guid: 77b2bc69c7b227d44b3a3aa74e882f2b, type: 3}
-    volume: 0.5
+    volume: 0.1
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
@@ -1050,43 +1050,49 @@ MonoBehaviour:
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: Wind
     clip: {fileID: 8300000, guid: 69a2439214f51fb4ca82d21d1fa66741, type: 3}
-    volume: 1
+    volume: 0.3
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: Thunder
     clip: {fileID: 8300000, guid: ecf89dffde308814dbf9943e7fa790ce, type: 3}
-    volume: 1
+    volume: 0.8
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: DeityIntro
     clip: {fileID: 8300000, guid: 55f99da77a591de4dbb3ea32ca987f64, type: 3}
-    volume: 1
+    volume: 0.1
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: DeityDeduction
     clip: {fileID: 8300000, guid: 5eeea5548f08bdf41bae708c8694c08b, type: 3}
-    volume: 1
+    volume: 0.2
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: Impact
     clip: {fileID: 8300000, guid: 4f0c4b37f8b196a4e9f5706df3a8d22a, type: 3}
-    volume: 1
+    volume: 0.8
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: LoseHP
     clip: {fileID: 8300000, guid: c2bf9c1b55251bb4bbca767c1531299e, type: 3}
-    volume: 1
+    volume: 0.8
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
   - name: Pre
-    clip: {fileID: 0}
-    volume: 1
+    clip: {fileID: 8300000, guid: 3b35d260a723c5e4fbe16136f257edd3, type: 3}
+    volume: 0.6
+    loop: 0
+    attachTo: {fileID: 0}
+    preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
+  - name: Glint
+    clip: {fileID: 8300000, guid: 6f39f2e25a77ecc4a9183cbff5c45278, type: 3}
+    volume: 0.6
     loop: 0
     attachTo: {fileID: 0}
     preset: {fileID: 11400000, guid: ca5e8df9c2adf8745a8df4bdfa9c38a1, type: 2}
@@ -2950,8 +2956,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
+  m_audioClip: {fileID: 8300000, guid: 11b9c2e05ed57734ea889598de7cd2db, type: 3}
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 1

@@ -61,6 +61,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	Func<Clue, bool> findClueEvent;
 	Color characterTextColor;
 	GameData.GameState actualState;
+	Character lastAnimated;
 	AudioProjectManager audioProject;
 	float cluesAddTimer, characterMoveTimer;
 	bool needsPlayerSpawn, didCheat, useCheats, firstCharacterSelection;
@@ -104,7 +105,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 	}
 
 	// receives actions from GameManager
-	public void Init(bool useCheats, Action openDeductionPopup)
+	public void Init(bool useCheats, Action openDeductionPopup, Action popupMusicFadeIn)
 	{
 		lastSpawnedDialogueObjects = new List<GameObject>();
 
@@ -122,7 +123,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 		{
 			openDeductionPopup.Invoke();
 			OpenCloseClues();
-			AudioManager.PlaySound("Rip");
+			AudioManager.PlaySound("Rip", popupMusicFadeIn);
 		});
 
 		scrollButton.button.onClick.AddListener(OpenCloseClues);
@@ -204,6 +205,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 			if(notGreyed.Count > 1)
 				characterMoveTimer += Time.deltaTime;
 
+			// animates characters
 			if(characterMoveTimer >= characterMoveDelay)
 			{
 				characterMoveTimer = 0;
@@ -213,7 +215,7 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 				foreach (ShogunCharacter shogunCharacter in characters)
 				{
-					if(shogunCharacter.character != Character.SHOGUN && shogunCharacter.character != actualCharacter)
+					if(shogunCharacter.character != Character.SHOGUN && shogunCharacter.character != actualCharacter && shogunCharacter.character != lastAnimated)
 						allButShogunAndSelected.Add(shogunCharacter);
 				}
 
@@ -224,6 +226,9 @@ public class ShogunManager : MonoBehaviour, IDebugable, IInitializable
 
 				// give random animation to random character
 				allButShogunAndSelected[index].UI.movementAnimator.Play(characterAnimationTag[animationIndex]);
+
+				// stores last animated
+				lastAnimated = allButShogunAndSelected[index].character;
 			}
 		}
 

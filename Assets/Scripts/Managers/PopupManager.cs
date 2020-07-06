@@ -23,13 +23,12 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 
 	List<PopupEventSubscription> popupsSubscriptions;
 	List<Popup> scenePopups;
-	Action FadeMusicIn, FadeMusicOut;
+	Action FadeMusicOut;
 
-	public void Init(Action fadeMusicIn, Action fadeMusicOut)
+	public void Init(Action fadeMusicOut)
 	{
 		actualPopup = GamePopup.EMPTY;
 
-		FadeMusicIn = fadeMusicIn;
 		FadeMusicOut = fadeMusicOut;
 
 		popupsSubscriptions = new List<PopupEventSubscription>();
@@ -79,7 +78,7 @@ public class PopupManager : MonoBehaviour, IDebugable, IInitializable
 			{
 				selected.Activate(this);
 				actualPopup = popup;
-				FadeMusicIn.Invoke();
+				// FadeMusicIn.Invoke();
 			}
 		}
 	}

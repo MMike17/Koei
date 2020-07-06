@@ -121,14 +121,7 @@ public class AudioProjectManager : MonoBehaviour, IDebugable, IInitializable
 		if(inOut)
 			selectedLayer.source.volume = selectedLayer.maxVolume;
 		else
-		{
 			selectedLayer.source.Stop();
-
-			PopupMusic selected = popupMusics.Find(item => { return item.popup.ToString().Contains(GetActualGamePhase().ToString()); });
-
-			if(selected != null)
-				selected.Init();
-		}
 
 		yield break;
 	}
@@ -150,16 +143,13 @@ public class AudioProjectManager : MonoBehaviour, IDebugable, IInitializable
 			yield break;
 		}
 
+		FadeMusicOut();
+
 		if(popup == null)
 		{
 			Debug.LogError(debugableInterface.debugLabel + "There is no PopuMusic for popup " + GetGamePopup());
 			yield break;
 		}
-
-		if(inOut)
-			FadeMusicOut();
-		else
-			FadeMusicIn();
 
 		float step = inOut ? popup.maxVolume / transitionDuration : -popup.maxVolume / transitionDuration;
 

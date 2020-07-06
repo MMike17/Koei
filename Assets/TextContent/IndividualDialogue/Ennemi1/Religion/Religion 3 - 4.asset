@@ -23,6 +23,6 @@ MonoBehaviour:
     category: 1
     subCategory: 7
     giverCharacter: 2
-    summary: "Il est vulgaire et ind\xE9cent."
+    summary: "Il est vulgaire et ind\xE9cent"
     deductionLine: "il est vulgaire en soci\xE9t\xE9"
   nextDialogues: []

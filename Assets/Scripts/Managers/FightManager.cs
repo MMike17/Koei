@@ -132,7 +132,11 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 			child.GetComponent<Image>().color = sakuraColor;
 
 		katanaSlider.gameObject.SetActive(false);
-		gongSlider.Init(StartFinalPunchlines);
+		gongSlider.Init(() =>
+		{
+			audioProjectManager.FadeMusicOut(0);
+			AudioManager.PlaySound("Gong");
+		}, StartFinalPunchlines);
 
 		lifePoints = new List<Animator>();
 
@@ -268,6 +272,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 				{
 					Destroy(lastWriter.gameObject, preCombatReplicaDelay * 2);
 					destructionAsked = true;
+
+					AudioManager.StopSound("Writting");
 				}
 
 				if(!enemyAnimator.GetCurrentAnimatorStateInfo(0).IsName("TakeDamage"))
@@ -323,14 +329,20 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 					errorCount = actualCombat.allowedErrors;
 
 				if(lastWriter != null)
+				{
 					Destroy(lastWriter.gameObject);
+					AudioManager.StopSound("Writting");
+				}
 				break;
 			case Phase.CHOICE_FINAL:
 				generalPunchlinePanel.SetActive(false);
 				finisherPunchlinePanel.SetActive(true);
 
 				if(lastWriter != null)
+				{
 					Destroy(lastWriter.gameObject);
+					AudioManager.StopSound("Writting");
+				}
 				break;
 
 			case Phase.EFFECT_GENERAL:
@@ -606,15 +618,12 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		actualPhase = Phase.CHOICE_FINAL;
 
-		audioProjectManager.FadeMusicOut(0);
-		AudioManager.PlaySound("Gong", () => audioProjectManager.FadeMusicIn(1));
-
 		canvasAnimator.Play("PanUp");
 	}
 
 	void ShowAttackLines()
 	{
-		AudioManager.PlaySound("Swosh");
+		Swosh();
 		effectAnimator.Play("OpenLines");
 
 		playerGraph.sprite = playerSprites[1];
@@ -624,7 +633,7 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 	void HideAttackLines()
 	{
-		AudioManager.PlaySound("Swosh");
+		Swosh();
 
 		kanjiGeneralAnimator.Play("Hide");
 		kanjiFinisherAnimator.Play("Hide");
@@ -781,6 +790,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 
 				if(isGoodFinisher)
 					Invoke("EnnemyTakeDamage", 11.10f);
+
+				audioProjectManager.FadeMusicIn(1);
 				break;
 		}
 	}
@@ -835,6 +846,8 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	void GeneralAttackGood()
 	{
 		kanjiGeneralAnimator.Play("GoodAttack");
+
+		Invoke("Glint", 0.25f);
 
 		Invoke("Swish", 1.25f);
 		Invoke("Swish", 1.83f);
@@ -986,6 +999,16 @@ public class FightManager : MonoBehaviour, IDebugable, IInitializable
 	void Swish()
 	{
 		AudioManager.PlaySound("Swish");
+	}
+
+	void Swosh()
+	{
+		AudioManager.PlaySound("Swosh");
+	}
+
+	void Glint()
+	{
+		AudioManager.PlaySound("Glint");
 	}
 
 	void BreakBadSound()

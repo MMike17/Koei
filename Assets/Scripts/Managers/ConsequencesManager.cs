@@ -54,6 +54,8 @@ public class ConsequencesManager : MonoBehaviour, IDebugable, IInitializable
 	{
 		if(writer.isDone)
 		{
+			AnimatorStateInfo state = canvas.GetCurrentAnimatorStateInfo(0);
+
 			if(!isStarted)
 			{
 				isStarted = true;
@@ -64,7 +66,7 @@ public class ConsequencesManager : MonoBehaviour, IDebugable, IInitializable
 					Invoke("AdvanceMap", 3);
 				}
 			}
-			else if(Input.GetMouseButtonDown(0))
+			else if(Input.GetMouseButtonDown(0) && state.normalizedTime >= state.length)
 			{
 				switch(actualState)
 				{
