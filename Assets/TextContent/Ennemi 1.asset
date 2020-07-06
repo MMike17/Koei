@@ -64,7 +64,7 @@ MonoBehaviour:
     punchlines:
     - subCategory: 16
       line: "Faut rien devoir \xE0 personne, mec, c\u2019est la base. T\u2019as m\xEAme
-        pas la base.\r\n"
+        pas la base.\r"
     - subCategory: 17
       line: "Tu passes ton temps \xE0 voler et pourtant t'es toujours pauvre, t'es
         mauvais putain !"
@@ -73,7 +73,7 @@ MonoBehaviour:
         expr\xE8s ?"
     - subCategory: 19
       line: "Faut contribuer \xE0 ta rue, mec, c\u2019est la communaut\xE9. Tout l\u2019monde
-        sait \xE7a.\r\n"
+        sait \xE7a.\r"
     - subCategory: 20
       line: Tu corromps les keufs ? Ils fermeraient les yeux gratos pour pas revoir
         ta gueule !
